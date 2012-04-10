@@ -1,0 +1,205 @@
+<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="MasterMain2.Master.cs"
+    Inherits="Vida.View.MasterMain2" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
+ >
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1" runat="server">
+    <title>Vida - Sistema Integrado de Saúde</title>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1;ie=7" />
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <link rel="stylesheet" href="~/style_vida.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="~/style_barra_vida_teste.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="style.css" type="text/css" />
+    <%--<script type="text/javascript" src="JavaScript/script.js"></script>--%>
+    
+    <%--<script src='<% = ResolveUrl("~/JavaScript/util.js") %>' type="text/javascript"></script>--%>
+    <%--<script type="text/javascript" src="JavaScript/jquery-1.4.2.js"></script>--%>
+    <%--<script type="text/javascript" src="~/JavaScript/MascarasGerais.js"></script>--%>
+    
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+   
+</head>
+<body>
+
+
+    <script type="text/javascript">
+
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-20556264-11']);
+        _gaq.push(['_trackPageview']);
+
+        (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+ 
+    </script>
+
+    <form id="form1" runat="server">
+    <asp:ScriptManager ID="ScriptManager1" runat="server" EnableScriptGlobalization="true">
+    </asp:ScriptManager>
+    <%--    <% 
+        string url = Request.Url.ToString();
+        url = url.Substring(0, url.LastIndexOf(char.Parse("/")));
+        url = url.Substring(0, url.LastIndexOf(char.Parse("/")));
+    %>
+    
+    <script type="text/javascript">
+        var GB_ROOT_DIR = '<%=url %>GreyBox/';
+    </script>
+    <script type="text/javascript" src="JavaScript/GreyBox/AJS.js"></script>
+    <script type="text/javascript" src="JavaScript/GreyBox/AJS_fx.js"></script>
+    <script type="text/javascript" src="JavaScript/GreyBox/gb_scripts.js"></script>--%>
+    <div id="topo_sistema">
+        <div class="sombra_esq"></div>
+        <div id="barra">
+            <%--<div class="homologa"></div>--%>
+            <div id="barra_conteudo">
+                <div id="barra_assinatura">
+                    <asp:LinkButton ID="lnkHOME" runat="server" CausesValidation="false" PostBackUrl="~/Home.aspx">
+                <img id="img_vidaassin" alt="" src="/img/marca-vida-1.jpg" 
+                onmouseover="img_vidaassin.src='/img/marca-vida-2.jpg';" 
+                onmouseout="img_vidaassin.src='/img/marca-vida-1.jpg';"  />
+                    </asp:LinkButton>
+                </div>
+                <%--                <div id="barra_informativo">
+                    <div id="fotos" class="sc_menu">
+                        <ul id="fotos1" class="sc_menu">--%>
+                <asp:Literal ID="Literal_Menu" runat="server"></asp:Literal>
+                <%--                        </ul>
+                    </div>
+                    <li class="sombra_dir"></li>
+                </div>--%>
+            </div>
+        </div>
+        <div id="barra_infos">
+            <div id="user">
+            </div>
+            <div id="user-nome">
+               <span style="width:22px; float:left; height: 12px;">Olá,</span>
+               <span style="float:left; width:110px">
+                              <asp:LoginName ID="LoginName1"  runat="server" Font-Bold="true" ForeColor="#2c2c2c"
+                    Font-Size="11px" OnDataBinding="LoginName1_DataBinding" />
+                    </span>
+            </div>
+            <div id="modulos">
+            </div>
+            <div id="modulos-nome">
+                <asp:Label ID="Label_NomeModulo" runat="server" Text="Urgência e Emergência"></asp:Label>
+            </div>
+<%--            <div id="menubarra2" runat="server" visible="false">
+                <asp:Menu ID="Menu_Modulo" runat="server" Orientation="Horizontal" Width="460px"
+                    StaticEnableDefaultPopOutImage="False" Font-Size="11px" ForeColor="#ffffff" DynamicMenuItemStyle-BorderWidth="5px"
+                    DynamicMenuItemStyle-Font-Underline="true" DynamicHoverStyle-BackColor="#cccccc"
+                    DynamicMenuItemStyle-BackColor="#1a292f" DynamicMenuItemStyle-BorderColor="#8c1313"
+                    Height="38px" Visible="true" Enabled="true" DataSourceID="XmlDataSource_MenuModulo">
+                    <DynamicHoverStyle BackColor="#8c1313" ForeColor="#ffffff"></DynamicHoverStyle>
+                    <StaticHoverStyle ForeColor="#b4d3ec" />
+                    <DynamicMenuItemStyle BackColor="#ecd7d7" BorderColor="#ecd7d7" ForeColor="#404040"
+                        BorderWidth="1px" Font-Underline="False" HorizontalPadding="2px" VerticalPadding="2px">
+                    </DynamicMenuItemStyle>
+                    <DataBindings>
+                        <asp:MenuItemBinding DataMember="Menu" NavigateUrlField="Url" TextField="Text" />
+                    </DataBindings>
+                </asp:Menu>
+                <asp:XmlDataSource ID="XmlDataSource_MenuModulo" runat="server" XPath="/Modulo/Menu"
+                    EnableCaching="false"></asp:XmlDataSource>
+            </div>--%>
+         <%--   <div id="barrateste" runat="server" visible="true">
+</div>--%>
+<div class="menu-barra-module">
+<div  style="margin-top:18px; margin-left:14px">
+<ul class="menu2" id="menu">
+	<li><a href="#" class="menulink">Dropdown One</a>
+		<ul>
+			<li><a href="#">Navigation Item 1</a></li>
+			<li>
+				<a href="#" class="sub">Navigation Item 2</a>
+				<ul>
+					<li class="topline"><a href="#">Navigation Item 1</a></li>
+					<li><a href="#">Navigation Item 2</a></li>
+					<li><a href="#">Navigation Item 3</a></li>
+					<li><a href="#">Navigation Item 4</a></li>
+					<li><a href="#">Navigation Item 5</a></li>
+				</ul>
+			</li>
+			<li>
+				<a href="#" class="sub">Navigation Item 3</a>
+				<ul>
+					<li class="topline"><a href="#">Navigation Item 1</a></li>
+					<li><a href="#">Navigation Item 2</a></li>
+					<li>
+						<a href="#" class="sub">Navigation Item 3</a>
+						<ul>
+							<li class="topline"><a href="#">Navigation Item 1</a></li>
+							<li><a href="#">Navigation Item 2</a></li>
+							<li><a href="#">Navigation Item 3</a></li>
+							<li><a href="#">Navigation Item 4</a></li>
+							<li><a href="#">Navigation Item 5</a></li>
+							<li><a href="#">Navigation Item 6</a></li>
+						</ul>
+					</li>
+					<li><a href="#">Navigation Item 4</a></li>
+				</ul>
+			</li>
+			<li><a href="#">Navigation Item 4</a></li>
+			<li><a href="#">Navigation Item 5</a></li>
+		</ul>
+	</li>
+	<li><a href="#" class="menulink">Non-Dropdown</a></li>
+
+	<li>
+		<a href="#" class="menulink">Dropdown Three</a>
+		<ul>
+			<li><a href="#">Navigation Item 1</a></li>
+			<li><a href="#">Navigation Item 2</a></li>
+			<li><a href="#">Navigation Item 3</a></li>
+			<li><a href="#">Navigation Item 4</a></li>
+			<li><a href="#">Navigation Item 5</a></li>
+			<li>
+				<a href="#" class="sub">Navigation Item 6</a>
+				<ul>
+					<li class=""><a href="#">Navigation Item 1</a></li>
+					<li><a href="#">Navigation Item 2</a></li>
+				</ul>
+			</li>
+			<li><a href="#">Navigation Item 7</a></li>
+			<li><a href="#">Navigation Item 8</a></li>
+			<li><a href="#">Navigation Item 9</a></li>
+			<li><a href="#">Navigation Item 10</a></li>
+		</ul>
+	</li>
+</ul>
+   </div>         
+</div>
+
+               
+        </div>
+    </div>
+
+
+<script type="text/javascript">
+	var menu=new menu.dd("menu");
+	menu.init("menu","menuhover");
+</script>
+
+    <script type="text/javascript">
+        $(function() {
+            scrollDiv($('#fotos.sc_menu'), $('#fotos.sc_menu'), 15);
+        });
+    </script>
+
+<p></p>
+
+    <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+    </asp:ContentPlaceHolder>
+    
+
+
+    </form>
+    
+</body>
+</html>

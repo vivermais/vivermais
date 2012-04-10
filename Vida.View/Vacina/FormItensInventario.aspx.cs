@@ -1,0 +1,292 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using ViverMais.DAO;
+using ViverMais.ServiceFacade.ServiceFacades.Seguranca;
+using ViverMais.Model;
+using ViverMais.ServiceFacade.ServiceFacades.Vacina.Movimentacao;
+using ViverMais.ServiceFacade.ServiceFacades.EstabelecimentoSaude;
+using ViverMais.ServiceFacade.ServiceFacades.Vacina.Misc;
+using ViverMais.ServiceFacade.ServiceFacades;
+
+namespace ViverMais.View.Vacina
+{
+    public partial class FormItensInventario : PageViverMais
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            this.InserirTrigger(this.WUC_PesquisarLote.WUC_LnkListarTodos.UniqueID, "Click", UpdatePanel_LotesPesquisados);
+            this.InserirTrigger(this.WUC_PesquisarLote.WUC_LnkPesquisar.UniqueID, "Click", UpdatePanel_LotesPesquisados);
+
+            this.WUC_PesquisarLote.WUC_LnkListarTodos.Click += new EventHandler(OnClick_ListarTodos);
+            this.WUC_PesquisarLote.WUC_LnkPesquisar.Click += new EventHandler(OnClick_Pesquisar);
+
+            if (!IsPostBack)
+            {
+                if (!Factory.GetInstance<ISeguranca>().VerificarPermissao(((Usuario)Session["Usuario"]).Codigo, "REALIZAR_INVENTARIO_VACINA", Modulo.VACINA) && !Factory.GetInstance<ISeguranca>().VerificarPermissao(((Usuario)Session["Usuario"]).Codigo, "REALIZAR_ABERTURA_ENCERRAMENTO_INVENTARIO_VACINA", Modulo.VACINA))
+                    Response.Redirect("FormAcessoNegado.aspx?opcao=1");
+                    //ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Usuário, você não tem permissão para acessar esta página! Por favor, entre em contato com a administração.');location='Default.aspx';", true);
+                else
+                {
+                    int temp;
+
+                    if (Request["co_inventario"] != null && int.TryParse(Request["co_inventario"].ToString(), out temp))
+                    {
+                        ViewState["co_inventario"] = Request["co_inventario"].ToString();
+                        InventarioVacina inventario = Factory.GetInstance<IInventarioVacina>().BuscarPorCodigo<InventarioVacina>(int.Parse(Request["co_inventario"].ToString()));
+
+                        Label_SalaVacina.Text = inventario.Sala.Nome;
+                        Label_UnidadeSalaVacina.Text = inventario.Sala.EstabelecimentoSaude.NomeFantasia;
+                        Label_DataInventario.Text = inventario.DataInventario.ToString("dd/MM/yyyy");
+
+                        this.CarregaItensInventario(inventario.Codigo);
+                        //this.OnClick_ListarTodos(sender, e);
+                        this.WUC_PesquisarLote.WUC_PanelLotesPesquisados.Visible = false;
+                    }
+                }
+            }
+        }
+
+        private void InserirTrigger(string idcontrole, string nomeevento, UpdatePanel updatepanel)
+        {
+            AsyncPostBackTrigger trigger = new AsyncPostBackTrigger();
+            trigger.ControlID = idcontrole;
+            trigger.EventName = nomeevento;
+            updatepanel.Triggers.Add(trigger);
+            MasterMain mm = (MasterMain)Master.Master;
+            ((ScriptManager)mm.FindControl("ScriptManager1")).RegisterAsyncPostBackControl(this.FindControl(idcontrole));
+        }
+
+        private void OnClick_ListarTodos(object sender, EventArgs e)
+        {
+            this.Panel_ResultadoPesquisa.Visible = true;
+            //this.WUC_PesquisarLote.CarregaTodosLotes();
+            ILoteVacina iLote = Factory.GetInstance<ILoteVacina>(); //this.WUC_PesquisarLote.LotesPesquisados
+            IList<LoteVacina> lotes = iLote.BuscarLotesValidos<LoteVacina>(DateTime.Parse(Label_DataInventario.Text));
+            this.CarregaLotesPesquisados(lotes);
+            this.UpdatePanel_LotesPesquisados.Update();
+        }
+
+        private void OnClick_Pesquisar(object sender, EventArgs e)
+        {
+            //if (fabricante != "-1" || vacina != "-1" || !string.IsNullOrEmpty(lote)
+            //    || !string.IsNullOrEmpty(validade) || !string.IsNullOrEmpty(aplicacoes))
+            CustomValidator custom = this.WUC_PesquisarLote.WUC_CustomPesquisarLote;
+
+            if (custom.IsValid)
+            {
+                if (!this.WUC_PesquisarLote.WUC_ValidadePesquisa.Equals(DateTime.MinValue) && this.WUC_PesquisarLote.WUC_ValidadePesquisa.CompareTo(DateTime.Parse(Label_DataInventario.Text)) < 0)
+                    ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('A data de validade do lote deve ser igual ou maior que a data de abertura do inventário.');", true);
+                else
+                {
+                    this.Panel_ResultadoPesquisa.Visible = true;
+                    ILoteVacina iLote = Factory.GetInstance<ILoteVacina>(); //this.WUC_PesquisarLote.LotesPesquisados
+                    IList<LoteVacina> lotes = iLote.BuscarLotesValidos<LoteVacina>(this.WUC_PesquisarLote.WUC_LotePesquisa,
+                        this.WUC_PesquisarLote.WUC_ValidadePesquisa, this.WUC_PesquisarLote.WUC_VacinaSelecionadaPesquisa,
+                        this.WUC_PesquisarLote.WUC_FabricanteSelecionadoPesquisa,
+                        this.WUC_PesquisarLote.WUC_AplicacoesPesquisa, DateTime.Parse(Label_DataInventario.Text));
+                    //this.WUC_PesquisarLote.CarregarPesquisaLote(int.Parse(vacina), int.Parse(fabricante), lote, !string.IsNullOrEmpty(validade) ? DateTime.Parse(validade) : DateTime.MinValue, string.IsNullOrEmpty(aplicacoes) ? -1 : int.Parse(aplicacoes));
+                    this.CarregaLotesPesquisados(lotes);
+                    this.UpdatePanel_LotesPesquisados.Update();
+                }
+            }
+        }
+
+        protected void OnPageIndexChanging_LotesPesquisados(object sender, GridViewPageEventArgs e)
+        {
+            this.CarregaLotesDisponiveis((IList<LoteVacina>)Session["lotesPesquisadosVacina"]);
+            GridView_LotesPesquisados.PageIndex = e.NewPageIndex;
+            GridView_LotesPesquisados.DataBind();
+        }
+
+        protected void OnRowCancelingEdit_LotesPesquisados(object sender, GridViewCancelEditEventArgs e)
+        {
+            GridView_LotesPesquisados.EditIndex = -1;
+            this.CarregaLotesDisponiveis((IList<LoteVacina>)Session["lotesPesquisadosVacina"]);
+        }
+
+        protected void OnRowEditing_LotesPesquisados(object sender, GridViewEditEventArgs e)
+        {
+            GridView_LotesPesquisados.EditIndex = e.NewEditIndex;
+            this.CarregaLotesDisponiveis((IList<LoteVacina>)Session["lotesPesquisadosVacina"]);
+        }
+
+        protected void OnRowUpdating_LotesPesquisados(object sender, GridViewUpdateEventArgs e)
+        {
+            long co_lote = long.Parse(GridView_LotesPesquisados.DataKeys[e.RowIndex]["Codigo"].ToString());
+            GridViewRow row = GridView_LotesPesquisados.Rows[e.RowIndex];
+            IVacinaServiceFacade iVacina = Factory.GetInstance<IVacinaServiceFacade>();
+
+            InventarioVacina inventario = iVacina.BuscarPorCodigo<InventarioVacina>(int.Parse(ViewState["co_inventario"].ToString()));
+            LoteVacina lote = iVacina.BuscarPorCodigo<LoteVacina>(co_lote);
+
+            ItemInventarioVacina iteminventario = new ItemInventarioVacina();
+            iteminventario.QtdContada = int.Parse(((TextBox)row.FindControl("TextBox_QtdContada")).Text);
+            iteminventario.QtdEstoque = int.Parse(((TextBox)row.FindControl("TextBox_QtdEstoque")).Text);
+            iteminventario.Inventario = inventario;
+            iteminventario.LoteVacina = lote;
+
+            try
+            {
+                iVacina.Inserir(iteminventario);
+                iVacina.Inserir(new LogVacina(DateTime.Now, ((Usuario)Session["Usuario"]).Codigo, 13, "id item inventario: " + iteminventario.Codigo));
+
+                //ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Item salvo com sucesso!');", true);
+                this.OnClick_CancelarCadastro(sender, e);
+
+                GridView_LotesPesquisados.EditIndex = -1;
+                this.CarregaLotesPesquisados((IList<LoteVacina>)Session["lotesPesquisadosVacina"]);
+            }
+            catch (Exception f)
+            {
+                throw f;
+            }
+        }
+
+        private void CarregaLotesDisponiveis(IList<LoteVacina> lotes)
+        {
+            Session["lotesPesquisadosVacina"] = lotes;
+            GridView_LotesPesquisados.DataSource = lotes;
+            GridView_LotesPesquisados.DataBind();
+        }
+
+        private void CarregaLotesPesquisados(IList<LoteVacina> lotes)
+        {
+            this.CarregaLotesDisponiveis(this.LotesDisponiveisInclusao(lotes));
+        }
+
+        private IList<LoteVacina> LotesDisponiveisInclusao(IList<LoteVacina> lotespesquisados)
+        {
+            IList<ItemInventarioVacina> itensinventario = (IList<ItemInventarioVacina>)Session["itensinventariovacina"];
+            IList<LoteVacina> lotesdisponiveis = (from lote in lotespesquisados
+                                                  where
+                                                      !itensinventario.Select(p => p.LoteVacina.Codigo).Contains(lote.Codigo)
+                                                  select lote).ToList();
+
+            return lotesdisponiveis;
+        }
+
+        /// <summary>
+        /// Cancela a ação de cadastro do medicamento
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnClick_CancelarCadastro(object sender, EventArgs e)
+        {
+            CarregaItensInventario(int.Parse(Request["co_inventario"].ToString()));
+        }
+
+        /// <summary>
+        /// Carrega os itens do inventário
+        /// </summary>
+        /// <param name="id_inventario">código do inventário</param>
+        private void CarregaItensInventario(int co_inventario)
+        {
+            IList<ItemInventarioVacina> itens = Factory.GetInstance<IInventarioVacina>().ListarItensInventario<ItemInventarioVacina>(co_inventario);
+            Session["itensinventariovacina"] = itens;
+            GridView_Itens.DataSource = itens;
+            GridView_Itens.DataBind();
+        }
+
+        protected void OnRowCancelingEdit_CancelarEdicao(object sender, GridViewCancelEditEventArgs e)
+        {
+            GridView_Itens.EditIndex = -1;
+            GridView_Itens.DataSource = (IList<ItemInventarioVacina>)Session["itensinventariovacina"];
+            GridView_Itens.DataBind();
+            //CarregaItensInventario(int.Parse(ViewState["co_inventario"].ToString()));
+        }
+
+        protected void OnRowEditing_EditarRegistro(object sender, GridViewEditEventArgs e)
+        {
+            GridView_Itens.EditIndex = e.NewEditIndex;
+            GridView_Itens.DataSource = (IList<ItemInventarioVacina>)Session["itensinventariovacina"];
+            GridView_Itens.DataBind();
+            //CarregaItensInventario(int.Parse(ViewState["co_inventario"].ToString()));
+        }
+
+        protected void OnRowUpdating_AlterarRegistro(object sender, GridViewUpdateEventArgs e)
+        {
+            try
+            {
+                IList<ItemInventarioVacina> itensinventario = (IList<ItemInventarioVacina>)Session["itensinventariovacina"];
+                IVacinaServiceFacade iVacina = Factory.GetInstance<IVacinaServiceFacade>();
+                GridViewRow r = GridView_Itens.Rows[e.RowIndex];
+                TextBox tbx = (TextBox)r.FindControl("TextBox_QtdContada");
+                ItemInventarioVacina iteminventario = iVacina.BuscarPorCodigo<ItemInventarioVacina>(long.Parse(GridView_Itens.DataKeys[e.RowIndex]["Codigo"].ToString()));
+                    //Factory.GetInstance<IInventarioVacina>().BuscarItemInventario<ItemInventarioVacina>(int.Parse(ViewState["co_inventario"].ToString()), long.Parse(GridView_Itens.DataKeys[e.RowIndex]["CodigoLote"].ToString()));
+                iteminventario.QtdContada = int.Parse(tbx.Text);
+                iVacina.Atualizar(iteminventario);
+                iVacina.Inserir(new LogVacina(DateTime.Now, ((Usuario)Session["Usuario"]).Codigo, 14, "id item inventario: " + iteminventario.Codigo));
+
+                int indexSubstituir = itensinventario.Select((Item, index) => new { index, Item }).Where(p => p.Item.LoteVacina.Codigo == iteminventario.LoteVacina.Codigo).First().index;
+                ItemInventarioVacina substituir = itensinventario[indexSubstituir];
+                substituir.QtdContada = iteminventario.QtdContada;
+                itensinventario[indexSubstituir] = substituir;
+
+                Session["itensinventariovacina"] = itensinventario;
+                GridView_Itens.EditIndex = -1;
+                GridView_Itens.DataSource = itensinventario;
+                GridView_Itens.DataBind();
+                //CarregaItensInventario(int.Parse(ViewState["co_inventario"].ToString()));
+            }
+            catch (Exception f)
+            {
+                throw f;
+            }
+        }
+
+        /// <summary>
+        /// Atualiza a lista de itens do inventário
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnClick_AtualizarItens(object sender, EventArgs e)
+        {
+            CarregaItensInventario(int.Parse(ViewState["co_inventario"].ToString()));
+        }
+
+        /// <summary>
+        /// Paginação do gridview
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnPageIndexChanging_Paginacao(object sender, GridViewPageEventArgs e)
+        {
+            IList<ItemInventarioVacina> itens = (IList<ItemInventarioVacina>)Session["itensinventariovacina"];
+            GridView_Itens.DataSource = itens;
+            GridView_Itens.DataBind();
+
+            GridView_Itens.PageIndex = e.NewPageIndex;
+            GridView_Itens.DataBind();
+        }
+
+        //protected void OnRowDataBound_ItensInventario(object sender, GridViewRowEventArgs e)
+        //{
+        //    if (e.Row.RowType == DataControlRowType.DataRow)
+        //    {
+        //        DateTime validadelote = DateTime.Parse(e.Row.Cells[5].Text);
+
+        //        if (validadelote.CompareTo(DateTime.Parse(Label_DataInventario.Text)) < 0)
+        //        {
+        //            LinkButton lbeditar = (LinkButton)e.Row.Controls[8].Controls[0];
+
+        //            if (lbeditar != null)
+        //                lbeditar.Enabled = false;
+        //        }
+        //    }
+        //}
+
+        /// <summary>
+        /// Redireciona o usuário para fechar o inventário
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnClick_FecharInventario(object sender, EventArgs e)
+        {
+            Response.Redirect("FormDadosInventario.aspx?co_inventario=" + ViewState["co_inventario"].ToString());
+        }
+    }
+}

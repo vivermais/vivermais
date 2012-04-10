@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DSRelatorioAgendaMontadaPublicada" targetNamespace="http://tempuri.org/DSRelatorioAgendaMontadaPublicada.xsd" xmlns:mstns="http://tempuri.org/DSRelatorioAgendaMontadaPublicada.xsd" xmlns="http://tempuri.org/DSRelatorioAgendaMontadaPublicada.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DSRelatorioAgendaMontadaPublicada" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_DataSetName="DSRelatorioAgendaMontadaPublicada" msprop:Generator_UserDSName="DSRelatorioAgendaMontadaPublicada" msprop:EnableTableAdapterManager="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="Dados" msprop:Generator_UserTableName="Dados" msprop:Generator_RowDeletedName="DadosRowDeleted" msprop:Generator_TableClassName="DadosDataTable" msprop:Generator_RowChangedName="DadosRowChanged" msprop:Generator_RowClassName="DadosRow" msprop:Generator_RowChangingName="DadosRowChanging" msprop:Generator_RowEvArgName="DadosRowChangeEvent" msprop:Generator_RowEvHandlerName="DadosRowChangeEventHandler" msprop:Generator_TablePropName="Dados" msprop:Generator_TableVarName="tableDados" msprop:Generator_RowDeletingName="DadosRowDeleting">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Unidade" msprop:Generator_UserColumnName="Unidade" msprop:Generator_ColumnPropNameInRow="Unidade" msprop:Generator_ColumnVarNameInTable="columnUnidade" msprop:Generator_ColumnPropNameInTable="UnidadeColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Procedimento" msprop:Generator_UserColumnName="Procedimento" msprop:Generator_ColumnPropNameInRow="Procedimento" msprop:Generator_ColumnVarNameInTable="columnProcedimento" msprop:Generator_ColumnPropNameInTable="ProcedimentoColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Especialidade" msprop:Generator_UserColumnName="Especialidade" msprop:Generator_ColumnPropNameInRow="Especialidade" msprop:Generator_ColumnVarNameInTable="columnEspecialidade" msprop:Generator_ColumnPropNameInTable="EspecialidadeColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Profissional" msprop:Generator_UserColumnName="Profissional" msprop:Generator_ColumnPropNameInRow="Profissional" msprop:Generator_ColumnVarNameInTable="columnProfissional" msprop:Generator_ColumnPropNameInTable="ProfissionalColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="QtdMontada" msprop:Generator_UserColumnName="QtdMontada" msprop:Generator_ColumnPropNameInRow="QtdMontada" msprop:Generator_ColumnVarNameInTable="columnQtdMontada" msprop:Generator_ColumnPropNameInTable="QtdMontadaColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="QtdPublicada" msprop:Generator_UserColumnName="QtdPublicada" msprop:Generator_ColumnPropNameInRow="QtdPublicada" msprop:Generator_ColumnVarNameInTable="columnQtdPublicada" msprop:Generator_ColumnPropNameInTable="QtdPublicadaColumn" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

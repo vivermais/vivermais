@@ -1,0 +1,71 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace Vida.Model
+{
+    public class PactoAbrangenciaGrupoMunicipio
+    {
+        public PactoAbrangenciaGrupoMunicipio()
+        {
+
+        }
+
+        private Municipio municipio;
+
+        public virtual Municipio Municipio
+        {
+            get { return municipio; }
+            set { municipio = value; }
+        }
+
+        private GrupoAbrangencia grupoAbrangencia;
+
+        public virtual GrupoAbrangencia GrupoAbrangencia
+        {
+            get { return grupoAbrangencia; }
+            set { grupoAbrangencia = value; }
+        }
+
+        private PactoAbrangenciaAgregado pactoAbrangenciaAgregado;
+
+        public virtual PactoAbrangenciaAgregado PactoAbrangenciaAgregado
+        {
+            get { return pactoAbrangenciaAgregado; }
+            set { pactoAbrangenciaAgregado = value; }
+        }
+
+        private Decimal cotaFinanceira;
+        
+        /// <summary>
+        /// Identifica o Teto permitido ao Municipio Realizar em determinado Pacto Abrangencia no Grupo que ele Pertence
+        /// </summary>
+        public virtual Decimal CotaFinanceira
+        {
+            get { return cotaFinanceira; }
+            set { cotaFinanceira = value; }
+        }
+
+        private Decimal valorUtilizado;
+
+        /// <summary>
+        /// Identifica o Saldo restante para Municipio Realizar em determinado Pacto Abrangencia no Grupo que ele Pertence
+        /// </summary>
+        public virtual Decimal ValorUtilizado
+        {
+            get { return valorUtilizado; }
+            set { valorUtilizado = value; }
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode() * 41;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return this.Municipio.Equals(obj) && this.GrupoAbrangencia.Equals(obj) && this.PactoAbrangenciaAgregado.Equals(obj);
+        }
+    }
+}

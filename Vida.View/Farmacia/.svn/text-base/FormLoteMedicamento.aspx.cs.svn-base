@@ -1,0 +1,89 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using Vida.DAO;
+using Vida.ServiceFacade.ServiceFacades.Farmacia.Medicamento;
+using Vida.ServiceFacade.ServiceFacades;
+using Vida.Model;
+using Vida.ServiceFacade.ServiceFacades.Seguranca;
+
+namespace Vida.View.Farmacia
+{
+    public partial class FormLoteMedicamento : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!IsPostBack)
+            {
+                if (!Factory.GetInstance<ISeguranca>().VerificarPermissao(((Usuario)Session["Usuario"]).Codigo, "MANTER_LOTE_MEDICAMENTO",Modulo.FARMACIA))
+                    ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Usuário, você não tem permissão para acessar esta página! Por favor, entre em contato com a administração.');location='Default.aspx';", true);
+                else
+                {
+                    int temp;
+
+                    IList<Medicamento> lm = Factory.GetInstance<IFarmaciaServiceFacade>().ListarTodos<Medicamento>().OrderBy(p => p.Nome).ToList();
+                    foreach (Medicamento m in lm)
+                        DropDownList_Medicamento.Items.Add(new ListItem(m.Nome, m.Codigo.ToString()));
+                    DropDownList_Medicamento.Attributes.Add("onmouseover", "javascript:showTooltip(this);");
+
+                    IList<FabricanteMedicamento> lf = Factory.GetInstance<IFarmaciaServiceFacade>().ListarTodos<FabricanteMedicamento>().OrderBy(p => p.Nome).ToList();
+                    foreach (FabricanteMedicamento f in lf)
+                        DropDownList_Fabricante.Items.Add(new ListItem(f.Nome, f.Codigo.ToString()));
+
+                    if (Request["co_lote"] != null && int.TryParse(Request["co_lote"].ToString(), out temp))
+                    {
+                        try
+                        {
+                            LoteMedicamento lote = Factory.GetInstance<IFarmaciaServiceFacade>().BuscarPorCodigo<LoteMedicamento>(int.Parse(Request["co_lote"].ToString()));
+                            TextBox_Lote.Text = lote.Lote;
+                            TextBox_Validade.Text = lote.Validade.ToString("dd/MM/yyyy");
+                            DropDownList_Fabricante.SelectedValue = lote.Fabricante.Codigo.ToString();
+                            DropDownList_Medicamento.SelectedValue = lote.Medicamento.Codigo.ToString();
+                        }
+                        catch (Exception f)
+                        {
+                            throw f;
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Salva o lote de medicamento
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnClick_Salvar(object sender, EventArgs e) 
+        {
+            try
+            {
+                ILoteMedicamento iLoteMedicamento = Factory.GetInstance<ILoteMedicamento>();
+                LoteMedicamento lote = Request["co_lote"] != null ? iLoteMedicamento.BuscarPorCodigo<LoteMedicamento>(int.Parse(Request["co_lote"].ToString())) : new LoteMedicamento();
+
+                if (iLoteMedicamento.ValidaCadastroLote<LoteMedicamento>(TextBox_Lote.Text, DateTime.Parse(TextBox_Validade.Text), int.Parse(DropDownList_Medicamento.SelectedValue), int.Parse(DropDownList_Fabricante.SelectedValue), lote.Codigo))
+                {
+                    lote.Lote = TextBox_Lote.Text;
+                    lote.Validade = DateTime.Parse(TextBox_Validade.Text);
+                    lote.Medicamento = Factory.GetInstance<IMedicamento>().BuscarPorCodigo<Medicamento>(int.Parse(DropDownList_Medicamento.SelectedValue));
+                    lote.Fabricante = Factory.GetInstance<IFarmaciaServiceFacade>().BuscarPorCodigo<FabricanteMedicamento>(int.Parse(DropDownList_Fabricante.SelectedValue));
+
+                    iLoteMedicamento.Salvar(lote);
+                    Factory.GetInstance<IFarmaciaServiceFacade>().Salvar(new LogFarmacia(DateTime.Now, ((Usuario)Session["Usuario"]).Codigo, EventoFarmacia.MANTER_LOTE_MEDICAMENTO,
+                        "id lote de medicamento: " + lote.Codigo));
+
+                    ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Lote de Medicamento Salvo com sucesso!');location='Default.aspx';", true);
+                }
+                else
+                    ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Já existe um lote para este medicamento cadastrado com as mesmas informações!');", true);
+            }
+            catch (Exception ex) 
+            {
+                ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('"+ex.Message+"');", true);
+            }
+        }
+    }
+}

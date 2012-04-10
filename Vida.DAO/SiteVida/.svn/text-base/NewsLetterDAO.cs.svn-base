@@ -1,0 +1,22 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Vida.ServiceFacade.ServiceFacades.SiteVida;
+
+namespace Vida.DAO.SiteVida
+{
+    class NewsLetterDAO: VidaServiceFacadeDAO , INewsLetterServiceFacade
+    {
+        T INewsLetterServiceFacade.BuscarEmailUsuario<T>(string Email)
+        {
+            string hql = "FROM Vida.Model.NewsLetter newsLetter ";
+            hql += "WHERE  newsLetter.Email =  '" + Email + "'";
+            return Session.CreateQuery(hql).UniqueResult<T>() ;
+
+
+        }
+            
+        
+    }
+}

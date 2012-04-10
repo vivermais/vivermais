@@ -1,0 +1,123 @@
+﻿<%@ Page Language="C#" MasterPageFile="~/Agendamento/MasterAgendamento.Master" AutoEventWireup="true"
+    CodeBehind="FormDesmarcarAgenda.aspx.cs" Inherits="Vida.View.Agendamento.FormDesmarcarAgenda"
+    Title="Untitled Page" %>
+
+<%@ Register Src="../Paciente/WUCPesquisarPaciente.ascx" TagName="WUCPesquisarPaciente"
+    TagPrefix="uc1" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder2" runat="server">
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder3" runat="server">
+    <div id="top">
+        <h2>
+            Desmarcar Agenda</h2>
+        <uc1:WUCPesquisarPaciente ID="WUCPesquisarPaciente1" runat="server" />
+        <asp:UpdatePanel runat="server" ID="UpdatePanelPaciente" UpdateMode="Conditional">
+            <ContentTemplate>
+                <asp:Panel ID="PanelExibeDadosAgendamento" runat="server">
+                    <fieldset class="formulario">
+                        <legend>Dados do Agendamento </legend>
+                        <p>
+                            <span class="rotulo">Estabelecimento de Saúde</span> <span>
+                                <asp:Label ID="lblEstabelecimento" runat="server"></asp:Label></span>
+                        </p>
+                        <p>
+                            <span class="rotulo">Paciente</span> <span>
+                                <asp:Label ID="lblPaciente" runat="server"></asp:Label></span>
+                        </p>
+                        <p>
+                            <span class="rotulo">Cartão SUS</span> <span>
+                                <asp:Label ID="lblCartaoSus" runat="server" Text="-"></asp:Label></span>
+                        </p>
+                        <p>
+                            <span class="rotulo">Data da Agenda:</span> <span>
+                                <asp:Label ID="lblDataAgenda" runat="server"></asp:Label>
+                                <%--<asp:TextBox ID="tbxData" CssClass="campo" runat="server" MaxLength="10" Width="70px"></asp:TextBox>--%>
+                            </span>
+                        </p>
+                        <p>
+                            <span class="rotulo">Procedimento:</span> <span>
+                                <asp:Label ID="lblProcedimento" runat="server"></asp:Label>
+                                <%--<asp:TextBox ID="tbxProcedimento" CssClass="campo" runat="server" AutoPostBack="True"
+                                    Width="400px">
+                                </asp:TextBox>--%>
+                            </span>
+                        </p><br /><br />
+                        <p>
+                            <span class="rotulo">Justificativa Indeferimento:</span> <span>
+                                <asp:TextBox ID="tbxJustificativa" runat="server" CssClass="campo" Width="400px"
+                                    Height="47px" MaxLength="100"></asp:TextBox>
+                                <asp:RequiredFieldValidator ID="RequiredFieldValidator3" Font-Size="XX-Small" runat="server"
+                                    ControlToValidate="tbxJustificativa" Display="Dynamic" ErrorMessage="* Informe a Justificativa">
+                                </asp:RequiredFieldValidator>
+                                <%--<asp:TextBox ID="tbxProcedimento" CssClass="campo" runat="server" AutoPostBack="True"
+                                    Width="400px">
+                                </asp:TextBox>--%>
+                            </span>
+                        </p>
+                        <div class="botoesroll">
+                            <asp:LinkButton ID="lknSalvar" runat="server" OnClick="Salvar_Click">
+                  <img id="imgdesmarcar" alt="Desmarcar" src="img/btn-desm-agend1.png"
+                  onmouseover="imgdesmarcar.src='img/btn-desm-agend2.png';"
+                  onmouseout="imgdesmarcar.src='img/btn-desm-agend1.png';" /></asp:LinkButton>
+                        </div>
+                        <div class="botoesroll">
+                            <asp:LinkButton ID="lknVoltar" runat="server" PostBackUrl="~/Agendamento/Default.aspx"
+                                CausesValidation="false">
+                  <img id="imgvoltar" alt="Voltar" src="img/voltar_1.png"
+                  onmouseover="imgvoltar.src='img/voltar_2.png';"
+                  onmouseout="imgvoltar.src='img/voltar_1.png';" /></asp:LinkButton>
+                        </div>
+                    </fieldset>
+                </asp:Panel>
+            </ContentTemplate>
+        </asp:UpdatePanel>
+        <br />
+        <asp:UpdatePanel runat="server" ID="UpdatePanelSolicitacoes" UpdateMode="Conditional">
+            <ContentTemplate>
+                <asp:Panel ID="PanelExibeSolicitacoes" runat="server">
+                    <fieldset class="formulario">
+                        <legend>Lista das Solicitações </legend>
+                        <p>
+                            <asp:GridView ID="gridSolicitacao" runat="server" AutoGenerateColumns="False" BackColor="White"
+                                BorderColor="#477ba5" BorderStyle="None" BorderWidth="1px" CellPadding="3" GridLines="Vertical"
+                                Width="100%" AllowPaging="true" PageSize="10" OnPageIndexChanging="gridSolicitacao_PageIndexChanging">
+                                <FooterStyle BackColor="#CCCCCC" ForeColor="Black" />
+                                <RowStyle BackColor="#EEEEEE" ForeColor="Black" Font-Size="11px" />
+                                <Columns>
+                                    <asp:BoundField DataField="Codigo" HeaderText="Codigo">
+                                        <HeaderStyle CssClass="colunaEscondida" />
+                                        <ItemStyle CssClass="colunaEscondida" />
+                                    </asp:BoundField>
+                                    <asp:BoundField DataField="Nome" HeaderText="NOME">
+                                        <HeaderStyle HorizontalAlign="Left" />
+                                    </asp:BoundField>
+                                    <asp:HyperLinkField DataNavigateUrlFields="Codigo" DataNavigateUrlFormatString="FormDesmarcarAgenda.aspx?id_solicitacao={0}"
+                                        DataTextField="Data_Agenda" HeaderText="DATA AGENDA" Text="Data" ItemStyle-HorizontalAlign="Center"
+                                        ItemStyle-Width="60px"></asp:HyperLinkField>
+                                    <asp:BoundField DataField="Procedimento" HeaderText="PROCEDIMENTO">
+                                        <HeaderStyle HorizontalAlign="Left" />
+                                        <ItemStyle Width="200px" />
+                                    </asp:BoundField>
+                                    <asp:BoundField DataField="UnidadeSolicitante" HeaderText="Unidade Solicitante">
+                                        <HeaderStyle HorizontalAlign="Left" />
+                                    </asp:BoundField>
+                                    <asp:BoundField DataField="DataSolicitacao" HeaderText="Data Solicitacao">
+                                        <HeaderStyle HorizontalAlign="Left" />
+                                    </asp:BoundField>
+                                </Columns>
+                                <PagerStyle BackColor="#999999" ForeColor="Black" HorizontalAlign="Center" />
+                                <SelectedRowStyle BackColor="#008A8C" Font-Bold="True" ForeColor="White" />
+                                <HeaderStyle BackColor="#477ba5" Font-Bold="True" ForeColor="White" Font-Names="Verdana"
+                                    Font-Size="11px" Height="22px" />
+                                <AlternatingRowStyle BackColor="#DCDCDC" />
+                            </asp:GridView>
+                        </p>
+                        <p>
+                            <asp:Label ID="lblSemRegistro" runat="server" Text="Não Existem Solicitações Para Este Paciente!"
+                                Font-Bold="true" ForeColor="Red"></asp:Label></p>
+                    </fieldset>
+                </asp:Panel>
+            </ContentTemplate>
+        </asp:UpdatePanel>
+    </div>
+</asp:Content>

@@ -1,0 +1,396 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Vida.Model;
+using Oracle.DataAccess.Client;
+using System.Data;
+using Vida.DAL;
+using Vida.Model.Entities.Vida;
+
+namespace Vida.DAOOracle
+{
+    public class PacienteDAO:ADAO<Paciente>
+    {
+        protected override Paciente Cadastrar(Paciente paciente)
+        {
+            ControlePaciente controlePaciente = new ControlePaciente();
+            controlePaciente.Controle = 'I';
+            controlePaciente.DataOperacao = DateTime.Now;
+
+            ControlePacienteDAO daoControlePaciente = new ControlePacienteDAO();            
+            daoControlePaciente.Inserir(controlePaciente);
+
+            paciente.Codigo = controlePaciente.Codigo;
+            
+            GerarQueryCadastro();
+            GerarParametrosCadastro(paciente);
+
+            DALOracle.ExecuteNonQuery(CommandType.Text, sqlText.ToString(), parametros.ToArray());
+            
+            sqlText.Remove(0, sqlText.Length);
+            parametros.Clear();
+            
+            return paciente;
+        }
+
+        public Paciente PesquisarPorCPF(string numeroCPF)
+        {
+            sqlText.Append("select CO_USUARIO from rl_ms_usuario_documentos ");
+            sqlText.Append("where CO_TIPO_DOCUMENTO = :CO_TIPO_DOCUMENTO");
+            sqlText.Append(" and NU_DOCUMENTO = :NU_DOCUMENTO");
+            parametros.Add(new OracleParameter("CO_TIPO_DOCUMENTO", OracleDbType.Char));
+            parametros.Add(new OracleParameter("NU_DOCUMENTO", OracleDbType.Varchar2));
+            parametros[0].Value = "02";
+            parametros[1].Value = numeroCPF;
+
+            DataSet dataSet = DALOracle.ExecuteReaderDs(CommandType.Text, sqlText.ToString(), parametros.ToArray());
+            sqlText.Remove(0, sqlText.Length);
+            parametros.Clear();
+
+            if (dataSet.Tables[0].Rows.Count != 0)
+            {
+                string co_paciente = dataSet.Tables[0].Rows[0]["CO_USUARIO"].ToString();
+                return this.Pesquisar(co_paciente);
+            }
+            
+
+            return null;
+        }
+
+        protected override Paciente Cadastrar(Paciente paciente,ref OracleTransaction trans)
+        {
+            ControlePaciente controlePaciente = new ControlePaciente();
+            controlePaciente.Controle = 'I';
+            controlePaciente.DataOperacao = DateTime.Now;
+
+            ControlePacienteDAO daoControlePaciente = new ControlePacienteDAO();
+            daoControlePaciente.Inserir(controlePaciente);
+
+            paciente.Codigo = controlePaciente.Codigo;
+
+            GerarQueryCadastro();
+            GerarParametrosCadastro(paciente);
+
+            DALOracle.ExecuteNonQuery(ref trans, CommandType.Text, sqlText.ToString(), parametros.ToArray());            
+
+            sqlText.Remove(0, sqlText.Length);
+            parametros.Clear();
+
+            return paciente;
+        }
+
+        protected override void GerarQueryCadastro()
+        {
+            sqlText.Append("insert into tb_ms_usuario ");
+            sqlText.Append("(co_usuario, no_usuario, no_mae, no_pai, ");
+            sqlText.Append("dt_nascimento, co_sexo, co_raca, ");
+            sqlText.Append("st_frequenta_escola, co_pais, co_municipio_nasc, ");            
+            sqlText.Append("st_vivo, ds_email, cod_etnia) ");
+            sqlText.Append("values ");
+            sqlText.Append("(:CodigoUsuario, :NomePaciente, :NomeMae, :NomePai, ");
+            sqlText.Append(":DataNascimento, :Sexo, :Raca, ");
+            sqlText.Append(":FrequentaEscola, :Pais, :MunicipioNascimento, ");            
+            sqlText.Append(":Vivo, :Email, :Etnia) ");
+            
+        }
+
+        protected override void GerarParametrosCadastro(Paciente objeto)
+        {
+            parametros.Add(new OracleParameter("CodigoUsuario", OracleDbType.Varchar2));
+            parametros.Add(new OracleParameter("NomePaciente", OracleDbType.Varchar2));
+            parametros.Add(new OracleParameter("NomeMae", OracleDbType.Varchar2));
+            parametros.Add(new OracleParameter("NomePai", OracleDbType.Varchar2));
+            parametros.Add(new OracleParameter("DataNascimento", OracleDbType.Date));
+            parametros.Add(new OracleParameter("Sexo", OracleDbType.Char));
+            parametros.Add(new OracleParameter("Raca", OracleDbType.Varchar2));
+            parametros.Add(new OracleParameter("FrequentaEscola", OracleDbType.Char));
+            parametros.Add(new OracleParameter("Pais", OracleDbType.Varchar2));
+            parametros.Add(new OracleParameter("MunicipioNascimento", OracleDbType.Varchar2));
+            parametros.Add(new OracleParameter("Vivo", OracleDbType.Char));
+            parametros.Add(new OracleParameter("Email", OracleDbType.Varchar2));
+            parametros.Add(new OracleParameter("Etnia", OracleDbType.Varchar2));
+
+
+            parametros[0].Value = objeto.Codigo;
+            parametros[1].Value = objeto.Nome;
+            parametros[2].Value = objeto.NomeMae;
+            parametros[3].Value = objeto.NomePai;
+            parametros[4].Value = objeto.DataNascimento;
+            parametros[5].Value = objeto.Sexo;
+            parametros[6].Value = objeto.RacaCor.Codigo;
+            parametros[7].Value = objeto.FrequentaEscola;
+            try
+            {
+                parametros[8].Value = objeto.Pais.Codigo;
+            }
+            catch (NullReferenceException)
+            {
+                parametros[8].Value = DBNull.Value;
+            }
+            try
+            {
+                parametros[9].Value = objeto.MunicipioNascimento.Codigo;
+            }
+            catch (NullReferenceException)
+            {
+                parametros[9].Value = DBNull.Value;
+            }            
+            parametros[10].Value = objeto.Vivo;
+            parametros[11].Value = objeto.Email;
+            try
+            {
+                parametros[12].Value = objeto.Etnia.Codigo;
+            }
+            catch (NullReferenceException)
+            {
+                parametros[12].Value = DBNull.Value;
+            }
+
+        }
+
+        protected override void GerarQueryAtualizacao()
+        {
+            sqlText.Append("update tb_ms_usuario set ");
+            sqlText.Append("no_usuario = :NomePaciente, ");
+            sqlText.Append("no_mae = :NomeMae, ");
+            sqlText.Append("no_pai = :NomePai, ");
+            sqlText.Append("dt_nascimento = :DataNascimento, ");
+            sqlText.Append("co_sexo = :Sexo, ");
+            sqlText.Append("co_raca = :Raca, ");
+            sqlText.Append("st_frequenta_escola = :FrequentaEscola, ");
+            sqlText.Append("co_pais = :Pais, ");
+            sqlText.Append("co_municipio_nasc = :MunicipioNascimento, ");            
+            sqlText.Append("st_vivo = :Vivo, ");
+            sqlText.Append("ds_email = :Email, ");
+            sqlText.Append("cod_etnia = :Etnia ");            
+            sqlText.Append("where co_usuario = :Codigo ");
+        }
+
+        protected override void GerarParametrosAtualizacao(Paciente objeto)
+        {
+            parametros.Add(new OracleParameter("NomePaciente", OracleDbType.Varchar2));
+            parametros.Add(new OracleParameter("NomeMae", OracleDbType.Varchar2));
+            parametros.Add(new OracleParameter("NomePai", OracleDbType.Varchar2));
+            parametros.Add(new OracleParameter("DataNascimento", OracleDbType.Date));
+            parametros.Add(new OracleParameter("Sexo", OracleDbType.Char));
+            parametros.Add(new OracleParameter("Raca", OracleDbType.Varchar2));
+            parametros.Add(new OracleParameter("FrequentaEscola", OracleDbType.Char));
+            parametros.Add(new OracleParameter("Pais", OracleDbType.Varchar2));
+            parametros.Add(new OracleParameter("MunicipioNascimento", OracleDbType.Varchar2));            
+            parametros.Add(new OracleParameter("Vivo", OracleDbType.Char));
+            parametros.Add(new OracleParameter("Email", OracleDbType.Varchar2));
+            parametros.Add(new OracleParameter("Etnia", OracleDbType.Varchar2));            
+            parametros.Add(new OracleParameter("Codigo", OracleDbType.Varchar2));
+
+            parametros[0].Value = objeto.Nome;
+            parametros[1].Value = objeto.NomeMae;
+            parametros[2].Value = objeto.NomePai;
+            parametros[3].Value = objeto.DataNascimento;
+            parametros[4].Value = objeto.Sexo;
+            parametros[5].Value = objeto.RacaCor.Codigo;
+            parametros[6].Value = objeto.FrequentaEscola;
+            try
+            {
+                parametros[7].Value = objeto.Pais.Codigo;
+            }
+            catch (NullReferenceException)
+            {
+                parametros[7].Value = DBNull.Value;
+            }
+            try
+            {
+                parametros[8].Value = objeto.MunicipioNascimento.Codigo;
+            }
+            catch (NullReferenceException)
+            {
+                parametros[8].Value = DBNull.Value;
+            }            
+            parametros[9].Value = objeto.Vivo;
+            parametros[10].Value = objeto.Email;
+            try
+            {
+                parametros[11].Value = objeto.Etnia.Codigo;
+            }
+            catch (NullReferenceException)
+            {
+                parametros[11].Value = DBNull.Value;
+            }
+            parametros[12].Value = objeto.Codigo;
+        }
+
+        protected override void GerarQueryRemocao()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void GerarQueryBuscarID()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void GerarQueryPesquisaPorCodigo()
+        {
+            sqlText.Append("select * from tb_ms_usuario ");
+            sqlText.Append("where co_usuario = :Codigo");
+        }
+
+        protected override void GeraParametrosPesquisaPorCodigo(Paciente objeto)
+        {
+            parametros.Add(new OracleParameter("Codigo", OracleDbType.Varchar2));
+            parametros[0].Value = objeto.Codigo;
+        }
+
+        protected override void MontarObjeto(OracleDataReader dataReader, Paciente objeto)
+        {
+            objeto.Codigo = Convert.ToString(dataReader["co_usuario"]);
+            objeto.Nome = Convert.ToString(dataReader["no_usuario"]);
+            objeto.NomeMae = Convert.ToString(dataReader["no_mae"]);
+            objeto.NomePai = Convert.ToString(dataReader["no_pai"]);
+            objeto.DataNascimento = Convert.ToDateTime(dataReader["dt_nascimento"]);
+            try
+            {
+                objeto.Sexo = Convert.ToChar(dataReader["co_sexo"]);
+            }
+            catch(InvalidCastException)
+            {
+
+            }
+            objeto.RacaCor = new RacaCor();
+            objeto.RacaCor.Codigo = Convert.ToString(dataReader["co_raca"]);
+            objeto.Etnia = new Etnia();
+            try
+            {
+                objeto.Etnia.Codigo = Convert.ToString(dataReader["cod_etnia"]);
+            }
+            catch (InvalidCastException)
+            {
+            }
+            
+            try
+            {
+                objeto.FrequentaEscola = Convert.ToChar(dataReader["st_frequenta_escola"]);
+            }
+            catch (InvalidCastException)
+            {
+            }
+            objeto.Pais = new Pais();
+            objeto.Pais.Codigo = Convert.ToString(dataReader["co_pais"]);
+            objeto.MunicipioNascimento = new Municipio();
+            objeto.MunicipioNascimento.Codigo = Convert.ToString(dataReader["co_municipio_nasc"]);
+            objeto.EstadoCivil = new EstadoCivil();
+            objeto.EstadoCivil.Codigo = Convert.ToString(dataReader["co_estado_civil"]);
+            try
+            {
+                objeto.Vivo = Convert.ToChar(dataReader["st_vivo"]);
+            }
+            catch (InvalidCastException)
+            {
+
+            }
+            objeto.Email = Convert.ToString(dataReader["ds_email"]);
+        }
+
+        protected override void SetarCodigoObjeto(OracleDataReader dataReader, Paciente objeto)
+        {
+                        
+        }
+
+        protected override void SetarCodigoObjeto(DataRow dataRow, Paciente objeto)
+        {
+            objeto.Codigo = Convert.ToString(dataRow["co_usuario"]);
+        }
+
+        
+
+        protected override void GerarQueryPesquisaTodos()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Paciente> Pesquisar(string nome, string nomeMae, DateTime dataNascimento)
+        {
+            sqlText.Append("select * from tb_ms_usuario ");
+            sqlText.Append("where no_usuario = :Nome ");
+            sqlText.Append("and no_mae = :NomeMae ");
+            sqlText.Append("and dt_nascimento = :DataNascimento ");
+
+            parametros.Add(new OracleParameter("Nome", OracleDbType.Varchar2));
+            parametros.Add(new OracleParameter("NomeMae", OracleDbType.Varchar2));
+            parametros.Add(new OracleParameter("DataNascimento", OracleDbType.Date));
+
+            parametros[0].Value = nome;
+            parametros[1].Value = nomeMae;
+            parametros[2].Value = dataNascimento;
+
+            List<Paciente> pacientes = new List<Paciente>();
+            Paciente paciente = null;
+
+            DataSet dataReader = DALOracle.ExecuteReaderDs(CommandType.Text, sqlText.ToString(), parametros.ToArray());
+            sqlText.Remove(0, sqlText.Length);
+            parametros.Clear();
+
+
+            foreach(DataRow dr in dataReader.Tables[0].Rows)
+            {
+                paciente = new Paciente();
+                MontarObjeto(dr, paciente);
+                pacientes.Add(paciente);
+            }
+
+            return pacientes;
+            
+        }
+
+        protected override void MontarObjeto(DataRow drc, Paciente objeto)
+        {
+            objeto.Codigo = Convert.ToString(drc["co_usuario"]);
+            objeto.Nome = Convert.ToString(drc["no_usuario"]);
+            objeto.NomeMae = Convert.ToString(drc["no_mae"]);
+            objeto.NomePai = Convert.ToString(drc["no_pai"]);
+            objeto.DataNascimento = Convert.ToDateTime(drc["dt_nascimento"]);
+            try
+            {
+                objeto.Sexo = Convert.ToChar(drc["co_sexo"]);
+            }
+            catch (InvalidCastException)
+            {
+
+            }
+            objeto.RacaCor = new RacaCor();
+            objeto.RacaCor.Codigo = Convert.ToString(drc["co_raca"]);
+            objeto.Etnia = new Etnia();
+            try
+            {
+                objeto.Etnia.Codigo = Convert.ToString(drc["cod_etnia"]);
+            }
+            catch (InvalidCastException)
+            {
+            }
+            try
+            {
+                objeto.FrequentaEscola = Convert.ToChar(drc["st_frequenta_escola"]);
+            }
+            catch (InvalidCastException)
+            {
+            }
+            objeto.Pais = new Pais();
+            objeto.Pais.Codigo = Convert.ToString(drc["co_pais"]);
+            objeto.MunicipioNascimento = new Municipio();
+            objeto.MunicipioNascimento.Codigo = Convert.ToString(drc["co_municipio_nasc"]);
+            objeto.EstadoCivil = new EstadoCivil();
+            objeto.EstadoCivil.Codigo = Convert.ToString(drc["co_estado_civil"]);
+            try
+            {
+                objeto.Vivo = Convert.ToChar(drc["st_vivo"]);
+            }
+            catch (InvalidCastException)
+            {
+
+            }
+            objeto.Email = Convert.ToString(drc["ds_email"]);
+        }
+
+
+    }
+}

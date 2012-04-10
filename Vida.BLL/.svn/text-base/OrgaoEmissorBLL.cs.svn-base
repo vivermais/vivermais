@@ -1,0 +1,19 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Vida.Model;
+using Vida.DAOOracle;
+
+namespace Vida.BLL
+{
+    public class OrgaoEmissorBLL
+    {
+        public static List<OrgaoEmissor> ListarTodos()
+        {
+            OrgaoEmissorDAO dao = new OrgaoEmissorDAO();
+            List<OrgaoEmissor> retorno = dao.ListarTodos();            
+            return retorno;
+        }
+    }
+}

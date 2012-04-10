@@ -1,0 +1,136 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using ViverMais.Model;
+using Oracle.DataAccess.Client;
+using System.Data;
+using ViverMais.DAL;
+
+namespace ViverMais.DAOOracle
+{
+    public class MunicipioDAO:ADAO<Municipio>
+    {
+        protected override void GerarQueryCadastro()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void GerarParametrosCadastro(Municipio objeto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void GerarQueryAtualizacao()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void GerarParametrosAtualizacao(Municipio objeto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void GerarQueryRemocao()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void GerarQueryBuscarID()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void GerarQueryPesquisaPorCodigo()
+        {
+            sqlText.Append("select * from tb_ms_municipio ");
+            sqlText.Append("where co_municipio = :Codigo");
+        }
+
+        protected override void MontarObjeto(Oracle.DataAccess.Client.OracleDataReader dataReader, Municipio objeto)
+        {
+            objeto.Codigo = Convert.ToString(dataReader["co_municipio"]);
+            objeto.Nome = Convert.ToString(dataReader["ds_municipio"]);
+            objeto.UF = new Model.UF();
+            objeto.UF.Sigla = Convert.ToString(dataReader["sg_uf"]);
+        }
+
+        protected override void SetarCodigoObjeto(OracleDataReader dataReader, Municipio objeto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void GeraParametrosPesquisaPorCodigo(Municipio objeto)
+        {
+            parametros.Add(new OracleParameter("Codigo", OracleDbType.Varchar2));
+            parametros[0].Value = objeto.Codigo;
+        }
+
+        protected override void GerarQueryPesquisaTodos()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Municipio> PesquisarPorEstado(string siglaUF)
+        {
+            sqlText.Append("select * from tb_ms_municipio ");
+            sqlText.Append("where sg_uf = :CodigoUf");
+
+            parametros.Add(new OracleParameter("CodigoUf", OracleDbType.Varchar2));
+            parametros[0].Value = siglaUF;
+
+            DataSet dataReader = DALOracle.ExecuteReaderDs(CommandType.Text, sqlText.ToString(), parametros.ToArray());
+            sqlText.Remove(0, sqlText.Length);
+            parametros.Clear();
+
+
+            List<Municipio> municipios = new List<Municipio>();
+            Municipio municipio = null;
+
+            foreach(DataRow dr in dataReader.Tables[0].Rows)
+            {
+                municipio = new Municipio();
+                MontarObjeto(dr, municipio);
+                municipios.Add(municipio);
+            }
+
+            return municipios;
+        }
+
+        public Municipio PesquisarPorNome(string nome)
+        {
+            sqlText.Append("select * from tb_ms_municipio ");
+            sqlText.Append("where ds_municipio = :NomeMunicipio");
+
+            parametros.Add(new OracleParameter("NomeMunicipio", OracleDbType.Varchar2));
+            parametros[0].Value = nome;
+
+            DataSet dataReader = DALOracle.ExecuteReaderDs(CommandType.Text, sqlText.ToString(), parametros.ToArray());
+            sqlText.Remove(0, sqlText.Length);
+            parametros.Clear();            
+            
+            Municipio municipio = null;
+
+            if (dataReader!=null)
+            {
+                municipio = new Municipio();
+                MontarObjeto(dataReader.Tables[0].Rows[0], municipio);                
+            }
+
+            return municipio;
+        }
+
+        protected override void MontarObjeto(DataRow drc, Municipio objeto)
+        {
+            objeto.Codigo = Convert.ToString(drc["co_municipio"]);
+            objeto.Nome = Convert.ToString(drc["ds_municipio"]);
+            objeto.UF = new Model.UF();
+            objeto.UF.Sigla = Convert.ToString(drc["sg_uf"]);
+        }
+
+        protected override void SetarCodigoObjeto(DataRow dataRow, Municipio objeto)
+        {
+            throw new NotImplementedException();
+        }
+    }
+}

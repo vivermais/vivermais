@@ -1,0 +1,24 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Vida.ServiceFacade.ServiceFacades.Vacina.Misc;
+
+namespace Vida.DAO.Vacina.Misc
+{
+    public class EstrategiaImunobiologicoDAO : VacinaServiceFacadeDAO, IEstrategiaImunobiologico
+    {
+        #region IEstrategiaImunobiologico Members
+
+        IList<T> IEstrategiaImunobiologico.BuscarPorVacina<T>(int co_vacina)
+        {
+            string hql = string.Empty;
+            hql = @"SELECT DISTINCT e FROM Vida.Model.Estrategia AS e, Vida.Model.Vacina AS v WHERE v IN ELEMENTS(e.Vacinas)
+                    AND v.Codigo = " + co_vacina + " ORDER BY e.Descricao";
+
+            return Session.CreateQuery(hql).List<T>();
+        }
+
+        #endregion
+    }
+}

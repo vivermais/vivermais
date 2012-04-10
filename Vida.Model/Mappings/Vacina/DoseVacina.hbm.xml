@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="ViverMais.Model">
+  <class name="ViverMais.Model.DoseVacina" table="VCN_DOSEVACINA">
+    <id name="Codigo">
+      <column name="id" not-null="true"/>
+      <generator class="assigned" />
+    </id>
+    <property name="Descricao" column="descricao" />
+    <property name="Abreviacao" column="abreviacao" />
+    <property name="NumeracaoDose" column="num_seq" />
+  </class>
+</hibernate-mapping>

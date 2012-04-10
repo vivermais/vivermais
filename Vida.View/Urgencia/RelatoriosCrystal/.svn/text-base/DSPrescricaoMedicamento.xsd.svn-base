@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DSPrescricaoMedicamento" targetNamespace="http://tempuri.org/DSPrescricaoMedicamento.xsd" xmlns:mstns="http://tempuri.org/DSPrescricaoMedicamento.xsd" xmlns="http://tempuri.org/DSPrescricaoMedicamento.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DSPrescricaoMedicamento" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_UserDSName="DSPrescricaoMedicamento" msprop:Generator_DataSetName="DSPrescricaoMedicamento" msprop:EnableTableAdapterManager="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="Medicamento" msprop:Generator_UserTableName="Medicamento" msprop:Generator_RowDeletedName="MedicamentoRowDeleted" msprop:Generator_RowChangedName="MedicamentoRowChanged" msprop:Generator_RowClassName="MedicamentoRow" msprop:Generator_RowChangingName="MedicamentoRowChanging" msprop:Generator_RowEvArgName="MedicamentoRowChangeEvent" msprop:Generator_RowEvHandlerName="MedicamentoRowChangeEventHandler" msprop:Generator_TableClassName="MedicamentoDataTable" msprop:Generator_TableVarName="tableMedicamento" msprop:Generator_RowDeletingName="MedicamentoRowDeleting" msprop:Generator_TablePropName="Medicamento">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Link_Item" msprop:Generator_UserColumnName="Link_Item" msprop:Generator_ColumnVarNameInTable="columnLink_Item" msprop:Generator_ColumnPropNameInRow="Link_Item" msprop:Generator_ColumnPropNameInTable="Link_ItemColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Medicamento" msprop:Generator_UserColumnName="Medicamento" msprop:Generator_ColumnVarNameInTable="columnMedicamento" msprop:Generator_ColumnPropNameInRow="Medicamento" msprop:Generator_ColumnPropNameInTable="MedicamentoColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Intervalo" msprop:Generator_UserColumnName="Intervalo" msprop:Generator_ColumnVarNameInTable="columnIntervalo" msprop:Generator_ColumnPropNameInRow="Intervalo" msprop:Generator_ColumnPropNameInTable="IntervaloColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Observacao" msprop:Generator_UserColumnName="Observacao" msprop:Generator_ColumnVarNameInTable="columnObservacao" msprop:Generator_ColumnPropNameInRow="Observacao" msprop:Generator_ColumnPropNameInTable="ObservacaoColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="ViaAdministracao" msprop:Generator_UserColumnName="ViaAdministracao" msprop:Generator_ColumnVarNameInTable="columnViaAdministracao" msprop:Generator_ColumnPropNameInRow="ViaAdministracao" msprop:Generator_ColumnPropNameInTable="ViaAdministracaoColumn" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

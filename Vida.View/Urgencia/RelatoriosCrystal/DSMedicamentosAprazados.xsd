@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DSMedicamentosAprazados" targetNamespace="http://tempuri.org/DSMedicamentosAprazados.xsd" xmlns:mstns="http://tempuri.org/DSMedicamentosAprazados.xsd" xmlns="http://tempuri.org/DSMedicamentosAprazados.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DSMedicamentosAprazados" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_UserDSName="DSMedicamentosAprazados" msprop:Generator_DataSetName="DSMedicamentosAprazados" msprop:EnableTableAdapterManager="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="Medicamento" msprop:Generator_UserTableName="Medicamento" msprop:Generator_RowDeletedName="MedicamentoRowDeleted" msprop:Generator_RowChangedName="MedicamentoRowChanged" msprop:Generator_RowClassName="MedicamentoRow" msprop:Generator_RowChangingName="MedicamentoRowChanging" msprop:Generator_RowEvArgName="MedicamentoRowChangeEvent" msprop:Generator_RowEvHandlerName="MedicamentoRowChangeEventHandler" msprop:Generator_TableClassName="MedicamentoDataTable" msprop:Generator_TableVarName="tableMedicamento" msprop:Generator_RowDeletingName="MedicamentoRowDeleting" msprop:Generator_TablePropName="Medicamento">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Nome" msprop:Generator_UserColumnName="Nome" msprop:Generator_ColumnPropNameInRow="Nome" msprop:Generator_ColumnVarNameInTable="columnNome" msprop:Generator_ColumnPropNameInTable="NomeColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="HorarioAplicacao" msprop:Generator_UserColumnName="HorarioAplicacao" msprop:Generator_ColumnPropNameInRow="HorarioAplicacao" msprop:Generator_ColumnVarNameInTable="columnHorarioAplicacao" msprop:Generator_ColumnPropNameInTable="HorarioAplicacaoColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="NomeProfissionalSolicitante" msprop:Generator_UserColumnName="NomeProfissionalSolicitante" msprop:Generator_ColumnPropNameInRow="NomeProfissionalSolicitante" msprop:Generator_ColumnVarNameInTable="columnNomeProfissionalSolicitante" msprop:Generator_ColumnPropNameInTable="NomeProfissionalSolicitanteColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="NomeProfissionalExecutor" msprop:Generator_UserColumnName="NomeProfissionalExecutor" msprop:Generator_ColumnPropNameInRow="NomeProfissionalExecutor" msprop:Generator_ColumnVarNameInTable="columnNomeProfissionalExecutor" msprop:Generator_ColumnPropNameInTable="NomeProfissionalExecutorColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="HorarioExecucao" msprop:Generator_UserColumnName="HorarioExecucao" msprop:Generator_ColumnPropNameInRow="HorarioExecucao" msprop:Generator_ColumnVarNameInTable="columnHorarioExecucao" msprop:Generator_ColumnPropNameInTable="HorarioExecucaoColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Status" msprop:Generator_UserColumnName="Status" msprop:Generator_ColumnPropNameInRow="Status" msprop:Generator_ColumnVarNameInTable="columnStatus" msprop:Generator_ColumnPropNameInTable="StatusColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="MotivoRecusa" msprop:Generator_UserColumnName="MotivoRecusa" msprop:Generator_ColumnPropNameInRow="MotivoRecusa" msprop:Generator_ColumnVarNameInTable="columnMotivoRecusa" msprop:Generator_ColumnPropNameInTable="MotivoRecusaColumn" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

@@ -1,0 +1,37 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.IO;
+using CrystalDecisions.CrystalReports.Engine;
+using System.Net;
+
+namespace ViverMais.View.Urgencia
+{
+    public partial class FormImprimirCrystalReports : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!IsPostBack)
+            {
+                string nomearquivo = "documentourgencia.pdf";
+
+                if (Request["nomearquivo"] != null)
+                    nomearquivo = Request["nomearquivo"].ToString();
+
+                ReportDocument doc = (ReportDocument)Session["documentoImpressaoUrgencia"];
+                System.IO.Stream s = doc.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+
+                Response.Clear();
+                Response.ContentType = "application/octet-stream";
+                Response.AddHeader("Content-Disposition", "attachment;filename=" + nomearquivo);
+                Response.AddHeader("Content-Length", s.Length.ToString());
+
+                Response.BinaryWrite(((MemoryStream)s).ToArray());
+                Response.End();
+            }
+        }
+    }
+}

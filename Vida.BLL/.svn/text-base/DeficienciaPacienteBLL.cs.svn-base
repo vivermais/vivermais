@@ -1,0 +1,18 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Vida.Model;
+using Vida.DAOOracle;
+
+namespace Vida.BLL
+{
+    public class DeficienciaPacienteBLL
+    {
+        public static DeficienciaPaciente BuscarPorPaciente(string co_usuario)
+        {
+            DeficienciaPacienteDAO dao = new DeficienciaPacienteDAO();
+            return dao.PesquisarPorPaciente(co_usuario);
+        }
+    }
+}

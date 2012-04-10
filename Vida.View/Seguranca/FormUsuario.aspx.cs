@@ -1,0 +1,440 @@
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Xml.Linq;
+using ViverMais.Model;
+using ViverMais.ServiceFacade.ServiceFacades;
+using ViverMais.DAO;
+using System.Collections.Generic;
+using ViverMais.ServiceFacade.ServiceFacades.Seguranca;
+using ViverMais.ServiceFacade.ServiceFacades.EstabelecimentoSaude;
+using ViverMais.ServiceFacade.ServiceFacades.Paciente;
+using ViverMais.ServiceFacade.ServiceFacades.Profissional.Misc;
+using ViverMais.ServiceFacade.ServiceFacades.Profissional;
+
+namespace ViverMais.View.Seguranca
+{
+    public partial class FormUsuario : PageViverMais
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            LinkButton eas_pesquisarcnes = this.EAS.WUC_LinkButton_PesquisarCNES;
+            LinkButton eas_pesquisarnome = this.EAS.WUC_LinkButton_PesquisarNomeFantasia;
+
+            eas_pesquisarcnes.Click +=new EventHandler(OnClick_PesquisarCNES);
+            eas_pesquisarnome.Click += new EventHandler(OnClick_PesquisarNomeFantasiaUnidade);
+
+            this.InserirTrigger(eas_pesquisarcnes.UniqueID, "Click", this.UpdatePanel_Unidade);
+            this.InserirTrigger(eas_pesquisarnome.UniqueID, "Click", this.UpdatePanel_Unidade);
+
+            if (!IsPostBack)
+            {
+                this.EAS.WUC_EstabelecimentosPesquisados = new List<ViverMais.Model.EstabelecimentoSaude>();
+                this.DropDownList_Unidade.Attributes.Add("onmouseover", "javascript:showTooltip(this);");
+                
+
+                ISeguranca iseguranca = Factory.GetInstance<ISeguranca>();
+                if (!iseguranca.VerificarPermissao(((ViverMais.Model.Usuario)Session["Usuario"]).Codigo, "MANTER_USUARIO",Modulo.SEGURANCA))
+                //{
+                    Response.Redirect("FormAcessoNegado.aspx?opcao=1");
+                    //ClientScript.RegisterClientScriptBlock(typeof(String), "ok", "<script>alert('Você não tem permissão para acessar essa página. Em caso de dúViverMais, entre em contato.');window.location='Default.aspx';</script>");
+                //}
+                else
+                {
+                    Session.Remove("perfis_incluidos");
+                    IViverMaisServiceFacade iViverMais = Factory.GetInstance<IViverMaisServiceFacade>();
+
+                    DropDownList_Unidade.Items.Add(new ListItem("SELECIONE...", "0"));
+
+                    IList<ViverMais.Model.Modulo> lm = iViverMais.ListarTodos<ViverMais.Model.Modulo>();
+                    Session["modulos"] = lm;
+                    //foreach (ViverMais.Model.Modulo mo in lm)
+                    //    DropDownList_Sistema.Items.Add(new ListItem(mo.Nome, mo.Codigo.ToString()));
+
+                    int temp;
+                    if (Request["co_usuario"] != null && int.TryParse(Request["co_usuario"].ToString(), out temp))
+                    {
+                        ViverMais.Model.Usuario u = iViverMais.BuscarPorCodigo<ViverMais.Model.Usuario>(int.Parse(Request["co_usuario"].ToString()));
+                        
+                        lblNome.Text = u.Nome;
+                        tbxCartaoSUS.Text = u.CartaoSUS;
+                        tbxSenha.Attributes.Add("value", u.Senha);
+                        tbxConfirmaSenha.Attributes.Add("value", u.Senha);
+
+                        if (u.Ativo != 1)
+                        {
+                            RadioButton_Inativo.Checked = true;
+                            RadioButton_Ativo.Checked = false;
+                        }
+
+                        DropDownList_Unidade.Items.Insert(1, new ListItem(u.Unidade.NomeFantasia, u.Unidade.CNES));
+                        DropDownList_Unidade.SelectedValue = u.Unidade.CNES;
+
+                        CarregaGridPerfil(u.Perfis);
+                        CarregaDropDownProfissionalSaude(DropDownList_Unidade.SelectedValue);
+                        if (u.Perfis.Where(p => p.PerfilProfissionalSaude).ToList().Count > 0) //Se o usuário tiver Perfil de Profissional de Saúde
+                        {
+                            PanelProfissionalSaude.Visible = true;
+                            if (u.ProfissionalSaude != null) //Se ele já é Profissional, Exibe dados do Vínculo
+                            {
+                                PanelDadosProfissional.Visible = true;
+                                ddlProfissionais.SelectedValue = u.ProfissionalSaude.CPF;
+                                ddlProfissionais_SelectedIndexChanged(new object(), new EventArgs());
+                            }
+                        }
+                        else
+                        {
+                            PanelProfissionalSaude.Visible = false;
+                        }
+                        
+                        LinkButtonVoltar.PostBackUrl = "~/Seguranca/ListaUsuarios.aspx";
+                    }
+                    else
+                    {
+                        this.CarregaGridPerfil(new List<Perfil>());
+                        //this.CarregaDropDownProfissionalSaude(((ViverMais.Model.Usuario)Session["Usuario"]).Unidade.CNES);
+                        LinkButtonVoltar.PostBackUrl = "~/Seguranca/Default.aspx";
+                    }
+                }
+            }
+        }
+
+        protected void OnClick_PesquisarCNES(object sender, EventArgs e)
+        {
+            ViverMais.Model.EstabelecimentoSaude unidade = this.EAS.WUC_EstabelecimentosPesquisados.FirstOrDefault();
+
+            if (unidade != null)
+            {
+                this.DropDownList_Unidade.Items.Clear();
+                this.DropDownList_Unidade.Items.Add(new ListItem(unidade.NomeFantasia, unidade.CNES));
+                this.DropDownList_Unidade.Items.Insert(0, new ListItem("SELECIONE...", "0"));
+                this.DropDownList_Unidade.SelectedValue = unidade.CNES;
+                this.DropDownList_Unidade.Focus();
+                this.UpdatePanel_Unidade.Update();
+                this.CarregaDropDownProfissionalSaude(unidade.CNES);
+                this.UpdatePanelDadosProfissional.Update();
+            }
+        }
+
+        protected void OnClick_PesquisarNomeFantasiaUnidade(object sender, EventArgs e)
+        {
+            IList<ViverMais.Model.EstabelecimentoSaude> unidades = this.EAS.WUC_EstabelecimentosPesquisados;
+            
+            this.DropDownList_Unidade.DataSource = unidades;
+            this.DropDownList_Unidade.DataBind();
+            this.DropDownList_Unidade.Items.Insert(0, new ListItem("SELECIONE...", "0"));
+
+            this.DropDownList_Unidade.Focus();
+            this.UpdatePanel_Unidade.Update();
+            CarregaDropDownProfissionalSaude(string.Empty);
+            this.UpdatePanelDadosProfissional.Update();
+        }
+
+        private void InserirTrigger(string idcontrole, string nomeevento, UpdatePanel updatepanel)
+        {
+            AsyncPostBackTrigger trigger = new AsyncPostBackTrigger();
+            trigger.ControlID = idcontrole;
+            trigger.EventName = nomeevento;
+            updatepanel.Triggers.Add(trigger);
+        }
+
+        /// <summary>
+        /// Salva o usuário
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void lnkSalvar_Click(object sender, EventArgs e)
+        {
+            IViverMaisServiceFacade iViverMais = Factory.GetInstance<IViverMaisServiceFacade>();
+            ViverMais.Model.Paciente paciente =
+            Factory.GetInstance<IPaciente>().PesquisarPacientePorCNS<ViverMais.Model.Paciente>(tbxCartaoSUS.Text);
+            ISeguranca iSeguranca = Factory.GetInstance<ISeguranca>();
+
+            if (paciente != null)
+            {
+                if (Session["perfis_incluidos"] != null && Session["perfis_incluidos"] is IList<ViverMais.Model.Perfil>
+                    && ((IList<ViverMais.Model.Perfil>)Session["perfis_incluidos"]) != null && ((IList<ViverMais.Model.Perfil>)Session["perfis_incluidos"]).Count() > 0)
+                {
+                    try
+                    {
+                        IList<ViverMais.Model.Perfil> lp = (IList<ViverMais.Model.Perfil>)Session["perfis_incluidos"];
+                        ViverMais.Model.Usuario u = Request["co_usuario"] != null ? Factory.GetInstance<IViverMaisServiceFacade>().BuscarPorCodigo<ViverMais.Model.Usuario>(int.Parse(Request["co_usuario"].ToString())) : new Usuario();
+                        ViverMais.Model.EstabelecimentoSaude unidade = Factory.GetInstance<IViverMaisServiceFacade>().BuscarPorCodigo<ViverMais.Model.EstabelecimentoSaude>(DropDownList_Unidade.SelectedValue);
+
+                        if (!iSeguranca.ValidarCadastroUsuario(tbxCartaoSUS.Text,unidade.CNES,u.Codigo))
+                        //if (Factory.GetInstance<IViverMaisServiceFacade>().ListarTodos<ViverMais.Model.Usuario>().Where(us => us.CartaoSUS == tbxCartaoSUS.Text && us.Unidade.CNES == unidade.CNES && us.Codigo != u.Codigo).FirstOrDefault() != null)
+                        {
+                            ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Já existe um usuário cadastrado com este Cartão SUS nessa unidade. Em caso de dúViverMais, entre em contato.');", true);
+                            return;
+                        }
+
+                        u.Unidade = unidade;
+                        u.Senha = tbxSenha.Text;
+                        u.Nome = lblNome.Text;
+                        u.CartaoSUS = tbxCartaoSUS.Text;
+                        u.Ativo = RadioButton_Ativo.Checked ? 1 : 0;
+                        u.DataNascimento = paciente.DataNascimento;
+                        u.Perfis = lp;
+                        if (ddlProfissionais.SelectedValue != "0")
+                            u.ProfissionalSaude = iSeguranca.BuscarPorCodigo<ViverMais.Model.Profissional>(ddlProfissionais.SelectedValue);
+                        else
+                            u.ProfissionalSaude = null;
+                        
+                        IUsuario iUsuario = Factory.GetInstance<IUsuario>();
+
+                        Usuario usuarioLogado = (Usuario)Session["Usuario"];
+                        iUsuario.SalvarUsuario<Usuario>(u, usuarioLogado.Codigo, Request["co_usuario"] != null ? 7 : 6);
+                        ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Usuário salvo com sucesso!');location='Default.aspx';", true);
+
+                        if (usuarioLogado.Codigo == u.Codigo)
+                            Session["Usuario"] = iUsuario.BuscarPorCodigo<Usuario>(usuarioLogado.Codigo);
+                        //}
+                    }
+                    catch (Exception f)
+                    {
+                        throw f;
+                    }
+                }
+                else
+                    ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('É necessário escolher no mínimo um perfil!');", true);
+            }else
+                ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Nenhum usuário foi encontrado com esse Cartão SUS');", true);
+        }
+
+        ///// <summary>
+        ///// Verifica se a ação do gridview de perfil é de exclusão
+        ///// </summary>
+        ///// <param name="sender"></param>
+        ///// <param name="e"></param>
+        //protected void OnRowCommand_Acao(object sender, GridViewCommandEventArgs e)
+        //{
+        //    if (e.CommandName == "CommandName_Excluir")
+        //    {
+        //        int co_perfil = int.Parse(GridView_Perfil.DataKeys[int.Parse(e.CommandArgument.ToString())]["Codigo"].ToString());
+
+        //        IList<ViverMais.Model.Perfil> lp = (IList<ViverMais.Model.Perfil>)Session["perfis_incluidos"];
+
+        //        int pos = 0;
+        //        foreach (ViverMais.Model.Perfil p in lp)
+        //        {
+        //            if (p.Codigo == co_perfil)
+        //                break;
+        //            pos++;
+        //        }
+
+        //        lp.RemoveAt(pos);
+        //        CarregaGridPerfil(lp);
+        //    }
+        //}
+
+        protected void OnRowDeleting_Perfil(object sender, GridViewDeleteEventArgs e)
+        {
+            int co_perfil = int.Parse(GridView_Perfil.DataKeys[e.RowIndex]["Codigo"].ToString());
+
+            IList<ViverMais.Model.Perfil> lp = (IList<ViverMais.Model.Perfil>)Session["perfis_incluidos"];
+
+            int pos = 0;
+            foreach (ViverMais.Model.Perfil p in lp)
+            {
+                if (p.Codigo == co_perfil)
+                    break;
+                pos++;
+            }
+
+            lp.RemoveAt(pos);
+            CarregaGridPerfil(lp);
+            if (lp.Where(p => p.PerfilProfissionalSaude).ToList().Count > 0) //Caso possua algum Perfil de Profissional de Saúde, é Habilitado o Panel para Identificação do Usuário como Profissional de Saúde
+            {
+                PanelProfissionalSaude.Visible = true;
+                RequiredFieldProfissional.Validate();
+            }
+            else
+            {
+                PanelProfissionalSaude.Visible = false;
+                ddlProfissionais.SelectedValue = "0";
+                UpdatePanelDadosProfissional.Update();
+                UpdatePanel_Profissional.Update();
+                PanelDadosProfissional.Visible = false;
+            }
+        }
+
+
+        //protected void ckbxProfissionalSaude_CheckedChanged(object sender, EventArgs e)
+        //{
+        //    if (ckbxProfissionalSaude.Checked)//Caso seja Profissional de Saúde
+        //    {
+        //        PanelProfissionalSaude.Visible = true;
+        //    }
+        //    else
+        //    {
+        //        PanelProfissionalSaude.Visible = false;
+        //        ddlProfissionais.SelectedValue = "0";
+        //    }
+        //}
+
+        /// <summary>
+        /// Adiciona o perfil para o usuário
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnClick_SalvarPerfil(object sender, EventArgs e)
+        {
+            IList<ViverMais.Model.Perfil> lp = (IList<ViverMais.Model.Perfil>)Session["perfis_incluidos"];
+            lp = lp == null ? new List<ViverMais.Model.Perfil>() : lp;
+
+            ViverMais.Model.Perfil perfil = Factory.GetInstance<IViverMaisServiceFacade>().BuscarPorCodigo<ViverMais.Model.Perfil>(int.Parse(DropDownList_Perfil.SelectedValue));
+
+            if (lp.Where(p => p.Codigo == perfil.Codigo).FirstOrDefault() == null ? true : false)
+            {
+                lp.Add(perfil);
+                CarregaGridPerfil(lp);
+                if (lp.Where(p => p.PerfilProfissionalSaude).ToList().Count > 0) //Caso possua algum Perfil de Profissional de Saúde, é Habilitado o Panel para Identificação do Usuário como Profissional de Saúde
+                {
+                    UpdatePanel_Profissional.Update();
+                    PanelProfissionalSaude.Visible = true;
+                    RequiredFieldProfissional.Validate();
+                }
+                else
+                {
+                    PanelProfissionalSaude.Visible = false;
+                    ddlProfissionais.SelectedValue = "0";
+                }
+                UpdatePanelDadosProfissional.Update();
+            }
+            else
+                ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('O usuário já possui este perfil!');", true);
+        }
+
+        /// <summary>
+        /// Carrega os perfis de acordo com o sistema escolhido
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnSelectedIndexChanged_CarregaPerfis(object sender, EventArgs e)
+        {
+            DropDownList_Perfil.Items.Clear();
+            DropDownList_Perfil.Items.Add(new ListItem("Selecione...", "0"));
+
+            if (DropDownList_Sistema.SelectedValue != "0")
+            {
+                IList<ViverMais.Model.Perfil> perfis = Session["perfis_incluidos"] as IList<ViverMais.Model.Perfil>;
+                IList<ViverMais.Model.Perfil> lp = Factory.GetInstance<IPerfil>().BuscarPorModulo<ViverMais.Model.Perfil>(int.Parse(DropDownList_Sistema.SelectedValue)).Where(p=>!perfis.Contains(p)).OrderBy(p => p.Nome).ToList();
+
+                foreach (ViverMais.Model.Perfil p in lp)
+                    DropDownList_Perfil.Items.Add(new ListItem(p.Nome, p.Codigo.ToString()));
+            }
+        }
+
+        /// <summary>
+        /// Carrega o DropDownList de profissionais da Unidade
+        /// </summary>
+        /// <param name="cnes"></param>
+        private void CarregaDropDownProfissionalSaude(string cnes)
+        {
+            ddlProfissionais.Items.Clear();
+            if (cnes != string.Empty)
+            {
+                IList<ViverMais.Model.Profissional> profissionais = Factory.GetInstance<IVinculo>().ListarProfissionaisPorUnidade<ViverMais.Model.Profissional>(cnes);
+                ddlProfissionais.DataSource = profissionais;
+                ddlProfissionais.DataBind();
+            }
+            ddlProfissionais.Items.Insert(0, new ListItem("Selecione...", "0"));
+            
+            //Limpa registros do profissional
+            lblNomeProfissional.Text = string.Empty;
+            lblDataNascimento.Text = string.Empty;
+            lblEspecialidades.Text = string.Empty;
+            PanelDadosProfissional.Visible = false;
+            this.UpdatePanel_Profissional.Update();
+        }
+
+        protected void DropDownList_Unidade_OnSelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (DropDownList_Unidade.SelectedValue != "0")
+            {
+                this.CarregaDropDownProfissionalSaude(DropDownList_Unidade.SelectedValue);
+                this.UpdatePanel_Profissional.Update();
+            }
+        }
+
+        /// <summary>
+        /// Lista Informações do Profissional Selecionado
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void ddlProfissionais_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (ddlProfissionais.SelectedValue != "0")
+            {
+                ViverMais.Model.Profissional profissional = Factory.GetInstance<IProfissional>().BuscarPorCodigo<ViverMais.Model.Profissional>(ddlProfissionais.SelectedValue);
+                if (profissional != null)
+                {
+                    lblNomeProfissional.Text = profissional.Nome;
+                    lblDataNascimento.Text = profissional.DataNascimento.ToString("dd/MM/yyyy");
+
+                    IList<VinculoProfissional> vinculosProfissional = Factory.GetInstance<IVinculo>().BuscarPorProfissional<VinculoProfissional>(profissional.CPF);
+                    List<CBO> cbos = new List<CBO>();
+                    for (int i = 0; i < vinculosProfissional.Count; i++)
+                        if (!cbos.Contains(vinculosProfissional[i].CBO))
+                            cbos.Add(vinculosProfissional[i].CBO);
+                    
+                    for (int i = 0; i < cbos.Count; i++)
+                        if (i == 0)
+                            lblEspecialidades.Text += cbos[i].Nome;
+                        else
+                            lblEspecialidades.Text += " / " + cbos[i].Nome;
+                    
+                    PanelDadosProfissional.Visible = true;
+                    //lblEspecialidades
+                }
+                else
+                    PanelDadosProfissional.Visible = false;
+            }
+            else
+                PanelDadosProfissional.Visible = false;            
+        }
+
+        /// <summary>
+        /// Carrega o gridview de perfil
+        /// </summary>
+        /// <param name="lp">IList de perfis</param>
+        private void CarregaGridPerfil(IList<ViverMais.Model.Perfil> lp)
+        {
+            Session["perfis_incluidos"] = lp;
+            GridView_Perfil.DataSource = lp;
+            GridView_Perfil.DataBind();
+
+            IViverMaisServiceFacade iViverMais = Factory.GetInstance<IViverMaisServiceFacade>();
+            IList<ViverMais.Model.Modulo> lm = ((IList<ViverMais.Model.Modulo>)Session["modulos"]).Where(p => !lp.Select(p2 => p2.Modulo.Codigo).Contains(p.Codigo)).OrderBy(m => m.Nome).ToList();
+
+            DropDownList_Sistema.DataSource = lm;
+            DropDownList_Sistema.DataBind();
+            DropDownList_Sistema.Items.Insert(0, new ListItem("Selecione...", "0"));
+            
+            this.OnSelectedIndexChanged_CarregaPerfis(new object(), new EventArgs());
+        }
+
+        protected void imgBtnPesquisarCartao_Click(object sender, ImageClickEventArgs e)
+        {
+            ViverMais.Model.Paciente paciente = Factory.GetInstance<IPaciente>().PesquisarPacientePorCNS<ViverMais.Model.Paciente>(tbxCartaoSUS.Text);
+            if (paciente != null)
+            {
+                //ViewState["co_cartao"] = tbxCartaoSUS.Text;
+                lblNome.Text = paciente.Nome;
+            }
+            else
+            {
+                //ViewState.Remove("co_cartao");
+                ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Nenhum usuário foi encontrado com esse Cartão SUS');", true);
+            }
+        }
+    }
+}

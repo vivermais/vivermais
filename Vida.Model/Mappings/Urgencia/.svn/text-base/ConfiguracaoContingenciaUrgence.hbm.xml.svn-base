@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Vida.Model">
+  <class name="Vida.Model.ConfiguracaoContingenciaUrgence" table="URG_CONFIGURACAO_CONTINGENCIA">
+    <composite-id>
+      <key-many-to-one name="Unidade" class="Vida.Model.EstabelecimentoSaude" column="co_unidade" />
+    </composite-id>
+
+    <property name="EnderecoFTP" column="endereco_ftp"/>
+    <property name="UsuarioFTP" column="usuario_ftp"/>
+    <property name="SenhaFTP" column="senha_ftp"/>
+  </class>
+</hibernate-mapping>

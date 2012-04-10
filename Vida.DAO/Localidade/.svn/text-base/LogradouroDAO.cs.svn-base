@@ -1,0 +1,22 @@
+﻿ using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Vida.ServiceFacade.ServiceFacades.Localidade;
+
+namespace Vida.DAO.Localidade
+{
+    public class LogradouroDAO : VidaServiceFacadeDAO, ILogradouro
+    {
+
+        #region ILogradouro Members
+
+        T ILogradouro.BuscarPorCEP<T>(long cep)
+        {
+            string hql = "from Vida.Model.Logradouro log where log.CEP=" + cep;
+            return Session.CreateQuery(hql).UniqueResult<T>();
+        }
+
+        #endregion
+    }
+}

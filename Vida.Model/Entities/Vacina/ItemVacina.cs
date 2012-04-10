@@ -1,0 +1,71 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace ViverMais.Model
+{
+    [Serializable]
+    public class ItemVacina
+    {
+        int codigo;
+        public virtual int Codigo
+        {
+            get { return codigo; }
+            set { codigo = value; }
+        }
+
+        Vacina vacina;
+        public virtual Vacina Vacina
+        {
+            get { return vacina; }
+            set { vacina = value; }
+        }
+
+        FabricanteVacina fabricantevacina;
+        public virtual FabricanteVacina FabricanteVacina
+        {
+            get { return fabricantevacina; }
+            set { fabricantevacina = value; }
+        }
+
+        public virtual string NomeFabricante
+        {
+            get { return this.FabricanteVacina.Nome; }
+        }
+
+        public virtual string NomeVacina
+        {
+            get { return this.Vacina.Nome; }
+        }
+
+        public virtual int CodigoFabricante
+        {
+            get { return FabricanteVacina.Codigo; }
+        }
+
+        public virtual int CodigoVacina
+        {
+            get { return Vacina.Codigo; }
+        }
+
+        int aplicacao;
+        public virtual int Aplicacao
+        {
+            get { return aplicacao; }
+            set { aplicacao = value; }
+        }
+
+        public ItemVacina()
+        {
+
+        }
+
+        //public override bool Equals(object obj)
+        //{
+        //    return this.Vacina.Codigo == ((ItemVacina)obj).Vacina.Codigo &&
+        //        this.FabricanteVacina.Codigo == ((ItemVacina)obj).FabricanteVacina.Codigo ? true : false;
+        //}
+
+    }
+}

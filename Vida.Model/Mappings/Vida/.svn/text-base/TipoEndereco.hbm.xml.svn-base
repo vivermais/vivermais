@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Vida.Model">
+  <class name="Vida.Model.TipoEndereco" table="tb_ms_tp_endereco">
+    <id name="Codigo">
+      <column name="co_tipo_endereco" not-null="true"/>
+      <generator class="assigned" />
+    </id>
+    <property name="Descricao" column="ds_tipo_endereco"/>
+  </class>
+</hibernate-mapping>

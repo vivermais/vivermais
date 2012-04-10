@@ -1,0 +1,5 @@
+C:\Users\Lucas\vivermais\Vida.ServiceFacade\bin\Debug\Vida.ServiceFacade.dll
+C:\Users\Lucas\vivermais\Vida.ServiceFacade\bin\Debug\Vida.ServiceFacade.pdb
+C:\Users\Lucas\vivermais\Vida.ServiceFacade\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Lucas\vivermais\Vida.ServiceFacade\obj\Debug\Vida.ServiceFacade.dll
+C:\Users\Lucas\vivermais\Vida.ServiceFacade\obj\Debug\Vida.ServiceFacade.pdb

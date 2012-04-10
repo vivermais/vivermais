@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Vida.Model">
+	<class name="Vida.Model.UnidadeMedidaMedicamento" table="far_unidademedida">
+		<id name="Codigo">
+			<column name="id_unidademedida" not-null="true"/>
+      <generator class="sequence" >
+        <param name="sequence">FAR_UNIDADEMEDIDA_SEQUENCE</param>
+      </generator>
+		</id>
+		<property name="Sigla" column="und" />
+		<property name="Nome" column="unidademedida" />
+    <property name="Ativo" column="ativo" type="YesNo" />
+	</class>
+</hibernate-mapping>

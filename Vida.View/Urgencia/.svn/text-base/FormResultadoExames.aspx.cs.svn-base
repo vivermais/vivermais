@@ -1,0 +1,298 @@
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Xml.Linq;
+using System.Collections.Generic;
+using Vida.ServiceFacade.ServiceFacades.AtendimentoMedico.Urgencia;
+using Vida.DAO;
+using Vida.ServiceFacade.ServiceFacades;
+using Vida.Model;
+using System.Drawing;
+using Vida.ServiceFacade.ServiceFacades.Seguranca;
+using System.IO;
+using System.Threading;
+
+namespace Vida.View.Urgencia
+{
+    public partial class FormResultadoExames : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!IsPostBack)
+            {
+                if (Factory.GetInstance<ISeguranca>().VerificarPermissao(((Usuario)Session["Usuario"]).Codigo, "REGISTRAR_RESULTADO_EXAMES", Modulo.URGENCIA))
+                {
+                    //ViewState["tipo_pesquisa"] = "todos";
+                    CarregaTodosExamesPendentes();
+                }
+                else
+                    Response.Redirect("FormAcessoNegado.aspx?opcao=1");
+                //ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Usuário, você não tem permissão para acessar esta página! Por favor, entre em contato com a administração.');location='Default.aspx';", true);
+            }
+        }
+
+        ///// <summary>
+        ///// Lista todos os exames pendentes do Estabelecimento de Saúde
+        ///// </summary>
+        //void CarregaExames()
+        //{
+        //    IList<Vida.Model.ProntuarioExame> exames = Factory.GetInstance<IExame>().ListarPorEstabelecimentoSaude<Vida.Model.ProntuarioExame>(((Vida.Model.Usuario)Session["Usuario"]).Unidade.CNES).Where(p => string.IsNullOrEmpty(p.Resultado)).ToList();
+        //    gridExamesProntuario.DataSource = exames;
+        //    gridExamesProntuario.DataBind();
+        //}
+
+        protected void OnServerValidate_ValidaPesquisa(object sender, ServerValidateEventArgs e)
+        {
+            e.IsValid = true;
+
+            if (string.IsNullOrEmpty(tbxNumero.Text) && string.IsNullOrEmpty(tbxCartaoSus.Text))
+            {
+                e.IsValid = false;
+                CustomValidator_ValidaPesquisa.ErrorMessage = "Informe o Número de Registro ou Número do Cartão SUS.";
+            }
+        }
+
+        /// <summary>
+        /// Pesquisa os exames por número de prontuário
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void BtnPesquisar_Click(object sender, EventArgs e)
+        {
+            if (CustomValidator_ValidaPesquisa.IsValid)
+            {
+                Vida.Model.Prontuario prontuario = new Vida.Model.Prontuario();
+                if (tbxNumero.Text != "")
+                {
+                    //ViewState["tipo_pesquisa"] = "prontuario";
+                    //ViewState["propriedadepesquisa"] = tbxNumero.Text;
+                    CarregaExamesProntuario(tbxNumero.Text);
+                }
+                else //busca por cartao sus
+                {
+                    //ViewState["tipo_pesquisa"] = "cartaosus";
+                    //ViewState["propriedadepesquisa"] = tbxCartaoSus.Text;
+                    CarregaExamesCartaoSUS(tbxCartaoSus.Text);
+                }
+
+                ViewState["co_exame"] = null;
+                Panel_ResultadoExame.Visible = false;
+            }
+            else
+                ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('" + CustomValidator_ValidaPesquisa.ErrorMessage + "');", true);
+
+        }
+
+        private void CarregaExamesCartaoSUS(string tbxCartaoSUS)
+        {
+            IList<Vida.Model.ProntuarioExame> exames = Factory.GetInstance<IExame>().BuscarExamesPendentesPorCartaoSus<Vida.Model.ProntuarioExame>(tbxCartaoSUS, ((Vida.Model.Usuario)Session["Usuario"]).Unidade.CNES);
+            //&& string.IsNullOrEmpty(p.Resultado)).ToList();
+
+            if (exames == null || exames.Count < 1)
+            {
+                lblResultado.Text = "Nenhum exame encontrado para o número do cartão sus informado!";
+                gridExamesProntuario.DataSource = new List<Vida.Model.ProntuarioExame>();
+                gridExamesProntuario.DataBind();
+            }
+            else
+            {
+                Session["ExamesResultado"] = exames;
+                gridExamesProntuario.DataSource = exames;
+                gridExamesProntuario.DataBind();
+                lblResultado.Text = exames.Count.ToString() + " registro(s) encontrado(s)!";
+            }
+        }
+
+        private void CarregaExamesProntuario(string tbxNumero)
+        {
+            Prontuario prontuario = Factory.GetInstance<IProntuario>().BuscarPorNumeroProntuario<Vida.Model.Prontuario>(long.Parse(tbxNumero));
+
+            if (prontuario == null || (prontuario != null && prontuario.CodigoUnidade != ((Vida.Model.Usuario)Session["Usuario"]).Unidade.CNES))
+            {
+                lblResultado.Text = "Registro de Atendimento não encontrado!";
+                gridExamesProntuario.DataSource = new List<Vida.Model.ProntuarioExame>();
+                gridExamesProntuario.DataBind();
+            }
+            else
+            {
+                IList<Vida.Model.ProntuarioExame> exames = Factory.GetInstance<IExame>().BuscarExamesPendentesPorProntuario<Vida.Model.ProntuarioExame>(prontuario.Codigo, ((Usuario)Session["Usuario"]).Unidade.CNES);
+                //Factory.GetInstance<IExame>().BuscarExamesPorProntuario<Vida.Model.ProntuarioExame>(prontuario.Codigo).Where(p => p.Prontuario.CodigoUnidade == ((Usuario)Session["Usuario"]).Unidade.CNES && string.IsNullOrEmpty(p.Resultado)).ToList();
+
+                Session["ExamesResultado"] = exames;
+                gridExamesProntuario.DataSource = exames;
+                gridExamesProntuario.DataBind();
+                lblResultado.Text = exames.Count.ToString() + " registro(s) encontrado(s)!";
+            }
+        }
+
+        protected void gridExamesProntuario_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            long co_exame = long.Parse(gridExamesProntuario.SelectedDataKey.Value.ToString());
+            Vida.Model.ProntuarioExame exame = Factory.GetInstance<IUrgenciaServiceFacade>().BuscarPorCodigo<Vida.Model.ProntuarioExame>(co_exame);
+            lblExame.Text = exame.NomeExame;
+            lblDataSolicitacao.Text = exame.Data.ToString();
+            tbxResultado.Text = "";
+            //if (exame.Resultado != null)
+            //{
+            //    tbxResultado.Text = exame.Resultado;
+            //}
+            ViewState["co_exame"] = exame.Codigo;
+            for (int i = 0; i < gridExamesProntuario.Rows.Count; i++)
+                gridExamesProntuario.Rows[i].BackColor = Color.White;
+            gridExamesProntuario.SelectedRow.BackColor = Color.LawnGreen;
+            Panel_ResultadoExame.Visible = true;
+
+        }
+
+        protected void btnSalvar_Click(object sender, EventArgs e)
+        {
+            if (ViewState["co_exame"] == null)
+            {
+                ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Selecione um exame antes de efetuar esta operação!');", true);
+                return;
+            }
+
+            long co_exame = long.Parse(ViewState["co_exame"].ToString());
+            Vida.Model.ProntuarioExame exame = Factory.GetInstance<IUrgenciaServiceFacade>().BuscarPorCodigo<Vida.Model.ProntuarioExame>(co_exame);
+            exame.Resultado = tbxResultado.Text;
+            exame.DataResultado = DateTime.Now;
+            Usuario usuario = Session["Usuario"] as Usuario;
+
+            try
+            {
+                Factory.GetInstance<IUrgenciaServiceFacade>().Salvar(exame);
+                Factory.GetInstance<IUrgenciaServiceFacade>().Inserir(new LogUrgencia(DateTime.Now, usuario.Codigo, 29, "id exame:" + exame.Codigo));
+            }
+            catch (Exception f)
+            {
+                throw f;
+            }
+
+            ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Resultado salvo com sucesso!');", true);
+
+            #region Escrita no arquivo de entrega de exames
+            var stream = new FileStream(Server.MapPath("~/Urgencia/Documentos/EntregaExame/" + usuario.Unidade.CNES + ".txt"), FileMode.Truncate, FileAccess.Write, FileShare.Write);
+            TextWriter escrita = new StreamWriter(stream);
+
+            //stream.Seek(0, SeekOrigin.Begin);
+            escrita.WriteLine('S');
+            escrita.Flush();
+            stream.Close();
+            #endregion
+
+            Panel_ResultadoExame.Visible = false;
+            CarregaTodosExamesPendentes();
+
+            HelperView.ExecutarPlanoContingencia(usuario.Codigo, exame.Prontuario.Codigo);
+
+            //try
+            //{
+            //    StartBackgroundThread(delegate { this.ExecutarPlanoContingencia(usuario.Codigo, exame.Prontuario.Codigo); });
+            //}
+            //catch { }
+        }
+
+        ///// <summary>
+        ///// Executa o plano de contingência
+        ///// </summary>
+        ///// <param name="co_usuario">código do usuário</param>
+        ///// <param name="co_prontuario">código do prontuário</param>
+        //public void ExecutarPlanoContingencia(int co_usuario, long co_prontuario)
+        //{
+        //    try
+        //    {
+        //        IProntuario iProntuario = Factory.GetInstance<IProntuario>();
+        //        iProntuario.ExecutarPlanoContingencia(co_usuario, co_prontuario);
+        //    }
+        //    catch
+        //    {
+        //    }
+        //}
+
+        ///// <summary>
+        ///// Função que executa um procedimento em background
+        ///// </summary>
+        ///// <param name="threadStart"></param>
+        //public static void StartBackgroundThread(ThreadStart threadStart)
+        //{
+        //    if (threadStart != null)
+        //    {
+        //        Thread thread = new Thread(threadStart);
+        //        thread.IsBackground = true;
+        //        thread.Start();
+        //    }
+        //}
+
+        protected void btnListarTodos_Click(object sender, EventArgs e)
+        {
+            //ViewState["tipo_pesquisa"] = "todos";
+            CarregaTodosExamesPendentes();
+        }
+
+        private void CarregaTodosExamesPendentes()
+        {
+            IList<ProntuarioExame> exames = Factory.GetInstance<IExame>().ListarPorEstabelecimentoSaudePendentes<ProntuarioExame>(((Vida.Model.Usuario)Session["Usuario"]).Unidade.CNES);
+
+            if (exames == null || exames.Count < 1)
+                lblResultado.Text = "Nenhum exame encontrado!";
+            else
+                lblResultado.Text = exames.Count.ToString() + " registro(s) encontrado(s)!";
+
+            gridExamesProntuario.DataSource = exames;
+            gridExamesProntuario.DataBind();
+
+            Session["ExamesResultado"] = exames;
+            ViewState["co_exame"] = null;
+            Panel_ResultadoExame.Visible = false;
+        }
+
+        protected void btnCancelar_Click(object sender, EventArgs e)
+        {
+            ViewState["co_exame"] = null;
+            Panel_ResultadoExame.Visible = false;
+            gridExamesProntuario.SelectedIndex = -1;
+            for (int i = 0; i < gridExamesProntuario.Rows.Count; i++)
+                gridExamesProntuario.Rows[i].BackColor = Color.White;
+
+            //gridExamesProntuario.DataBind();
+        }
+
+        /// <summary>
+        /// Paginação do gridview
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnPageIndexChanging_Paginacao(object sender, GridViewPageEventArgs e)
+        {
+            //if (ViewState["tipo_pesquisa"] != null)
+            //{
+            //    switch (ViewState["tipo_pesquisa"].ToString())
+            //    {
+            //        case "todos":
+            //            CarregaTodosExamesPendentes();
+            //            break;
+            //        case "prontuario":
+            //            CarregaExamesProntuario(ViewState["propriedadepesquisa"].ToString());
+            //            break;
+            //        default:
+            //            CarregaExamesCartaoSUS(ViewState["propriedadepesquisa"].ToString());
+            //            break;
+            //    }
+
+            gridExamesProntuario.DataSource = (IList<ProntuarioExame>)Session["ExamesResultado"];
+            gridExamesProntuario.DataBind();
+
+            gridExamesProntuario.PageIndex = e.NewPageIndex;
+            gridExamesProntuario.DataBind();
+            //}
+        }
+    }
+}

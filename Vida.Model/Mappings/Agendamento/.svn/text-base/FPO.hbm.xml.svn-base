@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Vida.Model">
+  <class name="Vida.Model.FPO" table="AGD_FPO">
+    <composite-id unsaved-value="any">
+      <key-many-to-one name="Estabelecimento" class="Vida.Model.EstabelecimentoSaude" column="CNES" />
+      <key-property name="Competencia" column="COMPETENCIA" />
+      <key-many-to-one name="Procedimento" class="Vida.Model.Procedimento" column="CO_PROCEDIMENTO" />
+    </composite-id>
+    <property name="QTD_Total" column="QTD_TOTAL" />
+    <property name="ValorTotal" column="VALOR_TOTAL" />
+    <property name="NivelApuracao" column="NIVEL_APURACAO" />
+  </class>
+</hibernate-mapping>

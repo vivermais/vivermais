@@ -1,0 +1,82 @@
+﻿<%@ Page Language="C#" AutoEventWireup="True" CodeBehind="FormBuscarMovimento.aspx.cs" Inherits="Vida.View.Farmacia.FormBuscarMovimento" MasterPageFile="~/Farmacia/MasterFarmacia.Master" %>
+
+<asp:Content ID="c_head" runat="server" ContentPlaceHolderID="head">
+</asp:Content>
+
+<asp:Content ID="c_body" runat="server" ContentPlaceHolderID="ContentPlaceHolder1">
+<div id="top">
+    <h2>Movimentos Registrados</h2>
+    <fieldset class="formulario">
+    <legend>Pesquisar Movimento</legend>
+<%--     <p>
+        <span>
+            Pressione o botão ao lado para cadastrar um novo movimento.
+            <asp:Button ID="Button_Novo" runat="server" Text="Novo Registro" PostBackUrl="~/Farmacia/FormMovimentacao.aspx"/>
+        </span>
+     </p>--%>
+    <p>
+        <span class="rotulo">Farmácia</span>
+        <span>
+            <asp:DropDownList ID="DropDownList_Farmacia" runat="server" DataTextField="Nome" DataValueField="Codigo">
+                <%--<asp:ListItem Text="Selecione..." Value="-1"></asp:ListItem>--%>
+            </asp:DropDownList>
+        </span>
+    </p>
+    <p>
+        <span class="rotulo">Tipo de Movimento</span>
+        <span>
+            <asp:DropDownList ID="DropDownList_TipoMovimento" runat="server">
+                <asp:ListItem Text="Selecione..." Value="-1"></asp:ListItem>
+            </asp:DropDownList>
+        </span>
+    </p>
+    <p>
+        <span>
+            <asp:LinkButton ID="Button_Pesquisar" runat="server"   OnClick="OnClick_PesquisarMovimento" ValidationGroup="ValidationGroup_pesquisar">
+                  <img id="imgpesquisa" alt="Pesquisar" src="img/btn/pesquisar1.png"
+                  onmouseover="imgpesquisa.src='img/btn/pesquisar1.png';"
+                  onmouseout="imgpesquisa.src='img/btn/pesquisar1.png';" /></asp:LinkButton>
+            <asp:CompareValidator ID="CompareValidator2" runat="server" ErrorMessage="Selecione uma Farmácia." ControlToValidate="DropDownList_Farmacia" Operator="GreaterThan" ValueToCompare="-1" Display="None" ValidationGroup="ValidationGroup_pesquisar"></asp:CompareValidator>
+            <asp:CompareValidator ID="CompareValidator1" runat="server" ErrorMessage="Selecione um Tipo de Movimento." ControlToValidate="DropDownList_TipoMovimento" Operator="GreaterThan" ValueToCompare="-1" Display="None" ValidationGroup="ValidationGroup_pesquisar"></asp:CompareValidator>
+            <asp:ValidationSummary ID="ValidationSummary1" runat="server" ShowMessageBox="true" ShowSummary="false" ValidationGroup="ValidationGroup_pesquisar" />
+        </span>
+    </p>
+</fieldset>
+
+<asp:UpdatePanel ID="UpdatePanel_Um" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="true">
+<Triggers>
+    <asp:AsyncPostBackTrigger ControlID="Button_Pesquisar" EventName="Click" />
+</Triggers>
+<ContentTemplate>
+<asp:Panel ID="Panel_ResultadoBusca" runat="server" Visible="false">
+    <fieldset class="formulario">
+        <legend>Resultado da Pesquisa</legend>
+        <p>
+            <span>
+                <asp:GridView ID="GridView_Movimento" runat="server" AutoGenerateColumns="false"
+                 AllowPaging="true" PageSize="20" PagerSettings-Mode="Numeric" Width="660px"
+                 OnPageIndexChanging="OnPageIndexChanging_Paginacao"
+                 OnRowCommand="OnRowCommand_VerificaAcao" DataKeyNames="Codigo">
+                    <Columns>
+                        <asp:BoundField HeaderText="Tipo do Movimento" DataField="NomeTipoMovimento" />
+                        <asp:HyperLinkField HeaderText="Data" DataTextField="Data"
+                         DataNavigateUrlFields="Codigo" DataNavigateUrlFormatString="~/Farmacia/FormMovimentacao.aspx?co_movimento={0}"
+                         DataTextFormatString="{0:dd/MM/yyyy HH:mm}" />
+                        <asp:BoundField HeaderText="Situação" DataField="SituacaoMovimento" />
+                        <asp:ButtonField ButtonType="Link" CommandName="CommandName_Imprimir" Text="Imprimir" />
+                    </Columns>
+                    <EmptyDataRowStyle HorizontalAlign="Center" />
+                    <HeaderStyle CssClass="tab" />
+                    <RowStyle CssClass="tabrow" />
+                    <EmptyDataTemplate>
+                        <asp:Label ID="lbEmpty" runat="server" Text="Nenhum registro encontrado."></asp:Label>
+                    </EmptyDataTemplate>
+                </asp:GridView>
+            </span>
+        </p>
+    </fieldset>
+</asp:Panel>
+</div>
+</ContentTemplate>
+</asp:UpdatePanel>
+</asp:Content>

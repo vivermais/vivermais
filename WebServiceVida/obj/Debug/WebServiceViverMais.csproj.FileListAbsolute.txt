@@ -1,0 +1,3 @@
+C:\Users\Lucas\vivermais\WebServiceVida\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Lucas\vivermais\WebServiceVida\obj\Debug\WebServiceVida.Properties.Resources.resources
+C:\Users\Lucas\vivermais\WebServiceVida\obj\Debug\WebServiceViverMais.csproj.GenerateResource.Cache

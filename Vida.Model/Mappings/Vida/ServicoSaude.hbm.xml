@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="ViverMais.Model">
+	<class name="ViverMais.Model.ServicoSaude" table="servico_saude" dynamic-update="true">
+		<id name="Codigo">
+			<column name="co_servico" not-null="true"/>
+			<generator class="assigned" />
+		</id>
+		<property name="Nome" column="no_servico"/>
+		<bag name="Unidades" table="rl_pms_servico_unidade" lazy="false">
+			<key column="co_servico"/>
+			<many-to-many column="CNES" class="ViverMais.Model.EstabelecimentoSaude" />
+		</bag>
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Vida.Model">
+  <class name="Vida.Model.DispensacaoVacina" table="VCN_DISPENSACAO">
+    <!--<id name="Codigo">
+      <column name="co_dispensacaovacina" not-null="true"/>
+      <generator class="assigned" />
+    </id>-->
+    <id name="Codigo">
+      <column name="co_dispensacaovacina" not-null="true"/>
+      <generator class="sequence">
+        <param name="sequence">vcn_dispensacao_sequence</param>
+      </generator>
+    </id>
+    
+    <many-to-one name="Paciente" class="Vida.Model.Paciente" column="CO_PACIENTE" fetch="join"/>
+    <!--<property name="CodigoPaciente" column="co_paciente"></property>-->
+    <property name="Data" column="data"/>
+    <many-to-one name="Usuario" class="Vida.Model.Usuario" column="CO_USUARIO" />
+    <many-to-one name="Sala" class="Vida.Model.SalaVacina" column="CO_SALAVACINA" />
+    <many-to-one name="GrupoAtendimento" class="Vida.Model.GrupoAtendimento" column="CO_GRUPO_ATENDIMENTO" />
+    <!--<many-to-one name="Estrategia" class="Vida.Model.Estrategia" column="CO_ESTRATEGIA" />-->
+    <!--
+    <joined-subclass name="Vida.Model.DispensacaoDiferencial" table="VCN_DISPENSACAODIFERENCIAL">
+      <key column="co_dispensacaovacina"/>
+      <many-to-one name="Responsavel" class="Vida.Model.ResponsavelDispensacao" column="CO_RESPONSAVEL" />
+    </joined-subclass>
+    -->
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="ViverMais.Model">
+  <class name="ViverMais.Model.ServicoSenhador" table="senhr_servico">
+    <id name="Codigo">
+      <column name="co_servico" not-null="true"/>
+      <generator class="sequence">
+        <param name="sequence">senhr_servico_sequence</param>
+      </generator>
+    </id>
+
+    <property name="Nome" column="no_servico" />
+    <!--<many-to-one name="TipoServico" class="ViverMais.Model.TipoServicoSenhador" column="co_tiposervico" />
+    
+    <bag name="Estabelecimentos" table="senhr_servico_estabelecimento" >
+      <key column="co_servico"/>
+      <many-to-many column="co_estabelecimento" class="ViverMais.Model.EstabelecimentoSaude" />
+    </bag>-->
+  </class>
+</hibernate-mapping>

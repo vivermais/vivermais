@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="ViverMais.Model">
+	<class name="ViverMais.Model.Documento" table="rl_ms_usuario_documentos">
+		<composite-id name="ControleDocumento" class="ViverMais.Model.ControleDocumento">
+			<key-many-to-one name="Paciente" class="ViverMais.Model.Paciente" column="co_usuario"/>
+			<key-many-to-one name="TipoDocumento" class="ViverMais.Model.TipoDocumento" column="co_tipo_documento"/>
+		</composite-id>
+		<many-to-one name="OrgaoEmissor" class="ViverMais.Model.OrgaoEmissor" column="co_orgao_emissor"/>
+		<property name="NomeCartorio" column="no_cartorio"/>
+		<property name="NumeroLivro" column="nu_livro"/>
+		<property name="NumeroFolha" column="nu_folha"/>
+		<property name="NumeroTermo" column="nu_termo"/>
+		<property name="DataEmissao" column="dt_emissao"/>
+		<property name="DataChegadaBrasil" column="dt_chegada_brasil"/>
+		<property name="NumeroPortaria" column="nu_portaria"/>
+		<property name="DataNaturalizacao" column="dt_naturalizacao"/>
+		<property name="Numero" column="nu_documento"/>
+		<property name="Serie" column="nu_serie"/>
+		<property name="ZonaEleitoral" column="nu_zona_eleitoral"/>
+		<property name="SecaoEleitoral" column="nu_secao_eleitoral"/>
+		<property name="Complemento" column="nu_documento_compl"/>
+		<many-to-one name="UF" class="ViverMais.Model.UF" column="sg_uf"/>
+    
+    <!--<many-to-one name="Paciente" class="ViverMais.Model.Paciente" column="co_usuario"/>-->
+	</class>
+</hibernate-mapping>

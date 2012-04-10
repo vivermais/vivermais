@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Menu>
+  <div class="menu-barra-module" style="background: url('URLPART/Senhador/img/barramenu.png' ) no-repeat;">
+    <div style="top: 8px; margin-left: 14px;">
+      <ul class="menu2" id="menu">
+        <li>
+          <a href="#" class="menulink">Cadastro</a>
+          <ul>
+            <li Permissao="MANTER_SERVICO">
+              <a href="FormServico.aspx">Novo</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</Menu>
+

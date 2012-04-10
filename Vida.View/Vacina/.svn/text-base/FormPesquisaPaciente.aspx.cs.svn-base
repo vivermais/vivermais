@@ -1,0 +1,130 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using Vida.DAO;
+using Vida.ServiceFacade.ServiceFacades;
+using Vida.Model;
+using Vida.ServiceFacade.ServiceFacades.Localidade;
+using Vida.ServiceFacade.ServiceFacades.Farmacia.Medicamento;
+using Vida.ServiceFacade.ServiceFacades.Seguranca;
+using System.Text.RegularExpressions;
+using Vida.ServiceFacade.ServiceFacades.Vacina.Misc;
+using Vida.ServiceFacade.ServiceFacades.Paciente;
+using System.Drawing;
+
+namespace Vida.View.Vacina
+{
+    public partial class FormPesquisaPaciente : PageVida
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            AsyncPostBackTrigger trigger = new AsyncPostBackTrigger();
+            trigger.EventName = "SelectedIndexChanging";
+            trigger.ControlID = this.WUCPesquisarPaciente1.GridView.UniqueID;
+            this.WUCExibirPaciente1.WUC_UpdatePanelExibirPaciente.Triggers.Add(trigger);
+            this.UpdatePanel_Acoes.Triggers.Add(trigger);
+
+            this.WUCPesquisarPaciente1.GridView.SelectedIndexChanging += new GridViewSelectEventHandler(GridView_SelectedIndexChanged);
+
+            if (!IsPostBack)
+            {
+                if (Request["tipo"].ToString().Equals("pesquisardispensacao"))
+                {
+                    if (!Factory.GetInstance<ISeguranca>().VerificarPermissao(((Usuario)Session["Usuario"]).Codigo, "PESQUISAR_DISPENSACAO", Modulo.VACINA))
+                    {
+                        Response.Redirect("FormAcessoNegado.aspx?opcao=1");
+                        //ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Usuário, você não tem permissão para acessar esta página! Por favor, entre em contato com a administração.');location='Default.aspx';", true);
+                        //return;
+                    }
+
+                    Usuario usuario = (Usuario)Session["Usuario"];
+                    IList<SalaVacina> salasvinculadas = Factory.GetInstance<ISalaVacina>().BuscarPorUsuario<SalaVacina, Usuario>(usuario, false, false);
+
+                    if (salasvinculadas.Count() == 0)
+                    {
+                        Response.Redirect("FormAcessoNegado.aspx?opcao=2");
+                        //ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Usuário, você não está vinculado a nenhuma sala de vacina desta unidade.');location='Default.aspx';", true);
+                        //return;
+                    }
+                }
+
+                this.WUCPesquisarPaciente1.WUC_BotaoPesquisar.ImageUrl = "~/Vacina/img/pesquisa-vac1.png";
+                this.WUCPesquisarPaciente1.WUC_BotaoPesquisar.Attributes.Add("onmouseover", "this.src='img/pesquisa-vac2.png';");
+                this.WUCPesquisarPaciente1.WUC_BotaoPesquisar.Attributes.Add("onmouseout", "this.src='img/pesquisa-vac1.png';");
+                this.WUCPesquisarPaciente1.WUC_ImagemBiometria.Src = "~/Vacina/img/identificacao-biometrica1.png";
+                this.WUCPesquisarPaciente1.WUC_ImagemBiometria.Attributes.Add("onmouseover", "this.src='img/identificacao-biometrica2.png';");
+                this.WUCPesquisarPaciente1.WUC_ImagemBiometria.Attributes.Add("onmouseout", "this.src='img/identificacao-biometrica1.png';");
+
+                GridView grid = this.WUCPesquisarPaciente1.GridView;
+
+                grid.HeaderStyle.BackColor = ColorTranslator.FromHtml("#dcb74a");
+                grid.HeaderStyle.ForeColor = ColorTranslator.FromHtml("#383838");
+                grid.HeaderStyle.Font.Bold = true;
+                grid.HeaderStyle.Height = Unit.Pixel(24);
+                grid.HeaderStyle.Font.Size = FontUnit.Parse("13px");
+                grid.BorderStyle = BorderStyle.None;
+                grid.RowStyle.ForeColor = ColorTranslator.FromHtml("#333333");
+                grid.RowStyle.BackColor = ColorTranslator.FromHtml("#f9e5a9");
+                grid.PagerStyle.BackColor = ColorTranslator.FromHtml("#f9e5a9");
+                grid.PagerStyle.ForeColor = ColorTranslator.FromHtml("#dcb74a");
+                grid.FooterStyle.BackColor = ColorTranslator.FromHtml("#B5C7DE");
+                grid.FooterStyle.ForeColor = ColorTranslator.FromHtml("#dcb74a");
+                grid.AlternatingRowStyle.BackColor = ColorTranslator.FromHtml("#F7F7F7");
+            }
+        }
+
+        protected void GridView_SelectedIndexChanged(object sender, GridViewSelectEventArgs e)
+        {
+            Vida.Model.Paciente paciente = WUCPesquisarPaciente1.Paciente;
+            Session["pacienteSelecionado"] = paciente;
+            WUCExibirPaciente1.Paciente = paciente;
+            //WUCExibirPaciente1.Visible = true;
+            PanelAcoes.Visible = true;
+            //this.UpdatePanel_ExibirPaciente.Update();
+            this.UpdatePanel_Acoes.Update();
+
+            if (Request["tipo"] != null)
+            {
+                if (Request["tipo"].ToString().Equals("dispensacao"))
+                    lknDispensacao.Visible = true;
+                else if (Request["tipo"].ToString().Equals("cartao"))
+                    lknCartaoVacina.Visible = true;
+                else if (Request["tipo"].ToString().Equals("pesquisardispensacao"))
+                    LinkButtonPesquisarDispensacao.Visible = true;
+            }
+        }
+
+        protected void btnDispensacao_Click(object sender, EventArgs e)
+        {
+            if (Session["pacienteSelecionado"] != null)
+                Response.Redirect("FormDispensacao.aspx");
+        }
+
+        protected void btnCartaoVacina_Click(object sender, EventArgs e)
+        {
+            if (Session["pacienteSelecionado"] != null)
+                Response.Redirect("FormCartaoVacina.aspx");
+        }
+
+        protected void OnClick_PesquisarDispensacao(object sender, EventArgs e)
+        {
+            Vida.Model.Paciente paciente = (Vida.Model.Paciente)Session["pacienteSelecionado"];
+
+            if (paciente != null)
+            {
+                Usuario usuario = (Usuario)Session["Usuario"];
+                IList<SalaVacina> salasvinculadas = Factory.GetInstance<ISalaVacina>().BuscarPorUsuario<SalaVacina, Usuario>(usuario, false, false);
+                IList<DispensacaoVacina> dispensacoespaciente = Factory.GetInstance<IDispensacao>().BuscarPorPaciente<DispensacaoVacina, SalaVacina>(paciente.Codigo, salasvinculadas);
+
+                if (dispensacoespaciente.Count > 0)
+                    //Session["dispensacoesVacinaPaciente"] = dispensacoespaciente;
+                    Response.Redirect("FormDispensacoesPaciente.aspx");
+                else
+                    ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('O paciente selecionado não possui dispensação alguma na(s) sala(s) de vacina desta unidade.');", true);
+            }
+        }
+    }
+}

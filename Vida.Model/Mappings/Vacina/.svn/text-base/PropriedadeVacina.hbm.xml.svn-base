@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Vida.Model">
+  <class name="Vida.Model.PropriedadeVacina" table="VCN_PROPRIEDADE_VACINA">
+    <id name="Codigo">
+      <column name="CO_PROPRIEDADE" not-null="true"/>
+      <generator class="assigned" />
+    </id>
+    <property name="Nome" column="NO_PROPRIEDADE" />
+  </class>
+</hibernate-mapping>

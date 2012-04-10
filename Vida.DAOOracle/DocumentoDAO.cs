@@ -1,0 +1,311 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using ViverMais.Model;
+using Oracle.DataAccess.Client;
+using System.Data;
+using ViverMais.DAL;
+
+namespace ViverMais.DAOOracle
+{
+    public class DocumentoDAO:ADAO<Documento>
+    {
+        public void Cadastrar(Documento documento)
+        {
+            GerarQueryCadastro();
+            GerarParametrosCadastro(documento);
+            DALOracle.ExecuteNonQuery(CommandType.Text, sqlText.ToString(), parametros.ToArray());
+            sqlText.Remove(0, sqlText.Length);
+            parametros.Clear();
+
+            //Chama a função para gerar log através de xml
+            new DAOLogXml().SalvarLog(documento, 1);
+        }
+
+        public void Cadastrar(Documento documento,ref OracleTransaction trans)
+        {
+            GerarQueryCadastro();
+            GerarParametrosCadastro(documento);
+            DALOracle.ExecuteNonQuery(ref trans, CommandType.Text, sqlText.ToString(), parametros.ToArray());
+            sqlText.Remove(0, sqlText.Length);
+            parametros.Clear();
+
+            //Chama a função para gerar log através de xml
+            new DAOLogXml().SalvarLog(ref trans, documento, 1);
+        }
+
+        public void Atualizar(Documento documento)
+        {
+            GerarQueryAtualizacao();
+            GerarParametrosAtualizacao(documento);
+            DALOracle.ExecuteNonQuery(CommandType.Text, sqlText.ToString(), parametros.ToArray());
+            sqlText.Remove(0, sqlText.Length);
+            parametros.Clear();
+
+            //Chama a função para gerar log através de xml
+            new DAOLogXml().SalvarLog(documento, 1);
+        }
+
+        protected override void GerarQueryCadastro()
+        {
+            sqlText.Append("insert into rl_ms_usuario_documentos ");
+            sqlText.Append("(co_orgao_emissor, no_cartorio, nu_livro, nu_folha, nu_termo, ");
+            sqlText.Append("dt_emissao, dt_chegada_brasil, nu_portaria, dt_naturalizacao, ");
+            sqlText.Append("nu_documento, nu_serie, nu_zona_eleitoral, nu_secao_eleitoral, ");
+            sqlText.Append("sg_uf , nu_documento_compl, co_usuario, co_tipo_documento) ");
+            sqlText.Append("values ");
+            sqlText.Append("(:CodigoOrgaoEmissor, :Cartorio, :Livro, :Folha, :Termo, ");
+            sqlText.Append(":DataEmissao, :DataChegadaBrasil, :Portaria, :DataNaturalizacao, ");
+            sqlText.Append(":NumeroDocumento, :Serie, :Zona, :Secao, ");
+            sqlText.Append(":UF, :Complemento, :CodigoUsuario, :TipoDocumento) ");
+        }
+
+        protected override void GerarParametrosCadastro(Documento objeto)
+        {
+            parametros.Add(new OracleParameter("CodigoOrgaoEmissor", OracleDbType.Varchar2));
+            parametros.Add(new OracleParameter("Cartorio", OracleDbType.Varchar2));
+            parametros.Add(new OracleParameter("Livro", OracleDbType.Varchar2));
+            parametros.Add(new OracleParameter("Folha", OracleDbType.Varchar2));
+            parametros.Add(new OracleParameter("Termo", OracleDbType.Varchar2));
+            parametros.Add(new OracleParameter("DataEmissao", OracleDbType.Date));
+            parametros.Add(new OracleParameter("DataChegadaBrasil", OracleDbType.Date));
+            parametros.Add(new OracleParameter("Portaria", OracleDbType.Varchar2));
+            parametros.Add(new OracleParameter("DataNaturalizacao", OracleDbType.Date));
+            parametros.Add(new OracleParameter("NumeroDocumento", OracleDbType.Varchar2));
+            parametros.Add(new OracleParameter("Serie", OracleDbType.Varchar2));
+            parametros.Add(new OracleParameter("Zona", OracleDbType.Varchar2));
+            parametros.Add(new OracleParameter("Secao", OracleDbType.Varchar2));
+            parametros.Add(new OracleParameter("UF", OracleDbType.Varchar2));
+            parametros.Add(new OracleParameter("Complemento", OracleDbType.Varchar2));
+            parametros.Add(new OracleParameter("CodigoUsuario", OracleDbType.Varchar2));
+            parametros.Add(new OracleParameter("TipoDocumento", OracleDbType.Varchar2));
+
+
+            if(objeto.OrgaoEmissor != null)
+                parametros[0].Value = objeto.OrgaoEmissor.Codigo;
+            parametros[1].Value = objeto.NomeCartorio;
+            parametros[2].Value = objeto.NumeroLivro;
+            parametros[3].Value = objeto.NumeroFolha;
+            parametros[4].Value = objeto.NumeroTermo;
+            if (objeto.DataEmissao.HasValue)
+                parametros[5].Value = objeto.DataEmissao.Value.ToString("dd/MM/yyyy");
+            else
+                parametros[5].Value = DBNull.Value;
+            if (objeto.DataChegadaBrasil.HasValue)
+                parametros[6].Value = objeto.DataChegadaBrasil.Value.ToString("dd/MM/yyyy");
+            else
+                parametros[6].Value = DBNull.Value;
+            parametros[7].Value = objeto.NumeroPortaria;
+            if (objeto.DataNaturalizacao.HasValue)
+                parametros[8].Value = objeto.DataNaturalizacao.Value.ToString("dd/MM/yyyy");
+            else
+                parametros[8].Value = DBNull.Value;
+
+            parametros[9].Value = objeto.Numero;
+            parametros[10].Value = objeto.Serie;
+            parametros[11].Value = objeto.ZonaEleitoral;
+            parametros[12].Value = objeto.SecaoEleitoral;
+            if (objeto.UF != null)
+                parametros[13].Value = objeto.UF.Sigla;
+            else
+                parametros[13].Value = DBNull.Value;
+            parametros[14].Value = objeto.Complemento;
+            parametros[15].Value = objeto.ControleDocumento.Paciente.Codigo;
+            parametros[16].Value = objeto.ControleDocumento.TipoDocumento.Codigo;
+        }
+
+        protected override void GerarQueryAtualizacao()
+        {
+            sqlText.Append("update rl_ms_usuario_documentos set ");
+            sqlText.Append("co_orgao_emissor = :CodigoOrgaoEmissor, ");
+            sqlText.Append("no_cartorio = :Cartorio, ");
+            sqlText.Append("nu_livro = :Livro, ");
+            sqlText.Append("nu_folha = :Folha, ");
+            sqlText.Append("nu_termo = :Termo, ");
+            sqlText.Append("dt_emissao = :DataEmissao, ");
+            sqlText.Append("dt_chegada_brasil = :DataChegadaBrasil, ");
+            sqlText.Append("nu_portaria = :Portaria, ");
+            sqlText.Append("dt_naturalizacao = :DataNaturalizacao, ");
+            sqlText.Append("nu_documento = :NumeroDocumento, ");
+            sqlText.Append("nu_serie = :Serie, ");
+            sqlText.Append("nu_zona_eleitoral = :Zona, ");
+            sqlText.Append("nu_secao_eleitoral = :Secao, ");
+            sqlText.Append("sg_uf = :UF, ");
+            sqlText.Append("nu_documento_compl = :Complemento ");
+            sqlText.Append("where ");
+            sqlText.Append("co_usuario = :CodigoUsuario ");
+            sqlText.Append("and co_tipo_documento = :TipoDocumento ");  
+        }
+
+        protected override void GerarParametrosAtualizacao(Documento objeto)
+        {
+            GerarParametrosCadastro(objeto);
+        }
+
+        protected override void GerarQueryRemocao()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void GerarQueryBuscarID()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void GerarQueryPesquisaPorCodigo()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void MontarObjeto(OracleDataReader dataReader, Documento objeto)
+        {
+            if (objeto.ControleDocumento == null)
+            {
+                objeto.ControleDocumento = new ControleDocumento();
+                objeto.ControleDocumento.Paciente = new Paciente();
+                objeto.ControleDocumento.Paciente.Codigo = Convert.ToString(dataReader["co_usuario"]);
+                objeto.ControleDocumento.TipoDocumento = new TipoDocumento();
+                objeto.ControleDocumento.TipoDocumento.Codigo = Convert.ToString(dataReader["co_tipo_documento"]);
+            }
+
+            objeto.OrgaoEmissor = new OrgaoEmissor();
+            objeto.OrgaoEmissor.Codigo = Convert.ToString(dataReader["co_orgao_emissor"]);
+            objeto.NomeCartorio = Convert.ToString(dataReader["no_cartorio"]);
+            objeto.NumeroLivro = Convert.ToString(dataReader["nu_livro"]);
+            objeto.NumeroFolha = Convert.ToString(dataReader["nu_folha"]);
+            objeto.NumeroTermo = Convert.ToString(dataReader["nu_termo"]);
+            try
+            {
+                objeto.DataEmissao = Convert.ToDateTime(dataReader["dt_emissao"]);
+            }
+            catch (InvalidCastException)
+            {
+                objeto.DataEmissao = null;
+            }
+            try
+            {
+                objeto.DataChegadaBrasil = Convert.ToDateTime(dataReader["dt_chegada_brasil"]);
+            }
+            catch (InvalidCastException)
+            {
+                objeto.DataChegadaBrasil = null;
+            }
+            objeto.NumeroPortaria = Convert.ToString(dataReader["nu_portaria"]);
+            try
+            {
+                objeto.DataNaturalizacao = Convert.ToDateTime(dataReader["dt_naturalizacao"]);
+            }
+            catch (InvalidCastException)
+            {
+                objeto.DataNaturalizacao = null;
+            }
+            objeto.Numero = Convert.ToString(dataReader["nu_documento"]);
+            objeto.Serie = Convert.ToString(dataReader["nu_serie"]);
+            objeto.ZonaEleitoral = Convert.ToString(dataReader["nu_zona_eleitoral"]);
+            objeto.SecaoEleitoral = Convert.ToString(dataReader["nu_secao_eleitoral"]);
+            objeto.Complemento = Convert.ToString(dataReader["nu_documento_compl"]);
+            objeto.UF = new UF();
+            objeto.UF.Sigla = Convert.ToString(dataReader["sg_uf"]);
+        }
+
+        public Documento PesquisarPorControle(ControleDocumento controle)
+        {
+            sqlText.Append("select * from rl_ms_usuario_documentos ");
+            sqlText.Append("where co_usuario = :CodigoUsuario and co_tipo_documento = :TipoDocumento ");
+
+            parametros.Add(new OracleParameter("CodigoUsuario", OracleDbType.Varchar2));
+            parametros.Add(new OracleParameter("TipoDocumento",OracleDbType.Varchar2));
+
+            parametros[0].Value = controle.Paciente.Codigo;
+            parametros[1].Value = controle.TipoDocumento.Codigo;
+
+            DataSet dataReader = DALOracle.ExecuteReaderDs(CommandType.Text, sqlText.ToString(), parametros.ToArray());
+            sqlText.Remove(0, sqlText.Length);
+            parametros.Clear();
+            Documento documento = new Documento();
+
+            if (dataReader!=null)
+            {
+                if (dataReader.Tables[0].Rows.Count == 1)
+                {
+                    documento.ControleDocumento = controle;
+                    MontarObjeto(dataReader.Tables[0].Rows[0], documento);
+                }
+            }
+
+            return documento;
+        }
+
+        protected override void SetarCodigoObjeto(OracleDataReader dataReader, Documento objeto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void GeraParametrosPesquisaPorCodigo(Documento objeto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void GerarQueryPesquisaTodos()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void MontarObjeto(DataRow drc, Documento objeto)
+        {
+            if (objeto.ControleDocumento == null)
+            {
+                objeto.ControleDocumento = new ControleDocumento();
+                objeto.ControleDocumento.Paciente = new Paciente();
+                objeto.ControleDocumento.Paciente.Codigo = Convert.ToString(drc["co_usuario"]);
+                objeto.ControleDocumento.TipoDocumento = new TipoDocumento();
+                objeto.ControleDocumento.TipoDocumento.Codigo = Convert.ToString(drc["co_tipo_documento"]);
+            }
+
+            objeto.OrgaoEmissor = new OrgaoEmissor();
+            objeto.OrgaoEmissor.Codigo = Convert.ToString(drc["co_orgao_emissor"]);
+            objeto.NomeCartorio = Convert.ToString(drc["no_cartorio"]);
+            objeto.NumeroLivro = Convert.ToString(drc["nu_livro"]);
+            objeto.NumeroFolha = Convert.ToString(drc["nu_folha"]);
+            objeto.NumeroTermo = Convert.ToString(drc["nu_termo"]);
+            try
+            {
+                objeto.DataEmissao = Convert.ToDateTime(drc["dt_emissao"]);
+            }
+            catch (InvalidCastException)
+            {
+                objeto.DataEmissao = null;
+            }
+            try
+            {
+                objeto.DataChegadaBrasil = Convert.ToDateTime(drc["dt_chegada_brasil"]);
+            }
+            catch (InvalidCastException)
+            {
+                objeto.DataChegadaBrasil = null;
+            }
+            objeto.NumeroPortaria = Convert.ToString(drc["nu_portaria"]);
+            try
+            {
+                objeto.DataNaturalizacao = Convert.ToDateTime(drc["dt_naturalizacao"]);
+            }
+            catch (InvalidCastException)
+            {
+                objeto.DataNaturalizacao = null;
+            }
+            objeto.Numero = Convert.ToString(drc["nu_documento"]);
+            objeto.Serie = Convert.ToString(drc["nu_serie"]);
+            objeto.ZonaEleitoral = Convert.ToString(drc["nu_zona_eleitoral"]);
+            objeto.SecaoEleitoral = Convert.ToString(drc["nu_secao_eleitoral"]);
+            objeto.Complemento = Convert.ToString(drc["nu_documento_compl"]);
+            objeto.UF = new UF();
+            objeto.UF.Sigla = Convert.ToString(drc["sg_uf"]);
+        }
+
+        protected override void SetarCodigoObjeto(DataRow dataRow, Documento objeto)
+        {
+            throw new NotImplementedException();
+        }
+    }
+}

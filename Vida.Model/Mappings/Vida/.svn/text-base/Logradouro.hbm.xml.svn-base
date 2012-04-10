@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Vida.Model">
+	<class name="Vida.Model.Logradouro" table="tb_pms_logradouro">
+		<id name="CEP">
+			<column name="cep" not-null="true"/>
+			<generator class="assigned" />
+		</id>
+		<property name="Tipo" column="tipo" />
+		<property name="Preposicao" column="preposicao" />
+		<property name="Titulo" column="titulo" />
+		<property name="NomeLogradouro" column="logradouro" />
+		<property name="InformacaoAdicional" column="informacao_adicional" />
+		<property name="Bairro" column="bairro" />
+		<property name="Cidade" column="cidade" />
+	</class>
+</hibernate-mapping>

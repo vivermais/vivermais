@@ -1,0 +1,127 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Vida.ServiceFacade.ServiceFacades.Vacina.Movimentacao;
+using Vida.Model;
+using Vida.ServiceFacade.ServiceFacades.Vacina.Misc;
+
+namespace Vida.DAO.Vacina.Movimentacao
+{
+    public class EstoqueVacinaDAO: VacinaServiceFacadeDAO, IEstoqueVacina
+    {
+        IList<T> IEstoqueVacina.BuscarPorSalaVacina<T>(int co_salavacina)
+        {
+            string hql = string.Empty;
+            hql = "FROM Vida.Model.EstoqueVacina AS e WHERE e.Sala.Codigo = " + co_salavacina;
+            return Session.CreateQuery(hql).List<T>();
+        }
+
+        IList<T> IEstoqueVacina.BuscarPorSalaVacinaValidadeLoteSuperior<T>(int co_salavacina, DateTime aberturainventario)
+        {
+            string hql = string.Empty;
+            hql = "FROM Vida.Model.EstoqueVacina AS e WHERE e.Sala.Codigo = " + co_salavacina;
+            hql += " AND e.Lote.DataValidade >= DATE '" + aberturainventario.ToString("yyyy-MM-dd") + "'";
+            return Session.CreateQuery(hql).List<T>();
+        }
+
+        void IEstoqueVacina.SalvarMovimentacao<M, I>(M _movimento, IList<I> _itens, int co_usuario)
+        {
+            using (Session.BeginTransaction())
+            {
+                try
+                {
+                    long numeromovimentacao = Session.CreateQuery("SELECT MAX(m.Numero) FROM Vida.Model.MovimentoVacina m").UniqueResult<long>();
+                    string mes = DateTime.Today.Month.ToString("00");
+                    string ano = DateTime.Today.Year.ToString().Substring(2, 2);
+
+                    if (numeromovimentacao.ToString().Length >= 4 &&
+                        numeromovimentacao.ToString().Substring(0, 2) == ano &&
+                        numeromovimentacao.ToString().Substring(2, 2) == mes)
+                        numeromovimentacao += 1;
+                    else
+                        numeromovimentacao = long.Parse(ano + mes + "00001");
+
+                    RemanejamentoVacina remanejamento = new RemanejamentoVacina();
+                    MovimentoVacina movimento = (MovimentoVacina)(object)_movimento;
+                    IList<ItemMovimentoVacina> itens = (IList<ItemMovimentoVacina>)(object)_itens;
+                    IEstoque iEstoque = Factory.GetInstance<IEstoque>();
+
+                    if (movimento.TipoMovimento.Codigo == TipoMovimentoVacina.REMANEJAMENTO)
+                        movimento.Status = MovimentoVacina.ABERTO;
+                    else
+                        movimento.Status = MovimentoVacina.FECHADO;
+
+                    movimento.Numero = numeromovimentacao;
+                    Session.Save(movimento);
+                    Session.Save(new LogVacina(DateTime.Now, co_usuario, 27, "id movimentação: " + movimento.Codigo));
+
+                    if (movimento.TipoMovimento.Codigo == TipoMovimentoVacina.REMANEJAMENTO)
+                    {
+                        remanejamento.Data = DateTime.Now;
+                        remanejamento.Movimento = movimento;
+                        remanejamento.Status = RemanejamentoVacina.ABERTO;
+                        Session.Save(remanejamento);
+                        Session.Save(new LogVacina(DateTime.Now, co_usuario, 28, "id remanejamento: " + remanejamento.Codigo));
+                    }
+
+                    foreach (ItemMovimentoVacina _item in itens)
+                    {
+                        ItemMovimentoVacina item = _item;
+                        item.Movimento = movimento;
+                        item = (ItemMovimentoVacina)Session.SaveOrUpdateCopy(item);
+
+                        EstoqueVacina estoque = iEstoque.BuscarItemEstoque<EstoqueVacina>(item.Lote.Codigo, movimento.Sala.Codigo);
+
+                        if (movimento.Operacao.Codigo == OperacaoMovimentoVacina.SAIDA)
+                        {
+                            estoque.QuantidadeEstoque -= item.Quantidade;
+                            Session.Update(estoque);
+                        }
+                        else if (movimento.Operacao.Codigo == OperacaoMovimentoVacina.ENTRADA)
+                        {
+                            if (estoque == null)
+                            {
+                                estoque = new EstoqueVacina();
+                                estoque.Lote = item.Lote;
+                                estoque.Sala = movimento.Sala;
+                                estoque.QuantidadeEstoque = 0;
+                            }
+
+                            estoque.QuantidadeEstoque += item.Quantidade;
+                            Session.SaveOrUpdate(estoque);
+                        }
+
+                        if (movimento.TipoMovimento.Codigo == TipoMovimentoVacina.REMANEJAMENTO)
+                        {
+                            ItemRemanejamentoVacina itemremanejamento = new ItemRemanejamentoVacina();
+                            itemremanejamento.Lote = item.Lote;
+                            itemremanejamento.QuantidadeRegistrada = item.Quantidade;
+                            itemremanejamento.Remanejamento = remanejamento;
+                            itemremanejamento.QuantidadeConfirmada = 0;
+
+                            Session.Save(itemremanejamento);
+                        }
+                    }
+
+                    Session.Transaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    Session.Transaction.Rollback();
+                    throw ex;
+                }
+            }
+        }
+
+        int IEstoqueVacina.QuantidadeDisponivelEstoque(long co_lote, int co_sala)
+        {
+            string hql = string.Empty;
+            hql = "FROM Vida.Model.EstoqueVacina AS e WHERE e.Sala.Codigo = " + co_sala;
+            hql += " AND e.Lote.Codigo = " + co_lote;
+            EstoqueVacina estoque = Session.CreateQuery(hql).UniqueResult<EstoqueVacina>();
+
+            return estoque != null ? estoque.QuantidadeEstoque : 0;
+        }
+    }
+}

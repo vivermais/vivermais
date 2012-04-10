@@ -1,0 +1,12 @@
+﻿using System;
+using System.Linq;
+using System.Text;
+using System.Collections.Generic;
+
+namespace Vida.ServiceFacade.ServiceFacades.AtendimentoMedico.Urgencia
+{
+    public interface IEvolucaoEnfermagem : IServiceFacade
+    {
+        IList<T> BuscarPorProntuario<T>(long co_prontuario);
+    }
+}

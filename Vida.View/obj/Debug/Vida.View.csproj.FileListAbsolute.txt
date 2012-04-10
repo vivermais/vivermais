@@ -1,0 +1,508 @@
+L:\Sistemas\Vida\Vida.View\obj\Debug\ResolveAssemblyReference.cache
+L:\Sistemas\Vida\Vida.View\obj\Debug\Vida.View.Properties.Resources.resources
+L:\Sistemas\Vida\Vida.View\obj\Debug\Vida.View.csproj.GenerateResource.Cache
+L:\Sistemas\Vida\Vida.View\obj\Debug\Vida.View.dll.licenses
+L:\Sistemas\Vida\Vida.View\bin\lib\Oracle.DataAccess.dll
+L:\Sistemas\Vida\Vida.View\bin\Agendamento\RelatoriosCrystal\CrystalReportViewer_AgendaPrestador.rpt
+L:\Sistemas\Vida\Vida.View\bin\Agendamento\RelatoriosCrystal\CrystalReportViewer_CabecalhoAgendaPrestador.rpt
+L:\Sistemas\Vida\Vida.View\bin\Agendamento\RelatoriosCrystal\CrystalReportViewer_CabecalhoListaSolicitacoesAgenda.rpt
+L:\Sistemas\Vida\Vida.View\bin\Agendamento\RelatoriosCrystal\CrystalReportViewer_ExportaBPA.rpt
+L:\Sistemas\Vida\Vida.View\bin\Agendamento\RelatoriosCrystal\CrystalReportViewer_ListaProcura.rpt
+L:\Sistemas\Vida\Vida.View\bin\Agendamento\RelatoriosCrystal\CrystalReportViewer_ListaSolicitacoesAgenda.rpt
+L:\Sistemas\Vida\Vida.View\bin\Agendamento\RelatoriosCrystal\DSCabecalhoAgendaPrestador.xsd
+L:\Sistemas\Vida\Vida.View\bin\Agendamento\RelatoriosCrystal\DSCabecalhoListaSolicitacoesAgenda.xsd
+L:\Sistemas\Vida\Vida.View\bin\Agendamento\RelatoriosCrystal\DSRelatorioAgendaPrestador.xsd
+L:\Sistemas\Vida\Vida.View\bin\Agendamento\RelatoriosCrystal\DSRelatorioExportaBPA.xsd
+L:\Sistemas\Vida\Vida.View\bin\Agendamento\RelatoriosCrystal\DSRelatorioListaProcura.xsd
+L:\Sistemas\Vida\Vida.View\bin\Agendamento\RelatoriosCrystal\DSRelatorioListaSolicitacoesAgenda.xsd
+L:\Sistemas\Vida\Vida.View\bin\Agendamento\RelatoriosCrystal\CrystalReportViewer_AgendaPrestador.cs
+L:\Sistemas\Vida\Vida.View\bin\Agendamento\RelatoriosCrystal\CrystalReportViewer_CabecalhoAgendaPrestador1.cs
+L:\Sistemas\Vida\Vida.View\bin\Agendamento\RelatoriosCrystal\CrystalReportViewer_CabecalhoListaSolicitacoesAgenda.cs
+L:\Sistemas\Vida\Vida.View\bin\Agendamento\RelatoriosCrystal\CrystalReportViewer_ExportaBPA.cs
+L:\Sistemas\Vida\Vida.View\bin\Agendamento\RelatoriosCrystal\CrystalReportViewer_ListaProcura.cs
+L:\Sistemas\Vida\Vida.View\bin\Agendamento\RelatoriosCrystal\CrystalReportViewer_ListaSolicitacoesAgenda.cs
+L:\Sistemas\Vida\Vida.View\bin\Agendamento\RelatoriosCrystal\DSCabecalhoAgendaPrestador.Designer.cs
+L:\Sistemas\Vida\Vida.View\bin\Agendamento\RelatoriosCrystal\DSCabecalhoListaSolicitacoesAgenda.cs
+L:\Sistemas\Vida\Vida.View\bin\Agendamento\RelatoriosCrystal\DSCabecalhoListaSolicitacoesAgenda.Designer.cs
+L:\Sistemas\Vida\Vida.View\bin\Agendamento\RelatoriosCrystal\DSRelatorioAgendaPrestador.Designer.cs
+L:\Sistemas\Vida\Vida.View\bin\Agendamento\RelatoriosCrystal\DSRelatorioExportaBPA.Designer.cs
+L:\Sistemas\Vida\Vida.View\bin\Agendamento\RelatoriosCrystal\DSRelatorioListaProcura.Designer.cs
+L:\Sistemas\Vida\Vida.View\bin\Agendamento\RelatoriosCrystal\DSRelatorioListaSolicitacoesAgenda.Designer.cs
+L:\Sistemas\Vida\Vida.View\bin\Agendamento\RelatoriosCrystal\DSCabecalhoAgendaPrestador.xsc
+L:\Sistemas\Vida\Vida.View\bin\Agendamento\RelatoriosCrystal\DSCabecalhoAgendaPrestador.xss
+L:\Sistemas\Vida\Vida.View\bin\Agendamento\RelatoriosCrystal\DSCabecalhoListaSolicitacoesAgenda.xsc
+L:\Sistemas\Vida\Vida.View\bin\Agendamento\RelatoriosCrystal\DSCabecalhoListaSolicitacoesAgenda.xss
+L:\Sistemas\Vida\Vida.View\bin\Agendamento\RelatoriosCrystal\DSRelatorioAgendaPrestador.xsc
+L:\Sistemas\Vida\Vida.View\bin\Agendamento\RelatoriosCrystal\DSRelatorioAgendaPrestador.xss
+L:\Sistemas\Vida\Vida.View\bin\Agendamento\RelatoriosCrystal\DSRelatorioExportaBPA.xsc
+L:\Sistemas\Vida\Vida.View\bin\Agendamento\RelatoriosCrystal\DSRelatorioExportaBPA.xss
+L:\Sistemas\Vida\Vida.View\bin\Agendamento\RelatoriosCrystal\DSRelatorioListaProcura.xsc
+L:\Sistemas\Vida\Vida.View\bin\Agendamento\RelatoriosCrystal\DSRelatorioListaProcura.xss
+L:\Sistemas\Vida\Vida.View\bin\Agendamento\RelatoriosCrystal\DSRelatorioListaSolicitacoesAgenda.xsc
+L:\Sistemas\Vida\Vida.View\bin\Agendamento\RelatoriosCrystal\DSRelatorioListaSolicitacoesAgenda.xss
+L:\Sistemas\Vida\Vida.View\bin\Vida.View.dll
+L:\Sistemas\Vida\Vida.View\bin\Ionic.Zip.dll
+L:\Sistemas\Vida\Vida.View\bin\Vida.BLL.dll
+L:\Sistemas\Vida\Vida.View\bin\Vida.DAO.dll
+L:\Sistemas\Vida\Vida.View\bin\Vida.Model.dll
+L:\Sistemas\Vida\Vida.View\bin\Vida.ServiceFacade.dll
+L:\Sistemas\Vida\Vida.View\bin\ICSharpCode.SharpZipLib.dll
+L:\Sistemas\Vida\Vida.View\bin\NPOI.DDF.dll
+L:\Sistemas\Vida\Vida.View\bin\Vida.DAL.dll
+L:\Sistemas\Vida\Vida.View\bin\Vida.DAOOracle.dll
+L:\Sistemas\Vida\Vida.View\bin\NPOI.POIFS.dll
+L:\Sistemas\Vida\Vida.View\bin\NPOI.dll
+L:\Sistemas\Vida\Vida.View\bin\NPOI.HSSF.dll
+L:\Sistemas\Vida\Vida.View\bin\NPOI.Util.dll
+L:\Sistemas\Vida\Vida.View\bin\NPOI.HPSF.dll
+L:\Sistemas\Vida\Vida.View\bin\NPOI.DDF.xml
+L:\Sistemas\Vida\Vida.View\bin\Vida.BLL.pdb
+L:\Sistemas\Vida\Vida.View\bin\Vida.DAO.pdb
+L:\Sistemas\Vida\Vida.View\bin\Vida.DAL.pdb
+L:\Sistemas\Vida\Vida.View\bin\Vida.DAOOracle.pdb
+L:\Sistemas\Vida\Vida.View\bin\NPOI.POIFS.xml
+L:\Sistemas\Vida\Vida.View\bin\NPOI.xml
+L:\Sistemas\Vida\Vida.View\bin\NPOI.HSSF.xml
+L:\Sistemas\Vida\Vida.View\bin\Vida.ServiceFacade.pdb
+L:\Sistemas\Vida\Vida.View\bin\Vida.Model.pdb
+L:\Sistemas\Vida\Vida.View\bin\NPOI.Util.xml
+L:\Sistemas\Vida\Vida.View\bin\NPOI.HPSF.xml
+L:\Sistemas\Vida\Vida.View\obj\Debug\Vida.View.dll
+L:\Sistemas\Vida\Vida.View\bin\AtendimentoMedico\Relatorios\RelAcolhimentoProntuario.rpt
+L:\Sistemas\Vida\Vida.View\bin\AtendimentoMedico\Relatorios\RelAtendimentoCID.rpt
+L:\Sistemas\Vida\Vida.View\bin\AtendimentoMedico\Relatorios\RelAtendimentoFaixa.rpt
+L:\Sistemas\Vida\Vida.View\bin\AtendimentoMedico\Relatorios\RelCabecalho.rpt
+L:\Sistemas\Vida\Vida.View\bin\AtendimentoMedico\Relatorios\RelCabecalhoAtendimentoCID.rpt
+L:\Sistemas\Vida\Vida.View\bin\AtendimentoMedico\Relatorios\RelCabecalhoAtendimentoFaixa.rpt
+L:\Sistemas\Vida\Vida.View\bin\AtendimentoMedico\Relatorios\RelcabecalhoEvasao.rpt
+L:\Sistemas\Vida\Vida.View\bin\AtendimentoMedico\Relatorios\RelCabecalhoLeitosFaixa.rpt
+L:\Sistemas\Vida\Vida.View\bin\AtendimentoMedico\Relatorios\RelCabecalhoSituacao.rpt
+L:\Sistemas\Vida\Vida.View\bin\AtendimentoMedico\Relatorios\RelCids.rpt
+L:\Sistemas\Vida\Vida.View\bin\AtendimentoMedico\Relatorios\RelClassificacoesRisco.rpt
+L:\Sistemas\Vida\Vida.View\bin\AtendimentoMedico\Relatorios\RelConsultaMedicaProntuario.rpt
+L:\Sistemas\Vida\Vida.View\bin\AtendimentoMedico\Relatorios\RelConsultaMedicaRelatorioGeral.rpt
+L:\Sistemas\Vida\Vida.View\bin\AtendimentoMedico\Relatorios\RelEvasao.rpt
+L:\Sistemas\Vida\Vida.View\bin\AtendimentoMedico\Relatorios\RelEvolucaoMedicaRelatorioGeral.rpt
+L:\Sistemas\Vida\Vida.View\bin\AtendimentoMedico\Relatorios\RelEvolucoesEnfermagem.rpt
+L:\Sistemas\Vida\Vida.View\bin\AtendimentoMedico\Relatorios\RelEvolucoesMedica.rpt
+L:\Sistemas\Vida\Vida.View\bin\AtendimentoMedico\Relatorios\RelExamesProntuario.rpt
+L:\Sistemas\Vida\Vida.View\bin\AtendimentoMedico\Relatorios\RelFichaAtendimentoProntuario.rpt
+L:\Sistemas\Vida\Vida.View\bin\AtendimentoMedico\Relatorios\RelItensAprazadosPrescricao.rpt
+L:\Sistemas\Vida\Vida.View\bin\AtendimentoMedico\Relatorios\RelLeitosFaixa.rpt
+L:\Sistemas\Vida\Vida.View\bin\AtendimentoMedico\Relatorios\RelMedicamentosAprazados.rpt
+L:\Sistemas\Vida\Vida.View\bin\AtendimentoMedico\Relatorios\RelPrescricaoMedicamento.rpt
+L:\Sistemas\Vida\Vida.View\bin\AtendimentoMedico\Relatorios\RelPrescricaoProcedimento.rpt
+L:\Sistemas\Vida\Vida.View\bin\AtendimentoMedico\Relatorios\RelPrescricaoProcedimentoNaoFaturavel.rpt
+L:\Sistemas\Vida\Vida.View\bin\AtendimentoMedico\Relatorios\RelPrescricoesProntuario.rpt
+L:\Sistemas\Vida\Vida.View\bin\AtendimentoMedico\Relatorios\RelProcedenciaCID.rpt
+L:\Sistemas\Vida\Vida.View\bin\AtendimentoMedico\Relatorios\RelProcedimentosFPO.rpt
+L:\Sistemas\Vida\Vida.View\bin\AtendimentoMedico\Relatorios\RelRelatorioGeralProntuario.rpt
+L:\Sistemas\Vida\Vida.View\bin\AtendimentoMedico\Relatorios\RelResponsaveisAprazamento.rpt
+L:\Sistemas\Vida\Vida.View\bin\AtendimentoMedico\Relatorios\RelSituacao.rpt
+L:\Sistemas\Vida\Vida.View\bin\AtendimentoMedico\Relatorios\RelSubProcedenciaCID.rpt
+L:\Sistemas\Vida\Vida.View\bin\AtendimentoMedico\Relatorios\RelSubProcedimentosFPO.rpt
+L:\Sistemas\Vida\Vida.View\bin\AtendimentoMedico\Relatorios\RelSubProcedimentosNaoFaturaveisFPO.rpt
+L:\Sistemas\Vida\Vida.View\bin\AtendimentoMedico\Relatorios\RelSubTempoPermanencia.rpt
+L:\Sistemas\Vida\Vida.View\bin\AtendimentoMedico\Relatorios\RelTabelaAprazados.rpt
+L:\Sistemas\Vida\Vida.View\bin\AtendimentoMedico\Relatorios\RelTempoPermanencia.rpt
+L:\Sistemas\Vida\Vida.View\bin\AtendimentoMedico\Relatorios\RelAcolhimentoProntuario1.cs
+L:\Sistemas\Vida\Vida.View\bin\AtendimentoMedico\Relatorios\RelAtendimentoCID1.cs
+L:\Sistemas\Vida\Vida.View\bin\AtendimentoMedico\Relatorios\RelAtendimentoFaixa1.cs
+L:\Sistemas\Vida\Vida.View\bin\AtendimentoMedico\Relatorios\RelCabecalho1.cs
+L:\Sistemas\Vida\Vida.View\bin\AtendimentoMedico\Relatorios\RelCabecalhoAtendimentoCID1.cs
+L:\Sistemas\Vida\Vida.View\bin\AtendimentoMedico\Relatorios\RelCabecalhoAtendimentoFaixa1.cs
+L:\Sistemas\Vida\Vida.View\bin\AtendimentoMedico\Relatorios\RelcabecalhoEvasao1.cs
+L:\Sistemas\Vida\Vida.View\bin\AtendimentoMedico\Relatorios\RelCabecalhoLeitosFaixa1.cs
+L:\Sistemas\Vida\Vida.View\bin\AtendimentoMedico\Relatorios\RelCabecalhoSituacao1.cs
+L:\Sistemas\Vida\Vida.View\bin\AtendimentoMedico\Relatorios\RelCids1.cs
+L:\Sistemas\Vida\Vida.View\bin\AtendimentoMedico\Relatorios\RelClassificacoesRisco1.cs
+L:\Sistemas\Vida\Vida.View\bin\AtendimentoMedico\Relatorios\RelConsultaMedicaProntuario1.cs
+L:\Sistemas\Vida\Vida.View\bin\AtendimentoMedico\Relatorios\RelConsultaMedicaRelatorioGeral1.cs
+L:\Sistemas\Vida\Vida.View\bin\AtendimentoMedico\Relatorios\RelEvasao1.cs
+L:\Sistemas\Vida\Vida.View\bin\AtendimentoMedico\Relatorios\RelEvolucaoMedicaRelatorioGeral1.cs
+L:\Sistemas\Vida\Vida.View\bin\AtendimentoMedico\Relatorios\RelEvolucoesEnfermagem1.cs
+L:\Sistemas\Vida\Vida.View\bin\AtendimentoMedico\Relatorios\RelEvolucoesMedica1.cs
+L:\Sistemas\Vida\Vida.View\bin\AtendimentoMedico\Relatorios\RelExamesProntuario1.cs
+L:\Sistemas\Vida\Vida.View\bin\AtendimentoMedico\Relatorios\RelFichaAtendimentoProntuario1.cs
+L:\Sistemas\Vida\Vida.View\bin\AtendimentoMedico\Relatorios\RelItensAprazadosPrescricao1.cs
+L:\Sistemas\Vida\Vida.View\bin\AtendimentoMedico\Relatorios\RelLeitosFaixa1.cs
+L:\Sistemas\Vida\Vida.View\bin\AtendimentoMedico\Relatorios\RelMedicamentosAprazados1.cs
+L:\Sistemas\Vida\Vida.View\bin\AtendimentoMedico\Relatorios\RelPrescricaoMedicamento1.cs
+L:\Sistemas\Vida\Vida.View\bin\AtendimentoMedico\Relatorios\RelPrescricaoProcedimento1.cs
+L:\Sistemas\Vida\Vida.View\bin\AtendimentoMedico\Relatorios\RelPrescricaoProcedimentoNaoFaturavel1.cs
+L:\Sistemas\Vida\Vida.View\bin\AtendimentoMedico\Relatorios\RelPrescricoesProntuario1.cs
+L:\Sistemas\Vida\Vida.View\bin\AtendimentoMedico\Relatorios\RelProcedenciaCID1.cs
+L:\Sistemas\Vida\Vida.View\bin\AtendimentoMedico\Relatorios\RelProcedimentosFPO1.cs
+L:\Sistemas\Vida\Vida.View\bin\AtendimentoMedico\Relatorios\RelRelatorioGeralProntuario1.cs
+L:\Sistemas\Vida\Vida.View\bin\AtendimentoMedico\Relatorios\RelResponsaveisAprazamento1.cs
+L:\Sistemas\Vida\Vida.View\bin\AtendimentoMedico\Relatorios\RelSituacao1.cs
+L:\Sistemas\Vida\Vida.View\bin\AtendimentoMedico\Relatorios\RelSubProcedenciaCID1.cs
+L:\Sistemas\Vida\Vida.View\bin\AtendimentoMedico\Relatorios\RelSubProcedimentosFPO1.cs
+L:\Sistemas\Vida\Vida.View\bin\AtendimentoMedico\Relatorios\RelSubProcedimentosNaoFaturaveisFPO1.cs
+L:\Sistemas\Vida\Vida.View\bin\AtendimentoMedico\Relatorios\RelSubTempoPermanencia1.cs
+L:\Sistemas\Vida\Vida.View\bin\AtendimentoMedico\Relatorios\RelTabelaAprazados1.cs
+L:\Sistemas\Vida\Vida.View\bin\AtendimentoMedico\Relatorios\RelTempoPermanencia1.cs
+L:\Sistemas\Vida\Vida.View\bin\Vida.View.pdb
+L:\Sistemas\Vida\Vida.View\obj\Debug\Vida.View.pdb
+L:\Sistemas\Vida\Vida.View\bin\Vacina\Relatorios\CrystalReport_cabecalho_vert.rpt
+L:\Sistemas\Vida\Vida.View\bin\Vacina\Relatorios\RelCabecalhoInventarioVacina.rpt
+L:\Sistemas\Vida\Vida.View\bin\Vacina\Relatorios\RelCorpoDispensacaoVacina.rpt
+L:\Sistemas\Vida\Vida.View\bin\Vacina\Relatorios\RelDispensacaoVacina.rpt
+L:\Sistemas\Vida\Vida.View\bin\Vacina\Relatorios\RelHistoricoItemMovimentacao.rpt
+L:\Sistemas\Vida\Vida.View\bin\Vacina\Relatorios\RelImpressaoCartaoVacina.rpt
+L:\Sistemas\Vida\Vida.View\bin\Vacina\Relatorios\RelInventarioConferenciaVacina.rpt
+L:\Sistemas\Vida\Vida.View\bin\Vacina\Relatorios\RelInventarioFinalVacina.rpt
+L:\Sistemas\Vida\Vida.View\bin\Vacina\Relatorios\RelMovimento.rpt
+L:\Sistemas\Vida\Vida.View\bin\Vacina\Relatorios\CrystalReport_cabecalho_vert1.cs
+L:\Sistemas\Vida\Vida.View\bin\Vacina\Relatorios\RelCabecalhoInventarioVacina1.cs
+L:\Sistemas\Vida\Vida.View\bin\Vacina\Relatorios\RelCorpoDispensacaoVacina1.cs
+L:\Sistemas\Vida\Vida.View\bin\Vacina\Relatorios\RelDispensacaoVacina1.cs
+L:\Sistemas\Vida\Vida.View\bin\Vacina\Relatorios\RelHistoricoItemMovimentacao1.cs
+L:\Sistemas\Vida\Vida.View\bin\Vacina\Relatorios\RelImpressaoCartaoVacina1.cs
+L:\Sistemas\Vida\Vida.View\bin\Vacina\Relatorios\RelInventarioConferenciaVacina1.cs
+L:\Sistemas\Vida\Vida.View\bin\Vacina\Relatorios\RelInventarioFinalVacina1.cs
+L:\Sistemas\Vida\Vida.View\bin\Vacina\Relatorios\RelMovimento1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\AtendimentoMedico\Relatorios\RelAcolhimentoProntuario.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\AtendimentoMedico\Relatorios\RelAtendimentoCID.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\AtendimentoMedico\Relatorios\RelAtendimentoFaixa.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\AtendimentoMedico\Relatorios\RelCabecalho.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\AtendimentoMedico\Relatorios\RelCabecalhoAtendimentoCID.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\AtendimentoMedico\Relatorios\RelCabecalhoAtendimentoFaixa.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\AtendimentoMedico\Relatorios\RelcabecalhoEvasao.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\AtendimentoMedico\Relatorios\RelCabecalhoLeitosFaixa.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\AtendimentoMedico\Relatorios\RelCabecalhoSituacao.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\AtendimentoMedico\Relatorios\RelCids.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\AtendimentoMedico\Relatorios\RelClassificacoesRisco.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\AtendimentoMedico\Relatorios\RelConsultaMedicaProntuario.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\AtendimentoMedico\Relatorios\RelConsultaMedicaRelatorioGeral.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\AtendimentoMedico\Relatorios\RelEvasao.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\AtendimentoMedico\Relatorios\RelEvolucaoMedicaRelatorioGeral.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\AtendimentoMedico\Relatorios\RelEvolucoesEnfermagem.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\AtendimentoMedico\Relatorios\RelEvolucoesMedica.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\AtendimentoMedico\Relatorios\RelExamesProntuario.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\AtendimentoMedico\Relatorios\RelFichaAtendimentoProntuario.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\AtendimentoMedico\Relatorios\RelItensAprazadosPrescricao.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\AtendimentoMedico\Relatorios\RelLeitosFaixa.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\AtendimentoMedico\Relatorios\RelMedicamentosAprazados.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\AtendimentoMedico\Relatorios\RelPrescricaoMedicamento.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\AtendimentoMedico\Relatorios\RelPrescricaoProcedimento.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\AtendimentoMedico\Relatorios\RelPrescricaoProcedimentoNaoFaturavel.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\AtendimentoMedico\Relatorios\RelPrescricoesProntuario.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\AtendimentoMedico\Relatorios\RelProcedenciaCID.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\AtendimentoMedico\Relatorios\RelProcedimentosFPO.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\AtendimentoMedico\Relatorios\RelRelatorioGeralProntuario.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\AtendimentoMedico\Relatorios\RelResponsaveisAprazamento.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\AtendimentoMedico\Relatorios\RelSituacao.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\AtendimentoMedico\Relatorios\RelSubProcedenciaCID.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\AtendimentoMedico\Relatorios\RelSubProcedimentosFPO.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\AtendimentoMedico\Relatorios\RelSubProcedimentosNaoFaturaveisFPO.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\AtendimentoMedico\Relatorios\RelSubTempoPermanencia.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\AtendimentoMedico\Relatorios\RelTabelaAprazados.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\AtendimentoMedico\Relatorios\RelTempoPermanencia.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\Vacina\Relatorios\CrystalReport_cabecalho_vert.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\Vacina\Relatorios\RelCabecalhoInventarioVacina.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\Vacina\Relatorios\RelCorpoDispensacaoVacina.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\Vacina\Relatorios\RelDispensacaoVacina.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\Vacina\Relatorios\RelHistoricoItemMovimentacao.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\Vacina\Relatorios\RelImpressaoCartaoVacina.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\Vacina\Relatorios\RelInventarioConferenciaVacina.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\Vacina\Relatorios\RelInventarioFinalVacina.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\Vacina\Relatorios\RelMovimento.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\AtendimentoMedico\Relatorios\RelAcolhimentoProntuario1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\AtendimentoMedico\Relatorios\RelAtendimentoCID1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\AtendimentoMedico\Relatorios\RelAtendimentoFaixa1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\AtendimentoMedico\Relatorios\RelCabecalho1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\AtendimentoMedico\Relatorios\RelCabecalhoAtendimentoCID1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\AtendimentoMedico\Relatorios\RelCabecalhoAtendimentoFaixa1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\AtendimentoMedico\Relatorios\RelcabecalhoEvasao1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\AtendimentoMedico\Relatorios\RelCabecalhoLeitosFaixa1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\AtendimentoMedico\Relatorios\RelCabecalhoSituacao1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\AtendimentoMedico\Relatorios\RelCids1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\AtendimentoMedico\Relatorios\RelClassificacoesRisco1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\AtendimentoMedico\Relatorios\RelConsultaMedicaProntuario1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\AtendimentoMedico\Relatorios\RelConsultaMedicaRelatorioGeral1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\AtendimentoMedico\Relatorios\RelEvasao1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\AtendimentoMedico\Relatorios\RelEvolucaoMedicaRelatorioGeral1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\AtendimentoMedico\Relatorios\RelEvolucoesEnfermagem1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\AtendimentoMedico\Relatorios\RelEvolucoesMedica1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\AtendimentoMedico\Relatorios\RelExamesProntuario1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\AtendimentoMedico\Relatorios\RelFichaAtendimentoProntuario1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\AtendimentoMedico\Relatorios\RelItensAprazadosPrescricao1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\AtendimentoMedico\Relatorios\RelLeitosFaixa1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\AtendimentoMedico\Relatorios\RelMedicamentosAprazados1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\AtendimentoMedico\Relatorios\RelPrescricaoMedicamento1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\AtendimentoMedico\Relatorios\RelPrescricaoProcedimento1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\AtendimentoMedico\Relatorios\RelPrescricaoProcedimentoNaoFaturavel1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\AtendimentoMedico\Relatorios\RelPrescricoesProntuario1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\AtendimentoMedico\Relatorios\RelProcedenciaCID1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\AtendimentoMedico\Relatorios\RelProcedimentosFPO1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\AtendimentoMedico\Relatorios\RelRelatorioGeralProntuario1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\AtendimentoMedico\Relatorios\RelResponsaveisAprazamento1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\AtendimentoMedico\Relatorios\RelSituacao1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\AtendimentoMedico\Relatorios\RelSubProcedenciaCID1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\AtendimentoMedico\Relatorios\RelSubProcedimentosFPO1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\AtendimentoMedico\Relatorios\RelSubProcedimentosNaoFaturaveisFPO1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\AtendimentoMedico\Relatorios\RelSubTempoPermanencia1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\AtendimentoMedico\Relatorios\RelTabelaAprazados1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\AtendimentoMedico\Relatorios\RelTempoPermanencia1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\Vacina\Relatorios\CrystalReport_cabecalho_vert1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\Vacina\Relatorios\RelCabecalhoInventarioVacina1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\Vacina\Relatorios\RelCorpoDispensacaoVacina1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\Vacina\Relatorios\RelDispensacaoVacina1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\Vacina\Relatorios\RelHistoricoItemMovimentacao1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\Vacina\Relatorios\RelImpressaoCartaoVacina1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\Vacina\Relatorios\RelInventarioConferenciaVacina1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\Vacina\Relatorios\RelInventarioFinalVacina1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\Vacina\Relatorios\RelMovimento1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\Agendamento\RelatoriosCrystal\CrystalReportViewer_AgendaPrestador.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\Agendamento\RelatoriosCrystal\CrystalReportViewer_CabecalhoAgendaPrestador.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\Agendamento\RelatoriosCrystal\CrystalReportViewer_CabecalhoListaSolicitacoesAgenda.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\Agendamento\RelatoriosCrystal\CrystalReportViewer_ExportaBPA.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\Agendamento\RelatoriosCrystal\CrystalReportViewer_ListaProcura.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\Agendamento\RelatoriosCrystal\CrystalReportViewer_ListaSolicitacoesAgenda.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\Agendamento\RelatoriosCrystal\DSCabecalhoAgendaPrestador.xsd
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\Agendamento\RelatoriosCrystal\DSCabecalhoListaSolicitacoesAgenda.xsd
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\Agendamento\RelatoriosCrystal\DSRelatorioAgendaPrestador.xsd
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\Agendamento\RelatoriosCrystal\DSRelatorioExportaBPA.xsd
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\Agendamento\RelatoriosCrystal\DSRelatorioListaProcura.xsd
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\Agendamento\RelatoriosCrystal\DSRelatorioListaSolicitacoesAgenda.xsd
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\Agendamento\RelatoriosCrystal\CrystalReportViewer_AgendaPrestador.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\Agendamento\RelatoriosCrystal\CrystalReportViewer_CabecalhoAgendaPrestador1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\Agendamento\RelatoriosCrystal\CrystalReportViewer_CabecalhoListaSolicitacoesAgenda.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\Agendamento\RelatoriosCrystal\CrystalReportViewer_ExportaBPA.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\Agendamento\RelatoriosCrystal\CrystalReportViewer_ListaProcura.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\Agendamento\RelatoriosCrystal\CrystalReportViewer_ListaSolicitacoesAgenda.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\Agendamento\RelatoriosCrystal\DSCabecalhoAgendaPrestador.Designer.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\Agendamento\RelatoriosCrystal\DSCabecalhoListaSolicitacoesAgenda.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\Agendamento\RelatoriosCrystal\DSCabecalhoListaSolicitacoesAgenda.Designer.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\Agendamento\RelatoriosCrystal\DSRelatorioAgendaPrestador.Designer.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\Agendamento\RelatoriosCrystal\DSRelatorioExportaBPA.Designer.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\Agendamento\RelatoriosCrystal\DSRelatorioListaProcura.Designer.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\Agendamento\RelatoriosCrystal\DSRelatorioListaSolicitacoesAgenda.Designer.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\Agendamento\RelatoriosCrystal\DSCabecalhoAgendaPrestador.xsc
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\Agendamento\RelatoriosCrystal\DSCabecalhoAgendaPrestador.xss
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\Agendamento\RelatoriosCrystal\DSCabecalhoListaSolicitacoesAgenda.xsc
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\Agendamento\RelatoriosCrystal\DSCabecalhoListaSolicitacoesAgenda.xss
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\Agendamento\RelatoriosCrystal\DSRelatorioAgendaPrestador.xsc
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\Agendamento\RelatoriosCrystal\DSRelatorioAgendaPrestador.xss
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\Agendamento\RelatoriosCrystal\DSRelatorioExportaBPA.xsc
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\Agendamento\RelatoriosCrystal\DSRelatorioExportaBPA.xss
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\Agendamento\RelatoriosCrystal\DSRelatorioListaProcura.xsc
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\Agendamento\RelatoriosCrystal\DSRelatorioListaProcura.xss
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\Agendamento\RelatoriosCrystal\DSRelatorioListaSolicitacoesAgenda.xsc
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\Agendamento\RelatoriosCrystal\DSRelatorioListaSolicitacoesAgenda.xss
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\Vida.View.dll
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\Vida.View.pdb
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\Vida.BLL.dll
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\Vida.DAO.dll
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\Vida.Model.dll
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\Vida.ServiceFacade.dll
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\ICSharpCode.SharpZipLib.dll
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\NPOI.DDF.dll
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\Vida.DAL.dll
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\Vida.DAOOracle.dll
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\office.dll
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\Microsoft.Vbe.Interop.dll
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\NPOI.POIFS.dll
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\NPOI.dll
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\NPOI.HSSF.dll
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\NPOI.Util.dll
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\NPOI.HPSF.dll
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\NPOI.DDF.xml
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\Vida.BLL.pdb
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\Vida.DAO.pdb
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\Vida.DAL.pdb
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\Vida.DAOOracle.pdb
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\NPOI.POIFS.xml
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\NPOI.xml
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\Vida.ServiceFacade.pdb
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\Vida.Model.pdb
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\NPOI.HSSF.xml
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\NPOI.Util.xml
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\NPOI.HPSF.xml
+L:\lucas01\SISTEMAS\VIDA\Vida.View\obj\Debug\ResolveAssemblyReference.cache
+L:\lucas01\SISTEMAS\VIDA\Vida.View\obj\Debug\Vida.View.Properties.Resources.resources
+L:\lucas01\SISTEMAS\VIDA\Vida.View\obj\Debug\Vida.View.csproj.GenerateResource.Cache
+L:\lucas01\SISTEMAS\VIDA\Vida.View\obj\Debug\Vida.View.dll.licenses
+L:\lucas01\SISTEMAS\VIDA\Vida.View\obj\Debug\Vida.View.dll
+L:\lucas01\SISTEMAS\VIDA\Vida.View\obj\Debug\Vida.View.pdb
+L:\lucas01\SISTEMAS\VIDA\Vida.View\bin\AjaxControlToolkit.dll
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\lib\Oracle.DataAccess.dll
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\AtendimentoMedico\Relatorios\RelAcolhimentoProntuario.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\AtendimentoMedico\Relatorios\RelAtendimentoCID.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\AtendimentoMedico\Relatorios\RelAtendimentoFaixa.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\AtendimentoMedico\Relatorios\RelCabecalho.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\AtendimentoMedico\Relatorios\RelCabecalhoAtendimentoCID.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\AtendimentoMedico\Relatorios\RelCabecalhoAtendimentoFaixa.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\AtendimentoMedico\Relatorios\RelcabecalhoEvasao.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\AtendimentoMedico\Relatorios\RelCabecalhoLeitosFaixa.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\AtendimentoMedico\Relatorios\RelCabecalhoSituacao.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\AtendimentoMedico\Relatorios\RelCids.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\AtendimentoMedico\Relatorios\RelClassificacoesRisco.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\AtendimentoMedico\Relatorios\RelConsultaMedicaProntuario.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\AtendimentoMedico\Relatorios\RelConsultaMedicaRelatorioGeral.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\AtendimentoMedico\Relatorios\RelEvasao.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\AtendimentoMedico\Relatorios\RelEvolucaoMedicaRelatorioGeral.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\AtendimentoMedico\Relatorios\RelEvolucoesEnfermagem.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\AtendimentoMedico\Relatorios\RelEvolucoesMedica.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\AtendimentoMedico\Relatorios\RelExamesProntuario.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\AtendimentoMedico\Relatorios\RelFichaAtendimentoProntuario.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\AtendimentoMedico\Relatorios\RelItensAprazadosPrescricao.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\AtendimentoMedico\Relatorios\RelLeitosFaixa.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\AtendimentoMedico\Relatorios\RelMedicamentosAprazados.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\AtendimentoMedico\Relatorios\RelPrescricaoMedicamento.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\AtendimentoMedico\Relatorios\RelPrescricaoProcedimento.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\AtendimentoMedico\Relatorios\RelPrescricaoProcedimentoNaoFaturavel.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\AtendimentoMedico\Relatorios\RelPrescricoesProntuario.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\AtendimentoMedico\Relatorios\RelProcedenciaCID.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\AtendimentoMedico\Relatorios\RelProcedimentosFPO.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\AtendimentoMedico\Relatorios\RelRelatorioGeralProntuario.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\AtendimentoMedico\Relatorios\RelResponsaveisAprazamento.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\AtendimentoMedico\Relatorios\RelSituacao.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\AtendimentoMedico\Relatorios\RelSubProcedenciaCID.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\AtendimentoMedico\Relatorios\RelSubProcedimentosFPO.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\AtendimentoMedico\Relatorios\RelSubProcedimentosNaoFaturaveisFPO.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\AtendimentoMedico\Relatorios\RelSubTempoPermanencia.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\AtendimentoMedico\Relatorios\RelTabelaAprazados.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\AtendimentoMedico\Relatorios\RelTempoPermanencia.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\Vacina\Relatorios\CrystalReport_cabecalho_vert.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\Vacina\Relatorios\RelCabecalhoInventarioVacina.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\Vacina\Relatorios\RelCorpoDispensacaoVacina.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\Vacina\Relatorios\RelDispensacaoVacina.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\Vacina\Relatorios\RelHistoricoItemMovimentacao.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\Vacina\Relatorios\RelImpressaoCartaoVacina.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\Vacina\Relatorios\RelInventarioConferenciaVacina.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\Vacina\Relatorios\RelInventarioFinalVacina.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\Vacina\Relatorios\RelMovimento.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\AtendimentoMedico\Relatorios\RelAcolhimentoProntuario1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\AtendimentoMedico\Relatorios\RelAtendimentoCID1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\AtendimentoMedico\Relatorios\RelAtendimentoFaixa1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\AtendimentoMedico\Relatorios\RelCabecalho1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\AtendimentoMedico\Relatorios\RelCabecalhoAtendimentoCID1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\AtendimentoMedico\Relatorios\RelCabecalhoAtendimentoFaixa1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\AtendimentoMedico\Relatorios\RelcabecalhoEvasao1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\AtendimentoMedico\Relatorios\RelCabecalhoLeitosFaixa1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\AtendimentoMedico\Relatorios\RelCabecalhoSituacao1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\AtendimentoMedico\Relatorios\RelCids1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\AtendimentoMedico\Relatorios\RelClassificacoesRisco1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\AtendimentoMedico\Relatorios\RelConsultaMedicaProntuario1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\AtendimentoMedico\Relatorios\RelConsultaMedicaRelatorioGeral1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\AtendimentoMedico\Relatorios\RelEvasao1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\AtendimentoMedico\Relatorios\RelEvolucaoMedicaRelatorioGeral1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\AtendimentoMedico\Relatorios\RelEvolucoesEnfermagem1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\AtendimentoMedico\Relatorios\RelEvolucoesMedica1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\AtendimentoMedico\Relatorios\RelExamesProntuario1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\AtendimentoMedico\Relatorios\RelFichaAtendimentoProntuario1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\AtendimentoMedico\Relatorios\RelItensAprazadosPrescricao1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\AtendimentoMedico\Relatorios\RelLeitosFaixa1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\AtendimentoMedico\Relatorios\RelMedicamentosAprazados1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\AtendimentoMedico\Relatorios\RelPrescricaoMedicamento1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\AtendimentoMedico\Relatorios\RelPrescricaoProcedimento1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\AtendimentoMedico\Relatorios\RelPrescricaoProcedimentoNaoFaturavel1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\AtendimentoMedico\Relatorios\RelPrescricoesProntuario1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\AtendimentoMedico\Relatorios\RelProcedenciaCID1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\AtendimentoMedico\Relatorios\RelProcedimentosFPO1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\AtendimentoMedico\Relatorios\RelRelatorioGeralProntuario1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\AtendimentoMedico\Relatorios\RelResponsaveisAprazamento1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\AtendimentoMedico\Relatorios\RelSituacao1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\AtendimentoMedico\Relatorios\RelSubProcedenciaCID1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\AtendimentoMedico\Relatorios\RelSubProcedimentosFPO1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\AtendimentoMedico\Relatorios\RelSubProcedimentosNaoFaturaveisFPO1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\AtendimentoMedico\Relatorios\RelSubTempoPermanencia1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\AtendimentoMedico\Relatorios\RelTabelaAprazados1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\AtendimentoMedico\Relatorios\RelTempoPermanencia1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\Vacina\Relatorios\CrystalReport_cabecalho_vert1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\Vacina\Relatorios\RelCabecalhoInventarioVacina1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\Vacina\Relatorios\RelCorpoDispensacaoVacina1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\Vacina\Relatorios\RelDispensacaoVacina1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\Vacina\Relatorios\RelHistoricoItemMovimentacao1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\Vacina\Relatorios\RelImpressaoCartaoVacina1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\Vacina\Relatorios\RelInventarioConferenciaVacina1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\Vacina\Relatorios\RelInventarioFinalVacina1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\Vacina\Relatorios\RelMovimento1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\Agendamento\RelatoriosCrystal\CrystalReportViewer_AgendaPrestador.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\Agendamento\RelatoriosCrystal\CrystalReportViewer_CabecalhoAgendaPrestador.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\Agendamento\RelatoriosCrystal\CrystalReportViewer_CabecalhoListaSolicitacoesAgenda.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\Agendamento\RelatoriosCrystal\CrystalReportViewer_ExportaBPA.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\Agendamento\RelatoriosCrystal\CrystalReportViewer_ListaProcura.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\Agendamento\RelatoriosCrystal\CrystalReportViewer_ListaSolicitacoesAgenda.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\Agendamento\RelatoriosCrystal\DSCabecalhoAgendaPrestador.xsd
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\Agendamento\RelatoriosCrystal\DSCabecalhoListaSolicitacoesAgenda.xsd
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\Agendamento\RelatoriosCrystal\DSRelatorioAgendaPrestador.xsd
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\Agendamento\RelatoriosCrystal\DSRelatorioExportaBPA.xsd
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\Agendamento\RelatoriosCrystal\DSRelatorioListaProcura.xsd
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\Agendamento\RelatoriosCrystal\DSRelatorioListaSolicitacoesAgenda.xsd
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\Agendamento\RelatoriosCrystal\CrystalReportViewer_AgendaPrestador.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\Agendamento\RelatoriosCrystal\CrystalReportViewer_CabecalhoAgendaPrestador1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\Agendamento\RelatoriosCrystal\CrystalReportViewer_CabecalhoListaSolicitacoesAgenda.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\Agendamento\RelatoriosCrystal\CrystalReportViewer_ExportaBPA.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\Agendamento\RelatoriosCrystal\CrystalReportViewer_ListaProcura.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\Agendamento\RelatoriosCrystal\CrystalReportViewer_ListaSolicitacoesAgenda.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\Agendamento\RelatoriosCrystal\DSCabecalhoAgendaPrestador.Designer.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\Agendamento\RelatoriosCrystal\DSCabecalhoListaSolicitacoesAgenda.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\Agendamento\RelatoriosCrystal\DSCabecalhoListaSolicitacoesAgenda.Designer.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\Agendamento\RelatoriosCrystal\DSRelatorioAgendaPrestador.Designer.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\Agendamento\RelatoriosCrystal\DSRelatorioExportaBPA.Designer.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\Agendamento\RelatoriosCrystal\DSRelatorioListaProcura.Designer.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\Agendamento\RelatoriosCrystal\DSRelatorioListaSolicitacoesAgenda.Designer.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\Agendamento\RelatoriosCrystal\DSCabecalhoAgendaPrestador.xsc
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\Agendamento\RelatoriosCrystal\DSCabecalhoAgendaPrestador.xss
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\Agendamento\RelatoriosCrystal\DSCabecalhoListaSolicitacoesAgenda.xsc
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\Agendamento\RelatoriosCrystal\DSCabecalhoListaSolicitacoesAgenda.xss
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\Agendamento\RelatoriosCrystal\DSRelatorioAgendaPrestador.xsc
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\Agendamento\RelatoriosCrystal\DSRelatorioAgendaPrestador.xss
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\Agendamento\RelatoriosCrystal\DSRelatorioExportaBPA.xsc
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\Agendamento\RelatoriosCrystal\DSRelatorioExportaBPA.xss
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\Agendamento\RelatoriosCrystal\DSRelatorioListaProcura.xsc
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\Agendamento\RelatoriosCrystal\DSRelatorioListaProcura.xss
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\Agendamento\RelatoriosCrystal\DSRelatorioListaSolicitacoesAgenda.xsc
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\Agendamento\RelatoriosCrystal\DSRelatorioListaSolicitacoesAgenda.xss
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\Vida.View.dll
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\Vida.View.pdb
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\AjaxControlToolkit.dll
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\Castle.Core.dll
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\Castle.DynamicProxy2.dll
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\DevExpress.Data.v10.2.dll
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\DevExpress.Web.ASPxEditors.v10.2.dll
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\DevExpress.Web.v10.2.dll
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\FredCK.FCKeditorV2.dll
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\FusionCharts.dll
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\Iesi.Collections.dll
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\Ionic.Zip.dll
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\log4net.dll
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\Microsoft.Office.Interop.Excel.dll
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\NHibernate.dll
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\SpiceLogicBLOB.dll
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\Vida.BLL.dll
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\Vida.DAO.dll
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\Vida.Model.dll
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\Vida.ServiceFacade.dll
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\ICSharpCode.SharpZipLib.dll
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\NPOI.DDF.dll
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\Vida.DAL.dll
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\Vida.DAOOracle.dll
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\office.dll
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\Microsoft.Vbe.Interop.dll
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\NPOI.POIFS.dll
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\NPOI.dll
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\NPOI.HSSF.dll
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\NPOI.Util.dll
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\NPOI.HPSF.dll
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\NPOI.DDF.xml
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\Vida.BLL.pdb
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\Vida.DAO.pdb
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\Vida.DAL.pdb
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\Vida.DAOOracle.pdb
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\NPOI.POIFS.xml
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\NPOI.xml
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\Vida.ServiceFacade.pdb
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\Vida.Model.pdb
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\NPOI.HSSF.xml
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\NPOI.Util.xml
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\bin\NPOI.HPSF.xml
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\obj\Debug\Vida.View.Properties.Resources.resources
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\obj\Debug\Vida.View.csproj.GenerateResource.Cache
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\obj\Debug\Vida.View.dll.licenses
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\obj\Debug\Vida.View.dll
+C:\Documents and Settings\lucassantos\vivermais\Vida.View\obj\Debug\Vida.View.pdb

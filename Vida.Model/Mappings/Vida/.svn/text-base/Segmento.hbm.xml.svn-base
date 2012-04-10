@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Vida.Model">
+  <class name="Vida.Model.Segmento" table="pms_cnes_lfces040">
+    
+    <composite-id>
+      <key-many-to-one name="Municipio" class="Vida.Model.Municipio" column="cod_mun"/>
+      <key-property name="Codigo" column="cd_segmento" />
+    </composite-id>
+    
+    <property name="Descricao" column="ds_segmento"/>
+    <property name="Tipo" column="tp_segmento"/>
+    
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,244 @@
+﻿/* Estilos do formulário - POPUP */
+
+body
+{
+	background: #26526b url( 'img/bkg-busca.png' ) repeat-x;
+}
+
+.botoesroll
+{
+	float: left;
+	width: auto;
+	padding: 0px 20px 0 0;
+	text-decoration: none;
+	border: none;
+}
+
+a img
+{
+	border: none;
+	text-decoration: none;
+}
+
+a:link {
+text-decoration:none;
+color:#000000;
+}
+a:visited {
+text-decoration:none;
+}
+a:hover {
+text-decoration:underline;
+
+}
+
+#top
+{
+	width: 813px;
+	height: auto;
+	float: inherit;
+	margin-left: 50px;
+	z-index: auto;
+	/*background-color: #26526b;*/
+}
+
+br
+{
+	clear: left;
+}
+
+legend
+{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	letter-spacing: 0px;
+	font-weight: bold;
+	line-height: 1.2;
+	color: #ffffff;
+	padding: 3px 12px;
+	background: url( 'img/img-senhafacil.png' ) no-repeat left;
+	padding-bottom: 10px;
+	margin-top: 30px;
+	margin-bottom:30px;
+	width:442px;
+	height:95px;
+}
+
+.troca-senha
+
+{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	letter-spacing: 0px;
+	font-weight: bold;
+	line-height: 1.2;
+	color: #ffffff;
+	padding: 3px 12px;
+	background: url( 'img/img-senhafacil.png' ) no-repeat left;
+	padding-bottom: 10px;
+	margin-top: 30px;
+	margin-bottom:30px;
+	width:442px;
+	height:95px;
+}
+
+fieldset
+{
+	border: none;
+	padding: 10px;
+	margin-bottom: 20px;
+}
+
+.formulario
+{
+	width: 700px;
+	height: auto; /*margin-left: 117px;*/
+	margin-right: 0;
+	padding: 10px 10px 20px 10px;
+}
+
+.rotulo
+{
+	float: left;
+	height: 17px;
+	font-size: 11px;
+	color: #ffffff;
+	padding-bottom: 2px;
+	padding-left: 8px;
+	width: 120px;
+	line-height: 25px;
+	margin-top: 0px;
+	margin-right: 5px;
+	margin-left:0px;
+	
+}
+
+
+.campo
+{
+	font-family: Arial;
+	font-size: 11px;
+	border: 1px solid #ffffff;
+	line-height: 17px;
+	height: 17px;
+	margin-top: 0px; 
+	background: #0f2d3f;
+	color: #ffffff;
+	display: inherit;
+	margin-right: 5px;
+	padding-left: 5px;
+}
+
+
+.drop
+{
+	font-family: Arial;
+	font-size: 11px;
+	border: 1px solid #5b5b5b;
+	line-height: 17px;
+	height: 21px;
+	margin-top: 0px; /*display: list-item;*/
+	background: #f1f1f1;
+	color: #000000;
+	display: inherit;
+	margin-right: 5px;
+	padding-left: 5px;
+}
+
+
+
+.form
+{
+	margin: 0;
+	padding: 0;
+}
+
+div, select
+{
+	font-family: Arial, Verdana, Helvetica, sans-serif;
+	text-decoration: none;
+}
+
+a img
+{
+	border: none;
+	text-decoration: none;
+}
+
+p
+{
+	margin: 2px 0 8px;
+	width: auto;
+}
+
+.defaultForce
+{
+	background-color: White;
+}
+.weak
+{
+	background-color: #FF5353;
+}
+.strong
+{
+	background-color: #FAD054;
+}
+.stronger
+{
+	background-color: #93C9F4;
+}
+.strongest
+{
+	background-color: #B6FF6C;
+}
+
+#complexity{
+	width: 250px;
+	padding: 3px 0;
+	height: 15px;
+	color: #000;
+	font-size: 14px;
+	text-align: center;
+}
+
+#progressBackgroundFilter
+{
+	position: fixed;
+	top: 0px;
+	bottom: 0px;
+	left: 0px;
+	right: 0px;
+	overflow: hidden;
+	padding: 0;
+	margin: 0;
+	background-color: #000;
+	filter: alpha(opacity=25);
+	opacity: 0.5;
+	z-index: 1000;
+}
+
+#processMessage
+{
+	position: fixed;
+	top: 60%;
+	left: 45%;
+	padding: 10px;
+	width: 14%;
+	z-index: 1001; /*background-color: #fff;*/ /*border: solid 1px #000;*/
+}
+
+
+#processMessage2
+{
+	position: fixed;
+	padding: 10px;
+	width: 100%;
+	z-index: 1000; /*background-color: #fff;*/ /*border: solid 1px #000;*/
+}
+#bgloader
+{
+    background: url( 'img/bg-loader.png' ) no-repeat center;
+    width: 205px;
+	height: 195px;
+	margin-left: -35px;
+}

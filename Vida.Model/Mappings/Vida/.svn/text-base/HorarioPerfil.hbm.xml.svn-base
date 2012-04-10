@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Vida.Model">
+  <class name="Vida.Model.HorarioPerfil" table="tb_pms_perfil_horario" >
+    <id name="Codigo">
+      <column name="co_horario" not-null="true"/>
+      <generator class="sequence">
+        <param name="sequence">VIDA_PERFIL_HORARIO</param>
+      </generator>
+    </id>
+    
+    <many-to-one name="Perfil" class="Vida.Model.Perfil" column="co_perfil"></many-to-one>
+    <property name="Dia" column="dia" />
+    <property name="HoraInicial" column="horainicial" />
+    <property name="HoraFinal" column="horafinal" />
+    <property name="Bloqueado" column="bloqueado" type="YesNo"/>
+  </class>
+</hibernate-mapping>

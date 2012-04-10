@@ -1,0 +1,51 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace ViverMais.Model
+{
+    [Serializable]
+    public class Cid
+    {
+        string codigo;
+        public virtual string Codigo
+        {
+            get { return codigo; }
+            set { codigo = value; }
+        }
+
+        string nome;
+        public virtual string Nome
+        {
+            get { return nome; }
+            set { nome = value; }
+        }
+
+        string tipoagravo;
+        public virtual string TipoAgravo
+        {
+            get { return tipoagravo; }
+            set { tipoagravo = value; }
+        }
+
+        string sexoaplicado;
+        public virtual string SexoAplicado
+        {
+            get { return sexoaplicado; }
+            set { sexoaplicado = value; }
+        }
+
+        public virtual string DescricaoCodigoNome
+        {
+            get
+            {
+                return this.Codigo + " - " + this.Nome;
+            }
+        }
+
+        public Cid()
+        {
+        }
+    }
+}

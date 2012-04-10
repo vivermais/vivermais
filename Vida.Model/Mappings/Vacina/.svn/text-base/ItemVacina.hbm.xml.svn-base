@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Vida.Model">
+  <class name="Vida.Model.ItemVacina" table="VCN_ITEMVACINA">
+    <!--<id name="Codigo">
+      <column name="co_item" not-null="true"/>
+      <generator class="assigned" />
+    </id>-->
+    <id name="Codigo">
+      <column name="co_item" not-null="true"/>
+      <generator class="sequence">
+        <param name="sequence">VCN_ITEMVACINA_SEQUENCE</param>
+      </generator>
+    </id>
+    <many-to-one name="FabricanteVacina" class="Vida.Model.FabricanteVacina" column="CO_FABRICANTE" />
+    <many-to-one name="Vacina" class="Vida.Model.Vacina" column="CO_VACINA" />
+    <property name="Aplicacao" column="aplicacao" />
+  </class>
+</hibernate-mapping>

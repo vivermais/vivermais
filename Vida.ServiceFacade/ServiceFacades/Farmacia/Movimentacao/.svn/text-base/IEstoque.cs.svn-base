@@ -1,0 +1,20 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace Vida.ServiceFacade.ServiceFacades.Farmacia.Movimentacao
+{
+    public interface IEstoque : IServiceFacade
+    {
+        IList<T> BuscarPorFarmacia<T>(int id_farmacia);
+        IList<T> BuscarPorDescricao<T>(int co_farmacia, int co_fabricante, int co_medicamento, string lote);
+        void MovimentarEstoque<M,L>(M movimentacao,IList<L> itensmovimentacao);
+        T BuscarItemEstoquePorFarmacia<T>(int co_farmacia, int co_lote);
+        void AtualizarEstoque(object estoque, object item, string acao);
+        IList<T> BuscarPorNomeMedicamentoQuantidadeSuperior<T>(string nomemedicamento, int co_farmacia);
+        T BuscaQtdEstoque<T>(int co_lotemedicamento, int co_farmacia);
+        IList<T> BuscarPorFarmaciaReceita<T>(int co_farmacia, int[] codigosMedicamentosReceita);
+        int BuscarQuantidadeEstoqueMedicamento(int co_farmacia, int co_medicamento);
+    }
+}

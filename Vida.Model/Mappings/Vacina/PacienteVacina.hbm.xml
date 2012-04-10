@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Vida.Model">
+	<class name="Vida.Model.PacienteVacina" table="VCN_Paciente">
+		<id name="Codigo">
+			<column name="co_pacientevacina" not-null="true"/>
+			<generator class="assigned" />
+		</id>	
+		<many-to-one name="PacienteVida" class="Vida.Model.Paciente" column="co_pacientevida"></many-to-one>
+	</class>
+</hibernate-mapping>

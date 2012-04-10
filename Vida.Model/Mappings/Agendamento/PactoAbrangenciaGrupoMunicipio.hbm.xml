@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="ViverMais.Model">
+  <class name="ViverMais.Model.PactoAbrangenciaGrupoMunicipio" table="AGD_PACTOABRANG__GRUPOMUNI">
+    <composite-id>
+      <key-many-to-one name="Municipio" class="ViverMais.Model.Municipio" column="ID_MUNICIPIO" lazy="false"/>
+      <key-many-to-one name="GrupoAbrangencia" class="ViverMais.Model.GrupoAbrangencia" column="ID_GRUPO_ABRANGENCIA" lazy="false"/>
+      <key-many-to-one name="PactoAbrangenciaAgregado" class="ViverMais.Model.PactoAbrangenciaAgregado" column="ID_PACTO_ABRANG_AGREGADO" lazy="false"/>
+    </composite-id>
+    <property name="CotaFinanceira" column="COTA_FINANCEIRA" />
+    <property name="ValorUtilizado" column="VALOR_UTILIZADO" />
+  </class>
+</hibernate-mapping>

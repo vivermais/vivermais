@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Vida.Model">
+  <class name="Vida.Model.UnidadeMedidaVacina" table="VCN_UNIDADEMEDIDA">
+    <!--<id name="Codigo">
+      <column name="co_unidademedida" not-null="true"/>
+      <generator class="assigned" />
+    </id>-->
+    <id name="Codigo">
+      <column name="co_unidademedida" not-null="true"/>
+      <generator class="sequence">
+        <param name="sequence">VCN_UNIDADEMEDIDA_SEQUENCE</param>
+      </generator>
+    </id>
+    <property name="Nome" column="UNIDADEMEDIDA" />
+    <property name="Sigla" column="SIGLA" />
+  </class>
+</hibernate-mapping>

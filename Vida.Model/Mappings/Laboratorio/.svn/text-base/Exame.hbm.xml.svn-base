@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Vida.Model">
+  <class name="Vida.Model.ExameLaboratorio" table="tb_exame">
+    <id name="Codigo">
+      <column name="cd_exame_pk" not-null="true"/>
+      <generator class="assigned" />
+    </id>
+    <property name="NomeSus" column="nm_exame_sus" />
+    <property name="NomeUsual" column="nm_exame_usual" />
+    <property name="Sg" column="sg_exame" />
+  </class>
+</hibernate-mapping>

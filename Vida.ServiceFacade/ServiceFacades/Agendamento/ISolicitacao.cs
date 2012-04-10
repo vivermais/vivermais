@@ -1,0 +1,79 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Collections;
+
+namespace ViverMais.ServiceFacade.ServiceFacades.Agendamento
+{
+    public interface ISolicitacao : IServiceFacade
+    {
+        /// <summary>
+        /// Verifica se a unidade pode Solicitar Procedimentos para outras unidades
+        /// </summary>
+        /// <param name="cnes"></param>
+        /// <returns></returns>
+        bool UnidadePorSolicitarParaOutra(string cnes);
+        bool RestricaoPactoAbrangencia(string co_municipio, string co_procedimentoSelecionado, string co_cbo);
+        bool ExcedeuCota<A>(A agd);
+        bool ExcedeuCota<A>(char tipoCota, A agd, DateTime data_inicial, DateTime data_final, int co_subgrupo);
+        void AutorizaSolicitacaoReguladaAutorizada<S, A>(S solicit, A agd);
+        object ListarSolicitacoesParametroReservaTecnica(DateTime data, string id_procedimento, string cbo, string cnesLocal, DateTime dataInicial, DateTime dataFinal, Char tipoCota, int co_subgrupo);
+        object ListarSolicitacoesParametroRede(DateTime data, string id_procedimento, string cbo, string cnesLocal, DateTime dataInicial, DateTime dataFinal, Char tipoCota, int subgrupo);
+        object ListarSolicitacoesParametroDistrital(DateTime data, string id_procedimento, string cbo, string cnesLocal, int distrito, DateTime dataInicial, DateTime dataFinal, Char tipoCota, int subgrupo);
+        object ListarSolicitacoesParametroLocal(DateTime data, string id_procedimento, string cbo, string cnesLocal, DateTime dataInicial, DateTime dataFinal, Char tipoCota, int sub_grupo);
+        IList<T> ListarSolicitacoesPorCompetencia<T>(DateTime data, string id_procedimento, string cbo);
+        IList<T> ListarSolicitacoesAgendaPrestador<T>(string cnesExecutante, string id_procedimento, string cpf_Profissional, DateTime periodoInicial, DateTime periodoFinal);
+        IList<T> ListarSolicitacoesDaUnidade<T>(string cnes, DateTime periodoInicial, DateTime periodoFinal, string codigo_usuario);
+        IList<T> ListaSolicitacoesDetalhadas<T>(string cnes, string tipounidade, DateTime periodoInicial, DateTime PeriodoFinal,  string tipomunicipio, string municipio, string tipoprocedimento, string procedimento, string especialidade, string status, string paciente);
+        int QuantidadeTotalSolicitacoesPendentes(string prioridade, string cartaosus, string id_procedimento);
+        int QuantidadeTotalSolicitacoesPendentes(string prioridade, string cartaosus, string id_procedimento, int selecaoMunicipio, string municipio);
+        IList<T> ListarSolicitacoesPendentes<T>(string prioridade, string cartaosus, string id_procedimento, int page, int pageSize, int selecaoMunicipio, string municipio);
+        IList<T> ListarSolicitacoesPendentes<T>(string prioridade, string cartaosus, string id_procedimento, int page, int pageSize);
+        IList<T> ListarSolicitacoesDoPactoAgregado<T>(int id_Pacto_Proced_Agreg);
+        IList<T> BuscaSolicitacaoAgendadaPorPaciente<T>(string id_paciente);
+        IList<T> ListarSolicitacoesConfirmadas<T>(int competencia, string id_unidade, DateTime periodoInicial, DateTime periodoFinal, string tipoProcedimento);
+        IList<T> ListarSolicitacoesConfirmadas<T>(int competencia, string id_unidade, DateTime periodoInicial, DateTime periodoFinal);
+        IList<T> ListarSolicitacoesPorPaciente<T>(string id_paciente, string protocolo);
+        IList<T> ListarSolicitacoesPorPacientePorCnes<T>(string id_paciente, string cnes, DateTime data);
+        IList<T> ListarSolicitacoesConfirmadasPorPaciente<T>(string id_paciente);
+        IList<T> BuscaLaudos<T>(int id_solicitacao);
+        IList<object> ListarRegistroParaBPAConsolidado<T>(int competencia, string id_unidade, DateTime periodoInicial, DateTime periodoFinal);
+        IList<T> ListarSolicitacoesConfirmadasBPAApac<T>(int competencia, string id_unidade, DateTime periodoInicial, DateTime periodoFinal);
+        /// <summary>
+        /// Função Responsável por Verificar se já existe solicitação para o paciente
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="id_paciente"></param>
+        /// <param name="id_procedimento"></param>
+        /// <param name="tipo"></param>
+        /// <param name="cbo"></param>
+        /// <returns></returns>
+        IList<T> VerificaSolicitacao<T>(string id_paciente, string id_procedimento, string tipo, string cbo, string subgrupo);
+
+        IList<T> BuscaSolicitacaoPeloIdentificador<T>(string identificador);
+        T BuscaDuplicidadeIdentificador<T>(string identificador);
+        IList<T> BuscaSolicitacoesNaoConfirmadasNaoIndeferidasPorAgenda<T>(int id_agenda);
+        IList<T> ListaSolicitacoesDaAgenda<T>(int id_agenda);
+        long ListaSolicitacoesDaAgenda(int id_agenda, bool excluirDesmarcadas);
+        IList<T> ListaSolicitacoesUnidadeSolicitante<T>(string id_procedimento, string cbo, int competencia, string id_unidade);
+        IList<T> ListaAgendaUnidadeLocal<T>(string id_procedimento, string cbo, int competencia, string id_unidade, DateTime data_inicial, DateTime data_final);
+        IList<T> ListarSolicitacoesPendentesAutorizadasPorPaciente<T>(string co_paciente);
+        IList<T> ListarSolicitacoesPorPeriodo<T>(DateTime periodoInicial, DateTime periodoFinal);
+        IList<T> ListarSolicitacoesPorCompetencia<T>(DateTime data, string id_procedimento);
+        String GeraIdentificador<A>(string tipoProcedimento, A agendaParameter);
+        //String GeraIdentificador<A>(A agendaParameter);
+        String GeraProtocoloSolicitacao();
+        String GeraIdentificadorAPAC(int ano);
+        IList<object> ListaSolicitacoesAPAC();
+        void SalvaSolicitacaoReguladaAutorizada<S, H>(S solicitacao, H h);
+        //void SalvaSolicitacaoReguladaAutorizada<S>(S solicitacao);
+        void SalvaSolicitacaoAgendadaAtendimentoBasico<S, A>(S solicit, A agd, string co_subgrupo);
+        IList<T> BuscaFaixaporIdentificador<T>(string faixa);
+        IList ListarQuantitativoDeProducao(string cnes, DateTime periodoInicial, DateTime PeriodoFinal, string tipomunicipio, string municipio, string tipoprocedimento, string procedimento, string especialidade);
+        IList ListarQuantitativoDeSolicitacao(string cnes, DateTime periodoInicial, DateTime PeriodoFinal, string tipomunicipio, string municipio, string tipoprocedimento, string procedimento, string especialidade);
+        IList ListarQuantitativoDeSolicitacaoConfirmada(string cnes, DateTime periodoInicial, DateTime PeriodoFinal, string tipomunicipio, string municipio, string tipoprocedimento, string procedimento, string especialidade);
+
+
+    }
+}

@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Menu>
+  <div class="menu-barra-module" style="background: url('URLPART/Atendimento/img/barramenu.png' ) no-repeat;">
+    <div style="margin-top: 0px; margin-left: 14px">
+      <ul class="menu2" id="menu">
+        <li>
+          <a href="#" class="menulink">Atendimento</a>
+          <ul>
+            <li Permissao="RECEPCAO_PACIENTE">
+              <a href="FormRecepcaoPaciente.aspx">Recepção de Paciente</a>
+            </li>
+            <li Permissao="ATENDIMENTO">
+              <a href="ExibeFilaAcolhimento.aspx">Acolhimento</a>
+            </li>
+            <li Permissao="EXIBE_FILA_ATENDIMENTO">
+              <a href="ExibeFilaAtendimento.aspx">Fila de Atendimento</a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="#" class="menulink">Relatórios</a>
+          <ul>
+            <li Permissao="VISUALIZACAO_DE_AGENDA">
+              <a href="FormVisualizacaoAgenda.aspx">Visualização da Agenda</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</Menu>

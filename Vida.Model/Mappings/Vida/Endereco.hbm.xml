@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="ViverMais.Model">
+	<class name="ViverMais.Model.Endereco" table="tb_ms_endereco" dynamic-update="true">
+		<composite-id>
+			<key-many-to-one name="ControleEndereco" class="ViverMais.Model.ControleEndereco" column="co_endereco"/>
+		</composite-id>
+		<property name="Logradouro" column="no_logradouro"/>
+		<property name="Numero" column="nu_logradouro"/>
+		<property name="Complemento" column="no_compl_logradouro"/>
+		<property name="Bairro" column="no_bairro"/>
+		<property name="CEP" column="co_cep"/>
+		<property name="DDD" column="nu_ddd"/>
+		<property name="Telefone" column="nu_telefone"/>
+		<many-to-one name="TipoLogradouro" class="ViverMais.Model.TipoLogradouro" column="co_tipo_logradouro"/>
+		<many-to-one name="Municipio" class="ViverMais.Model.Municipio" column="co_municipio"/>
+		<!--<bag name="Pacientes" table="rl_ms_usuario_endereco" lazy="false">
+			<key column="co_endereco"/>
+			<many-to-many column="co_usuario" class="ViverMais.Model.Paciente" />
+		</bag>-->
+	</class>
+</hibernate-mapping>

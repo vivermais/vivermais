@@ -1,0 +1,181 @@
+<%@ Master Language="C#" AutoEventWireup="True" CodeBehind="MasterMain.Master.cs"
+    Inherits="ViverMais.View.MasterMain" %>
+
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
+ >
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1" runat="server">
+    <title>ViverMais - Sistema Integrado em Saúde Pública</title>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1;ie=7" />
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <link rel="stylesheet" href="~/style_ViverMais.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="~/style_barra_ViverMais_teste.css" type="text/css" media="screen" />
+    <%--<link type="text/css" href="jquery-ui-1.8.6.custom.css" rel="stylesheet" />--%>
+   
+
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    
+    <script type="text/javascript">
+
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-20556264-11']);
+        _gaq.push(['_trackPageview']);
+
+        (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+ 
+    </script>
+
+    <form id="form1" runat="server">
+    <div id="geralmano">
+        <asp:ScriptManager ID="ScriptManager1" runat="server" EnableScriptGlobalization="true"
+            AsyncPostBackTimeout="600" EnablePartialRendering="true" ScriptMode="Release" LoadScriptsBeforeUI="false">
+        </asp:ScriptManager>
+
+        <script type="text/javascript">
+            var prm = Sys.WebForms.PageRequestManager.getInstance();
+            prm.add_beginRequest(beginRequest);
+
+            function beginRequest() {
+                prm._scrollPosition = null;
+            }
+        </script>
+
+        <div id="topo_sistema">
+            <div class="sombra_esq">
+            </div>
+            <div id="barra">
+                <div id="barra_conteudo">
+                    <div id="barra_assinatura">
+                        <asp:LinkButton ID="lnkHOME" runat="server" CausesValidation="false" PostBackUrl="~/Home.aspx">
+                            <img id="img_ViverMaisassin" alt="" src="img/marca-ViverMais-1.jpg" runat="server" />
+                        </asp:LinkButton>
+                    </div>
+                    <asp:Literal ID="Literal_Menu" runat="server"></asp:Literal>
+                </div>
+            </div>
+            <div id="barra_infos">
+                <div id="user">
+                </div>
+                <div id="user-nome">
+                    <span style="width: 22px; float: left; height: 12px;">Olá,</span> <span style="float: left;
+                        width: 110px">
+                        <asp:LoginName ID="LoginNameUsuario" runat="server" Font-Bold="true" ForeColor="#2c2c2c"
+                            Font-Size="11px" OnDataBinding="LoginName1_DataBinding" />
+                        &nbsp|&nbsp<asp:LinkButton ID="lknSair" runat="server" CausesValidation="false" PostBackUrl="Logout.aspx"
+                            Text="Sair"></asp:LinkButton></span>
+                </div>
+                <asp:Panel ID="Panel_NomeModulo" runat="server">
+                    <div id="modulos">
+                    </div>
+                    <div id="modulos-nome">
+                        <asp:HyperLink ID="HyperLink_Modulo" runat="server" CssClass="nomedosmodulos"></asp:HyperLink>
+                    </div>
+                </asp:Panel>
+                <asp:Panel ID="Panel_Modulo" runat="server">
+                    <asp:Literal ID="barramodulo" runat="server"></asp:Literal>
+                </asp:Panel>
+                <%--FIM MENU BARRA --%>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            var menu = new menu.dd("menu");
+            menu.init("menu", "menuhover");
+        </script>
+
+        <script type="text/C#" runat="server">
+            public string NomeUnidadeUsuario()
+            {
+                ViverMais.Model.Usuario usuario = (ViverMais.Model.Usuario)Session["Usuario"];
+                return usuario.Unidade.NomeFantasia;
+            }
+        </script>
+
+        <script type="text/javascript">
+             $(document).ready(function() {
+            $(function() {
+                scrollDiv(jQuery('#fotos.sc_menu'), jQuery('#fotos.sc_menu'), 15);
+                
+                var unidade = '<%=NomeUnidadeUsuario()%>';
+                
+                if (document.getElementById("user") != null){
+                    document.getElementById("user").setAttribute("title", unidade);
+                    $("#user[title]").tooltip({offset: [10, 1],effect: 'slide'}).dynamic({ bottom: { direction: 'down', bounce: true } });
+                }
+                
+                var loginnome = '<%=LoginNameUsuario.ClientID%>';
+                
+                if (document.getElementById(loginnome) != null){
+                    document.getElementById(loginnome).setAttribute("title", unidade);
+                    $("#" + loginnome + "[title]").tooltip({offset: [10, 2],effect: 'slide'}).dynamic({ bottom: { direction: 'down', bounce: true } });
+                }
+            });
+            });
+        </script>
+
+        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+        </asp:ContentPlaceHolder>
+        <div style="clear: both">
+        </div>
+        <div id="rodape">
+            <div id="rodapecenter">
+                <div>
+                    <asp:Image ID="Image1" runat="server" ImageUrl="~/img/rodapeViverMais.png" Width="866px"
+                        Height="57px" Style="margin-top: 20px" alt="" />
+                </div>
+            </div>
+        </div>
+    </div>
+    </form>
+
+    <%--<script language="javascript" type="text/javascript">
+
+        function disposeTree(sender, args) {
+            var elements = args.get_panelsUpdating();
+            for (var i = elements.length - 1; i >= 0; i--) {
+                var element = elements[i];
+                var allnodes = element.getElementsByTagName('*'),
+                length = allnodes.length;
+                var nodes = new Array(length)
+                for (var k = 0; k < length; k++) {
+                    nodes[k] = allnodes[k];
+                }
+                for (var j = 0, l = nodes.length; j < l; j++) {
+                    var node = nodes[j];
+                    if (node.nodeType === 1) {
+                        if (node.dispose && typeof (node.dispose) === "function") {
+                            node.dispose();
+                        }
+                        else if (node.control && typeof (node.control.dispose) === "function") {
+                            node.control.dispose();
+                        }
+
+                        var behaviors = node._behaviors;
+                        if (behaviors) {
+                            behaviors = Array.apply(null, behaviors);
+                            for (var k = behaviors.length - 1; k >= 0; k--) {
+                                behaviors[k].dispose();
+                            }
+                        }
+                    }
+                }
+                element.innerHTML = "";
+            }
+        }
+
+
+        Sys.WebForms.PageRequestManager.getInstance().add_pageLoading(disposeTree); 
+
+    </script>--%>
+
+</body>
+</html>

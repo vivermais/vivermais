@@ -1,0 +1,22 @@
+﻿using System;
+using System.Linq;
+using System.Text;
+using System.Data;
+using System.Collections.Generic;
+
+namespace ViverMais.ServiceFacade.ServiceFacades.AtendimentoMedico.Urgencia
+{
+    public interface IExame : IServiceFacade
+    {
+        IList<T> ListarPorEstabelecimentoSaude<T>(string co_estabelecimento);
+        IList<T> ListarPorEstabelecimentoSaudePendentes<T>(string co_estabelecimento);
+        IList<T> BuscarExamesPorCartaoSus<T>(string co_cartaosus);
+        IList<T> BuscarExamesPendentesPorCartaoSus<T>(string co_cartaosus, string co_unidade);
+        IList<T> BuscarExamesPorProntuario<T>(long co_prontuario);
+        IList<T> BuscarExamesPendentesPorProntuario<T>(long co_prontuario, string co_unidade);
+        IList<T> BuscarExamesEletivosPorProntuario<T>(long co_prontuario);
+        IList<T> BuscarControleExamesEletivosPorExames<T, E>(E exames);
+        IList<T> ListarPorEstabelecimentoDisponivelEntrega<T>(string co_estabelecimento);
+        IList<T> BuscarControlesEletivosDaEvolucaoMedica<T>(long co_prontuario);
+    }
+}

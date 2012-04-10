@@ -1,0 +1,101 @@
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Xml.Linq;
+using System.Collections.Generic;
+using ViverMais.Model;
+using ViverMais.DAO;
+using ViverMais.ServiceFacade.ServiceFacades.Relatorio;
+using ViverMais.ServiceFacade.ServiceFacades.Seguranca;
+
+namespace ViverMais.View.Relatorio
+{
+    public partial class RelatorioProducaoCNS : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!IsPostBack) 
+            {
+                //if (!Factory.GetInstance<ISeguranca>().VerificarPermissao(((ViverMais.Model.Usuario)Session["Usuario"]).Codigo, "RELATORIOS"))
+                //    ClientScript.RegisterClientScriptBlock(typeof(String), "ok", "<script>alert('Você não tem permissão para acessar essa página. Em caso de dúViverMais, entre em contato.');window.location='../Home.aspx';</script>");
+            }
+        }
+
+        protected void lnkBtnPesquisar_Click(object sender, EventArgs e)
+        {
+            Chart1.Series["Series1"].ChartType = System.Web.UI.DataVisualization.Charting.SeriesChartType.Bar;
+            //Chart1.Series["Series1"].IsVisibleInLegend = true;
+            //Chart1.Series["Series1"].YAxisType = System.Web.UI.DataVisualization.Charting.AxisType.Primary;
+            //Chart1.Series["Series1"]["PointWidth"] = "0.6";
+            Chart1.Series["Series1"].IsValueShownAsLabel = true;
+            Chart1.ChartAreas["ChartArea1"].AxisX.Interval = 1;
+            Chart1.ChartAreas["ChartArea1"].Area3DStyle.Enable3D = true;
+            //Chart1.Series["Series1"]["DrawingStyle"] = "Cylinder";
+
+            IList<ControleCartaoSUS> resultado = Factory.GetInstance<IRelatorioCNS>().PesquisarProducaoPorDistrito<ControleCartaoSUS>(0, DateTime.Parse(tbxDataInicial.Text), DateTime.Parse(tbxDataFinal.Text + " 23:59:59"));
+
+            string[] xv = null;
+            double[] yv = null;
+            int total = 0;
+            if (rbtnListTipoRelatorio.SelectedValue == "Distrito")
+            {
+                var result = (from r in resultado where r.Usuario != null && r.Usuario.Unidade.Bairro.Distrito != null group r by r.Usuario.Unidade.Bairro.Distrito.Nome into g select new { Nome = g.Key, Producao = g.Count() }).ToList();
+                xv = new string[result.Count()];
+                yv = new double[result.Count()];
+                int i = 0;
+                foreach (var item in result)
+                {
+                    xv[i] = item.Nome;
+                    yv[i] = item.Producao;
+                    total += item.Producao;
+                    i++;
+                }
+            }
+            else //relatorio por unidade
+            {
+                PreencheGridResultado(resultado);
+                var result = (from r in resultado where r.Usuario != null group r by r.Usuario.Unidade.NomeFantasia into g select new { Nome = g.Key, Producao = g.Count() }).ToList();
+                Chart1.Height = new Unit(900);
+                xv = new string[result.Count()];
+                yv = new double[result.Count()];
+                int i = 0;
+                foreach (var item in result)
+                {
+                    xv[i] = item.Nome;
+                    yv[i] = item.Producao;
+                    total += item.Producao;
+                    i++;
+                }
+            }
+            lblTotal.Text = total.ToString();
+            Chart1.Series["Series1"].Points.DataBindXY(xv, yv);
+            //Chart1.DataSource = result;
+            //Chart1.DataBind();
+        }
+
+        void PreencheGridResultado(IList<ControleCartaoSUS> resultado)
+        {
+            var result = (from r in resultado where r.Usuario != null group r by r.Usuario.Unidade.NomeFantasia into g select new { Nome = g.Key, Producao = g.Count() }).ToList();
+            DataTable tabela = new DataTable();
+            tabela.Columns.Add(new DataColumn("Nome"));
+            tabela.Columns.Add(new DataColumn("Producao"));
+            foreach (var item in result)
+            {
+                DataRow linha = tabela.NewRow();
+                linha[0] = item.Nome;
+                linha[1] = item.Producao;
+                tabela.Rows.Add(linha);
+            }
+            GridResultado.DataSource = tabela;
+            GridResultado.DataBind();
+        }
+    }
+}

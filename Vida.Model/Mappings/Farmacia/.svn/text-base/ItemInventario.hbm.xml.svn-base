@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Vida.Model">
+	<class name="Vida.Model.ItemInventario" table="far_itensinventario">
+		<composite-id unsaved-value="any">
+			<key-many-to-one name="Inventario" class="Vida.Model.Inventario" column="id_inventario" lazy="false"/>
+			<key-many-to-one name="LoteMedicamento" class="Vida.Model.LoteMedicamento" column="id_lotemedicamento" lazy="false"/>
+		</composite-id>
+	<property name="QtdEstoque" column="qtdestoque" />
+  <property name="QtdContada" column="qtdcontada" />
+  </class>
+</hibernate-mapping>

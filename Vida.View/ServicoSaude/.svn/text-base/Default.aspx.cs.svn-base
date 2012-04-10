@@ -1,0 +1,87 @@
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using Vida.DAO;
+using Vida.ServiceFacade.ServiceFacades.Misc;
+using Vida.Model;
+using Vida.ServiceFacade.ServiceFacades.EstabelecimentoSaude;
+using System.Collections.Generic;
+
+namespace Vida.View.ServicoSaude
+{
+    public partial class Default : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!IsPostBack)
+            {
+                DropDownList_Servico.DataSource = Factory.GetInstance<IServicoSaude>().ListarTodos<Vida.Model.ServicoSaude>().OrderBy(p => p.Nome).ToList();
+                DropDownList_Servico.DataBind();
+
+                DropDownList_Servico.Items.Insert(0, new ListItem("Selecione...", "-1"));
+            }
+        }
+
+        /// <summary>
+        /// Busca os bairros para o serviço solicitado
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnSelectedIndexChanged_CarregaBairros(object sender, EventArgs e)
+        {
+            DropDownList_Bairro.Items.Clear();
+            DropDownList_Bairro.Focus();
+
+            if (DropDownList_Servico.SelectedValue != "-1")
+            {
+                var consulta = from unidade in Factory.GetInstance<IServicoSaude>().BuscarPorCodigo<Vida.Model.ServicoSaude>(int.Parse(DropDownList_Servico.SelectedValue)).Unidades
+                               group unidade by unidade.Bairro into b
+                               select b;
+
+                //IList<Bairro> bairros = Factory.GetInstance<IServicoSaude>().BuscarPorCodigo<Vida.Model.ServicoSaude>(int.Parse(DropDownList_Servico.SelectedValue)).Unidades.Select(p => p.Bairro).Distinct(new GenericComparer<Bairro>("Codigo")).OrderBy(p=>p.Nome).ToList();
+
+                DropDownList_Bairro.DataSource = consulta.Select(p => p.Key).OrderBy(p=>p.Nome).ToList();
+                DropDownList_Bairro.DataBind();
+            }
+
+            DropDownList_Bairro.Items.Insert(0, new ListItem("Selecione...", "-1"));
+            DropDownList_Bairro.Focus();
+        }
+
+        /// <summary>
+        /// Busca as unidades de saúde com o bairro especificado
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnSelectedIndexChanged_CarregaUnidades(object sender, EventArgs e)
+        {
+            //if (DropDownList_Bairro.SelectedValue != "-1")
+            //{
+            //    Panel_Unidade.Visible = true;
+            //    GridView_Unidades.DataSource = Factory.GetInstance<IEstabelecimentoSaude>().BuscarPorBairro<Vida.Model.EstabelecimentoSaude>(DropDownList_Bairro.SelectedValue);
+            //    GridView_Unidades.DataBind();
+            //}
+            //else
+            //{
+            //    Panel_Unidade.Visible = false;
+            //}
+        }
+
+        protected void OnClick_Buscar(object sender, EventArgs e)
+        {
+            GridView_Unidades.DataSource = Factory.GetInstance<IServicoSaude>().BuscarEstabelecimentos<Vida.Model.EstabelecimentoSaude>(int.Parse(DropDownList_Servico.SelectedValue), DropDownList_Bairro.SelectedValue).OrderBy(p=>p.Bairro.Nome).ToList();
+            GridView_Unidades.DataBind();
+
+            Panel_Unidade.Visible = true;
+        }
+    }
+}

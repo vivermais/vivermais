@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="ViverMais.Model">
+  <class name="ViverMais.Model.ItemRemanejamentoVacina" table="vcn_itemremanejamento">
+    <id name="Codigo">
+      <column name="co_item" not-null="true"/>
+      <generator class="sequence">
+        <param name="sequence">vcn_item_remanejamento</param>
+      </generator>
+    </id>
+    <many-to-one name="Remanejamento" class="ViverMais.Model.RemanejamentoVacina" column="co_remanejamento" />
+    <many-to-one name="Lote" class="ViverMais.Model.LoteVacina" column="co_lote" />
+    <many-to-one name="UsuarioConfirmacao" class="ViverMais.Model.Usuario" column="co_usuarioconfirmacao" />
+    <property name="DataConfirmacao" column="dataconfirmacao" />
+    <property name="QuantidadeRegistrada" column="qtdregistrada" />
+    <property name="QuantidadeConfirmada" column="qtdconfirmada" />
+  </class>
+</hibernate-mapping>

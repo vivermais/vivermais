@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="ViverMais.Model">
+	<class name="ViverMais.Model.UF" table="tb_ms_unidade_federacao" >
+		<id name="Sigla">
+			<column name="sg_uf" not-null="true"/>
+			<generator class="assigned" />
+		</id>
+		<property name="Codigo" column="co_uf"/>
+		<property name="Nome" column="ds_uf"/>
+	</class>
+</hibernate-mapping>

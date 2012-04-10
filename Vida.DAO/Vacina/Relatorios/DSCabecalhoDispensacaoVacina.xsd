@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DSCabecalhoDispensacaoVacina" targetNamespace="http://tempuri.org/DSCabecalhoDispensacaoVacina.xsd" xmlns:mstns="http://tempuri.org/DSCabecalhoDispensacaoVacina.xsd" xmlns="http://tempuri.org/DSCabecalhoDispensacaoVacina.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DSCabecalhoDispensacaoVacina" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_DataSetName="DSCabecalhoDispensacaoVacina" msprop:Generator_UserDSName="DSCabecalhoDispensacaoVacina" msprop:EnableTableAdapterManager="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="cabecalho" msprop:Generator_UserTableName="cabecalho" msprop:Generator_RowDeletedName="cabecalhoRowDeleted" msprop:Generator_TableClassName="cabecalhoDataTable" msprop:Generator_RowChangedName="cabecalhoRowChanged" msprop:Generator_RowClassName="cabecalhoRow" msprop:Generator_RowChangingName="cabecalhoRowChanging" msprop:Generator_RowEvArgName="cabecalhoRowChangeEvent" msprop:Generator_RowEvHandlerName="cabecalhoRowChangeEventHandler" msprop:Generator_TablePropName="cabecalho" msprop:Generator_TableVarName="tablecabecalho" msprop:Generator_RowDeletingName="cabecalhoRowDeleting">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="UnidadeSaude" msprop:Generator_UserColumnName="UnidadeSaude" msprop:Generator_ColumnPropNameInRow="UnidadeSaude" msprop:Generator_ColumnVarNameInTable="columnUnidadeSaude" msprop:Generator_ColumnPropNameInTable="UnidadeSaudeColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Nome" msprop:Generator_UserColumnName="Nome" msprop:Generator_ColumnPropNameInRow="Nome" msprop:Generator_ColumnVarNameInTable="columnNome" msprop:Generator_ColumnPropNameInTable="NomeColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="CartaoSUS" msprop:Generator_UserColumnName="CartaoSUS" msprop:Generator_ColumnPropNameInRow="CartaoSUS" msprop:Generator_ColumnVarNameInTable="columnCartaoSUS" msprop:Generator_ColumnPropNameInTable="CartaoSUSColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Data" msprop:Generator_UserColumnName="Data" msprop:Generator_ColumnPropNameInRow="Data" msprop:Generator_ColumnVarNameInTable="columnData" msprop:Generator_ColumnPropNameInTable="DataColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="CodigoDispensacao" msprop:Generator_UserColumnName="CodigoDispensacao" msprop:Generator_ColumnPropNameInRow="CodigoDispensacao" msprop:Generator_ColumnVarNameInTable="columnCodigoDispensacao" msprop:Generator_ColumnPropNameInTable="CodigoDispensacaoColumn" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

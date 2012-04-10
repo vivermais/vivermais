@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="ViverMais.Model">
+  <class name="ViverMais.Model.QuantidadeSolicitacaoRede" table="AGD_QTD_SOLICITACAO_REDE">
+    <!--<composite-id>
+      SEQ_AGD_QTD_SOLICITACAO_REDE
+      <key-many-to-one name="Estabelecimento" class="ViverMais.Model.EstabelecimentoSaude" column="cnes" lazy="false"/>
+      <key-property name="Competencia" column="competencia"/>
+    </composite-id>-->
+    <id name="IdQuantidadeSolicitacaoRede">
+      <column name="ID_AGD_QTD_SOL_REDE" not-null="true"/>
+      <generator class="sequence">
+        <param name="sequence">SEQ_AGD_QTD_SOLICITACAO_REDE</param>
+      </generator>
+    </id>
+    <property name="Competencia" column="competencia"/>
+    <property name="QtdSolicitacoes" column="QTD_SOLICITACOES"/>
+    <many-to-one name="Estabelecimento" class="ViverMais.Model.EstabelecimentoSaude" column="cnes" lazy="false"/>
+    <many-to-one name="Procedimento" class="ViverMais.Model.Procedimento" column="co_procedimento" lazy="false"/>
+    <many-to-one name="CBO" class="ViverMais.Model.CBO" column="co_ocupacao" lazy="false"/>
+    <many-to-one name="SubGrupo" class="ViverMais.Model.SubGrupo" column="co_subgrupo" lazy="false"/>
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,61 @@
+﻿<%@ Page Language="C#" MasterPageFile="~/Paciente/MasterPaciente.Master" AutoEventWireup="true"
+    CodeBehind="Biometria.aspx.cs" Inherits="ViverMais.View.Paciente.Biometria" Title="Untitled Page" %>
+
+<%@ Register src="WUCPesquisarPaciente.ascx" tagname="WUCPesquisarPaciente" tagprefix="uc1" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+
+    <script language="JavaScript" type="text/javascript">
+
+	function get_url_param(name)
+	{  
+		name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");  
+		var regexS = "[\\?&]"+name+"=([^&#]*)";  
+		var regex = new RegExp( regexS );  
+		var results = regex.exec( window.location.href ); 
+		if( results == null )    return "";  
+		else return results[1];
+	} 
+	function writeAppletTag() {
+		document.writeln('<applet width="224" height="250">"');
+        document.writeln('<param name="cache_archive" value="../BiometriaApplet.jar,axis.jar,../SignedFingerprintSDKJavaAppletSample.jar" />');
+		document.writeln(buildParamTag('id',get_url_param('codigo')));
+		document.writeln(buildParamTag('url','http://www.ViverMais.saude.salvador.ba.gov.br/Paciente/FormPaciente.aspx?codigo='));
+		document.writeln('<param name="jnlp_href" value="../launch.jnlp" />');
+		document.writeln('</APPLET>');
+	}
+
+	function buildParamTag(name, value) {
+		return '<PARAM NAME="' + name + '" VALUE="' + value + '">';
+	}
+
+    </script>
+
+    <div id="top">
+        <h2>
+            Consulta Biométrica</h2>
+    
+    <fieldset class="formulario">
+        <h4>
+            Pressione Suavemente o Polegar Direito no Leitor Biométrico</h4>
+        <div class="info">
+            <blockquote style="width: 191px; height: 210px;">
+                <br />
+                "A <b>Biometria</b> consiste no estudo estatístico das características físicas ou
+                comportamentais dos seres humanos. Esse estudo conduz a métodos automáticos de reconhecimento
+                único de pessoas, baseados em tais características. Com o avanço da tecnologia e
+                a redução de custos, a Biometria deverá se tornar a forma padrão de identificação
+                humana do século XXI."<br />
+                <%--<asp:Image ID="img_fingerprint" runat="server" ImageUrl="~/img/fingerprint.jpg" />--%>
+                <br />
+                 <script language="JavaScript" type="text/javascript">
+                        writeAppletTag();
+                </script>
+            </blockquote>
+        </div>
+    </fieldset>
+
+        </div>
+</asp:Content>

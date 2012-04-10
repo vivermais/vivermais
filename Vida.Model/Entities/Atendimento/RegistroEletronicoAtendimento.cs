@@ -1,0 +1,246 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace ViverMais.Model
+{
+    [Serializable]
+    public class RegistroEletronicoAtendimento
+    {
+        long codigo;
+        public virtual long Codigo
+        {
+            get { return codigo; }
+            set { codigo = value; }
+        }
+
+        int numero;
+        public virtual int Numero
+        {
+            get { return numero; }
+            set { numero = value; }
+        }
+
+        public virtual string NumeroToString
+        {
+            get
+            {
+                if (this.numero.ToString().Length == 9)
+                    return this.numero.ToString();
+                else
+                    return "0" + this.numero.ToString();
+            }
+        }
+
+        public virtual string NomePacienteToString
+        {
+            get
+            {
+                if (this.Paciente != null)
+                    return this.Paciente.Nome;
+
+                if (!string.IsNullOrEmpty(Paciente.Nome))
+                    return this.Paciente.Nome;
+
+                return "Não Identificado";
+            }
+        }
+
+        private Paciente paciente;
+        public virtual Paciente Paciente
+        {
+            get { return paciente; }
+            set { paciente = value; }
+        }
+
+        private EstabelecimentoSaude unidadeSaude;
+
+        public virtual EstabelecimentoSaude UnidadeSaude
+        {
+            get { return unidadeSaude; }
+            set { unidadeSaude = value; }
+        }
+
+        SituacaoRegistroEletronicoAtendimento situacao;
+        public virtual SituacaoRegistroEletronicoAtendimento Situacao
+        {
+            get { return situacao; }
+            set { situacao = value; }
+        }
+
+        SenhaSenhador senhaSenhador;
+
+        public virtual SenhaSenhador SenhaSenhador
+        {
+            get { return senhaSenhador; }
+            set { senhaSenhador = value; }
+        }
+
+        string sumarioalta;
+        public virtual string SumarioAlta
+        {
+            get { return sumarioalta; }
+            set { sumarioalta = value; }
+        }
+
+        private CBO especialidadeatendimento;
+        public virtual CBO EspecialidadeAtendimento
+        {
+            get { return especialidadeatendimento; }
+            set { especialidadeatendimento = value; }
+        }
+
+        DateTime? dataRecepcao;
+
+        public virtual DateTime? DataRecepcao
+        {
+            get { return dataRecepcao; }
+            set { dataRecepcao = value; }
+        }
+
+        DateTime? dataconsultamedica;
+        public virtual DateTime? DataConsultaMedica
+        {
+            get { return dataconsultamedica; }
+            set { dataconsultamedica = value; }
+        }
+
+        DateTime? datafinalizacao;
+        public virtual DateTime? DataFinalizacao
+        {
+            get { return datafinalizacao; }
+            set { datafinalizacao = value; }
+        }
+
+        public virtual string SenhaAtendimento
+        {
+            get
+            {
+                if (this.SenhaSenhador != null)                {                    try                    {                        return this.SenhaSenhador.Senha;                    }                    catch { }                }                return null;            }        }
+
+        public RegistroEletronicoAtendimento()
+        {
+        }
+
+        public virtual string PacienteDescricao
+        {
+            get
+            {
+                string descricao = this.Paciente.Nome;
+
+                if (string.IsNullOrEmpty(descricao))
+                    return " - ";
+
+                return descricao;
+            }
+        }
+
+        public override string ToString()
+        {
+            return this.NumeroToString;
+        }
+
+        /******MÉTODOS PARA TEMPO DE ESPERA******/
+        public virtual int EsperaFilaAtendimento
+        {
+            get
+            {
+                return this.DiferencaMinutos(DateTime.Now, this.dataRecepcao.Value);
+            }
+        }
+
+        public virtual string EsperaAtualFilaAtendimento
+        {
+            get
+            {
+                return this.TempoEspera(DateTime.Now, this.dataRecepcao.Value);
+            }
+        }
+
+        public virtual string TempoAcolhimento
+        {
+            get
+            {
+                if (this.dataRecepcao.HasValue)
+                    return this.TempoEspera(DateTime.Now, this.dataRecepcao.Value);
+
+                return " - ";
+            }
+        }
+
+        public virtual string TempoConsultaMedica
+        {
+            get
+            {
+                if (this.dataRecepcao.HasValue && this.dataconsultamedica.HasValue)
+                    return this.TempoEspera(this.dataconsultamedica.Value, this.dataRecepcao.Value);
+
+                return " - ";
+            }
+        }
+
+        public virtual string TempoFinalizacao
+        {
+            get
+            {
+                if (this.dataconsultamedica.HasValue && this.datafinalizacao.HasValue)
+                    return this.TempoEspera(this.datafinalizacao.Value, this.dataconsultamedica.Value);
+
+                return " - ";
+            }
+        }
+
+        public virtual string TempoUniaoAcolhimentoConsultaFinalizacao
+        {
+            get
+            {
+                int totalminutos = -1;
+
+                if (this.dataRecepcao.HasValue && this.dataconsultamedica.HasValue)
+                    totalminutos += this.DiferencaMinutos(this.dataconsultamedica.Value, this.dataRecepcao.Value);
+
+                if (this.dataconsultamedica.HasValue && this.datafinalizacao.HasValue)
+                    totalminutos += this.DiferencaMinutos(this.datafinalizacao.Value, this.dataconsultamedica.Value);
+
+                if (totalminutos > -1)
+                    return this.TempoEspera(totalminutos);
+
+                return " - ";
+            }
+        }
+
+        private string TempoEspera(int totalminutos)
+        {
+            int horas = totalminutos / 60;
+            int minutos = totalminutos % 60;
+            int dias = horas / 24;
+
+            StringBuilder espera = new StringBuilder();
+
+            if (dias > 0)
+            {
+                horas = horas % 24;
+                espera.Append(dias.ToString());
+                espera.Append(" dia(s), ");
+            }
+
+            espera.Append(horas.ToString());
+            espera.Append(" hora(s) e ");
+            espera.Append(minutos.ToString());
+            espera.Append(" minuto(s)");
+
+            return espera.ToString();
+        }
+
+        private int DiferencaMinutos(DateTime minuendo, DateTime subtraendo)
+        {
+            return int.Parse(Math.Round(minuendo.Subtract(subtraendo).TotalMinutes).ToString());
+        }
+
+        private string TempoEspera(DateTime minuendo, DateTime subtraendo)
+        {
+            return this.TempoEspera(this.DiferencaMinutos(minuendo, subtraendo));
+        }
+    }
+}

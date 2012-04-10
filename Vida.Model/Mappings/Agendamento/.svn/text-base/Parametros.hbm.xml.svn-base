@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Vida.Model">
+	<class name="Vida.Model.Parametros" table="AGD_PARAMETRO">
+        <id name="Codigo">
+            <column name="CO_PARAMETRO" not-null="true"/>
+            <generator class="sequence">
+                <param name="sequence">AGD_PARAMETRO_SEQUENCE</param>
+            </generator>
+        </id>
+		<property name="Min_Dias" column="MIN_DIAS" />
+		<property name="Max_Dias" column="MAX_DIAS" />
+		<!--<property name="Competencia" column="COMPETENCIA" />-->
+		<property name="Min_Dias_Espera" column="MIN_DIAS_ESPERA" />
+		<property name="Pct_Vagas_Espera" column="PCT_VAGAS_ESPERA" />
+		<property name="Min_Dias_Cancela" column="MIN_DIAS_CANCELA" />
+		<property name="Min_Dias_Reaproveita" column="MIN_DIAS_REAPROVEITA" />
+		<property name="Validade_Codigo" column="VALIDADE_CODIGO" />
+	</class>
+</hibernate-mapping>

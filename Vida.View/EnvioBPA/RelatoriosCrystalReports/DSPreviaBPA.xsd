@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DSPreviaBPA" targetNamespace="http://tempuri.org/DSPreviaBPA.xsd" xmlns:mstns="http://tempuri.org/DSPreviaBPA.xsd" xmlns="http://tempuri.org/DSPreviaBPA.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DSPreviaBPA" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_DataSetName="DSPreviaBPA" msprop:Generator_UserDSName="DSPreviaBPA" msprop:EnableTableAdapterManager="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="cabecalho" msprop:Generator_UserTableName="cabecalho" msprop:Generator_RowDeletedName="cabecalhoRowDeleted" msprop:Generator_TableClassName="cabecalhoDataTable" msprop:Generator_RowChangedName="cabecalhoRowChanged" msprop:Generator_RowClassName="cabecalhoRow" msprop:Generator_RowChangingName="cabecalhoRowChanging" msprop:Generator_RowEvArgName="cabecalhoRowChangeEvent" msprop:Generator_RowEvHandlerName="cabecalhoRowChangeEventHandler" msprop:Generator_TablePropName="cabecalho" msprop:Generator_TableVarName="tablecabecalho" msprop:Generator_RowDeletingName="cabecalhoRowDeleting">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="competencia" msprop:Generator_UserColumnName="competencia" msprop:Generator_ColumnPropNameInRow="competencia" msprop:Generator_ColumnVarNameInTable="columncompetencia" msprop:Generator_ColumnPropNameInTable="competenciaColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="unidade" msprop:Generator_UserColumnName="unidade" msprop:Generator_ColumnPropNameInRow="unidade" msprop:Generator_ColumnVarNameInTable="columnunidade" msprop:Generator_ColumnPropNameInTable="unidadeColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="unidadecnes" msprop:Generator_UserColumnName="unidadecnes" msprop:Generator_ColumnPropNameInRow="unidadecnes" msprop:Generator_ColumnVarNameInTable="columnunidadecnes" msprop:Generator_ColumnPropNameInTable="unidadecnesColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="codigo" msprop:Generator_UserColumnName="codigo" msprop:Generator_ColumnPropNameInRow="codigo" msprop:Generator_ColumnVarNameInTable="columncodigo" msprop:Generator_ColumnPropNameInTable="codigoColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="tipo" msprop:Generator_UserColumnName="tipo" msprop:Generator_ColumnPropNameInRow="tipo" msprop:Generator_ColumnVarNameInTable="columntipo" msprop:Generator_ColumnPropNameInTable="tipoColumn" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="corpo" msprop:Generator_UserTableName="corpo" msprop:Generator_RowDeletedName="corpoRowDeleted" msprop:Generator_TableClassName="corpoDataTable" msprop:Generator_RowChangedName="corpoRowChanged" msprop:Generator_RowClassName="corpoRow" msprop:Generator_RowChangingName="corpoRowChanging" msprop:Generator_RowEvArgName="corpoRowChangeEvent" msprop:Generator_RowEvHandlerName="corpoRowChangeEventHandler" msprop:Generator_TablePropName="corpo" msprop:Generator_TableVarName="tablecorpo" msprop:Generator_RowDeletingName="corpoRowDeleting">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="codigo" msprop:Generator_UserColumnName="codigo" msprop:Generator_ColumnPropNameInRow="codigo" msprop:Generator_ColumnVarNameInTable="columncodigo" msprop:Generator_ColumnPropNameInTable="codigoColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="sequenciaprocedimento" msprop:Generator_UserColumnName="sequenciaprocedimento" msprop:Generator_ColumnPropNameInRow="sequenciaprocedimento" msprop:Generator_ColumnVarNameInTable="columnsequenciaprocedimento" msprop:Generator_ColumnPropNameInTable="sequenciaprocedimentoColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="procedimento" msprop:Generator_UserColumnName="procedimento" msprop:Generator_ColumnPropNameInRow="procedimento" msprop:Generator_ColumnVarNameInTable="columnprocedimento" msprop:Generator_ColumnPropNameInTable="procedimentoColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="cbo" msprop:Generator_UserColumnName="cbo" msprop:Generator_ColumnPropNameInRow="cbo" msprop:Generator_ColumnVarNameInTable="columncbo" msprop:Generator_ColumnPropNameInTable="cboColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="idade" msprop:Generator_UserColumnName="idade" msprop:Generator_ColumnPropNameInRow="idade" msprop:Generator_ColumnVarNameInTable="columnidade" msprop:Generator_ColumnPropNameInTable="idadeColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="quantidade" msprop:Generator_UserColumnName="quantidade" msprop:Generator_ColumnPropNameInRow="quantidade" msprop:Generator_ColumnVarNameInTable="columnquantidade" msprop:Generator_ColumnPropNameInTable="quantidadeColumn" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="Constraint1">
+      <xs:selector xpath=".//mstns:cabecalho" />
+      <xs:field xpath="mstns:codigo" />
+    </xs:unique>
+    <xs:keyref name="FK_cabecalho_corpo" refer="Constraint1" msprop:rel_Generator_UserRelationName="FK_cabecalho_corpo" msprop:rel_Generator_RelationVarName="relationFK_cabecalho_corpo" msprop:rel_Generator_UserChildTable="corpo" msprop:rel_Generator_UserParentTable="cabecalho" msprop:rel_Generator_ParentPropName="cabecalhoRow" msprop:rel_Generator_ChildPropName="GetcorpoRows">
+      <xs:selector xpath=".//mstns:corpo" />
+      <xs:field xpath="mstns:codigo" />
+    </xs:keyref>
+  </xs:element>
+</xs:schema>

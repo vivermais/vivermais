@@ -1,0 +1,13 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace Vida.ServiceFacade.ServiceFacades.SiteVida
+{
+    public interface INewsLetterServiceFacade : IServiceFacade
+    {
+       T BuscarEmailUsuario<T>(string Email);
+       
+    }
+}

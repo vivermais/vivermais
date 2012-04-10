@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Vida.Model">
+  <class name="Vida.Model.PactoReferenciaSaldo" table="AGD_PACTO_AGREG_REF_SALDO">
+    <id name="Codigo">
+      <column name="AGD_PACTO_AGREG_REF_SALDO" not-null="true"/>
+      <generator class="sequence">
+        <param name="sequence">PACTO_AGREG_REF_SALDO_SEQ</param>
+      </generator>
+    </id>
+    <many-to-one name="PactoAgregadoProcedCBO" column="ID_PACTO_AGREGADO" class="Vida.Model.PactoAgregadoProcedCBO"/>
+    
+    <property name="Mes" column="MES" />
+    <!--<property name="ValorMensal" column="VALOR_MENSAL" />-->
+    <property name="ValorRestante" formula="round(valor_restante,10)"/>
+    <!--<property name="ValorRestante" column="valor_restante" type="Int64" length="10"/>-->
+    
+    <!--<property name="BloqueiaCota" column="bloqueia_cota" />
+    <property name="TipoPacto" column="TIPOPACTO" />
+    <property name="DataPacto" column="DATAPACTO" />
+    <property name="DataUltimaOperacao" column="DATAOPERACAO" />
+    <property name="Ativo" column="ATIVO" />
+    <many-to-one name="Usuario" column="co_usuario" class="Vida.Model.Usuario"/>
+    <many-to-one name="Agregado" column="id_agregado" class="Vida.Model.Agregado"/>
+    <many-to-one name="Pacto" column="id_pacto" class="Vida.Model.Pacto"/>
+    <many-to-one name="Procedimento" column="ID_procedimento" class="Vida.Model.Procedimento"/>
+    <many-to-one name="Cbo" column="ID_CBO" class="Vida.Model.CBO"/>-->
+  </class>
+</hibernate-mapping>

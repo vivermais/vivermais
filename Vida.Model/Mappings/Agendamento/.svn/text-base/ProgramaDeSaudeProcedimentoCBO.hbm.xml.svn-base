@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Vida.Model">
+  <class name="Vida.Model.ProgramaDeSaudeProcedimentoCBO" table="AGD_PROGRAMA_PROCEDIMENTO">
+    <id name="Codigo">
+      <column name="CO_PROGRAMA_PROCEDIMENTO_CBO" not-null="true"/>
+      <generator class="sequence">
+        <param name="sequence">AGD_PROG_PROCED_CBO_SEQUENCE</param>
+      </generator>
+    </id>
+    <many-to-one name="ProgramaDeSaude" class="Vida.Model.ProgramaDeSaude" column="CO_PROGRAMA" />
+    <many-to-one name="Procedimento" class="Vida.Model.Procedimento" column="CO_PROCEDIMENTO" />
+    <property name="Ativo" column="ativo" />
+    <bag name="Cbos" table="AGD_PROGRAMA_PROCEDIMENTO_CBO">
+      <key column="CO_PROGRAMA_PROCEDIMENTO_CBO"/>
+      <many-to-many column="CO_OCUPACAO" class="Vida.Model.CBO" />
+    </bag>
+    <!--<property name="CodigoCBO" column="CO_OCUPACAO" />-->
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,16 @@
+L:\SISTEMAS\VIDA\Vida.DAL\obj\Debug\ResolveAssemblyReference.cache
+L:\SISTEMAS\VIDA\Vida.DAL\bin\Debug\Vida.DAL.dll
+L:\SISTEMAS\VIDA\Vida.DAL\bin\Debug\Vida.DAL.pdb
+L:\SISTEMAS\VIDA\Vida.DAL\bin\Debug\Oracle.DataAccess.dll
+L:\SISTEMAS\VIDA\Vida.DAL\obj\Debug\Vida.DAL.dll
+L:\SISTEMAS\VIDA\Vida.DAL\obj\Debug\Vida.DAL.pdb
+L:\lucas01\SISTEMAS\VIDA\Vida.DAL\bin\Debug\Vida.DAL.dll
+L:\lucas01\SISTEMAS\VIDA\Vida.DAL\bin\Debug\Vida.DAL.pdb
+L:\lucas01\SISTEMAS\VIDA\Vida.DAL\obj\Debug\ResolveAssemblyReference.cache
+L:\lucas01\SISTEMAS\VIDA\Vida.DAL\obj\Debug\Vida.DAL.dll
+L:\lucas01\SISTEMAS\VIDA\Vida.DAL\obj\Debug\Vida.DAL.pdb
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAL\bin\Debug\Vida.DAL.dll
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAL\bin\Debug\Vida.DAL.pdb
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAL\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAL\obj\Debug\Vida.DAL.dll
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAL\obj\Debug\Vida.DAL.pdb

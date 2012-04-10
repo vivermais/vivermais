@@ -1,0 +1,135 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using Vida.DAO;
+using Vida.ServiceFacade.ServiceFacades;
+using Vida.Model;
+using Vida.ServiceFacade.ServiceFacades.Seguranca;
+using Vida.ServiceFacade.ServiceFacades.AtendimentoMedico.Urgencia;
+
+namespace Vida.View.Urgencia
+{
+    public partial class FormExibeProcedimentosNaoFaturaveis : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!IsPostBack)
+            {
+                //if (!Factory.GetInstance<IRelatorioUrgencia>().PAAtivo(((Usuario)Session["Usuario"]).Unidade.CNES))
+                //    ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Usuário, o Módulo Urgência ainda não está disponível para sua unidade! Por favor, procure a administração.');location='../Home.aspx';", true);
+
+                if (!Factory.GetInstance<ISeguranca>().VerificarPermissao(((Usuario)Session["Usuario"]).Codigo, "CADASTRAR_PROCEDIMENTO_NAO_FATURAVEL",Modulo.URGENCIA))
+                {
+                    this.GridView_Procedimentos.Columns.RemoveAt(2);
+                    this.LinkButton_NovoRegistro.Visible = false;
+                }
+                CarregaProcedimentos();
+                //else
+                    //ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Usuário, você não tem permissão para acessar esta página! Por favor, entre em contato com a administração.');location='Default.aspx';", true);
+            }
+        }
+
+        /// <summary>
+        /// Carrega os tipos de procedimentos cadastrados
+        /// </summary>
+        private void CarregaProcedimentos()
+        {
+            IList<ProcedimentoNaoFaturavel> procedimentos = Factory.GetInstance<IUrgenciaServiceFacade>().ListarTodos<ProcedimentoNaoFaturavel>("Nome", true);
+            Session["procedimentos"] = procedimentos;
+            GridView_Procedimentos.DataSource = procedimentos;
+            GridView_Procedimentos.DataBind();
+        }
+
+        ///// <summary>
+        ///// Salva o procedimento
+        ///// </summary>
+        ///// <param name="sender"></param>
+        ///// <param name="e"></param>
+        //protected void OnClick_SalvarProcedimento(object sender, EventArgs e)
+        //{
+        //    try
+        //    {
+        //        IProcedimentoNaoFaturavel iUrgencia = Factory.GetInstance<IProcedimentoNaoFaturavel>();
+        //        ProcedimentoNaoFaturavel procedimento = ViewState["co_proc"] == null ? new ProcedimentoNaoFaturavel() : iUrgencia.BuscarPorCodigo<ProcedimentoNaoFaturavel>(int.Parse(ViewState["co_proc"].ToString()));
+        //        procedimento.Nome = TextBox_NomeProcedimento.Text;
+        //        procedimento.Status = RadioButton_Ativo.Checked ? 'A' : 'I';
+        //        //procedimento.CodigoProcedimento = long.Parse(TextBox_Codigo.Text);
+
+        //        //if (iUrgencia.ValidarCadastroProcedimento(procedimento.CodigoProcedimento, procedimento.Codigo))
+        //        //{
+        //            iUrgencia.Salvar(procedimento);
+        //            iUrgencia.Inserir(new LogUrgencia(DateTime.Now, ((Vida.Model.Usuario)Session["Usuario"]).Codigo, 18, "ID:" + procedimento.Codigo));
+
+        //            ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Procedimento salvo com sucesso.');", true);
+        //            OnClick_CancelarCadastro(sender, e);
+        //            CarregaProcedimentos();
+        //        //}else
+        //        //    ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Já existe um procedimento com o código informado! Por favor, digite outro código.');", true);
+        //    }
+        //    catch (Exception f)
+        //    {
+        //        throw f;
+        //    }
+        //}
+
+        ///// <summary>
+        ///// Cancela o cadastro do procedimento
+        ///// </summary>
+        ///// <param name="sender"></param>
+        ///// <param name="e"></param>
+        //protected void OnClick_CancelarCadastro(object sender, EventArgs e)
+        //{
+        //    ViewState.Remove("co_proc");
+        //    TextBox_NomeProcedimento.Text = "";
+        //    //TextBox_Codigo.Text = "";
+        //    RadioButton_Ativo.Checked = true;
+        //    RadioButton_Inativo.Checked = false;
+        //}
+
+        ///// <summary>
+        ///// Seleciona o procedimento para edição
+        ///// </summary>
+        ///// <param name="sender"></param>
+        ///// <param name="e"></param>
+        //protected void OnRowCommand_EditarProcedimento(object sender, GridViewCommandEventArgs e) 
+        //{
+        //    if (e.CommandName == "CommandName_Editar") 
+        //    {
+        //        ViewState["co_proc"] = GridView_Procedimentos.DataKeys[int.Parse(e.CommandArgument.ToString())]["Codigo"].ToString();
+        //        ProcedimentoNaoFaturavel proc = Factory.GetInstance<IUrgenciaServiceFacade>().BuscarPorCodigo<ProcedimentoNaoFaturavel>(int.Parse(ViewState["co_proc"].ToString()));
+        //        TextBox_NomeProcedimento.Text = proc.Nome;
+        //        //TextBox_Codigo.Text = proc.CodigoProcedimento.ToString();
+
+        //        if (proc.Status == 'I')
+        //        {
+        //            RadioButton_Inativo.Checked = true;
+        //            RadioButton_Ativo.Checked = false;
+        //        }
+        //        else 
+        //        {
+        //            RadioButton_Inativo.Checked = false;
+        //            RadioButton_Ativo.Checked = true;
+        //        }
+
+        //        //TabContainer1.ActiveTabIndex = 1;
+        //    }
+        //}
+
+        /// <summary>
+        /// Paginação do gridview de procedimentos
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnPageIndexChanging_Paginacao(object sender, GridViewPageEventArgs e)
+        {
+            //CarregaProcedimentos();
+            GridView_Procedimentos.DataSource = (IList<ProcedimentoNaoFaturavel>)Session["procedimentos"];
+            GridView_Procedimentos.DataBind();
+            GridView_Procedimentos.PageIndex = e.NewPageIndex;
+            GridView_Procedimentos.DataBind();
+        }
+    }
+}

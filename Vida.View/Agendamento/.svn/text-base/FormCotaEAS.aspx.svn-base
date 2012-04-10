@@ -1,0 +1,110 @@
+﻿<%@ Page Language="C#" MasterPageFile="~/Agendamento/MasterAgendamento.Master" AutoEventWireup="true"
+    CodeBehind="FormCotaEAS.aspx.cs" Inherits="Vida.View.Agendamento.FormCotaEAS"
+    Title="Untitled Page" %>
+
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder2" runat="server">
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder3" runat="server">
+    <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+        <Triggers>
+            <asp:PostBackTrigger ControlID="btnAtualizar" />
+        </Triggers>
+        <ContentTemplate>
+            <div id="top">
+                <h2>
+                    Formulário de Cotas de Solicitação</h2>
+                <fieldset class="formulario">
+                    <legend>por Estabelecimento Assistencial de Saúde</legend>
+                    <p>
+                        <span class="rotulo">Procedimento</span> <span>
+                            <asp:TextBox ID="tbxCodigo" CssClass="campo" runat="server" OnTextChanged="tbxCodigo_TextChanged"
+                                AutoPostBack="True" MaxLength="10" Width="75px"></asp:TextBox>
+                            <cc1:maskededitextender MaskType="Number" id="maskededitextender1" runat="server" targetcontrolid="tbxCodigo"
+                                mask="9999999999" clearmaskonlostfocus="true">
+                            </cc1:maskededitextender>
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="tbxCodigo"
+                                Display="Dynamic" ErrorMessage="Campo Obrigatório" Font-Size="XX-Small">
+                            </asp:RequiredFieldValidator>
+                            <asp:TextBox ID="tbxProcedimento" CssClass="campo" runat="server" Width="300px" Enabled="false"></asp:TextBox>
+                        </span><span style="position: absolute; margin-top: 2px; margin-left: 5px;">
+                            <asp:ImageButton ID="imgProcedimento" runat="server" ImageUrl="~/Agendamento/img/procurar.png"
+                                Height="16px" Width="16px" OnClick="ImageButton1_Click" />
+                        </span>
+                    </p>
+                    <p>
+                        <asp:CompareValidator ID="CompareValidator2" Font-Size="XX-Small" runat="server"
+                            ControlToValidate="tbxCodigo" Display="Dynamic" ErrorMessage="* Somente Números"
+                            Operator="DataTypeCheck" Type="Integer"></asp:CompareValidator></p>
+                    <p>
+                        <asp:ListBox ID="lbxProcedimento" runat="server" AutoPostBack="True" OnSelectedIndexChanged="lbxProcedimento_SelectedIndexChanged">
+                        </asp:ListBox>
+                    </p>
+                    <p>
+                        <span class="rotulo">Competência(AAAAMM)</span> <span>
+                            <asp:TextBox ID="tbxCompetencia" CssClass="campo" runat="server" AutoPostBack="True"
+                                OnTextChanged="tbxCompetencia_TextChanged">
+                            </asp:TextBox>
+                            <cc1:maskededitextender MaskType="Number" id="maskededitextender2" runat="server" targetcontrolid="tbxCompetencia"
+                                mask="9999/99" clearmaskonlostfocus="true">
+                            </cc1:maskededitextender>
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="tbxCompetencia"
+                                Display="Dynamic" ErrorMessage="Campo Obrigatório" Font-Size="XX-Small">
+                            </asp:RequiredFieldValidator>
+                                <asp:RegularExpressionValidator ID="RegularExpressionValidator1" Font-Size="XX-Small"
+                                    runat="server" ErrorMessage="Formato Invalido (AAAA/MM)" ControlToValidate="tbxCompetencia"
+                                    Display="Dynamic" ValidationExpression="[0-9][0-9][0-9][0-9][0-9][0-9]">
+                                </asp:RegularExpressionValidator>
+                        </span>
+                    </p>
+                    <p>
+                        <span class="rotulo">Quantidade Ofertada</span> <span>
+                            <asp:Label ID="lblQtdOfertada" runat="server" Font-Bold="true">-</asp:Label></span>
+                    </p>
+                    <p>
+                        <span class="rotulo">Distrito</span> <span>
+                            <asp:DropDownList ID="ddlDistrito" runat="server" CssClass="drop" AutoPostBack="True"
+                                OnSelectedIndexChanged="ddlDistrito_SelectedIndexChanged">
+                            </asp:DropDownList>
+                        </span>
+                    </p>
+                </fieldset>
+                <asp:Panel ID="PanelPercentual" runat="server">
+                    <fieldset class="formulario">
+                        <legend>Percentual</legend>
+                        <p>
+                            <span>
+                                <asp:TextBox ID="tbxPercentual" CssClass="campo" runat="server" Enabled="False"></asp:TextBox></span>
+                            <span style="position: absolute">
+                                <asp:Button ID="btnAtualizar" runat="server" OnClick="btnAtualizar_Click" Text="Atualizar"
+                                    Enabled="False" BorderStyle="None" Height="20px" /></span>
+                        </p>
+                        <p>
+                            <asp:GridView ID="GridViewUnidades" runat="server" AutoGenerateColumns="False" OnSelectedIndexChanged="GridViewUnidades_SelectedIndexChanged"
+                                BackColor="White" BorderColor="#477BA5" BorderStyle="None" BorderWidth="1px"
+                                CellPadding="3" GridLines="Vertical" Width="100%">
+                                <FooterStyle BackColor="#CCCCCC" ForeColor="Black" />
+                                <RowStyle BackColor="#EEEEEE" ForeColor="Black" Font-Size="11px" />
+                                <Columns>
+                                    <asp:BoundField DataField="Unidade" HeaderText="Unidade" />
+                                    <asp:BoundField HeaderText="Percentual" DataField="Percentual" ItemStyle-HorizontalAlign="Center"
+                                        ItemStyle-Width="100px">
+                                        <ItemStyle HorizontalAlign="Center" Width="100px" />
+                                    </asp:BoundField>
+                                    <asp:CommandField ButtonType="Image" HeaderText="Editar" ItemStyle-HorizontalAlign="Center"
+                                        SelectImageUrl="~/Agendamento/img/bt_edit.png" ControlStyle-Height="16px" ControlStyle-Width="16px"
+                                        ShowSelectButton="True" ItemStyle-Width="60px"></asp:CommandField>
+                                </Columns>
+                                <PagerStyle BackColor="#999999" ForeColor="Black" HorizontalAlign="Center" />
+                                <SelectedRowStyle BackColor="#008A8C" Font-Bold="True" ForeColor="White" />
+                                <HeaderStyle BackColor="#477ba5" Font-Bold="True" ForeColor="White" Font-Names="Verdana"
+                                    Font-Size="11px" Height="22px" />
+                                <AlternatingRowStyle BackColor="#DCDCDC" />
+                            </asp:GridView>
+                        </p>
+                    </fieldset>
+                </asp:Panel>
+            </div>
+        </ContentTemplate>
+    </asp:UpdatePanel>
+</asp:Content>

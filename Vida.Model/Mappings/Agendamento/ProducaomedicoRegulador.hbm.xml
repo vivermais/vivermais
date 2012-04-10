@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="ViverMais.Model">
+  <class name="ViverMais.Model.ProducaoMedicoRegulador" table="AGD_PRODUCAO_MEDICO_REGULADOR" >
+    <id name="Codigo">
+      <column name="ID_PRODUCAO" not-null="true"/>
+      <generator class="sequence">
+        <param name="sequence">PRODUC_MEDICO_REGULADOR_SEQUEN</param>
+      </generator>
+    </id>
+    <property name="StatusSolicitacao" column="STATUS_SOLICITACAO" />
+    <property name="PrioridadeSolicitacao" column="PRIORIDADE_SOLICITACAO" />
+    <property name="DataAtualizacao" column="DATA_ATUALIZACAO" />
+    <many-to-one name="Solicitacao" column="ID_SOLICITACAO" class="ViverMais.Model.Solicitacao" />
+    <many-to-one name="Usuario" column="ID_USUARIO" class="ViverMais.Model.Usuario" />
+  </class>
+</hibernate-mapping>

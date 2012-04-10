@@ -1,0 +1,84 @@
+﻿<%@ Page Language="C#" MasterPageFile="~/Agendamento/MasterAgendamento.Master" AutoEventWireup="true"
+    CodeBehind="FormRelatorioSolicitacao.aspx.cs" Inherits="ViverMais.View.Agendamento.FormRelatorioSolicitacao"
+    Title="Untitled Page" %>
+
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder2" runat="server">
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder3" runat="server">
+    <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+        <ContentTemplate>
+        <div id="top">
+                        <h2>
+                    Relatórios</h2>
+            <fieldset class="formulario">
+                <legend>Relatório Solicitações</legend>
+                <p>
+                    <span class="rotulo">Nome da Unidade Solicitante:</span> <span>
+                        <asp:DropDownList ID="ddlUnidadeSolicitante" runat="server" CssClass="drop" AutoPostBack="true"
+                            OnSelectedIndexChanged="ddlUnidadeSolicitante_OnSelectedIndexChanged">
+                        </asp:DropDownList>
+                    </span>
+                </p>
+                <p>
+                    <span class="rotulo">Usuários:</span> <span>
+                        <asp:DropDownList ID="ddlUsuarios" runat="server" CssClass="drop">
+                        </asp:DropDownList>
+                    </span>
+                </p>
+                <p>
+                    <span class="rotulo">Data Inicial:</span> <span>
+                        <asp:TextBox ID="tbxData_Inicial" CssClass="campo" runat="server" MaxLength="10"
+                            Width="70px">
+                        </asp:TextBox>
+                        <cc1:CalendarExtender runat="server" ID="CalendarExtender1" Format="dd/MM/yyyy" TargetControlID="tbxData_Inicial"
+                            Animated="true">
+                        </cc1:CalendarExtender>
+                        <cc1:MaskedEditExtender ID="MaskedEditExtender1" runat="server" InputDirection="LeftToRight"
+                            TargetControlID="tbxData_Inicial" Mask="99/99/9999" MaskType="Date">
+                        </cc1:MaskedEditExtender>
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidator1" Font-Size="XX-Small" runat="server"
+                            ControlToValidate="tbxData_Inicial" ErrorMessage="Campo Obrigatório">
+                        </asp:RequiredFieldValidator>
+                        <asp:CompareValidator ID="compareData" runat="server" ControlToValidate="tbxData_Inicial"
+                            Display="Dynamic" Font-Size="XX-Small" ErrorMessage="A data Inicial é inválida"
+                            Operator="DataTypeCheck" Type="Date"></asp:CompareValidator></span>
+                    </span>
+                </p>
+                <p>
+                <span class="rotulo">Data Final:</span> <span>
+                        <asp:TextBox ID="tbxData_Final" CssClass="campo" runat="server" MaxLength="10" Width="70px">
+                        </asp:TextBox>
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidator5" Font-Size="XX-Small" runat="server"
+                            ControlToValidate="tbxData_Final" ErrorMessage="Campo Obrigatório">
+                        </asp:RequiredFieldValidator>
+                        <cc1:CalendarExtender runat="server" ID="CalendarExtender5" Format="dd/MM/yyyy" TargetControlID="tbxData_Final"
+                            Animated="true">
+                        </cc1:CalendarExtender>
+                        <cc1:MaskedEditExtender ID="MaskedEditExtender2" runat="server" InputDirection="LeftToRight"
+                            TargetControlID="tbxData_Final" Mask="99/99/9999" MaskType="Date">
+                        </cc1:MaskedEditExtender>
+                        <asp:CompareValidator ID="CompareValidator1" runat="server" ControlToValidate="tbxData_Final"
+                            Display="Dynamic" Font-Size="XX-Small" ErrorMessage="A data final é inválida"
+                            Operator="DataTypeCheck" Type="Date" ></asp:CompareValidator></span>
+                    </span>
+                </p>
+                <div class="botoesroll">
+                    <asp:LinkButton ID="btnGeraRelatorio" Text="Imprimir" runat="server"
+                        CausesValidation="true" OnClick="btnGeraRelatorio_Click">
+                        <img id="imgGerar" alt="Imprimir" src="img/imprimir_1.png" 
+                        onmouseover="imgGerar.src='img/imprimir_2.png';"
+                        onmouseout="imgGerar.src='img/imprimir_1.png';" />
+                    </asp:LinkButton>
+                </div>
+                <div class="botoesroll">
+                    <asp:LinkButton ID="lknVoltar" runat="server" PostBackUrl="~/Agendamento/Default.aspx">
+                  <img id="imgvoltar" alt="Voltar" src="img/voltar_1.png"
+                  onmouseover="imgvoltar.src='img/voltar_2.png';"
+                  onmouseout="imgvoltar.src='img/voltar_1.png';" /></asp:LinkButton>
+                </div>
+            </fieldset>
+            </div>
+        </ContentTemplate>
+    </asp:UpdatePanel>
+</asp:Content>

@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="ViverMais.Model">
+  <class name="ViverMais.Model.ItemRemanejamento" table="far_itensremanejamento">
+    <composite-id unsaved-value="any">
+      <key-many-to-one name="Remanejamento" class="ViverMais.Model.RemanejamentoMedicamento" column="id_remanejamento" lazy="false" />
+      <key-many-to-one name="LoteMedicamento" class="ViverMais.Model.LoteMedicamento" column="id_lotemedicamento" lazy="false" />
+    </composite-id>
+    <property name="QuantidadeRegistrada" column="qtd_registrada" />
+    <property name="QuantidadeRecebida" column="qtd_recebida" />
+    <property name="DataConfirmacao" column="data_confirmacao" />
+    <!--<property name="QuantidadeAlterada" column="qtd_alterada" />
+    <property name="DataAlteracao" column="data_alteracao" />-->
+  </class>
+</hibernate-mapping>

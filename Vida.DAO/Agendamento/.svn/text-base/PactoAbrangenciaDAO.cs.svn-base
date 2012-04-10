@@ -1,0 +1,41 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Vida.Model;
+using NHibernate;
+using NHibernate.Criterion;
+using NHibernate.Engine.Query;
+using Vida.ServiceFacade.ServiceFacades.EstabelecimentoSaude;
+using System.Collections;
+using Vida.ServiceFacade.ServiceFacades.Agendamento;
+
+namespace Vida.DAO.Agendamento
+{
+    public class PactoAbrangenciaDAO : VidaServiceFacadeDAO, IPactoAbrangencia
+    {
+        #region IPactoAbrangencia Members
+
+        public PactoAbrangenciaDAO()
+        {
+            
+        }
+        T IPactoAbrangencia.BuscarPactoPorGrupoAbrangencia<T>(string id_grupo)
+        {
+            string hql = String.Empty;
+            hql += "from Vida.Model.PactoAbrangencia pactoabrangencia";
+            hql += " where pactoabrangencia.Grupo.Codigo=" + id_grupo;
+            return Session.CreateQuery(hql).UniqueResult<T>();
+        }
+
+        IList<T> IPactoAbrangencia.BuscarPactoAbrangenciaPorGrupoAbrangencia<T>(string id_grupo)
+        {
+            string hql = String.Empty;
+            hql += "from Vida.Model.PactoAbrangencia pactoabrangencia";
+            hql += " where pactoabrangencia.Grupo.Codigo=" + id_grupo;
+            return Session.CreateQuery(hql).List<T>();
+        }
+        
+        #endregion
+    }
+}

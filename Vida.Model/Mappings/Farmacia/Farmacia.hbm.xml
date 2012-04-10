@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="ViverMais.Model">
+	<class name="ViverMais.Model.Farmacia" table="far_farmacia">
+		<id name="Codigo">
+			<column name="id_farmacia" not-null="true"/>
+      <generator class="sequence">
+        <param name="sequence">FAR_FARMACIA_SEQUENCE</param>
+      </generator>
+		</id>
+		<property name="Nome" column="nomefarmacia" />
+		<property name="Endereco" column="endereco" />
+		<property name="Fone" column="fone" />
+		<property name="Responsavel" column="responsavel" />
+		<property name="CodigoUnidade" column="id_unidade" />
+
+    <!--<idbag name="CodigosUsuarios" table="far_usuariofarmacia">
+      <collection-id column="codigo" type="long">
+        <generator class="sequence"/>
+      </collection-id>
+      <key column="id_farmacia"/>
+      <element column="id_usuario" type="int" />
+    </idbag>-->
+    
+		<bag name="CodigosUsuarios" table="far_usuariofarmacia" cascade="persist" lazy="false" inverse="false">
+			<key column="id_farmacia"/>
+			<element column="id_usuario" type="int" />
+		</bag>
+    
+    <bag name="Elencos" table="far_elencofarmacia" cascade="persist" lazy="false" inverse="false">
+      <key column="id_farmacia"/>
+      <many-to-many column="id_elenco" class="ViverMais.Model.ElencoMedicamento" />
+    </bag>
+	</class>
+</hibernate-mapping>

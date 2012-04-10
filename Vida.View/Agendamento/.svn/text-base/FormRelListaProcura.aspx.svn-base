@@ -1,0 +1,142 @@
+﻿<%@ Page Language="C#" MasterPageFile="~/Agendamento/MasterAgendamento.Master" AutoEventWireup="true"
+    CodeBehind="FormRelListaProcura.aspx.cs" Inherits="Vida.View.Agendamento.FormRelListaProcura"
+    Title="Untitled Page" %>
+
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder2" runat="server">
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder3" runat="server">
+    <asp:UpdatePanel runat="server" ID="up2" UpdateMode="Always">
+        <Triggers>
+        </Triggers>
+        <ContentTemplate>
+            <div id="top">
+                <h2>
+                    Relatórios</h2>
+                <fieldset class="formulario">
+                    <legend>Lista de Procura</legend>
+                    <p>
+                        <span class="rotulo" runat="server">Modo de Busca</span></p>
+                    <br />
+                    <p>
+                        <asp:RadioButtonList ID="rbtnModoPesquisa" runat="server" RepeatDirection="Vertical"
+                            AutoPostBack="True" OnSelectedIndexChanged="rbtnModoPesquisa_SelectedIndexChanged"
+                            Width="640px" Height="16px" CellPadding="0" CellSpacing="0" Font-Names="Verdana"
+                            Font-Size="10px" Font-Strikeout="False" Font-Underline="False" TextAlign="Right"
+                            CssClass="camporadio">
+                            <asp:ListItem Text="Município" Value="M"></asp:ListItem>
+                            <asp:ListItem Text="Período" Value="P"></asp:ListItem>
+                            <%--<asp:ListItem Text="Competência" Value="C"></asp:ListItem>--%>
+                            <asp:ListItem Text="Atendidos e Não Atendidos" Value="A"></asp:ListItem>
+                        </asp:RadioButtonList>
+                    </p>
+                    <p>
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidator7" runat="server" ErrorMessage="Selecione o Modo de Pesquisa!"
+                            ControlToValidate="rbtnModoPesquisa" Font-Size="XX-Small"></asp:RequiredFieldValidator></p>
+                    <asp:Panel ID="PanelBuscaMunicipio" runat="server">
+                        <asp:RadioButtonList ID="rbtMunicipio" runat="server" AutoPostBack="true" CellPadding="0"
+                            CellSpacing="0" CssClass="camporadio" OnSelectedIndexChanged="rbtMunicipio_SelectedIndexChanged"
+                            RepeatDirection="Horizontal" TextAlign="Left">
+                            <asp:ListItem Value="0">Salvador</asp:ListItem>
+                            <asp:ListItem Value="1">Interior</asp:ListItem>
+                            <asp:ListItem Value="2">Município Específico</asp:ListItem>
+                        </asp:RadioButtonList>
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidator8" runat="server" ErrorMessage="*"
+                            ControlToValidate="rbtMunicipio"></asp:RequiredFieldValidator>
+                    </asp:Panel>
+                    <p>
+                    </p>
+                    <asp:Panel ID="PanelExibeMunicipio" runat="server">
+                        <p>
+                            <span class="rotulo">Selecione o Município:</span> <span>
+                                <asp:DropDownList ID="ddlMunicipios" runat="server" CssClass="drop">
+                                </asp:DropDownList>
+                            </span>
+                        </p>
+                        <p>
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="ddlMunicipios"
+                                ErrorMessage="Selecione o municipio!" InitialValue="0" Font-Size="XX-Small"></asp:RequiredFieldValidator></p>
+                    </asp:Panel>
+                    <asp:Panel ID="PanelBuscaPeriodo" runat="server">
+                        <p>
+                            <span class="rotulo">Data Inicial</span> <span>
+                                <asp:TextBox ID="tbxDataInicial" runat="server" CssClass="campo"></asp:TextBox>
+                            </span>
+                            <cc1:CalendarExtender ID="data" runat="server" Animated="true" Format="dd/MM/yyyy"
+                                TargetControlID="tbxDataInicial">
+                            </cc1:CalendarExtender>
+                        </p>
+                        <p>
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="tbxDataInicial"
+                                ErrorMessage="Informe a Data Inicial!" Font-Size="XX-Small"></asp:RequiredFieldValidator></p>
+                        <p>
+                            <span class="rotulo">Data Final:</span> <span>
+                                <asp:TextBox ID="tbxDataFinal" runat="server" CssClass="campo"></asp:TextBox>
+                            </span>
+                            <cc1:CalendarExtender ID="CalendarExtender1" runat="server" Animated="true" Format="dd/MM/yyyy"
+                                TargetControlID="tbxDataFinal">
+                            </cc1:CalendarExtender>
+                        </p>
+                        <p>
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" ControlToValidate="tbxDataFinal"
+                                ErrorMessage="Informe a Data Final!" Font-Size="XX-Small"></asp:RequiredFieldValidator></p>
+                        <br />
+                    </asp:Panel>
+                    <asp:Panel ID="PanelBuscaCompetencia" runat="server">
+                        <p>
+                            <span class="rotulo">Competência (AAAAMM):</span><span><asp:TextBox ID="tbxCompetencia"
+                                runat="server" CssClass="campo" MaxLength="6"></asp:TextBox>
+                            </span>
+                        </p>
+                        <p>
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidator4" runat="server" ControlToValidate="tbxCompetencia"
+                                ErrorMessage="Informe a Competência!" Font-Size="XX-Small"></asp:RequiredFieldValidator>
+                            <cc1:MaskedEditExtender ID="MaskCompetencia" runat="server" AutoComplete="false"
+                                ClearMaskOnLostFocus="true" Mask="999999" MaskType="Number" TargetControlID="tbxCompetencia">
+                            </cc1:MaskedEditExtender>
+                        </p>
+                        <br />
+                    </asp:Panel>
+                    <asp:Panel ID="PanelBuscaAgendado" runat="server">
+                        <p>
+                            <span class="rotulo">Agendados e Não Agendados</span> <span>
+                                <asp:RadioButtonList ID="rbtAgendado" runat="server" RepeatDirection="Horizontal"
+                                    CssClass="camporadio" TextAlign="Left">
+                                    <asp:ListItem Text="Atendidos" Value="A"></asp:ListItem>
+                                    <asp:ListItem Selected="True" Text="Não Atendidos" Value="N"></asp:ListItem>
+                                </asp:RadioButtonList>
+                            </span>
+                        </p>
+                        <p>
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidator5" runat="server" ControlToValidate="rbtAgendado"
+                                ErrorMessage="Campo Obrigatório!" Font-Size="XX-Small">
+                            </asp:RequiredFieldValidator></p>
+                    </asp:Panel>
+                    <asp:Panel ID="PanelExibeProcedimento" runat="server">
+                        <p>
+                            <span class="rotulo">Procedimento:</span> <span>
+                                <asp:DropDownList ID="ddlProcedimento" runat="server" CssClass="drop" DataTextField="Nome"
+                                    DataValueField="Codigo" Width="100%">
+                                </asp:DropDownList>
+                            </span>
+                        </p>
+                        <p>
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidator6" runat="server" ControlToValidate="ddlProcedimento"
+                                ErrorMessage="Campo Obrigatório!" InitialValue="-1" Font-Size="XX-Small">
+                            </asp:RequiredFieldValidator></p>
+                    </asp:Panel>
+                    <div class="botoesroll">
+                        <asp:LinkButton ID="lknPesquisar" runat="server" OnClick="btnPesquisar_Click">
+			<img id="imgpesquisar" alt="Pesquisar" src="img/pesquisar_1.png"
+                  	onmouseover="imgpesquisar.src='img/pesquisar_2.png';"
+                  	onmouseout="imgpesquisar.src='img/pesquisar_1.png';" />	
+                        </asp:LinkButton>
+                    </div>
+                    <p>
+                        <asp:Label ID="lblSemRegistros" runat="server" Font-Bold="true" ForeColor="Red" Text="Não Existem Registros com os Dados informados"> </asp:Label>
+                    </p>
+                </fieldset>
+            </div>
+        </ContentTemplate>
+    </asp:UpdatePanel>
+</asp:Content>

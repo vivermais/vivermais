@@ -1,0 +1,47 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" MasterPageFile="~/MasterMain.Master"
+    CodeBehind="MasterSenhador.Master.cs" Inherits="ViverMais.View.Senhador.MasterSenhador" %>
+
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+        <link rel="stylesheet" href="style_form_senhador.css" type="text/css" media="screen" />
+        <link rel="stylesheet" href="style-barra-modulo.css" type="text/css" media="screen" />
+    <asp:ContentPlaceHolder ID="ContentPlaceHolder2" runat="server">
+
+    </asp:ContentPlaceHolder>
+            <script type="text/javascript" language="javascript">
+                function showTooltip(obj) {
+                    if (obj.options[obj.selectedIndex].title == "") {
+                        obj.title = obj.options[obj.selectedIndex].text;
+                        obj.options[obj.selectedIndex].title = obj.options[obj.selectedIndex].text;
+                        for (i = 0; i < obj.options.length; i++) {
+                            obj.options[i].title = obj.options[i].text;
+                        }
+                    }
+                    else
+                        obj.title = obj.options[obj.selectedIndex].text;
+                }
+        </script>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+
+<%--    <cc1:AlwaysVisibleControlExtender runat="server" ID="AlwaysVisibleControlExtender2"
+        TargetControlID="UpDateProgressSeguranca" VerticalSide="Middle" VerticalOffset="10"
+        HorizontalSide="Center" HorizontalOffset="10" ScrollEffectDuration=".1">
+    </cc1:AlwaysVisibleControlExtender>
+--%>  <%--  <div>
+        <asp:UpdateProgress ID="UpDateProgressSeguranca" runat="server" DisplayAfter="1"
+            DynamicLayout="false">
+            <ProgressTemplate>
+                <div id="progressBackgroundFilter">
+                </div>
+                <div id="processMessage">
+                    <div id="bgloader">
+                        <img src="img/ajax-loadernn.gif" style="margin-left: 68px; margin-top: 45px;" alt="" />
+                    </div>
+                </div>
+            </ProgressTemplate>
+        </asp:UpdateProgress>
+    </div>--%>
+    <asp:ContentPlaceHolder ID="ContentPlaceHolder3" runat="server">
+    </asp:ContentPlaceHolder>
+</asp:Content>

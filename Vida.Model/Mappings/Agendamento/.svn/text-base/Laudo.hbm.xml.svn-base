@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Vida.Model">
+  <class name="Vida.Model.Laudo" table="AGD_LAUDO">
+    <id name="Codigo">
+      <column name="CO_LAUDO" not-null="true"/>
+      <generator class="sequence">
+        <param name="sequence">AGD_LAUDO_SEQUENCE</param>
+      </generator>
+    </id>
+    <property name="Endereco" column="ENDERECO" />
+    <property name="Imagem" column="IMAGEM" />
+    <many-to-one name="Solicitacao" class="Vida.Model.Solicitacao" column="CO_SOLICITACAO" />
+  </class>
+</hibernate-mapping>

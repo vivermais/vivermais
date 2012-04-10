@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DSRelInventarioConferencia" targetNamespace="http://tempuri.org/DSRelInventarioConferencia.xsd" xmlns:mstns="http://tempuri.org/DSRelInventarioConferencia.xsd" xmlns="http://tempuri.org/DSRelInventarioConferencia.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DSRelInventarioConferencia" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_DataSetName="DSRelInventarioConferencia" msprop:Generator_UserDSName="DSRelInventarioConferencia" msprop:EnableTableAdapterManager="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="Tabela" msprop:Generator_UserTableName="Tabela" msprop:Generator_RowDeletedName="TabelaRowDeleted" msprop:Generator_TableClassName="TabelaDataTable" msprop:Generator_RowChangedName="TabelaRowChanged" msprop:Generator_RowClassName="TabelaRow" msprop:Generator_RowChangingName="TabelaRowChanging" msprop:Generator_RowEvArgName="TabelaRowChangeEvent" msprop:Generator_RowEvHandlerName="TabelaRowChangeEventHandler" msprop:Generator_TablePropName="Tabela" msprop:Generator_TableVarName="tableTabela" msprop:Generator_RowDeletingName="TabelaRowDeleting">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="vacina" msprop:Generator_UserColumnName="vacina" msprop:Generator_ColumnPropNameInRow="vacina" msprop:Generator_ColumnVarNameInTable="columnvacina" msprop:Generator_ColumnPropNameInTable="vacinaColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="unidade" msprop:Generator_UserColumnName="unidade" msprop:Generator_ColumnPropNameInRow="unidade" msprop:Generator_ColumnVarNameInTable="columnunidade" msprop:Generator_ColumnPropNameInTable="unidadeColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="lote" msprop:Generator_UserColumnName="lote" msprop:Generator_ColumnPropNameInRow="lote" msprop:Generator_ColumnVarNameInTable="columnlote" msprop:Generator_ColumnPropNameInTable="loteColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="fabricante" msprop:Generator_UserColumnName="fabricante" msprop:Generator_ColumnPropNameInRow="fabricante" msprop:Generator_ColumnVarNameInTable="columnfabricante" msprop:Generator_ColumnPropNameInTable="fabricanteColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="validade" msprop:Generator_UserColumnName="validade" msprop:Generator_ColumnPropNameInRow="validade" msprop:Generator_ColumnVarNameInTable="columnvalidade" msprop:Generator_ColumnPropNameInTable="validadeColumn" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

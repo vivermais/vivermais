@@ -1,0 +1,670 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Text.RegularExpressions;
+using Vida.DAO;
+using Vida.ServiceFacade.ServiceFacades.Paciente;
+using Vida.ServiceFacade.ServiceFacades;
+using Vida.Model;
+using Vida.ServiceFacade.ServiceFacades.Localidade;
+using Vida.ServiceFacade.ServiceFacades.Profissional;
+using Vida.ServiceFacade.ServiceFacades.Profissional.Misc;
+using Vida.ServiceFacade.ServiceFacades.Farmacia.Dispensacao;
+using Vida.ServiceFacade.ServiceFacades.Farmacia.Misc;
+using Vida.ServiceFacade.ServiceFacades.Seguranca;
+using Vida.ServiceFacade.ServiceFacades.Farmacia.Movimentacao;
+using System.Collections;
+using Oracle.DataAccess.Client;
+using NHibernate.Exceptions;
+using Vida.ServiceFacade.ServiceFacades.Farmacia.Medicamento;
+
+namespace Vida.View.Farmacia
+{
+    public partial class FormGerarReceitaDispensacao : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!IsPostBack)
+            {
+                Session.Remove("itensReceitaDispensacao");
+                Session.Remove("receita"); if (Request["cod_receita"] == null)//Cadastro                
+
+                    if (!Factory.GetInstance<ISeguranca>().VerificarPermissao(((Usuario)Session["Usuario"]).Codigo, "CADASTRAR_RECEITA"))
+                        ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Usuário, você não tem permissão para acessar esta página! Por favor, entre em contato com a administração.');location='Default.aspx';", true);
+                    else
+                    {
+                        if (Request["codigopaciente"] != null)
+                        {
+                            IList<Vida.Model.Paciente> lp = new List<Vida.Model.Paciente>();
+
+                            try
+                            {
+                                lp.Add(Factory.GetInstance<IPaciente>().BuscarPorCodigo<Vida.Model.Paciente>(Request["codigopaciente"].ToString()));
+                                GridView_ResultadoPesquisaPaciente.DataSource = lp;
+                                GridView_ResultadoPesquisaPaciente.DataBind();
+                                PanelResultado.Visible = true;
+                            }
+                            catch (Exception f)
+                            {
+                                throw f;
+                            }
+                        }
+
+                        CarregaDropsDown();
+                        CarregaTriggersUpdatePanel();
+                    }
+            }
+            else//Edição
+            {
+                litTituloPagina.Text = "Editar Receita";
+                AccordionReceita.Visible = false;
+
+                ReceitaDispensacao receita = Factory.GetInstance<IReceitaDispensacao>().BuscarPorCodigo<ReceitaDispensacao>(Convert.ToInt64(Request["cod_receita"]));
+                Vida.Model.Paciente paciente = Factory.GetInstance<IPaciente>().BuscarPorCodigo<Vida.Model.Paciente>(receita.CodigoPaciente);
+                receita.ItensPrescritos = Factory.GetInstance<IReceitaDispensacao>().BuscarMedicamentos<ItemReceitaDispensacao>(receita.Codigo).OrderBy(x => x.NomeMedicamento).ToList();
+                Vida.Model.ProfissionalSolicitante profissional = Factory.GetInstance<IProfissionalSolicitante>().BuscarPorCodigo<ProfissionalSolicitante>(Convert.ToInt32(receita.CodigoProfissional));
+                Vida.Model.Municipio municipio = Factory.GetInstance<IMunicipio>().BuscarPorCodigo<Municipio>(receita.CodigoMunicipio);
+                Vida.Model.Distrito distrito = Factory.GetInstance<IDistrito>().BuscarPorCodigo<Distrito>(receita.CodigoDistrito);
+
+                Session["receita"] = receita;
+
+                foreach (ItemReceitaDispensacao item in receita.ItensPrescritos)
+                    item.Receita = receita;
+
+                DropDownList_Paciente.Items.Add(new ListItem(paciente.Nome, paciente.Codigo));
+                DropDownList_Paciente.SelectedIndex = 1;
+                DropDownList_Profissional.Items.Add(new ListItem(profissional.Nome, profissional.Codigo.ToString()));
+                DropDownList_Profissional.SelectedIndex = 1;
+                TextBox_DataReceita.Text = receita.DataReceita.ToString("dd/MM/yyyy");
+                ddlMunicipio.Items.Add(new ListItem(municipio.Nome, municipio.Codigo));
+                ddlDistrito.Items.Add(new ListItem(distrito.Nome, distrito.Codigo.ToString()));
+                TxtMedicamentosFora.Text = receita.MedicamentosForaRede.ToString();
+
+                Session["itensReceitaDispensacao"] = receita.ItensPrescritos;
+                GridView_Medicamentos.DataSource = receita.ItensPrescritos;
+                GridView_Medicamentos.DataBind();
+                Panel_MedicamentosDispensados.Visible = true;
+                DropDownList_Paciente.Enabled = false;
+                DropDownList_Profissional.Enabled = false;
+                TextBox_DataReceita.Enabled = false;
+                ddlMunicipio.Enabled = false;
+                ddlDistrito.Enabled = false;
+            }
+        }
+
+        protected void OnClick_PesquisarMedicamento(object sender, EventArgs e)
+        {
+            List<Medicamento> medicamento = Factory.GetInstance<IMedicamento>().BuscarPorDescricao<Medicamento>(null, TextBox_BuscarMedicamento.Text).OrderBy(x => x.Nome).ToList();
+            DropDownList_Medicamento.DataSource = medicamento;
+            DropDownList_Medicamento.DataBind();
+            DropDownList_Medicamento.Items.Insert(0, new ListItem("Selecione...", "-1"));           
+        }
+
+
+        protected void OnClick_IncluirMedicamento(object sender, EventArgs e)
+        {
+            List<ItemReceitaDispensacao> medicamentosDispensacao = CarregarMedicamentosDaSessao();
+            ItemReceitaDispensacao itemReceitaDispensacao = new ItemReceitaDispensacao();
+
+            Medicamento medicamento = Factory.GetInstance<IFarmacia>().BuscarPorCodigo<Medicamento>(Convert.ToInt32(DropDownList_Medicamento.SelectedItem.Value));
+            itemReceitaDispensacao.Medicamento = medicamento;
+            itemReceitaDispensacao.QtdPrescrita = Convert.ToInt32(TextBox_QuantidadePrescrita.Text);
+
+            medicamentosDispensacao.Add(itemReceitaDispensacao);
+            medicamentosDispensacao = medicamentosDispensacao.OrderBy(x => x.NomeMedicamento).ToList();
+            GridView_Medicamentos.DataSource = medicamentosDispensacao;
+            GridView_Medicamentos.DataBind();            
+
+            Session["itensReceitaDispensacao"] = medicamentosDispensacao;
+            Panel_MedicamentosDispensados.Visible = true;
+
+            ListItem item = DropDownList_Medicamento.Items[0];
+            DropDownList_Medicamento.Items.Clear();
+            DropDownList_Medicamento.Items.Add(item);            
+            TextBox_BuscarMedicamento.Text = "";
+            TextBox_QuantidadePrescrita.Text = "";
+            
+        }
+
+        protected void GridView_Medicamentos_RowEditing(object sender, GridViewEditEventArgs e)
+        {
+            GridView_Medicamentos.EditIndex = e.NewEditIndex;
+            GridView_Medicamentos.DataSource = CarregarMedicamentosDaSessao();
+            GridView_Medicamentos.DataBind();
+        }
+
+        private List<ItemReceitaDispensacao> CarregarMedicamentosDaSessao()
+        {
+            List<ItemReceitaDispensacao> medicamentosDispensacao = (List<ItemReceitaDispensacao>)Session["itensReceitaDispensacao"] == null ? new List<ItemReceitaDispensacao>() : (List<ItemReceitaDispensacao>)Session["itensReceitaDispensacao"];
+            return medicamentosDispensacao.OrderBy(x => x.NomeMedicamento).ToList();
+        }
+
+        protected void GridView_Medicamentos_RowUpdating(object sender, GridViewUpdateEventArgs e)
+        {            
+            GridViewRow r = GridView_Medicamentos.Rows[e.RowIndex];
+            List<ItemReceitaDispensacao> medicamentosReceita = CarregarMedicamentosDaSessao();
+            medicamentosReceita[e.RowIndex].QtdPrescrita = Convert.ToInt32(((TextBox)GridView_Medicamentos.Rows[e.RowIndex].Cells[2].FindControl("TxtQuantidadePrescritaEdit")).Text);
+            GridView_Medicamentos.EditIndex = -1;
+            GridView_Medicamentos.DataSource = medicamentosReceita;
+            GridView_Medicamentos.DataBind();            
+            Session["itensReceitaDispensacao"] = medicamentosReceita;            
+        }
+
+        protected void GridView_Medicamentos_RowDeleting(object sender, GridViewDeleteEventArgs e)
+        {
+            List<ItemReceitaDispensacao> medicamentosReceita = CarregarMedicamentosDaSessao();
+            medicamentosReceita.RemoveAt(e.RowIndex);
+            GridView_Medicamentos.DataSource = medicamentosReceita;
+            GridView_Medicamentos.DataBind();
+            Session["itensReceitaDispensacao"] = medicamentosReceita;
+        }
+
+        /// <summary>
+        /// Salva o receita com os dados informados
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnClick_SalvarReceita(object sender, EventArgs e)
+        {
+            if (Session["receita"] == null)//Cadastro
+            {
+                ReceitaDispensacao receita = new ReceitaDispensacao();
+                string[] arrData = TextBox_DataReceita.Text.Split('/');
+                receita.DataReceita = new DateTime(Convert.ToInt32(arrData[2]), Convert.ToInt32(arrData[1]), Convert.ToInt32(arrData[0]));
+                if (receita.ReceitaVencida)
+                {
+                    ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('A receita não pode ser cadastrada, pois a sua validade ultrapassou o limite de 6 meses! Por favor, trocar de receita.');", true);
+                }
+                else
+                {
+                    receita.CodigoPaciente = DropDownList_Paciente.SelectedValue;
+                    receita.CodigoProfissional = DropDownList_Profissional.SelectedValue;
+                    receita.DataCadastro = DateTime.Now;
+                    receita.CodigoMunicipio = ddlMunicipio.SelectedValue;
+                    receita.CodigoDistrito = Convert.ToInt32(ddlDistrito.SelectedValue);
+                    receita.MedicamentosForaRede = Convert.ToInt32(TxtMedicamentosFora.Text);
+                    try
+                    {
+                        receita.MedicamentosForaRede = Convert.ToInt32(TxtMedicamentosFora.Text);
+                    }
+                    catch (FormatException)
+                    {
+                        receita.MedicamentosForaRede = 0;
+                    }
+
+                    List<ItemReceitaDispensacao> medicamentos = ((List<ItemReceitaDispensacao>)Session["itensReceitaDispensacao"]);
+                    try
+                    {
+                        Factory.GetInstance<IReceitaDispensacao>().Salvar(receita);
+                    }
+                    catch (GenericADOException ex)
+                    {
+                        if (ex.GetBaseException().Message.Contains("ORA-00001"))
+                            ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Já existe uma receita prescrita por este médico para este pacîente na data informada.');", true);
+                        else
+                            ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('" + ex.GetBaseException().Message.Replace("\n", "") + "');", true);
+                        return;
+                    }
+                    foreach (ItemReceitaDispensacao medicamento in medicamentos)
+                    {
+                        medicamento.Receita = receita;
+                        Factory.GetInstance<IFarmacia>().Salvar(medicamento);
+                    }
+                    Factory.GetInstance<IFarmaciaServiceFacade>().Salvar(new LogFarmacia(DateTime.Now, ((Usuario)Session["Usuario"]).Codigo, 24, "id receita: " + receita.Codigo));
+                    ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Receita cadastrada com sucesso.');location='FormDispensarMedicamentos.aspx?co_receita=" + receita.Codigo + "';", true);
+                }
+            }
+            else//Edição
+            {
+                ReceitaDispensacao receita = (ReceitaDispensacao)Session["receita"];
+                List<ItemReceitaDispensacao> itensReceita = (List<ItemReceitaDispensacao>)Session["itensReceitaDispensacao"];
+                receita.MedicamentosForaRede = Convert.ToInt32(TxtMedicamentosFora.Text);
+                Factory.GetInstance<IReceitaDispensacao>().Atualizar(receita);
+                foreach (ItemReceitaDispensacao medicamento in itensReceita)
+                {
+                    medicamento.Receita = receita;
+                    Factory.GetInstance<IFarmacia>().Salvar(medicamento);
+                }
+                Factory.GetInstance<IFarmaciaServiceFacade>().Salvar(new LogFarmacia(DateTime.Now, ((Usuario)Session["Usuario"]).Codigo, 32, "id receita: " + receita.Codigo));
+                ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Receita atualizada com sucesso.');location='FormDispensarMedicamentos.aspx?co_receita=" + receita.Codigo + "';", true);
+
+            }
+            /*
+            TimeSpan span = DateTime.Now.Subtract(DateTime.Parse(TextBox_DataReceita.Text));
+            if (span.Days > 180)
+                ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('A receita não pode ser cadastrada, pois a sua validade ultrapassou o limite de 6 meses! Por favor, trocar de receita.');", true);
+            else
+            {
+                if (Factory.GetInstance<IDispensacao>().ValidarCadastroReceita<ReceitaDispensacao>(DropDownList_Paciente.SelectedValue, DropDownList_Profissional.SelectedValue, DateTime.Parse(TextBox_DataReceita.Text)) != null)
+                    ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Já existe uma receita cadastrada para a data informada com o mesmo paciente e profissional.');", true);
+                else
+                {
+                    try
+                    {
+                        ReceitaDispensacao rd = new ReceitaDispensacao();
+                        //rd.Farmacia = Factory.GetInstance<IFarmacia>().BuscarPorCodigo<Vida.Model.Farmacia>(int.Parse(DropDownList_Farmacia.SelectedValue));
+                        rd.DataCadastro = DateTime.Now;
+                        rd.CodigoPaciente = DropDownList_Paciente.SelectedValue;
+                        rd.CodigoProfissional = DropDownList_Profissional.SelectedValue;
+                        rd.DataReceita = DateTime.Parse(TextBox_DataReceita.Text);
+
+                        if (int.Parse(ddlMunicipio.SelectedValue) != -1)
+                            rd.CodigoMunicipio = ddlMunicipio.SelectedValue;
+
+                        if (int.Parse(ddlDistrito.SelectedValue) != -1)
+                            rd.CodigoDistrito = int.Parse(ddlDistrito.SelectedValue);
+
+                        Factory.GetInstance<IFarmaciaServiceFacade>().Salvar(rd);
+                        Factory.GetInstance<IFarmaciaServiceFacade>().Salvar(new LogFarmacia(DateTime.Now, ((Usuario)Session["Usuario"]).Codigo, 24, "id receita: " + rd.Codigo));
+
+                        ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Receita cadastrada com sucesso.');location='FormDispensarMedicamentos.aspx?co_receita=" + rd.Codigo + "';", true);
+                    }
+                    catch (Exception ex)
+                    {
+                        ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('" + ex.Message + "');", true);
+                    }
+                }
+            }*/
+        }
+
+
+
+
+        //##################################################
+        private IList<ItemDispensacao> RetornaItensDispensar()
+        {
+            return Session["itensdispensar"] == null ? new List<ItemDispensacao>() : (List<ItemDispensacao>)Session["itensdispensar"];
+        }
+
+
+
+        protected void OnPageIndexChanging_Paginacao(object sender, GridViewPageEventArgs e)
+        {
+            AtualizaGridDispensacao(RetornaItensDispensar());
+            GridView_Medicamentos.PageIndex = e.NewPageIndex;
+            GridView_Medicamentos.DataBind();
+        }
+
+        private void AtualizaGridDispensacao(IList<ItemDispensacao> iList)
+        {
+            GridView_Medicamentos.DataSource = iList;
+            GridView_Medicamentos.DataBind();
+        }
+
+       
+
+        private void CarregaTriggersUpdatePanel()
+        {
+            MasterMain mm = (MasterMain)Master.Master;
+            ((ScriptManager)mm.FindControl("ScriptManager1")).RegisterAsyncPostBackControl(GridView_ResultadoPesquisaPaciente);
+            ((ScriptManager)mm.FindControl("ScriptManager1")).RegisterAsyncPostBackControl(ImageButton2);
+
+            AsyncPostBackTrigger trig = new AsyncPostBackTrigger();
+            trig.ControlID = GridView_ResultadoPesquisaPaciente.UniqueID;
+            trig.EventName = "RowCommand";
+            UpdatePanel_Tres.Triggers.Add(trig);
+
+            trig = new AsyncPostBackTrigger();
+            trig.ControlID = ImageButton2.UniqueID;
+            trig.EventName = "Click";
+            UpdatePanel_Quatro.Triggers.Add(trig);
+        }
+
+        /// <summary>
+        /// Carrega os dropsdowns de distrito, categorias, municipios da tela
+        /// </summary>
+        private void CarregaDropsDown()
+        {
+            //if (Factory.GetInstance<ISeguranca>().VerificarPermissao(((Usuario)Session["Usuario"]).Codigo, "CADASTRAR_RECEITA_TODAS_FARMACIA"))
+            //{
+            //    IList<Vida.Model.Farmacia> lf = Factory.GetInstance<IFarmacia>().ListarTodos<Vida.Model.Farmacia>().OrderBy(p => p.Nome).ToList();
+            //    foreach (Vida.Model.Farmacia f in lf)
+            //        DropDownList_Farmacia.Items.Add(new ListItem(f.Nome,f.Codigo.ToString()));
+            //}
+            //else
+            //{
+            //    Vida.Model.Farmacia f = Factory.GetInstance<IFarmacia>().BuscarPorUsuario<Vida.Model.Farmacia>(((Usuario)Session["Usuario"]).Codigo);
+                
+            //    if (f != null)
+            //        DropDownList_Farmacia.Items.Add(new ListItem(f.Nome, f.Codigo.ToString()));
+            //}
+
+            IVidaServiceFacade ivida = Factory.GetInstance<IVidaServiceFacade>();
+            ddlDistrito.Items.Clear();
+            ddlDistrito.Items.Add(new ListItem("Selecione...", "-1"));
+
+            IList<CategoriaOcupacao> categorias = ivida.ListarTodos<CategoriaOcupacao>().OrderBy(p=>p.Nome).ToList();
+            ddlCategoriaProfissional.Items.Clear();
+            ddlCategoriaProfissional.Items.Add(new ListItem("Selecione...", "-1"));
+            foreach (CategoriaOcupacao c in categorias)
+                ddlCategoriaProfissional.Items.Add(new ListItem(c.Nome, c.Codigo.ToString()));
+
+            IList<Municipio> municipios = ivida.ListarTodos<Municipio>().OrderBy(p=>p.Nome).ToList();
+            ddlMunicipio.Items.Clear();
+            ddlMunicipio.Items.Add(new ListItem("Selecione...", "-1"));
+            foreach (Municipio m in municipios)
+                ddlMunicipio.Items.Add(new ListItem(m.Nome, m.Codigo.ToString()));
+            ddlMunicipio.SelectedIndex = ddlMunicipio.Items.IndexOf(ddlMunicipio.Items.FindByText("SALVADOR - BA"));
+            CarregarDistritos();
+        }
+
+        /// <summary>
+        /// Pesquisa o paciente que possua cartão SUS
+        /// </summary>
+        /// <param name="sender">Objeto de envio</param>
+        /// <param name="e">Argumento de Inicialização</param>
+        protected void OnClick_BuscarPaciente(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(tbxCartaoSUS.Text))
+            {
+                Regex validaCartaoSUS = new Regex(@"^\d{15}$");
+
+                if (validaCartaoSUS.IsMatch(tbxCartaoSUS.Text))
+                {
+                    ViewState.Remove("nomepaciente");
+                    ViewState.Remove("nomemae");
+                    ViewState.Remove("datanascimento");
+                    ViewState["cartaosus"] = tbxCartaoSUS.Text;
+                    CarregaGridView(tbxCartaoSUS.Text, "", "", "");
+                }
+                else
+                    ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('O cartão SUS deve conter 15 dígitos!');", true);
+            }
+            else
+            {
+                char[] del = { ' ' };
+                if (!string.IsNullOrEmpty(tbxNomePaciente.Text) && tbxNomePaciente.Text.Split(del).Length >= 2 && ((!string.IsNullOrEmpty(tbxNomeMae.Text) && tbxNomeMae.Text.Split(del).Length >= 2) || !string.IsNullOrEmpty(tbxDataNascimento.Text)))
+                {
+                    ViewState.Remove("cartaosus");
+                    ViewState["nomepaciente"] = tbxNomePaciente.Text;
+                    ViewState["nomemae"] = tbxNomeMae.Text;
+                    ViewState["datanascimento"] = tbxDataNascimento.Text;
+                    CarregaGridView("", tbxNomePaciente.Text, tbxNomeMae.Text, tbxDataNascimento.Text);
+                }
+                else
+                    ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Informe um dos seguintes campos: \\n (1) Número do cartão SUS. \\n (2) Nome e Sobrenome do Paciente e Nome e Sobrenome da Mãe. \\n (3) Nome e Sobrenome do Paciente e Data de Nascimento.');", true);
+            }
+        }
+
+        /// <summary>
+        /// Carrega o gridview de pacientes para o usuário
+        /// </summary>
+        /// <param name="cartao_sus">número do cartão sus</param>
+        /// <param name="nomepaciente">nome do paciente</param>
+        /// <param name="nomemae">nome da mãe</param>
+        /// <param name="datanascimento">data de nascimento do paciente</param>
+        private void CarregaGridView(string cartao_sus, string nomepaciente, string nomemae, string datanascimento)
+        {
+            IList<Vida.Model.Paciente> lp = new List<Vida.Model.Paciente>();
+
+            if (cartao_sus != "")
+            {
+                Vida.Model.Paciente paciente = Factory.GetInstance<IPaciente>().PesquisarPacientePorCNS<Vida.Model.Paciente>(cartao_sus);
+                if (paciente != null)
+                    lp.Add(paciente);
+            }
+            else
+            {
+                lp = Factory.GetInstance<IPaciente>().PesquisarPaciente<Vida.Model.Paciente>(nomepaciente, !string.IsNullOrEmpty(nomemae) ? nomemae : "", !string.IsNullOrEmpty(datanascimento) ? DateTime.Parse(datanascimento) : DateTime.MinValue);
+            }
+
+            GridView_ResultadoPesquisaPaciente.DataSource = lp;
+            GridView_ResultadoPesquisaPaciente.DataBind();
+
+            PanelResultado.Visible = true;
+        }
+
+        /// <summary>
+        /// Paginação do GridView de paciente
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnPageIndexChanging_PaginacaoPaciente(object sender, GridViewPageEventArgs e)
+        {
+            if (ViewState["cartaosus"] != null)
+                CarregaGridView(ViewState["cartaosus"].ToString(), "", "", "");
+            else
+                CarregaGridView("", ViewState["nomepaciente"] != null ? ViewState["nomepaciente"].ToString() : "", ViewState["nomemae"] != null ? ViewState["nomemae"].ToString() : "", ViewState["datanascimento"] != null ? ViewState["datanascimento"].ToString() : "");
+
+            GridView_ResultadoPesquisaPaciente.PageIndex = e.NewPageIndex;
+            GridView_ResultadoPesquisaPaciente.DataBind();
+        }
+
+        /// <summary>
+        /// Seleciona o Paciente para criação da receita
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnRowCommand_SelecionarPaciente(object sender, GridViewCommandEventArgs e)
+        {
+            if (e.CommandName == "CommandName_Selecionar")
+            {
+                ViewState["co_paciente"] = GridView_ResultadoPesquisaPaciente.DataKeys[int.Parse(e.CommandArgument.ToString())]["Codigo"];
+                Vida.Model.Paciente p = Factory.GetInstance<IPaciente>().BuscarPorCodigo<Vida.Model.Paciente>(ViewState["co_paciente"].ToString());
+                //GridView_ResultadoPesquisaPaciente.Rows[int.Parse(e.CommandArgument.ToString())].BackColor = System.Drawing.Color.GreenYellow;
+
+                IList<Vida.Model.Paciente> lp = new List<Vida.Model.Paciente>();
+                lp.Add(p);
+                GridView_ResultadoPesquisaPaciente.DataSource = lp;
+                GridView_ResultadoPesquisaPaciente.DataBind();
+                DropDownList_Paciente.Items.Clear();
+                DropDownList_Paciente.Items.Add(new ListItem("Selecione...", "-1"));
+                DropDownList_Paciente.Items.Add(new ListItem(p.Nome, p.Codigo));
+                DropDownList_Paciente.SelectedValue = p.Codigo;
+
+                UpdatePanel_Tres.Update();
+                CarregaTriggersUpdatePanel();
+                DropDownList_Paciente.Focus();
+                //Label_NomePaciente.Text = p.Nome;
+            }
+        }
+
+        /// <summary>
+        /// Pesquisar o profissional
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnClick_PesquisarProfissional(object sender, EventArgs e)
+        {
+            //Vida.Model.Profissional prof = Factory.GetInstance<IProfissional>().BuscaProfissionalPorVinculo<Vida.Model.Profissional>(int.Parse(ddlCategoriaProfissional.SelectedValue), int.Parse(tbxNumeroConselhoProfissional.Text));
+
+            //if (prof == null)
+            //    prof = Factory.GetInstance<IEquipe>().BuscarProfissionalPorCategoriaNumeroConselho<Vida.Model.Profissional>(ddlCategoriaProfissional.SelectedValue, tbxNumeroConselhoProfissional.Text);
+
+            IList<ProfissionalSolicitante> lprof = Factory.GetInstance<IProfissionalSolicitante>().BuscaProfissionalPorNumeroConselhoECategoria<ProfissionalSolicitante>(ddlCategoriaProfissional.SelectedValue, tbxNumeroConselhoProfissional.Text.Trim(), "",0);
+
+            if (lprof.Count == 0)
+                ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Nenhum profissional encontrado.');", true);
+            else 
+            {
+                //ViewState["co_profissional"] = prof.Codigo;
+                DropDownList_Profissional.Items.Clear();
+                DropDownList_Profissional.Items.Add(new ListItem("Selecione...", "-1"));
+                foreach(ProfissionalSolicitante prof in lprof)
+                    DropDownList_Profissional.Items.Add(new ListItem(prof.Nome, prof.Codigo.ToString()));
+
+                DropDownList_Profissional.SelectedValue = DropDownList_Profissional.Items[1].Value;
+                //DropDownList_Profissional.SelectedValue = prof.Codigo.ToString();
+
+                //Label_NomeProfissional.Text = prof.Nome;
+            }
+
+            UpdatePanel_Quatro.Update();
+            CarregaTriggersUpdatePanel();
+            DropDownList_Profissional.Focus();
+        }
+
+        /// <summary>
+        /// Carrega os distritos do munícipio selecionado
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnSelectedIndexChanged_CarregaDistrito(object sender, EventArgs e) 
+        {
+            CarregarDistritos();
+        }
+
+        protected void OnClick_CancelarInclusao(object sender, EventArgs e)
+        {
+            TextBox_QuantidadePrescrita.Enabled = true;
+            DropDownList_Medicamento.SelectedValue = "-1";
+            TextBox_QuantidadePrescrita.Text = "";
+        }
+
+        protected void GridView_MedicamentosDispensar_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
+        {
+            GridView_Medicamentos.EditIndex = -1;
+            IList<ItemDispensacao> itens;
+            itens = RetornaItensDispensar();
+            AtualizaGridDispensacao(itens);
+        }
+
+        protected void OnRowCommand_VerificarAcao(object sender, GridViewCommandEventArgs e)
+        {
+            int indexlote = int.Parse(e.CommandArgument.ToString()) == 0 ? GridView_Medicamentos.PageIndex * GridView_Medicamentos.PageSize : (GridView_Medicamentos.PageIndex * GridView_Medicamentos.PageSize) + int.Parse(e.CommandArgument.ToString());
+            IList<ItemDispensacao> ltemp = RetornaItensDispensar();
+
+            if (e.CommandName == "CommandName_Excluir")
+            {
+                ItemDispensacao item = null; //Ver depois o que fezer se for utilizado Factory.GetInstance<IDispensacao>().BuscarPorItem<ItemDispensacao>(long.Parse(ViewState["co_receita"].ToString()), ltemp[indexlote].LoteMedicamento.Codigo, ltemp[indexlote].DataAtendimento);
+                Factory.GetInstance<IDispensacao>().DeletarItemDispensacao<ItemDispensacao>(item);
+                ltemp.RemoveAt(indexlote);
+                Session["itensdispensar"] = ltemp;
+                AtualizaGridDispensacao(RetornaItensDispensar());
+            }
+        }
+
+        protected void GridView_MedicamentosDispensar_RowUpdating(object sender, GridViewUpdateEventArgs e)
+        {
+            //GridViewRow r = GridView_MedicamentosDispensar.Rows[e.RowIndex];
+            /*
+            List<ItemReceitaDispensacao> medicamentosDispensacao = (List<ItemReceitaDispensacao>)Session["itensReceitaDispensacao"] == null ? new List<ItemReceitaDispensacao>() : (List<ItemReceitaDispensacao>)Session["itensReceitaDispensacao"];
+            medicamentosDispensacao.Single(x => x.CodMedicamento == e.Keys[0]).QtdPrescrita = (int)e.NewValues["TextBox_QtdPrescrita"];
+            Session["itensReceitaDispensacao"] = medicamentosDispensacao;
+            
+
+            /*
+            GridViewRow r = GridView_MedicamentosDispensar.Rows[e.RowIndex];
+            IList<ItemDispensacao> itens;
+            itens = RetornaItensDispensar();
+
+            if (((TextBox)r.FindControl("TextBox_Qtd")).Text == "")
+            {
+                ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert",
+                     "alert('Informe a quantidade dispensada!');", true);
+                return;
+            }
+
+            if (((TextBox)r.FindControl("TextBox_Qtd")).Text == "0")
+            {
+                ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert",
+                     "alert('A quantidade dispensada deve ser diferente de 0 (Zero)!');", true);
+                return;
+            }
+
+            if (((TextBox)r.FindControl("TextBox_QtdDi")).Text == "")
+            {
+                ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert",
+                     "alert('Informe a quantidade de dias!');", true);
+                return;
+            }
+
+            if (((TextBox)r.FindControl("TextBox_QtdDi")).Text == "0")
+            {
+                ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert",
+                     "alert('A quantidade de dias deve ser diferente de 0 (Zero)!');", true);
+                return;
+            }
+
+            Estoque estoque = Factory.GetInstance<IEstoque>().BuscarItemEstoquePorFarmacia<Estoque>(itens[r.RowIndex].Farmacia.Codigo, itens[r.RowIndex].LoteMedicamento.Codigo);
+
+            int qtdEstoque = estoque.QuantidadeEstoque + itens[r.RowIndex].QtdDispensada;
+
+            if (qtdEstoque >= int.Parse(((TextBox)r.FindControl("TextBox_Qtd")).Text))
+            {
+                ItemDispensacao item = Factory.GetInstance<IDispensacao>().BuscarPorItem<ItemDispensacao>(long.Parse(ViewState["co_receita"].ToString()), itens[r.RowIndex].LoteMedicamento.Codigo, itens[r.RowIndex].DataAtendimento);
+                int qtdAnterior = item.QtdDispensada;
+                int qtdJaDispensada = Factory.GetInstance<IDispensacao>().QuantidadeDispensadaMedicamentoReceita(long.Parse(ViewState["co_receita"].ToString()), item.LoteMedicamento.Medicamento.Codigo);
+                item.QtdDispensada = int.Parse(((TextBox)r.FindControl("TextBox_Qtd")).Text);
+                item.QtdDias = int.Parse(((TextBox)r.FindControl("TextBox_QtdDi")).Text);
+
+                //int qtdItensSeremDispensados = RetornaItensDispensar().Where(p => p.LoteMedicamento.Medicamento.Codigo == item.LoteMedicamento.Medicamento.Codigo).Sum(p => p.QtdDispensada);
+                if ((qtdJaDispensada - qtdAnterior) + item.QtdDispensada > item.QtdPrescrita)
+                {
+                    ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Usuário, este medicamento não pode ser colocado na lista de itens a serem dispensados, pois a quantidade prescrita para o medicamento nesta receita chegou ao seu limite: " + item.QtdPrescrita + " unidades. Quantidade já dispensada = " + (qtdJaDispensada - qtdAnterior) + " + " + " Quantidade a ser dispensada = " + item.QtdDispensada + ". Total = " + ((qtdJaDispensada - qtdAnterior) + item.QtdDispensada) + ".');", true);
+                }
+                else
+                {
+                    Factory.GetInstance<IDispensacao>().AlterarItemDispensacao<ItemDispensacao>(item, qtdAnterior);
+                    //AtualizaGridDispensacao(IgualaQuantidadePrescritaMedicamento(RetornaItensDispensar(), item));
+                    //AtualizaDropDownListMedicamento();
+                    //OnClick_CancelarInclusao(sender, e);
+                    itens[r.RowIndex].QtdDispensada = int.Parse(((TextBox)r.FindControl("TextBox_Qtd")).Text);
+                    itens[r.RowIndex].QtdDias = int.Parse(((TextBox)r.FindControl("TextBox_QtdDi")).Text);
+                    GridView_MedicamentosDispensar.EditIndex = -1;
+                    AtualizaGridDispensacao(itens);
+                    Session["itensdispensar"] = itens;
+                }
+            }
+            else
+                ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Quantidade insuficiente no estoque para dispensação. Salto atual: " + estoque.QuantidadeEstoque + ". Quantidade solicitada: " + TextBox_QuantidadeDispensada.Text + ".');", true);
+             */
+        }
+
+        protected void GridView_MedicamentosDispensar_RowEditing(object sender, GridViewEditEventArgs e)
+        {
+            GridView_Medicamentos.EditIndex = e.NewEditIndex;           
+            List<ItemReceitaDispensacao> medicamentosDispensacao = (List<ItemReceitaDispensacao>)Session["itensReceitaDispensacao"] == null ? new List<ItemReceitaDispensacao>() : (List<ItemReceitaDispensacao>)Session["itensReceitaDispensacao"];
+            GridView_Medicamentos.DataSource = medicamentosDispensacao;
+            GridView_Medicamentos.DataBind();
+            //GridView_MedicamentosDispensar.
+        }
+
+       
+
+        /// <summary>
+        /// Valida o registro da receita de acordo com o paciente informado e o profissional escolhido
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnServerValidate_RegistroReceita(object sender, ServerValidateEventArgs e) 
+        {
+            e.IsValid = true;
+
+            if (ViewState["co_paciente"] == null)
+            {
+                CustomValidator_RegistroReceita.ErrorMessage = " - Informe um Paciente.";
+                e.IsValid = false;
+                return;
+            }
+
+            if (ViewState["co_profissional"] == null)
+            {
+                CustomValidator_RegistroReceita.ErrorMessage = " - Informe um Profissional.";
+                e.IsValid = false;
+            }
+        }
+
+        private void CarregarDistritos()
+        {
+            ddlDistrito.Items.Clear();
+            ddlDistrito.Items.Add(new ListItem("Selecione...", "-1"));
+
+            IList<Distrito> ld = Factory.GetInstance<IDistrito>().BuscarPorMunicipio<Distrito>(ddlMunicipio.SelectedValue).Where(p => p.Nome.ToUpper() != "NÃO SE APLICA" && p.Nome.ToUpper() != "NAO SE APLICA").OrderBy(p => p.Nome).ToList();
+
+            foreach (Distrito d in ld)
+                ddlDistrito.Items.Add(new ListItem(d.Nome, d.Codigo.ToString()));
+        }
+
+
+
+
+
+        
+
+        
+    }
+}

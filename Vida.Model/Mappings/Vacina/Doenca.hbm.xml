@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="ViverMais.Model">
+  <class name="ViverMais.Model.Doenca" table="VCN_doenca">
+    <id name="Codigo">
+      <column name="co_doenca" not-null="true"/>
+      <generator class="sequence">
+        <param name="sequence">VCN_DOENCA_SEQUENCE</param>
+      </generator>
+    </id>
+    <!--<id name="Codigo">
+      <column name="co_doenca" not-null="true"/>
+      <generator class="assigned" />
+    </id>-->
+    <property name="Nome" column="nome" />
+  </class>
+</hibernate-mapping>

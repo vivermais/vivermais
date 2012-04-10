@@ -1,0 +1,15 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace Vida.ServiceFacade.ServiceFacades.Agendamento
+{
+    public interface IAfastamentoProfissional : IAgendamentoServiceFacade
+    {
+        IList<T> ListaAfastamentoProfissional<T>(string id_unidade, string id_profissional);
+        T BuscaAfastamentoProfissional<T>(string id_profissional, DateTime data_inicial, string data_final, string id_unidade);
+        T VerificaExistenciaAfastamentoPeriodo<T>(string id_profissional, DateTime data_inicial, string data_final, string id_unidade);
+        T VerificaAfastamentosNaData<T>(string cnes, DateTime data, string id_profissional);
+    }
+}

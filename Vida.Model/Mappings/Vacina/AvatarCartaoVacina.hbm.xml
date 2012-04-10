@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Vida.Model">
+  <class name="Vida.Model.AvatarCartaoVacina" table="VCN_AVATARCARTAOVACINA">
+    <id name="Codigo">
+      <column name="codigo" not-null="true"/>
+      <generator class="assigned"/>
+    </id>
+    <property name="Nome" column="nome" />
+    <property name="ImagemTopo" column="imagemtopo" />
+    <property name="ImagemDados" column="imagemdados" />
+    <property name="ImagemTopoCrianca" column="imagemtopocrianca" />
+    <property name="ImagemTopoAdolescente" column="imagemtopoadolescente" />
+    <property name="ImagemTopoAdulto" column="imagemtopoadulto" />
+    <property name="Pasta" column="pasta" />
+  </class>
+</hibernate-mapping>

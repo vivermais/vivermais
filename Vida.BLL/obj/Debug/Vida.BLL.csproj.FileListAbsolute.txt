@@ -1,0 +1,33 @@
+L:\SISTEMAS\VIDA\Vida.BLL\obj\Debug\ResolveAssemblyReference.cache
+L:\SISTEMAS\VIDA\Vida.BLL\bin\Debug\Vida.BLL.dll
+L:\SISTEMAS\VIDA\Vida.BLL\bin\Debug\Vida.BLL.pdb
+L:\SISTEMAS\VIDA\Vida.BLL\bin\Debug\Vida.DAL.dll
+L:\SISTEMAS\VIDA\Vida.BLL\bin\Debug\Vida.DAOOracle.dll
+L:\SISTEMAS\VIDA\Vida.BLL\bin\Debug\Vida.Model.dll
+L:\SISTEMAS\VIDA\Vida.BLL\bin\Debug\Vida.Model.pdb
+L:\SISTEMAS\VIDA\Vida.BLL\bin\Debug\Vida.DAOOracle.pdb
+L:\SISTEMAS\VIDA\Vida.BLL\bin\Debug\Vida.DAL.pdb
+L:\SISTEMAS\VIDA\Vida.BLL\obj\Debug\Vida.BLL.dll
+L:\SISTEMAS\VIDA\Vida.BLL\obj\Debug\Vida.BLL.pdb
+L:\lucas01\SISTEMAS\VIDA\Vida.BLL\bin\Debug\Vida.BLL.dll
+L:\lucas01\SISTEMAS\VIDA\Vida.BLL\bin\Debug\Vida.BLL.pdb
+L:\lucas01\SISTEMAS\VIDA\Vida.BLL\bin\Debug\Vida.DAOOracle.dll
+L:\lucas01\SISTEMAS\VIDA\Vida.BLL\bin\Debug\Vida.Model.dll
+L:\lucas01\SISTEMAS\VIDA\Vida.BLL\bin\Debug\Vida.DAL.dll
+L:\lucas01\SISTEMAS\VIDA\Vida.BLL\bin\Debug\Vida.DAL.pdb
+L:\lucas01\SISTEMAS\VIDA\Vida.BLL\bin\Debug\Vida.DAOOracle.pdb
+L:\lucas01\SISTEMAS\VIDA\Vida.BLL\bin\Debug\Vida.Model.pdb
+L:\lucas01\SISTEMAS\VIDA\Vida.BLL\obj\Debug\ResolveAssemblyReference.cache
+L:\lucas01\SISTEMAS\VIDA\Vida.BLL\obj\Debug\Vida.BLL.dll
+L:\lucas01\SISTEMAS\VIDA\Vida.BLL\obj\Debug\Vida.BLL.pdb
+C:\Documents and Settings\lucassantos\vivermais\Vida.BLL\bin\Debug\Vida.BLL.dll
+C:\Documents and Settings\lucassantos\vivermais\Vida.BLL\bin\Debug\Vida.BLL.pdb
+C:\Documents and Settings\lucassantos\vivermais\Vida.BLL\bin\Debug\Vida.DAOOracle.dll
+C:\Documents and Settings\lucassantos\vivermais\Vida.BLL\bin\Debug\Vida.Model.dll
+C:\Documents and Settings\lucassantos\vivermais\Vida.BLL\bin\Debug\Vida.DAL.dll
+C:\Documents and Settings\lucassantos\vivermais\Vida.BLL\bin\Debug\Vida.DAL.pdb
+C:\Documents and Settings\lucassantos\vivermais\Vida.BLL\bin\Debug\Vida.DAOOracle.pdb
+C:\Documents and Settings\lucassantos\vivermais\Vida.BLL\bin\Debug\Vida.Model.pdb
+C:\Documents and Settings\lucassantos\vivermais\Vida.BLL\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\lucassantos\vivermais\Vida.BLL\obj\Debug\Vida.BLL.dll
+C:\Documents and Settings\lucassantos\vivermais\Vida.BLL\obj\Debug\Vida.BLL.pdb

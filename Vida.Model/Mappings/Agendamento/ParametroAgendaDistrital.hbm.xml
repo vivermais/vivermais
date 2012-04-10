@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="ViverMais.Model">
+  <class name="ViverMais.Model.ParametroAgendaDistrital" table="parametroagendadistrital">
+    <id name="Codigo">
+      <column name="id_parametroagendadistrital" not-null="true"/>
+      <generator class="identity" />
+    </id>
+    <many-to-one name="ParametroAgenda" class="ViverMais.Model.ParametroAgenda" column="id_parametroagenda" />
+    <property name="ID_Distrito" column="id_distrito" />
+  </class>
+</hibernate-mapping>

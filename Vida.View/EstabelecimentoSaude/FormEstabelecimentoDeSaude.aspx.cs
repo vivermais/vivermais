@@ -1,0 +1,106 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using ViverMais.ServiceFacade.ServiceFacades;
+using ViverMais.ServiceFacade.ServiceFacades.EstabelecimentoSaude;
+using ViverMais.ServiceFacade.ServiceFacades.EstabelecimentoSaude.Misc;
+using ViverMais.DAO;
+using ViverMais.ServiceFacade.ServiceFacades.Seguranca;
+using ViverMais.Model;
+
+namespace ViverMais.View.EstabelecimentoSaude
+{
+    public partial class FormEstabelecimentoDeSaude : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            LinkButton eas_pesquisarcnes = this.EAS.WUC_LinkButton_PesquisarCNES;
+            LinkButton eas_pesquisarnome = this.EAS.WUC_LinkButton_PesquisarNomeFantasia;
+
+            this.InserirTrigger(eas_pesquisarcnes.UniqueID, "Click", this.UpdatePanel_Unidade);
+            this.InserirTrigger(eas_pesquisarnome.UniqueID, "Click", this.UpdatePanel_Unidade);
+
+            eas_pesquisarcnes.Click += new EventHandler(OnClick_PesquisarCNES);
+            eas_pesquisarnome.Click += new EventHandler(OnClick_PesquisarNomeFantasiaUnidade);
+
+            if (!IsPostBack)
+            {
+                if (!Factory.GetInstance<ISeguranca>().VerificarPermissao(((Usuario)Session["Usuario"]).Codigo, "MANTER_ESTABELECIMENTO_SAUDE", Modulo.ESTABELECIMENTO_SAUDE))
+                {
+                    BoundField bound = new BoundField();
+                    bound.HeaderText = "Nome Fantasia";
+                    bound.DataField = "NomeFantasia";
+                    bound.ItemStyle.HorizontalAlign = HorizontalAlign.Center;
+                    bound.ItemStyle.Width = Unit.Pixel(500);
+                    grid_EstabelecimentoSaude.Columns.RemoveAt(1);
+                    grid_EstabelecimentoSaude.Columns.Insert(1, bound);
+                }
+
+                this.EAS.WUC_EstabelecimentosPesquisados = new List<ViverMais.Model.EstabelecimentoSaude>();
+            }
+        }
+
+        protected void OnClick_PesquisarCNES(object sender, EventArgs e)
+        {
+            this.CarregaUnidade(this.EAS.WUC_EstabelecimentosPesquisados);
+        }
+
+        private void CarregaUnidade(IList<ViverMais.Model.EstabelecimentoSaude> unidades)
+        {
+            this.grid_EstabelecimentoSaude.DataSource = unidades;
+            this.grid_EstabelecimentoSaude.DataBind();
+
+            this.Panel_Unidade.Visible = true;
+            this.UpdatePanel_Unidade.Update();
+        }
+
+        protected void OnClick_PesquisarNomeFantasiaUnidade(object sender, EventArgs e)
+        {
+            this.CarregaUnidade(this.EAS.WUC_EstabelecimentosPesquisados);
+        }
+
+        private void InserirTrigger(string idcontrole, string nomeevento, UpdatePanel updatepanel)
+        {
+            AsyncPostBackTrigger trigger = new AsyncPostBackTrigger();
+            trigger.ControlID = idcontrole;
+            trigger.EventName = nomeevento;
+            updatepanel.Triggers.Add(trigger);
+            //MasterMain mm = (MasterMain)Master.Master;
+            //((ScriptManager)mm.FindControl("ScriptManager1")).RegisterAsyncPostBackControl(this.FindControl(idcontrole));
+        }
+
+        /// <summary>
+        /// Função que redireciona o usuário para a página de edição do estabelecimento escolhido.
+        /// </summary>
+        /// <param name="sender">Objeto de envio</param>
+        /// <param name="e">Comando escolhido no GridView para com o estabelecimento</param>
+        protected void OnRowCommand_VerificarAcao(object sender, GridViewCommandEventArgs e) 
+        {
+            if (e.CommandName == "cn_visualizarEstabelecimento")
+                Response.Redirect("FormEditarEstabelecimentoSaude.aspx?unidade=" + grid_EstabelecimentoSaude.DataKeys[int.Parse(e.CommandArgument.ToString())]["CNES"].ToString());
+        }
+
+        /// <summary>
+        /// Permite a paginação para o gridView de estabelecimentos
+        /// </summary>
+        /// <param name="sender">Objeto de envio</param>
+        /// <param name="e">Página de acesso para listagem</param>
+        protected void onPageEstabelecimento(object sender, GridViewPageEventArgs e) 
+        {
+            grid_EstabelecimentoSaude.DataSource = this.EAS.WUC_EstabelecimentosPesquisados;
+            grid_EstabelecimentoSaude.DataBind();
+            
+            grid_EstabelecimentoSaude.PageIndex = e.NewPageIndex;
+            grid_EstabelecimentoSaude.DataBind();
+        }
+    }
+}

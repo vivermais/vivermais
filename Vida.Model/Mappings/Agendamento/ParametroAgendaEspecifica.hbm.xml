@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="ViverMais.Model">
+  <class name="ViverMais.Model.ParametroAgendaEspecifica" table="AGD_PARAMETROAGENDAESPECIFICA">
+    <id name="Codigo">
+      <column name="CO_PARAMETROAGENDAESPECIFICA" not-null="true"/>
+      <generator class="sequence">
+          <param name="sequence">AGD_PARAMAGENDESPEC_SEQUENCE</param>
+      </generator>
+    </id>
+    <many-to-one name="ParametroAgenda" class="ViverMais.Model.ParametroAgenda" column="CO_PARAMETROAGENDA" />
+    <property name="ID_Unidade" column="CNES" />
+    <property name="ID_Programa" column="CO_PROGRAMA" />
+  </class>
+</hibernate-mapping>

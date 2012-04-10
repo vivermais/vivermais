@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="ViverMais.Model">
+  <class name="ViverMais.Model.Fatura" table="AGD_FATURA">
+    <id name="Codigo">
+       <column name="CO_FATURA" not-null="true"/>
+       <generator class="sequence">
+           <param name="sequence">AGD_FATURA_SEQUENCE</param>
+       </generator>
+    </id>
+	<many-to-one name="Id_Unidade" class="ViverMais.Model.EstabelecimentoSaude" column="CNES" />
+	<property name="Competencia" column="COMPETENCIA" />
+	<property name="Tipo" column="TIPO" />
+    <property name="Data" column="DATA_SITUACAO" />
+    <!--<many-to-one name="Usuario" class="ViverMais.Model.Usuario" column="co_usuario" />-->
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,58 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace Vida.Model
+{
+    [Serializable]
+    public class Area
+    {
+        private Municipio municipio;
+
+        public virtual Municipio Municipio 
+        {
+            get { return municipio; }
+            set { municipio = value; }
+        }
+
+        private string codigo;
+
+        public virtual string Codigo
+        {
+            get { return codigo; }
+            set { codigo = value; }
+        }
+
+        private string descricao;
+
+        public virtual string Descricao 
+        {
+            get { return descricao; }
+            set { descricao = value; }
+        }
+
+        private Segmento segmento;
+
+        public virtual Segmento Segmento 
+        {
+            get { return segmento; }
+            set { segmento = value; }
+        }
+
+        public Area() 
+        {
+        }
+
+        public override bool Equals(object obj)
+        {
+            return this.Municipio.Equals(obj) &&
+                   this.Codigo.Equals(obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode() * 37;
+        }
+    }
+}

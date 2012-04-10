@@ -1,0 +1,79 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" MasterPageFile="~/MasterMain.Master"
+    CodeBehind="MasterProfissional.master.cs" Inherits="ViverMais.View.Profissional.MasterProfissional" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <link rel="stylesheet" href="style_form_profissional.css" type="text/css" media="screen" />
+    <link rel="Stylesheet" href="style-barra-modulo.css" type="text/css" media="screen" />
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <%--    <div>
+        <asp:UpdateProgress runat="server" ID="updateProgress1">
+            <ProgressTemplate>
+                <asp:Panel ID="Carregando" runat="server" BackColor="#FFFFFF"  BorderColor="#CCCCCC" BorderWidth="1px" BorderStyle="Solid">
+                    <img alt="" style="float:left; vertical-align:middle;" src="img/progress_farmacia.gif" /></asp:Panel>
+                <cc1:AlwaysVisibleControlExtender ID="AlwaysVisibleControlExtender1" runat="server"
+                    TargetControlID="Carregando" HorizontalSide="Right"
+                    HorizontalOffset="20" VerticalSide="Bottom" ScrollEffectDuration=".1" VerticalOffset="20">
+                </cc1:AlwaysVisibleControlExtender>
+            </ProgressTemplate>
+        </asp:UpdateProgress>
+    </div>--%>
+    <% 
+        string url = Request.Url.ToString();
+        url = url.Substring(0, url.LastIndexOf(char.Parse("/")));
+    %>
+
+    <script type="text/javascript">
+        var GB_ROOT_DIR = '<%=url %>/GreyBox/';
+    </script>
+    <div id="bgprofissional">
+        <div id="DivMenu" runat="server" visible="false">
+            <div style="margin-top: 8px; margin-left: 14px">
+                <ul class="menu2" id="menu">
+                    <li><a href="#" class="menulink">Cadastro</a>
+                        <ul>
+                            <li><a href="BuscaProfissional.aspx">Profissional</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#" class="menulink">Vínculo Profissional</a>
+                        <ul>
+                            <li><a href="FormVinculoProfissionalEstabelecimento.aspx">Vínculo Profissional</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <%--<div>
+            <h3>
+                <a href="Default.aspx">Módulo de Profissionais</a></h3>
+        </div>--%>
+        <%--<div class="top_menu">
+            <asp:Menu ID="MenuProfissional" runat="server" Height="38px" Orientation="Horizontal" Width="400px"
+                Font-Size="11px" ForeColor="#FFFFFF" DynamicMenuItemStyle-BorderWidth="5px" DynamicMenuItemStyle-Font-Underline="true"
+                DynamicHoverStyle-BackColor="#805598" DynamicMenuItemStyle-BackColor="#eadff2"
+                DynamicMenuItemStyle-BorderColor="#8c1313">
+                <DynamicHoverStyle BackColor="#422852" ForeColor="#ffffff"></DynamicHoverStyle>
+                <StaticHoverStyle ForeColor="#c5b0d5" />
+                <DynamicMenuItemStyle BackColor="#eadff2" BorderColor="#eadff2" ForeColor="#03370b"
+                    BorderWidth="1px" Font-Underline="False" HorizontalPadding="2px" VerticalPadding="2px">
+                </DynamicMenuItemStyle>
+                <Items>
+                    <asp:MenuItem Text="Cadastro" Value="Cadastro">
+                        <asp:MenuItem Text="Responsável Atesto - Nota Fiscal" Value="Responsavel_Atesto" NavigateUrl="~/Farmacia/FormExibeResponsavelAtesto.aspx"></asp:MenuItem>
+                        <asp:MenuItem NavigateUrl="~/Profissional/BuscaProfissional.aspx" Text="Profissional" Value="CadastroProfissional">
+                        </asp:MenuItem>
+                    </asp:MenuItem>
+                    <asp:MenuItem Text="Vínculo Profissional" Value="Vínculo Profissional">
+                        <asp:MenuItem NavigateUrl="~/Profissional/FormVinculoProfissionalEstabelecimento.aspx"
+                            Text="Profissional de Saúde" Value="Profissional de Saúde"></asp:MenuItem>
+                    </asp:MenuItem>
+                    <%--<asp:MenuItem Text="Quadro de Profissionais" Value="Quadro de Profissionais" NavigateUrl="~/Profissional/FormQuadroProfissionais.aspx"></asp:MenuItem>
+                </Items>
+            </asp:Menu>
+        </div>--%>
+    </div>
+    <asp:ContentPlaceHolder ID="ContentPlaceHolder3" runat="server">
+    </asp:ContentPlaceHolder>
+</asp:Content>

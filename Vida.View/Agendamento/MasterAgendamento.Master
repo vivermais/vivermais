@@ -1,0 +1,94 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" MasterPageFile="~/MasterMain.Master"
+    CodeBehind="MasterAgendamento.master.cs" Inherits="ViverMais.View.Agendamento.MasterAgendamento" %>
+
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
+<asp:Content ContentPlaceHolderID="head" ID="contentHead" runat="server">
+    <link rel="stylesheet" href="style_form_agendamento.css" type="text/css" media="screen" />
+    <link href="GreyBox/gb_styles.css" rel="stylesheet" type="text/css" />
+    <%--    <script type="text/javascript" src="../JavaScript/MascarasGerais.js"></script>--%>
+    <link rel="Stylesheet" href="style-barra-modulo.css" type="text/css" media="screen" />
+    <asp:ContentPlaceHolder ID="ContentPlaceHolder2" runat="server">
+    </asp:ContentPlaceHolder>
+</asp:Content>
+<asp:Content ContentPlaceHolderID="ContentPlaceHolder1" ID="contentBody" runat="server">
+    <% 
+        string url = Request.Url.ToString();
+        url = url.Substring(0, url.LastIndexOf(char.Parse("/")));
+    %>
+    
+    <script type="text/javascript" language="javascript">
+        function showTooltip(obj) 
+        {
+            if (obj.options[obj.selectedIndex].title == "") {
+                obj.title = obj.options[obj.selectedIndex].text;
+                obj.options[obj.selectedIndex].title = obj.options[obj.selectedIndex].text;
+                for (i = 0; i < obj.options.length; i++) {
+                    obj.options[i].title = obj.options[i].text;
+                }
+            }
+            else
+                obj.title = obj.options[obj.selectedIndex].text;
+        }
+        
+        function ValidarData(sender, args)
+        {
+            args.IsValid = VerificaData(args.Value);
+        }
+         
+        function VerificaData(valor) 
+        {
+            var date=valor;
+            var ardt=new Array;
+            var ExpReg= new RegExp("(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[012])/[12][0-9]{3}");
+            ardt=date.split("/");
+            erro=false;
+            
+            if ( date.search(ExpReg)==-1)
+                    erro = true;
+            
+            else if (((ardt[1]==4)||(ardt[1]==6)||(ardt[1]==9)||(ardt[1]==11))&&(ardt[0]>30))
+                    erro = true;
+            else if ( ardt[1]==2) {
+                    if ((ardt[0]>28)&&((ardt[2]%4)!=0))
+                            erro = true;
+                    if ((ardt[0]>29)&&((ardt[2]%4)==0))
+                            erro = true;
+            }
+            return !erro;
+        }
+    </script>
+    <script type="text/javascript">
+        var GB_ROOT_DIR = '<%=url %>/GreyBox/';
+    </script>
+
+    <script type="text/javascript" src="GreyBox/AJS.js"></script>
+
+    <script type="text/javascript" src="GreyBox/AJS_fx.js"></script>
+
+    <script type="text/javascript" src="GreyBox/gb_scripts.js"></script>
+
+    <div id="bgagendamento">
+    </div>
+    <cc1:AlwaysVisibleControlExtender runat="server" ID="AlwaysVisibleControlExtender2"
+        TargetControlID="UpDateProgressAgendamento" VerticalSide="Middle" VerticalOffset="10"
+        HorizontalSide="Center" HorizontalOffset="10" ScrollEffectDuration=".1">
+    </cc1:AlwaysVisibleControlExtender>
+    <br />
+    <asp:UpdateProgress ID="UpDateProgressAgendamento" runat="server" DisplayAfter="1"
+        DynamicLayout="false">
+        <ProgressTemplate>
+            <div id="progressBackgroundFilter">
+            </div>
+            <div id="processMessage">
+                <div id="bgloader">
+                    <img src="img/ajax-loadernn.gif" style="margin-left: 68px; margin-top: 45px;" />
+                </div>
+            </div>
+            <%-- <div id="bgloader">
+                <img src="img/ajax-loadernn.gif" style="margin-left: 68px; margin-top: 45px;" />
+            </div>--%>
+        </ProgressTemplate>
+    </asp:UpdateProgress>
+    <asp:ContentPlaceHolder ID="ContentPlaceHolder3" runat="server">
+    </asp:ContentPlaceHolder>
+</asp:Content>

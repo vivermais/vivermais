@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DSProcedimentosNaoFaturaveisFPO" targetNamespace="http://tempuri.org/DSProcedimentosNaoFaturaveisFPO.xsd" xmlns:mstns="http://tempuri.org/DSProcedimentosNaoFaturaveisFPO.xsd" xmlns="http://tempuri.org/DSProcedimentosNaoFaturaveisFPO.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DSProcedimentosNaoFaturaveisFPO" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_DataSetName="DSProcedimentosNaoFaturaveisFPO" msprop:Generator_UserDSName="DSProcedimentosNaoFaturaveisFPO" msprop:EnableTableAdapterManager="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="Corpo" msprop:Generator_UserTableName="Corpo" msprop:Generator_RowDeletedName="CorpoRowDeleted" msprop:Generator_TableClassName="CorpoDataTable" msprop:Generator_RowChangedName="CorpoRowChanged" msprop:Generator_RowClassName="CorpoRow" msprop:Generator_RowChangingName="CorpoRowChanging" msprop:Generator_RowEvArgName="CorpoRowChangeEvent" msprop:Generator_RowEvHandlerName="CorpoRowChangeEventHandler" msprop:Generator_TablePropName="Corpo" msprop:Generator_TableVarName="tableCorpo" msprop:Generator_RowDeletingName="CorpoRowDeleting">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="CODIGOUNIDADE" msprop:Generator_UserColumnName="CODIGOUNIDADE" msprop:Generator_ColumnPropNameInRow="CODIGOUNIDADE" msprop:Generator_ColumnVarNameInTable="columnCODIGOUNIDADE" msprop:Generator_ColumnPropNameInTable="CODIGOUNIDADEColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="PROCEDIMENTO" msprop:Generator_UserColumnName="PROCEDIMENTO" msprop:Generator_ColumnPropNameInRow="PROCEDIMENTO" msprop:Generator_ColumnVarNameInTable="columnPROCEDIMENTO" msprop:Generator_ColumnPropNameInTable="PROCEDIMENTOColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="EXECUTADO" msprop:Generator_UserColumnName="EXECUTADO" msprop:Generator_ColumnPropNameInRow="EXECUTADO" msprop:Generator_ColumnVarNameInTable="columnEXECUTADO" msprop:Generator_ColumnPropNameInTable="EXECUTADOColumn" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

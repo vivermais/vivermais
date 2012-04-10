@@ -1,0 +1,12 @@
+C:\Users\Lucas\vivermais\Vida.BLL\bin\Debug\Vida.BLL.dll
+C:\Users\Lucas\vivermais\Vida.BLL\bin\Debug\Vida.BLL.pdb
+C:\Users\Lucas\vivermais\Vida.BLL\bin\Debug\Oracle.DataAccess.dll
+C:\Users\Lucas\vivermais\Vida.BLL\bin\Debug\Vida.DAOOracle.dll
+C:\Users\Lucas\vivermais\Vida.BLL\bin\Debug\Vida.Model.dll
+C:\Users\Lucas\vivermais\Vida.BLL\bin\Debug\Vida.DAL.dll
+C:\Users\Lucas\vivermais\Vida.BLL\bin\Debug\Vida.DAL.pdb
+C:\Users\Lucas\vivermais\Vida.BLL\bin\Debug\Vida.DAOOracle.pdb
+C:\Users\Lucas\vivermais\Vida.BLL\bin\Debug\Vida.Model.pdb
+C:\Users\Lucas\vivermais\Vida.BLL\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Lucas\vivermais\Vida.BLL\obj\Debug\Vida.BLL.dll
+C:\Users\Lucas\vivermais\Vida.BLL\obj\Debug\Vida.BLL.pdb

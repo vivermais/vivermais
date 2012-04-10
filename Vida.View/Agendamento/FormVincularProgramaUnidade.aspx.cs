@@ -1,0 +1,273 @@
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Xml.Linq;
+using ViverMais.Model;
+using ViverMais.DAO;
+using ViverMais.ServiceFacade.ServiceFacades.Agendamento;
+using System.Collections.Generic;
+using ViverMais.ServiceFacade.ServiceFacades.EstabelecimentoSaude;
+
+namespace ViverMais.View.Agendamento
+{
+    public partial class FormVincularProgramaUnidade : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!IsPostBack)
+            {
+                CarregaProgramasDeSaude();
+            }
+            LinkButton eas_pesquisarcnes = this.EAS.WUC_LinkButton_PesquisarCNES;
+            LinkButton eas_pesquisarnome = this.EAS.WUC_LinkButton_PesquisarNomeFantasia;
+
+            eas_pesquisarcnes.Click += new EventHandler(OnClick_PesquisarCNES);
+            eas_pesquisarnome.Click += new EventHandler(OnClick_PesquisarNomeFantasiaUnidade);
+
+            this.InserirTrigger(eas_pesquisarcnes.UniqueID, "Click", this.UpdatePanel_Unidade);
+            this.InserirTrigger(eas_pesquisarnome.UniqueID, "Click", this.UpdatePanel_Unidade);
+            this.InserirTrigger(eas_pesquisarcnes.UniqueID, "Click", this.UpdatePanelTipoUnidade);
+        }
+
+        void CarregaProgramasDeSaude()
+        {
+            ddlProgramaDeSaude.DataSource = Factory.GetInstance<ViverMais.ServiceFacade.ServiceFacades.IViverMaisServiceFacade>().ListarTodos<ProgramaDeSaude>("Nome", true).Where(programa => programa.Ativo).ToList();
+            ddlProgramaDeSaude.DataBind();
+            ddlProgramaDeSaude.Items.Insert(0, new ListItem("Selecione", "0"));
+            ddlProgramaDeSaude.Focus();
+        }
+
+        private void InserirTrigger(string idcontrole, string nomeevento, UpdatePanel updatepanel)
+        {
+            AsyncPostBackTrigger trigger = new AsyncPostBackTrigger();
+            trigger.ControlID = idcontrole;
+            trigger.EventName = nomeevento;
+            updatepanel.Triggers.Add(trigger);
+        }
+
+        protected void OnClick_PesquisarCNES(object sender, EventArgs e)
+        {
+            ViverMais.Model.EstabelecimentoSaude unidade = this.EAS.WUC_EstabelecimentosPesquisados.FirstOrDefault();
+
+            if (unidade != null)
+            {
+                this.DropDownList_Estabelecimento.Items.Clear();
+                this.DropDownList_Estabelecimento.Items.Add(new ListItem(unidade.NomeFantasia, unidade.CNES));
+                this.DropDownList_Estabelecimento.Items.Insert(0, new ListItem("SELECIONE...", "0"));
+                this.DropDownList_Estabelecimento.SelectedValue = unidade.CNES;
+                this.DropDownList_Estabelecimento.Focus();
+                this.UpdatePanel_Unidade.Update();
+                if (ddlProgramaDeSaude.SelectedValue != "0")
+                {
+                    ProgramaDeSaudeUnidade programaUnidade = Factory.GetInstance<IProgramaDeSaudeUnidade>().BuscarPorCodigo<ProgramaDeSaudeUnidade>(int.Parse(ddlProgramaDeSaude.SelectedValue), unidade.CNES);
+                    if (programaUnidade != null && programaUnidade.Ativo)
+                    {
+                        chkBoxTipoUnidade.Items.FindByValue("S").Selected = programaUnidade.TipoSolicitante;
+                        chkBoxTipoUnidade.Items.FindByValue("E").Selected = programaUnidade.TipoExecutante;
+                        this.UpdatePanelTipoUnidade.Update();
+                    }
+                }
+            }
+        }
+
+        protected void DropDownList_Estabelecimento_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (DropDownList_Estabelecimento.SelectedValue != "0")
+            {
+                if (ddlProgramaDeSaude.SelectedValue != "0")
+                {
+                    ProgramaDeSaudeUnidade programaUnidade = Factory.GetInstance<IProgramaDeSaudeUnidade>().BuscarPorCodigo<ProgramaDeSaudeUnidade>(int.Parse(ddlProgramaDeSaude.SelectedValue), DropDownList_Estabelecimento.SelectedValue);
+                    if (programaUnidade != null && programaUnidade.Ativo)
+                    {
+                        chkBoxTipoUnidade.Items.FindByValue("S").Selected = programaUnidade.TipoSolicitante;
+                        chkBoxTipoUnidade.Items.FindByValue("E").Selected = programaUnidade.TipoExecutante;
+                    }
+                    UpdatePanelTipoUnidade.Update();
+                }
+            }
+        }
+
+        protected void OnClick_PesquisarNomeFantasiaUnidade(object sender, EventArgs e)
+        {
+            IList<ViverMais.Model.EstabelecimentoSaude> unidades = this.EAS.WUC_EstabelecimentosPesquisados;
+
+            this.DropDownList_Estabelecimento.DataSource = unidades;
+            this.DropDownList_Estabelecimento.DataBind();
+            this.DropDownList_Estabelecimento.Items.Insert(0, new ListItem("SELECIONE...", "0"));
+
+            this.DropDownList_Estabelecimento.Focus();
+            this.UpdatePanel_Unidade.Update();
+        }
+
+        protected void ddlProgramaDeSaude_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (ddlProgramaDeSaude.SelectedValue != "0")
+            {
+                int co_programa = int.Parse(ddlProgramaDeSaude.SelectedValue);
+                ProgramaDeSaude programaDeSaude = Factory.GetInstance<IProgramaDeSaude>().BuscarPorCodigo<ProgramaDeSaude>(co_programa);
+                if (programaDeSaude != null)
+                {
+                    CarregaVinculosAtivos(programaDeSaude);
+                    CarregaVinculosInativos(programaDeSaude);
+                }
+            }
+        }
+
+        void CarregaVinculosAtivos(ProgramaDeSaude programa)
+        {
+            IList<ProgramaDeSaudeUnidade> programas = Factory.GetInstance<IProgramaDeSaudeUnidade>().ListarPorPrograma<ProgramaDeSaudeUnidade>(programa.Codigo, true);
+            GridViewVinculosAtivos.DataSource = programas;
+            GridViewVinculosAtivos.DataBind();
+            Session["VinculosAtivos"] = programas;
+        }
+
+        void CarregaVinculosInativos(ProgramaDeSaude programa)
+        {
+            IList<ProgramaDeSaudeUnidade> programas = Factory.GetInstance<IProgramaDeSaudeUnidade>().ListarPorPrograma<ProgramaDeSaudeUnidade>(programa.Codigo, false);
+            GridViewVinculosInativos.DataSource = programas;
+            GridViewVinculosInativos.DataBind();
+            Session["VinculosInativos"] = programas;
+        }
+
+        protected void CustomValidatorTipoUnidade_ServerValidate(object source, ServerValidateEventArgs args)
+        {
+            args.IsValid = false;
+            for (int i = 0; i < chkBoxTipoUnidade.Items.Count; i++)
+                if (chkBoxTipoUnidade.Items[i].Selected)
+                    args.IsValid = true;
+        }
+
+        protected void btnAddVinculo_Click(object sender, EventArgs e)
+        {
+            if (this.IsValid)
+            {
+                if (ddlProgramaDeSaude.SelectedValue != "0")
+                {
+                    int co_programa = int.Parse(ddlProgramaDeSaude.SelectedValue);
+                    if (DropDownList_Estabelecimento.SelectedValue != "0")
+                    {
+                        IEstabelecimentoSaude iEstabelecimento = Factory.GetInstance<IEstabelecimentoSaude>();
+                        ProgramaDeSaudeUnidade programaUnidade = Factory.GetInstance<IProgramaDeSaudeUnidade>().BuscarPorCodigo<ProgramaDeSaudeUnidade>(co_programa, DropDownList_Estabelecimento.SelectedValue);
+                        if (programaUnidade != null)
+                        {
+                            if (programaUnidade.Ativo)
+                            {
+                                bool mudouTipoUnidade = false;
+                                for (int i = 0; i < chkBoxTipoUnidade.Items.Count; i++)
+                                {
+                                    ListItem item = chkBoxTipoUnidade.Items[i];
+                                    if (item.Value == "S")//Solicitante
+                                    {
+                                        if (programaUnidade.TipoSolicitante != item.Selected)
+                                        {
+                                            mudouTipoUnidade = true;
+                                            programaUnidade.TipoSolicitante = item.Selected;
+                                        }
+                                    }
+                                    else if (item.Value == "E")//Solicitante
+                                    {
+                                        if (programaUnidade.TipoExecutante != item.Selected)
+                                        {
+                                            mudouTipoUnidade = true;
+                                            programaUnidade.TipoExecutante = item.Selected;
+                                        }
+                                    }
+                                }
+                                //Se não mudou
+                                if (!mudouTipoUnidade)
+                                    ScriptManager.RegisterStartupScript(Page, typeof(Page), "ok", "alert('Este estabelecimenento de Saúde já está ativo no Programa!');", true);
+                                else
+                                {
+                                    iEstabelecimento.Salvar(programaUnidade);
+                                    iEstabelecimento.Inserir(new LogAgendamento(DateTime.Now, ((Usuario)(Session["Usuario"])).Codigo, 57, programaUnidade.Codigo.ToString()));
+                                    ScriptManager.RegisterStartupScript(Page, typeof(Page), "ok", "alert('Vínculo alterado com Sucesso!');", true);
+                                }
+                            }
+                            else
+                                ScriptManager.RegisterStartupScript(Page, typeof(Page), "ok", "alert('Este estabelecimenento de Saúde está inativo no Programa!\\nPara Reativar o Estabelecimento, vá nos Vínculos inativos e reative-o.');", true);
+                        }
+                        else
+                        {
+                            //Caso não exista o Vínculo
+                            iEstabelecimento = Factory.GetInstance<IEstabelecimentoSaude>();
+                            programaUnidade = new ProgramaDeSaudeUnidade();
+                            programaUnidade.Ativo = true;
+                            programaUnidade.Estabelecimento = iEstabelecimento.BuscarPorCodigo<ViverMais.Model.EstabelecimentoSaude>(DropDownList_Estabelecimento.SelectedValue);
+                            programaUnidade.ProgramaDeSaude = iEstabelecimento.BuscarPorCodigo<ProgramaDeSaude>(co_programa);
+                            programaUnidade.TipoSolicitante = chkBoxTipoUnidade.Items.FindByValue("S").Selected;
+                            programaUnidade.TipoExecutante = chkBoxTipoUnidade.Items.FindByValue("E").Selected;
+                            //programaUnidade.TipoUnidade = char.Parse(rbtnTipoUnidade.SelectedValue.ToUpper());
+                            iEstabelecimento.Salvar(programaUnidade);
+                            iEstabelecimento.Inserir(new LogAgendamento(DateTime.Now, ((Usuario)(Session["Usuario"])).Codigo, 25, programaUnidade.Codigo.ToString()));
+                            ScriptManager.RegisterStartupScript(Page, typeof(Page), "ok", "alert('Vínculo cadastrado com sucesso!');", true);
+                        }
+
+                        CarregaVinculosAtivos(programaUnidade.ProgramaDeSaude);
+                        CarregaVinculosInativos(programaUnidade.ProgramaDeSaude);
+                        UpdatePanelVinculos.Update();
+                    }
+                }
+            }
+        }
+
+        protected void GridViewVinculosAtivos_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            if (e.CommandName == "Inativar")
+            {
+                IProgramaDeSaudeUnidade iPrograma = Factory.GetInstance<IProgramaDeSaudeUnidade>();
+                int id_programaDeSaudeUnidade = Convert.ToInt32(e.CommandArgument);
+                ProgramaDeSaudeUnidade programaUnidade = iPrograma.BuscarPorCodigo<ProgramaDeSaudeUnidade>(id_programaDeSaudeUnidade);
+                if (programaUnidade != null)
+                {
+                    programaUnidade.Ativo = false;
+                    iPrograma.Salvar(programaUnidade);
+                    iPrograma.Inserir(new LogAgendamento(DateTime.Now, ((Usuario)(Session["Usuario"])).Codigo, 55, programaUnidade.Codigo.ToString()));
+                    ScriptManager.RegisterStartupScript(Page, typeof(Page), "ok", "alert('Vínculo Inativado com Sucesso!');", true);
+                }
+                CarregaVinculosAtivos(programaUnidade.ProgramaDeSaude);
+                CarregaVinculosInativos(programaUnidade.ProgramaDeSaude);
+            }
+        }
+
+        protected void GridViewVinculosInativos_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            if (e.CommandName == "Reativar")
+            {
+                IProgramaDeSaudeUnidade iPrograma = Factory.GetInstance<IProgramaDeSaudeUnidade>();
+                int id_programaDeSaudeUnidade = Convert.ToInt32(e.CommandArgument);
+                ProgramaDeSaudeUnidade programaUnidade = iPrograma.BuscarPorCodigo<ProgramaDeSaudeUnidade>(id_programaDeSaudeUnidade);
+                if (programaUnidade != null)
+                {
+                    programaUnidade.Ativo = true;
+                    iPrograma.Salvar(programaUnidade);
+                    iPrograma.Inserir(new LogAgendamento(DateTime.Now, ((Usuario)(Session["Usuario"])).Codigo, 56, programaUnidade.Codigo.ToString()));
+                    ScriptManager.RegisterStartupScript(Page, typeof(Page), "ok", "alert('Vínculo Reativado com Sucesso!');", true);
+                }
+                CarregaVinculosAtivos(programaUnidade.ProgramaDeSaude);
+                CarregaVinculosInativos(programaUnidade.ProgramaDeSaude);
+            }
+        }
+
+        protected void GridViewVinculosAtivos_OnPageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            GridViewVinculosAtivos.DataSource = Session["VinculosInativos"];
+            GridViewVinculosAtivos.PageIndex = e.NewPageIndex;
+            GridViewVinculosAtivos.DataBind();
+        }
+
+        protected void GridViewVinculosInativos_OnPageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            GridViewVinculosInativos.DataSource = Session["VinculosInativos"];
+            GridViewVinculosInativos.PageIndex = e.NewPageIndex;
+            GridViewVinculosInativos.DataBind();
+        }
+    }
+}

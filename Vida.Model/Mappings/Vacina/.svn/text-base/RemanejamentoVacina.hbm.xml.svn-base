@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Vida.Model">
+  <class name="Vida.Model.RemanejamentoVacina" table="vcn_remanejamentos">
+    <id name="Codigo">
+      <column name="co_remanejamento" not-null="true"/>
+      <generator class="sequence">
+        <param name="sequence">vcn_remanejamento</param>
+      </generator>
+    </id>
+    <many-to-one name="Movimento" class="Vida.Model.MovimentoVacina" column="co_movimento" />
+    <property name="Data" column="data" />
+    <property name="Status" column="status" />
+  </class>
+</hibernate-mapping>

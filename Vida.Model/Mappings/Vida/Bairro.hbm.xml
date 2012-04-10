@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="ViverMais.Model">
+	<class name="ViverMais.Model.Bairro" table="tb_pms_bairro">
+		<id name="Codigo">
+			<column name="co_bairro" not-null="true"/>
+			<generator class="assigned" />
+		</id>
+		<property name="Nome" column="no_bairro"/>
+    <many-to-one name="Distrito" class="ViverMais.Model.Distrito" column="co_distrito" />
+	</class>
+</hibernate-mapping>

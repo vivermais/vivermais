@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="ViverMais.Model">
+  <class name="ViverMais.Model.RegistroEletronicoAtendimento" table="ATD_REG_ELETRO_ATEND">
+    <id name="Codigo">
+      <column name="CO_REG_ELETRO_ATEND" not-null="true"/>
+      <generator class="sequence">
+        <param name="sequence">ATD_REG_ELETRO_ATEND_SEQUENCE</param>
+      </generator>
+    </id>
+    <property name="Numero" column="numero" />
+    <many-to-one name="Paciente" class="ViverMais.Model.Paciente" column="CO_PACIENTE" lazy="false" fetch="join"/>
+    <many-to-one name="UnidadeSaude" class="ViverMais.Model.EstabelecimentoSaude" column="CNES" lazy="false" fetch="join"/>
+    <many-to-one name="Situacao" class="ViverMais.Model.SituacaoRegistroEletronicoAtendimento" column="CO_SITUACAO" lazy="false"/>
+    <many-to-one name="SenhaSenhador" class="ViverMais.Model.SenhaSenhador" column="CO_SENHA_SENHADOR" lazy="false"/>
+    
+    <property name="SumarioAlta" column="sumarioalta" type="StringClob"></property>
+
+    <property name="DataRecepcao" column="data_recepcao" />
+    <property name="DataConsultaMedica" column="data_alteracao_medico" />
+    <property name="DataFinalizacao" column="datafinalizacao" />
+
+    <many-to-one name="EspecialidadeAtendimento" class="ViverMais.Model.CBO" column="cbo_atendimento" />
+  </class>
+</hibernate-mapping>

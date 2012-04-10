@@ -1,0 +1,49 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace ViverMais.Model
+{
+    [Serializable]
+    public class SituacaoAtendimento
+    {
+        public static int ATENDIMENTO_INICIAL = 1;
+        public static int EM_OBSERVACAO_UNIDADE = 2;
+        public static int AGUARDANDO_REGULACAO_UTI = 4;
+        public static int AGUARDANDO_ATENDIMENTO = 6;
+        public static int AGUARDANDO_REGULACAO_ENFERMARIA= 7;
+        public static int ALTA_MEDICA = 9;
+        public static int ALTA_PEDIDO = 10;
+        public static int OBITO = 11;
+        public static int EVASAO = 12;
+        public static int FINALIZADO = 13;
+        public static int TRANSFERENCIA = 14;
+
+        int codigo;
+
+        public virtual int Codigo
+        {
+            get { return codigo; }
+            set { codigo = value; }
+        }
+        
+        string nome;
+
+        public virtual string Nome
+        {
+            get { return nome; }
+            set { nome = value; }
+        }
+
+        public SituacaoAtendimento()
+        {
+
+        }
+
+        public override string ToString()
+        {
+            return this.nome;
+        }
+    }
+}

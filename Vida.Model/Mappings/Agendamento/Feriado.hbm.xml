@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="ViverMais.Model">
+  <class name="ViverMais.Model.Feriado" table="AGD_FERIADO">
+    <id name="Codigo">
+       <column name="CO_FERIADO" not-null="true"/>
+       <generator class="sequence">
+          <param name="sequence">AGD_FERIADO_SEQUENCE</param>
+       </generator>
+    </id>
+    <property name="Data" column="DATA" />
+    <property name="Tipo" column="TIPO" />
+    <property name="Descricao" column="DESCRICAO" />
+  </class>
+</hibernate-mapping>

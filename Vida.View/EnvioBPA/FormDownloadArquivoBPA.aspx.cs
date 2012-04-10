@@ -1,0 +1,151 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using ViverMais.Model;
+using ViverMais.ServiceFacade.ServiceFacades.BPA;
+using ViverMais.DAO;
+using System.IO;
+using CrystalDecisions.CrystalReports.Engine;
+using ViverMais.View.EnvioBPA.RelatoriosCrystalReports;
+using Ionic.Zip;
+using System.Collections;
+using System.Data;
+
+namespace ViverMais.View.EnvioBPA
+{
+    public partial class FormDownloadArquivoBPA : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            {
+                MemoryStream memoryStream = null;
+                IEnviarBPA iEnvioBPA = Factory.GetInstance<IEnviarBPA>();
+                if (this.Session["ArquivoBPA"] is ArquivoBPA)
+                {
+                    ArquivoBPA arquivoBPA = (ArquivoBPA)this.Session["ArquivoBPA"];
+                    ReportDocument reportDocument = new ReportDocument();
+                    if (Request["tipo"] != null)
+                    {
+                        if (Request["tipo"].ToString().Equals("fatura"))
+                        {
+                            if (arquivoBPA.Tipo == BPA.INDIVIDUALIZADO)
+                            {
+                                memoryStream = iEnvioBPA.GerarArquivoBPAI<ArquivoBPA>(arquivoBPA);
+                            }
+                            else
+                            {
+                                if (arquivoBPA.Tipo == BPA.CONSOLIDADO)
+                                {
+                                    memoryStream = iEnvioBPA.GerarArquivoBPAC<ArquivoBPA>(arquivoBPA);
+                                }
+                            }
+                            //doc.Load(Server.MapPath("RelatoriosCrystalReports/RelRemessaBPA.rpt"));
+
+                            DSRelRemessa relRemessa = new DSRelRemessa();
+                            relRemessa.Tables.Add(iEnvioBPA.RetornaRelatorioRemessa<ArquivoBPA>(arquivoBPA));
+                            reportDocument.SetDataSource(relRemessa.Tables[1]);
+                            System.IO.Stream streamRemessa = reportDocument.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                            Response.Clear();
+                            Response.AddHeader("Content-Disposition", "attachment; filename=" + arquivoBPA.NomeDoArquivo().Replace(arquivoBPA.ExtensaoDocumento(), "") + ".zip");
+                            Response.ContentType = "application/octet-stream";
+                            ZipFile zip = new ZipFile();
+                            zip.AddEntry("Remessa.pdf", streamRemessa);
+                            zip.AddEntry(arquivoBPA.NomeDoArquivo(), memoryStream.ToArray());
+                            zip.Save(Response.OutputStream);
+                            Response.End();
+                        }
+                        else if (Request["tipo"].ToString().Equals("previa"))
+                        {
+                            Hashtable previa = iEnvioBPA.RetornaRelatorioPrevia<ArquivoBPA>(arquivoBPA);
+                            reportDocument.Load(Server.MapPath("RelatoriosCrystalReports/RelPreviaBPA.rpt"));
+                            reportDocument.Database.Tables["cabecalho"].SetDataSource((DataTable)previa["cabecalho"]);
+                            reportDocument.Database.Tables["corpo"].SetDataSource((DataTable)previa["corpo"]);
+
+                            System.IO.Stream streamPrevia = reportDocument.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+
+                            Response.Clear();
+                            Response.ContentType = "application/octet-stream";
+                            Response.AddHeader("Content-Disposition", "attachment;filename=PreviaFaturamento.pdf");
+                            Response.AddHeader("Content-Length", streamPrevia.Length.ToString());
+
+                            Response.BinaryWrite(((MemoryStream)streamPrevia).ToArray());
+                            Response.End();
+                        }
+                    }
+                }
+                else
+                {
+                    if (this.Session["ArquivoAPAC"] is ArquivoAPAC)
+                    {
+                        ArquivoAPAC arquivoAPAC = (ArquivoAPAC)Session["ArquivoAPAC"];
+                        memoryStream = iEnvioBPA.GerarArquivoBPAAPAC<ArquivoAPAC>(arquivoAPAC);
+                        Response.Clear();
+                        Response.AddHeader("Content-Disposition", "attachment; filename=" + arquivoAPAC.NomeDoArquivo().Replace(arquivoAPAC.ExtensaoDocumento(), "") + ".zip");
+                        Response.ContentType = "application/octet-stream";
+                        ZipFile zipFile2 = new ZipFile();
+                        zipFile2.AddEntry(arquivoAPAC.NomeDoArquivo(), memoryStream.ToArray());
+                        zipFile2.Save(Response.OutputStream);
+                        Response.End();
+                    }
+                }
+            }
+            //if (Session["ArquivoBPA"] != null && Session["ArquivoBPA"] is ArquivoBPA)
+            //{
+            //    ArquivoBPA arquivo = (ArquivoBPA)Session["ArquivoBPA"];
+            //    IEnviarBPA iEnviarBPA = Factory.GetInstance<IEnviarBPA>();
+            //    ReportDocument doc = new ReportDocument();
+
+            //    if (Request["tipo"] != null)
+            //    {
+            //        if (Request["tipo"].ToString().Equals("fatura"))
+            //        {
+            //            MemoryStream streamBPA = null;
+
+            //            if (arquivo.Tipo == BPA.INDIVIDUALIZADO)
+            //                streamBPA = iEnviarBPA.GerarArquivoBPAI<ArquivoBPA>(arquivo);
+            //            else if (arquivo.Tipo == BPA.CONSOLIDADO)
+            //                streamBPA = iEnviarBPA.GerarArquivoBPAC<ArquivoBPA>(arquivo);
+
+            //            doc.Load(Server.MapPath("RelatoriosCrystalReports/RelRemessaBPA.rpt"));
+
+            //            DSRelRemessa relRemessa = new DSRelRemessa();
+            //            relRemessa.Tables.Add(iEnviarBPA.RetornaRelatorioRemessa<ArquivoBPA>(arquivo));
+            //            doc.SetDataSource(relRemessa.Tables[1]);
+            //            System.IO.Stream streamRemessa = doc.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+
+            //            Response.Clear();
+            //            Response.AddHeader("Content-Disposition", "attachment; filename=" + arquivo.NomeDoArquivo().Replace(arquivo.ExtensaoDocumento(),"") + ".zip");
+            //            Response.ContentType = "application/octet-stream";
+            //            ZipFile zip = new ZipFile();
+            //            zip.AddEntry("Remessa.pdf", streamRemessa);
+            //            zip.AddEntry(arquivo.NomeDoArquivo(), streamBPA.ToArray());
+
+            //            zip.Save(Response.OutputStream);
+            //            Response.End();
+            //        }
+            //        else if (Request["tipo"].ToString().Equals("previa"))
+            //        {
+            //            Hashtable previa = iEnviarBPA.RetornaRelatorioPrevia<ArquivoBPA>(arquivo);
+
+            //            doc.Load(Server.MapPath("RelatoriosCrystalReports/RelPreviaBPA.rpt"));
+            //            doc.Database.Tables["cabecalho"].SetDataSource((DataTable)previa["cabecalho"]);
+            //            doc.Database.Tables["corpo"].SetDataSource((DataTable)previa["corpo"]);
+
+            //            System.IO.Stream streamPrevia = doc.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+
+            //            Response.Clear();
+            //            Response.ContentType = "application/octet-stream";
+            //            Response.AddHeader("Content-Disposition", "attachment;filename=PreviaFaturamento.pdf");
+            //            Response.AddHeader("Content-Length", streamPrevia.Length.ToString());
+
+            //            Response.BinaryWrite(((MemoryStream)streamPrevia).ToArray());
+            //            Response.End();
+            //        }
+            //    }
+            //}
+        }
+    }
+}

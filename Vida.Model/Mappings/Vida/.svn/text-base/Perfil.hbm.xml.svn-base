@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Vida.Model">
+	<class name="Vida.Model.Perfil" table="tb_pms_perfil" >
+    <!--<id name="Codigo" >
+      <column name="co_perfil" not-null="true"/>
+      <generator class="assigned" />
+    </id>-->
+    <id name="Codigo">
+      <column name="co_perfil" not-null="true"/>
+      <generator class="sequence">
+        <param name="sequence">VIDA_PERFIL_SEQUENCE</param>
+      </generator>
+    </id>
+		<property name="Nome" column="no_perfil"/>
+    <property name="PerfilProfissionalSaude" column="perfil_prof_saude"/>
+    <many-to-one name="Modulo" class="Vida.Model.Modulo" column="co_sistema"></many-to-one>
+    <bag name="Operacoes" table="tb_pms_permissao">
+      <key column="co_perfil"/>
+      <many-to-many column="co_operacao" class="Vida.Model.Operacao" />
+    </bag>
+	</class>
+</hibernate-mapping>

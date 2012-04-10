@@ -1,0 +1,100 @@
+<%@ Page Language="C#" AutoEventWireup="True" CodeBehind="FormDispensacaoDiferencial.aspx.cs"
+    Inherits="Vida.View.Vacina.FormDispensacaoDiferencial" MasterPageFile="~/Vacina/MasterVacina.Master"
+    EnableEventValidation="false" %>
+
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
+<%@ Register Src="../Paciente/WUCExibirPaciente.ascx" TagName="WUCExibirPaciente"
+    TagPrefix="uc1" %>
+<asp:Content ID="c_head" runat="server" ContentPlaceHolderID="head">
+</asp:Content>
+<asp:Content ID="c_body" runat="server" ContentPlaceHolderID="ContentPlaceHolder1">
+    <asp:UpdatePanel runat="server">
+        <Triggers>
+        </Triggers>
+        <ContentTemplate>
+            <asp:Panel ID="PanelTotal" runat="server">
+                <div id="top">
+                    <h2>
+                        Fomulário de Dispensação</h2>
+                    <fieldset>
+                        <legend>Dados do Responsável</legend>
+                        <p>
+                            <span>
+                                <asp:RadioButtonList ID="rbtnResponsavel" runat="server" RepeatDirection="Vertical" 
+                                OnSelectedIndexChanged="rbtnResponsavel_SelectedIndexChanged">
+                                    <asp:ListItem Text="Mãe" Value="1" />
+                                    <asp:ListItem Text="Pai" Value="2" />
+                                    <asp:ListItem Text="Parente" Value="3" />
+                                    <asp:ListItem Text="Agente Comunitário" Value="4" /> 
+                                    <asp:ListItem Text="Outro" Value="5" />
+                                </asp:RadioButtonList>
+                            </span>
+                        </p>
+                        <p>
+                            <span>
+                                <asp:TextBox ID="tbxCartaoSus" CssClass="campo" runat="server" Visible="false" />
+                            </span>
+                        </p>
+                    </fieldset>
+                    <fieldset>
+                        <legend>Dados da Dispensação</legend>
+                        <p>
+                            <span>Imunobiológico</span><span>
+                                <asp:DropDownList ID="ddlImunobiologico" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlImunobiologico_SelectedIndexChanged" />
+                            </span>
+                        </p>
+                        <asp:Panel ID="PanelDadosImunibiologico" Visible="false" runat="server">
+                            <p>
+                                <span>Dose</span> <span>
+                                    <asp:DropDownList ID="ddlDose" runat="server" />
+                                </span><span>
+                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator1" Text="Indique a Dose." ControlToValidate="ddlDose"
+                                        InitialValue="0" runat="server" Display="Dynamic" ValidationGroup="GroupAddImunobiologico" />
+                                </span>
+                            </p>
+                            <p>
+                                <span>Lote</span> <span>
+                                    <asp:DropDownList ID="ddlLote" runat="server" />
+                                </span>
+                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator2" Text="Indique o Lote." ControlToValidate="ddlLote"
+                                        InitialValue="0" runat="server" Display="Dynamic" ValidationGroup="GroupAddImunobiologico" />
+                            </p>
+                            <p>
+                                <span>Abertura de Ampola</span> <span>
+                                    <asp:CheckBox ID="chkAberturaAmpola" runat="server" /></span>
+                            </p>
+                            <p>
+                                <span>
+                                    <asp:Button ID="btnAddImunobiologico" runat="server" OnClick="btnAddImunobiologico_Click"
+                                        Text="Adicionar" ValidationGroup="GroupAddImunobiologico" />
+                                </span>
+                            </p>
+                        </asp:Panel>
+                    </fieldset>
+                    <fieldset>
+                        <legend>Itens da Dispensação</legend>
+                        <p>
+                            <asp:GridView ID="GridViewItensDispensacao" runat="server" AutoGenerateColumns="False">
+                                <Columns>
+                                    <asp:BoundField HeaderText="Vacina" DataField="Vacina" />
+                                    <asp:BoundField HeaderText="Lote" DataField="DescricaoLote" />
+                                    <asp:BoundField HeaderText="Dose" DataField="DescricaoDose" />
+                                    <asp:BoundField HeaderText="Abertura de Ampola" DataField="DescricaoAberturaAmpola" />
+                                </Columns>
+                            </asp:GridView>
+                        </p>
+                    </fieldset>
+                    <fieldset>
+                        <p>
+                            <span>
+                                <asp:Button ID="btnVoltar" runat="server" Text="Voltar" PostBackUrl="~/Vacina/FormPesquisaPaciente.aspx" />
+                            </span><span>
+                                <asp:Button ID="btnSalvar" runat="server" Text="Salvar" OnClick="btnSalvar_click" />
+                            </span>
+                        </p>
+                    </fieldset>
+                </div>
+            </asp:Panel>
+        </ContentTemplate>
+    </asp:UpdatePanel>
+</asp:Content>

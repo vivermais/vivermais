@@ -1,0 +1,48 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace Vida.Model
+{
+    [Serializable]
+    public class ProcedimentoRegistro
+    {
+        private Procedimento procedimento;
+        public virtual Procedimento Procedimento
+        {
+            get { return procedimento; }
+            set { procedimento = value; }
+        }
+
+        private Registro registro;
+
+        public virtual Registro Registro
+        {
+            get { return registro; }
+            set { registro = value; }
+        }
+
+        private string datacompetencia;
+        public virtual string DataCompetencia
+        {
+            get { return datacompetencia; }
+            set { datacompetencia = value; }
+        }
+
+        public ProcedimentoRegistro()
+        {
+        }
+
+        public override bool Equals(object obj)
+        {
+            return this.Procedimento.Codigo.Equals(((ProcedimentoRegistro)obj).Procedimento.Codigo) &&
+                   this.Registro.Equals(((ProcedimentoRegistro)obj).Registro.Codigo);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode() * 77;
+        }
+    }
+}

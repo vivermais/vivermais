@@ -1,0 +1,84 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Vida.Model.Entities;
+
+namespace Vida.Model
+{
+    [Serializable]
+    public class LogVidaXML:AModel
+    {
+        int codigo;
+
+        public virtual int Codigo
+        {
+            get { return codigo; }
+            set { codigo = value; }
+        }
+
+        int logEvento;
+
+        public virtual int LogEvento
+        {
+            get { return logEvento; }
+            set { logEvento = value; }
+        }
+
+        string entidade;
+
+        /// <summary>
+        /// Representa o nome da entidade que foi gerada o log
+        /// </summary>
+        public virtual string Entidade
+        {
+            get { return entidade; }
+            set { entidade = value; }
+        }
+
+        int codigoEntidade;
+
+        public virtual int CodigoEntidade
+        {
+            get { return codigoEntidade; }
+            set { codigoEntidade = value; }
+        }
+
+        /// <summary>
+        /// Representa os dados da entidade que foi modificada
+        /// </summary>
+        string dados;
+
+        public virtual string Dados
+        {
+            get { return dados; }
+            set { dados = value; }
+        }
+
+        DateTime data;
+
+        public virtual DateTime Data
+        {
+            get { return data; }
+            set { data = value; }
+        }
+
+        string usuario;
+
+        public virtual string Usuario
+        {
+            get { return usuario; }
+            set { usuario = value; }
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode() * 43;
+        }
+
+        public override bool Persistido()
+        {
+            throw new NotImplementedException();
+        }
+    }
+}

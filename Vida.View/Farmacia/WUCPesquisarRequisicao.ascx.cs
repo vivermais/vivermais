@@ -1,0 +1,105 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using ViverMais.DAO;
+using ViverMais.ServiceFacade.ServiceFacades;
+using ViverMais.Model;
+using ViverMais.ServiceFacade.ServiceFacades.Farmacia.Misc;
+using ViverMais.ServiceFacade.ServiceFacades.Farmacia.Movimentacao;
+using ViverMais.ServiceFacade.ServiceFacades.Seguranca;
+
+namespace ViverMais.View.Farmacia
+{
+    public partial class WUCPesquisarRequisicao : System.Web.UI.UserControl
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!IsPostBack)
+            {
+                Usuario usuario = (Usuario)Session["Usuario"];
+
+                if (Factory.GetInstance<ISeguranca>().VerificarPermissao(usuario.Codigo, "REGISTRAR_REQUISICAO_MEDICAMENTO", Modulo.FARMACIA))
+                {
+                    foreach (String status in Enum.GetNames(typeof(RequisicaoMedicamento.StatusRequisicao)).ToList())
+                        DropDownList_StatusRequisicao.Items.Add(new ListItem(status, ((int)Enum.Parse(typeof(RequisicaoMedicamento.StatusRequisicao), status)).ToString()));
+
+                    DropDownList_Farmacia.DataSource = Factory.GetInstance<IFarmacia>().BuscarPorUsuario<ViverMais.Model.Farmacia, Usuario>(usuario, true, true);
+                    DropDownList_Farmacia.DataBind();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Limpa os dados do formulário
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnClick_Limpar(object sender, EventArgs e)
+        {
+            TextBox_DataAbertura.Text = "";
+            TextBox_NumeroRequisicao.Text = "";
+            DropDownList_StatusRequisicao.SelectedValue = "-1";
+            DropDownList_Farmacia.SelectedValue = "-1";
+        }
+
+        /// <summary>
+        /// Envia a solicitção de pesquisa do usuário
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnClick_Pesquisar(object sender, EventArgs e)
+        {
+            ViewState["farmacia"] = DropDownList_Farmacia.SelectedValue;
+
+            if (((LinkButton)sender).CommandArgument == "CommandArgument_PesquisarAlguns")
+            {
+                if (!string.IsNullOrEmpty(TextBox_DataAbertura.Text) || int.Parse(DropDownList_StatusRequisicao.SelectedValue) != -1
+                    || !string.IsNullOrEmpty(TextBox_NumeroRequisicao.Text))
+                {
+                    ViewState["dataabertura"] = TextBox_DataAbertura.Text;
+                    ViewState["numerorequisicao"] = TextBox_NumeroRequisicao.Text;
+                    ViewState["status"] = DropDownList_StatusRequisicao.SelectedValue;
+                    Panel_Pesquisa.Visible = true;
+                    this.CarregaGridViewRequisicoes(int.Parse(ViewState["farmacia"].ToString()), !string.IsNullOrEmpty(ViewState["dataabertura"].ToString()) ? DateTime.Parse(ViewState["dataabertura"].ToString()) : DateTime.MinValue, !string.IsNullOrEmpty(ViewState["numerorequisicao"].ToString()) ? int.Parse(ViewState["numerorequisicao"].ToString()) : -1, int.Parse(ViewState["status"].ToString()));
+                }
+                else
+                    ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Informe pelo menos um dos seguintes campos: \\n\\n (1) Número de Requisição \\n (2) Data de Abertura \\n (3) Status.');", true);
+            }
+            else
+            {
+                ViewState["dataabertura"] = "";
+                ViewState["numerorequisicao"] = "";
+                ViewState["status"] = "-1";
+                Panel_Pesquisa.Visible = true;
+                this.CarregaGridViewRequisicoes(int.Parse(ViewState["farmacia"].ToString()), !string.IsNullOrEmpty(ViewState["dataabertura"].ToString()) ? DateTime.Parse(ViewState["dataabertura"].ToString()) : DateTime.MinValue, !string.IsNullOrEmpty(ViewState["numerorequisicao"].ToString()) ? int.Parse(ViewState["numerorequisicao"].ToString()) : -1, int.Parse(ViewState["status"].ToString()));
+            }
+        }
+
+        /// <summary>
+        /// Carrega o gridview das requisições com os dados informados
+        /// </summary>
+        /// <param name="dataabertura">data de abertura da requisição</param>
+        /// <param name="numerorquisicao">número da requisição</param>
+        /// <param name="status">status da requisição</param>
+        private void CarregaGridViewRequisicoes(int co_farmacia, DateTime dataabertura, int numerorquisicao, int status)
+        {
+            GridView_Requisicoes.DataSource = Factory.GetInstance<IRequisicaoMedicamento>().PesquisarRequisicao<RequisicaoMedicamento>(co_farmacia,dataabertura,numerorquisicao,status);
+            GridView_Requisicoes.DataBind();
+        }
+
+        /// <summary>
+        /// Paginação do gridview de requisições pesquisadas
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnPageIndexChanging_Requisicoes(object sender, GridViewPageEventArgs e)
+        {
+            this.CarregaGridViewRequisicoes(int.Parse(ViewState["farmacia"].ToString()), !string.IsNullOrEmpty(ViewState["dataabertura"].ToString()) ? DateTime.Parse(ViewState["dataabertura"].ToString()) : DateTime.MinValue, !string.IsNullOrEmpty(ViewState["numerorequisicao"].ToString()) ? int.Parse(ViewState["numerorequisicao"].ToString()) : -1, int.Parse(ViewState["status"].ToString()));
+            GridView_Requisicoes.PageIndex = e.NewPageIndex;
+            GridView_Requisicoes.DataBind();
+        }
+    }
+}

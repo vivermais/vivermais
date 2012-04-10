@@ -1,0 +1,84 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Collections;
+//using System.Data.
+
+namespace ViverMais.ServiceFacade.ServiceFacades
+{
+    public interface IServiceFacade
+    {
+        /// <summary>
+        /// Obtém a entidade especificada pelo seu identificador
+        /// </summary>
+        /// <typeparam name="T">Tipo da Entidade</typeparam>
+        /// <param name="codigo">Identificador da Entidade</param>
+        /// <returns>Instância da Entidade</returns>
+        T BuscarPorCodigo<T>(object codigo) where T : new();
+
+        /// <summary>
+        /// Obtém a última entidade cadastrada
+        /// </summary>
+        /// <param name="primaryKey">Nome da chave primária</param>
+        /// <returns>Instância da Entidade</returns>
+        T ReturnLastElementIncluded<T>(string primaryKey);
+
+        /// <summary>
+        /// Obtém a chave primária do próximo registro
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="primaryKey">Nome da chave primária</param>
+        /// <returns></returns>
+        int BuscarProximoRegistro<T>(string primaryKey);
+       
+
+        /// <summary>
+        /// Atualiza a entidade no Sistema
+        /// </summary>
+        /// <param name="obj">Instância da Entidade</param>
+        void Atualizar(object obj);
+
+        /// <summary>
+        /// Insere a entidade no Sistema
+        /// </summary>
+        /// <param name="obj">Instância da Entidade</param>
+        void Inserir(object obj);
+
+        /// <summary>
+        /// Persiste a Entidade no Sistema
+        /// </summary>
+        /// <param name="obj">Instância da Entidade</param>
+        void Salvar(object obj);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="obj"></param>
+        void Salvar<T>(ref T obj);
+
+        /// <summary>
+        /// Deleta a Entidade no Sistema
+        /// </summary>
+        /// <param name="obj">Instância da Entidade</param>
+        void Deletar(object obj);
+        
+        /// <summary>
+        /// Lista todas as Entidades do Tipo Especificado
+        /// </summary>
+        /// <typeparam name="T">Tipo das Entidades</typeparam>
+        /// <returns>Lista de Instâncias da Entidade</returns>
+        IList<T> ListarTodos<T>();
+
+        /// <summary>
+        /// Lista todas as Entidades de um Tipo Especificado ordenando
+        /// pelo campo especificado
+        /// </summary>
+        /// <typeparam name="T">Tipo da Entidade</typeparam>
+        /// <param name="orderField">Propriedade de ordenação</param>
+        /// <param name="asc">Ordenação ascendente ou descendente</param>
+        /// <returns></returns>
+        IList<T> ListarTodos<T>(string orderField, bool asc);
+    }
+}

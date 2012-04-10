@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Vida.Model">
+  <class name="Vida.Model.InventarioVacina" table="VCN_INVENTARIO">
+    <!--<id name="Codigo">
+      <column name="CO_INVENTARIO" not-null="true"/>
+      <generator class="assigned" />
+    </id>-->
+    <id name="Codigo">
+      <column name="CO_INVENTARIO" not-null="true"/>
+      <generator class="sequence">
+        <param name="sequence">vcn_inventario_sequence</param>
+      </generator>
+    </id>
+    <property name="DataInventario" column="DATAINVENTARIO" />
+    <property name="DataFechamento" column="DATAFECHAMENTO" />
+    <property name="Situacao" column="SITUACAO" />
+    <many-to-one name="Sala" class="Vida.Model.SalaVacina" column="CO_SALAVACINA" />
+  </class>
+</hibernate-mapping>

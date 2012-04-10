@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Vida.Model">
+  <class name="Vida.Model.HorarioUnidade" table="horariounidade">
+    <id name="CodigoUnidade">
+      <column name="id_unidade" not-null="true"/>
+      <generator class="assigned" />
+    </id>
+    <property name="Horario" column="horario" />
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,238 @@
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Xml.Linq;
+using Vida.ServiceFacade.ServiceFacades;
+using Vida.DAO;
+using Vida.Model;
+using System.Collections.Generic;
+using System.IO;
+using Vida.ServiceFacade.ServiceFacades.Agregado;
+using Vida.ServiceFacade.ServiceFacades.Localidade;
+using Vida.ServiceFacade.ServiceFacades.Paciente;
+using Vida.ServiceFacade.ServiceFacades.Procedimento.Misc;
+using System.Text;
+using Vida.ServiceFacade.ServiceFacades.Agendamento;
+using Vida.Model.Entities.Vida;
+using Vida.View.Agendamento.Helpers;
+using Vida.ServiceFacade.ServiceFacades.Seguranca;
+using Vida.ServiceFacade.ServiceFacades.EstabelecimentoSaude;
+
+namespace Vida.View.Agendamento
+{
+    public partial class FormGerarBPA : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!IsPostBack)
+            {
+                if (Factory.GetInstance<ISeguranca>().VerificarPermissao(((Usuario)Session["Usuario"]).Codigo, "MOVIMENTACAO_GERAR_BPA_APAC", Modulo.AGENDAMENTO))
+                {
+                    rbtModo.SelectedValue = "P";
+                    //rbtModo.Enabled = false;
+                    lblSemRegistros.Visible = false;
+                   // PanelGrid.Visible = false;
+                    //Caso seja uma edição
+                    if (Request.QueryString["id_fatura"] != null)
+                    {
+                        //Desabilita o botão imprimir
+                        rbtModo.Enabled = true;
+                        int id_fatura = int.Parse(Request.QueryString["id_fatura"]);
+
+                        IAgendamentoServiceFacade iagendamento = Factory.GetInstance<IAgendamentoServiceFacade>();
+                        Fatura fatura = iagendamento.BuscarPorCodigo<Fatura>(id_fatura);
+
+                        tbxCompetencia.Text = fatura.Competencia.ToString();
+                        //rbtModo.SelectedValue = fatura.Modo;
+                        //rbtTipo.SelectedValue = fatura.Tipo;
+                        rbtTipo.Enabled = false;
+                    }
+                }
+                else
+                    ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Usuário, você não tem permissão para acessar esta página! Por favor, entre em contato com a administração.');location='Default.aspx';", true);
+            }
+        }
+
+
+        protected void btnSalvar_Click(object sender, EventArgs e)
+        {
+            this.Panel_Fatura.Visible = false;
+            Fatura fatura = null;
+            IFatura iFatura = Factory.GetInstance<IFatura>();
+            string competencia = tbxCompetencia.Text;
+            int competenciaanterior = this.retornaCompetenciaAnterior(int.Parse(competencia));
+            IEstabelecimentoSaude iEstabelecimento = Factory.GetInstance<IEstabelecimentoSaude>();
+            IRelatorioAgendamento iRelatorio = Factory.GetInstance<IRelatorioAgendamento>();
+
+            int ultimodiacompetencia = System.DateTime.DaysInMonth(int.Parse(competencia.Substring(0,4)), int.Parse(competencia.Substring(4,2)));
+
+            Usuario usuario = (Usuario)Session["Usuario"];
+
+            fatura = iFatura.BuscaPorUnidadeCompetenciaTipo<Fatura>(usuario.Unidade.CNES, int.Parse(competencia), rbtTipo.SelectedValue);
+            Fatura ultimafatura = iFatura.BuscarUltimaFatura<Fatura>(usuario.Unidade.CNES, rbtTipo.SelectedValue);
+ 
+            //DateTime datafinal = new DateTime(int.Parse(TextBox_Ano.Text), int.Parse(DropDownList_Mes.SelectedValue), ultimodiacompetencia, 23, 59, 59);
+            //DateTime datainicio = new DateTime(int.Parse(TextBox_Ano.Text), int.Parse(DropDownList_Mes.SelectedValue), 1, 0, 0, 0);
+
+            DateTime datafinal = new DateTime(int.Parse(competencia.Substring(0,4)), int.Parse(competencia.Substring(4,2)),ultimodiacompetencia, 23, 59, 59);
+            DateTime datainicio = new DateTime(int.Parse(competencia.Substring(0, 4)), int.Parse(competencia.Substring(4, 2)), 1, 0, 0, 0);
+
+            if (fatura != null)
+                datafinal = fatura.Data;
+
+            if (rbtModo.SelectedValue == Fatura.FATURA.ToString()) //Fatura
+            {
+                if (fatura != null)
+                {
+                    ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('A fatura para a competência solicitada já foi fechada. Visualize suas informações abaixo.');", true);
+                    ViewState["datainicio"] = datainicio;
+                    ViewState["datafinal"] = datafinal;
+                    this.MostrarInformacoesFatura(fatura);
+                }
+                else
+                {
+                    if (ultimafatura != null && int.Parse(competencia) < ultimafatura.Competencia)
+                    {
+                        ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Usuário, informe uma competência maior do que a da última fatura: " + ultimafatura.Competencia + ".');", true);
+                        return;
+                    }
+                    else
+                    {
+                        if (ultimafatura != null && iFatura.BuscaPorUnidadeCompetenciaTipo<Fatura>(usuario.Unidade.CNES, competenciaanterior, rbtTipo.SelectedValue) == null)
+                        {
+                            ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Para fechar a fatura da competência solicitada deve-se fechar a competência: " + competenciaanterior + ".');", true);
+                            return;
+                        }
+                        else
+                        {
+                            if (new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day)
+                                .CompareTo(new DateTime(datafinal.Year, datafinal.Month, datafinal.Day)) < 0)
+                            {
+                                this.Panel_ConfirmarFechamentoBPA.Visible = true;
+                                this.Label_InfoConfirmarFatura.Text = "Usuário, a data de fechamento para esta fatura deve ser feita a partir do dia " + datafinal.Day + " da competência solicitada.";
+                                this.Label_InfoConfirmarFatura.Text += " Caso haja a confirmação para a data de hoje (" + DateTime.Now.ToString("dd/MM/yyyy") + "), os procedimentos posteriores a mesma não serão contabilizados no BPA.";
+                                this.Label_InfoConfirmarFatura.Text += " Deseja realmente continuar?";
+
+                                ViewState["datainicio"] = datainicio;
+                                ViewState["datafinal"] = DateTime.Now;
+                            }
+                            else
+                            {
+                                ViewState["datainicio"] = datainicio;
+                                ViewState["datafinal"] = datafinal;
+                                this.SalvarFatura();
+                            }
+                        }
+                    }
+                }
+            }
+            else //Prévia
+            {
+                if (char.Parse(this.rbtTipo.SelectedValue) == BPA.INDIVIDUALIZADO)
+                    Session["ArquivoBPA"] = iRelatorio.GerarBPAI<ArquivoBPA>(usuario.Unidade.CNES, int.Parse(competencia), datainicio, datafinal);
+                else if (char.Parse(this.rbtTipo.SelectedValue) == BPA.CONSOLIDADO)
+                    Session["ArquivoBPA"] = iRelatorio.GerarBPAC<ArquivoBPA>(usuario.Unidade.CNES, int.Parse(competencia), datainicio, datafinal);
+                else if (char.Parse(this.rbtTipo.SelectedValue) == BPA.APAC)
+                    Session["ArquivoAPAC"] = iRelatorio.GerarBPAAPAC<ArquivoAPAC>(usuario.Unidade.CNES, int.Parse(competencia), datainicio, datafinal);
+
+                ScriptManager.RegisterStartupScript(Page, typeof(Page), "download", "window.open('../EnvioBPA/FormDownloadArquivoBPA.aspx?tipo=previa','Prévia','toolbar=no,width=500,height=400');", true);
+            }
+        }
+
+
+        private void SalvarFatura()
+        {
+            IFatura iFatura = Factory.GetInstance<IFatura>();
+            int competencia = int.Parse(tbxCompetencia.Text);
+            IEstabelecimentoSaude iEstabelecimento = Factory.GetInstance<IEstabelecimentoSaude>();
+            Usuario usuario = (Usuario)Session["Usuario"];
+
+            Fatura novafatura = new Fatura();
+            novafatura.Competencia = competencia;
+            novafatura.Data = (DateTime)ViewState["datafinal"];
+            novafatura.Tipo = char.Parse(rbtTipo.SelectedValue);
+            novafatura.Id_Unidade = iEstabelecimento.BuscarPorCodigo<Vida.Model.EstabelecimentoSaude>(usuario.Unidade.CNES);
+            //novafatura.Usuario = iEstabelecimento.BuscarPorCodigo<Usuario>(usuario.Codigo);
+
+            iFatura.Salvar(novafatura);
+            //            iFatura.Inserir(new LogUrgencia(DateTime.Now, ((Usuario)Session["Usuario"]).Codigo, 46, "ID FATURA:" + novafatura.Codigo));
+
+            ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Fatura fechada com sucesso. Visualize suas informações abaixo');", true);
+            this.MostrarInformacoesFatura(novafatura);
+        }
+
+        protected void btnBaixarArquivo_Click(object sender, EventArgs e)
+        {
+            if (Session["faturaAgendamento"] != null && Session["faturaAgendamento"] is Fatura)
+            {
+                IRelatorioAgendamento iRelatorio = Factory.GetInstance<IRelatorioAgendamento>();
+                Fatura fatura = (Fatura)Session["faturaAgendamento"];
+
+                if (fatura.Tipo == BPA.INDIVIDUALIZADO)
+                    Session["ArquivoBPA"] = iRelatorio.GerarBPAI<ArquivoBPA>(fatura.Id_Unidade.CNES, fatura.Competencia, (DateTime)ViewState["datainicio"], (DateTime)ViewState["datafinal"]);
+                else if (fatura.Tipo == BPA.CONSOLIDADO)
+                    Session["ArquivoBPA"] = iRelatorio.GerarBPAC<ArquivoBPA>(fatura.Id_Unidade.CNES, fatura.Competencia, (DateTime)ViewState["datainicio"], (DateTime)ViewState["datafinal"]);
+                else if (fatura.Tipo == BPA.APAC)
+                    Session["ArquivoAPAC"] = iRelatorio.GerarBPAAPAC<ArquivoAPAC>(fatura.Id_Unidade.CNES, fatura.Competencia, (DateTime)ViewState["datainicio"], (DateTime)ViewState["datafinal"]);
+
+                ScriptManager.RegisterStartupScript(Page, typeof(Page), "download", "window.open('../EnvioBPA/FormDownloadArquivoBPA.aspx?tipo=fatura','Fatura','toolbar=no,width=500,height=400');", true);
+            }
+        }
+
+        private void MostrarInformacoesFatura(Fatura fatura)
+        {
+            Label_Competencia.Text = fatura.Competencia.ToString();
+            Label_DataFechamento.Text = fatura.Data.ToString("dd/MM/yyyy HH:mm:ss");
+
+            if (fatura.Tipo == BPA.CONSOLIDADO)
+                Label_Tipo.Text = "Consolidado";
+            else if (fatura.Tipo == BPA.INDIVIDUALIZADO)
+                Label_Tipo.Text = "Individualizado";
+            else if (fatura.Tipo == BPA.APAC)
+                Label_Tipo.Text = "APAC";
+
+            Label_Unidade.Text = fatura.Id_Unidade.NomeFantasia;
+            //Label_UsuarioResponsavel.Text = fatura.Usuario.Nome;
+
+            this.Panel_Fatura.Visible = true;
+            Session["faturaAgendamento"] = fatura;
+        }
+
+        protected void OnClick_CancelarFatura(object sender, EventArgs e)
+        {
+            this.Panel_ConfirmarFechamentoBPA.Visible = false;
+        }
+
+        protected void OnClick_ConfirmarFatura(object sender, EventArgs e)
+        {
+            this.Panel_ConfirmarFechamentoBPA.Visible = false;
+            this.SalvarFatura();
+        }
+
+        private int retornaCompetenciaAnterior(int competencia)
+        {
+            int tamanho = competencia.ToString().Length;
+            int mes = int.Parse(competencia.ToString()[(tamanho - 2)].ToString() + competencia.ToString()[(tamanho - 1)].ToString());
+            int ano = int.Parse(competencia.ToString().Substring(0, tamanho - 2));
+
+            mes -= 1;
+
+            if (mes == 0)
+            {
+                mes = 12;
+                ano -= 1;
+            }
+
+            return int.Parse((ano.ToString() + (mes < 10 ? ("0" + mes.ToString()) : mes.ToString()).ToString()));
+        }
+
+    }
+}

@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DSAtendimentoFaixa" targetNamespace="http://tempuri.org/DSAtendimentoFaixa.xsd" xmlns:mstns="http://tempuri.org/DSAtendimentoFaixa.xsd" xmlns="http://tempuri.org/DSAtendimentoFaixa.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DSAtendimentoFaixa" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_DataSetName="DSAtendimentoFaixa" msprop:Generator_UserDSName="DSAtendimentoFaixa" msprop:EnableTableAdapterManager="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="Conteudo" msprop:Generator_UserTableName="Conteudo" msprop:Generator_RowDeletedName="ConteudoRowDeleted" msprop:Generator_TableClassName="ConteudoDataTable" msprop:Generator_RowChangedName="ConteudoRowChanged" msprop:Generator_RowClassName="ConteudoRow" msprop:Generator_RowChangingName="ConteudoRowChanging" msprop:Generator_RowEvArgName="ConteudoRowChangeEvent" msprop:Generator_RowEvHandlerName="ConteudoRowChangeEventHandler" msprop:Generator_TablePropName="Conteudo" msprop:Generator_TableVarName="tableConteudo" msprop:Generator_RowDeletingName="ConteudoRowDeleting">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Sexo" msprop:Generator_UserColumnName="Sexo" msprop:Generator_ColumnPropNameInRow="Sexo" msprop:Generator_ColumnVarNameInTable="columnSexo" msprop:Generator_ColumnPropNameInTable="SexoColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="FaixaEtaria" msprop:Generator_UserColumnName="FaixaEtaria" msprop:Generator_ColumnPropNameInRow="FaixaEtaria" msprop:Generator_ColumnVarNameInTable="columnFaixaEtaria" msprop:Generator_ColumnPropNameInTable="FaixaEtariaColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Qtd" msprop:Generator_UserColumnName="Qtd" msprop:Generator_ColumnPropNameInRow="Qtd" msprop:Generator_ColumnVarNameInTable="columnQtd" msprop:Generator_ColumnPropNameInTable="QtdColumn" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

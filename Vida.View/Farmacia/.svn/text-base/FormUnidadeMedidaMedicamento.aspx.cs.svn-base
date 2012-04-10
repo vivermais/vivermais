@@ -1,0 +1,78 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using Vida.ServiceFacade.ServiceFacades;
+using Vida.DAO;
+using Vida.Model;
+using Vida.ServiceFacade.ServiceFacades.Farmacia.Medicamento.Misc;
+using Vida.ServiceFacade.ServiceFacades.Seguranca;
+
+namespace Vida.View.Farmacia
+{
+    public partial class FormUnidadeMedidaMedicamento : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!IsPostBack)
+            {
+                if (!Factory.GetInstance<ISeguranca>().VerificarPermissao(((Usuario)Session["Usuario"]).Codigo, "MANTER_UNIDADE_MEDIDA",Modulo.FARMACIA))
+                    ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Usuário, você não tem permissão para acessar esta página! Por favor, entre em contato com a administração.');location='Default.aspx';", true);
+                else
+                {
+                    int temp;
+                    if (Request["co_unidademedida"] != null && int.TryParse(Request["co_unidademedida"].ToString(), out temp))
+                    {
+                        Button_Salvar.Text = "Alterar";
+
+                        try
+                        {
+                            Vida.Model.UnidadeMedidaMedicamento unidade = Factory.GetInstance<IUnidadeMedidaMedicamento>().BuscarPorCodigo<Vida.Model.UnidadeMedidaMedicamento>(int.Parse(Request["co_unidademedida"].ToString()));
+                            TextBox_Nome.Text = unidade.Nome;
+                            TextBox_Sigla.Text = unidade.Sigla;
+                        }
+                        catch (Exception f)
+                        {
+                            throw f;
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Salva a unidade de medida
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnClick_Salvar(object sender, EventArgs e) 
+        {
+            try
+            {
+                IUnidadeMedidaMedicamento iUnidade = Factory.GetInstance<IUnidadeMedidaMedicamento>();
+                UnidadeMedidaMedicamento unidade = Request["co_unidademedida"] != null ? iUnidade.BuscarPorCodigo<UnidadeMedidaMedicamento>(int.Parse(Request["co_unidademedida"].ToString())) : new UnidadeMedidaMedicamento();
+                
+                if (iUnidade.VerificaDuplicidadeUnidadePorSigla<UnidadeMedidaMedicamento>(TextBox_Sigla.Text, unidade.Codigo) != null)
+                    ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Já existe uma unidade de medida cadastrada com esta sigla! Por favor, informe outra sigla para esta unidade.');", true);
+                else
+                {
+                    unidade.Nome = TextBox_Nome.Text;
+                    unidade.Sigla = TextBox_Sigla.Text;
+                    unidade.Ativo = true;
+
+                    iUnidade.Salvar(unidade);
+                    iUnidade.Salvar(new LogFarmacia(DateTime.Now, ((Usuario)Session["Usuario"]).Codigo,
+                        EventoFarmacia.MANTER_UNIDADE_MEDIDA, "id unidade de medida:" + unidade.Codigo));
+
+                    ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Unidade de Medida salva com sucesso!');location='Default.aspx';", true);
+                }
+            }
+            catch (Exception ex)
+            {
+                ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('" + ex.Message + "';", true);
+            }
+        }
+    }
+}

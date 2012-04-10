@@ -1,0 +1,782 @@
+﻿using System;
+using Vida.DAO;
+using System.Web;
+using System.Linq;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Collections.Generic;
+using Vida.DAO.AtendimentoMedico;
+using Vida.ServiceFacade.ServiceFacades;
+using Vida.ServiceFacade.ServiceFacades.AtendimentoMedico.Misc;
+using Vida.ServiceFacade.ServiceFacades.AtendimentoMedico.Urgencia;
+using Vida.Model;
+using System.Collections;
+using Vida.ServiceFacade.ServiceFacades.Paciente;
+using Vida.ServiceFacade.ServiceFacades.Profissional.Misc;
+using Vida.ServiceFacade.ServiceFacades.Seguranca;
+using System.IO;
+using Vida.ServiceFacade.ServiceFacades.Procedimento.Misc;
+using System.Threading;
+
+namespace Vida.View.Urgencia
+{
+    public partial class FormAcolhimento : PageVida
+    {
+        //private float TEMPERATURA_PADRAO_FEBRE = 37;
+
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!IsPostBack)
+            {
+                Usuario usuario = (Usuario)Session["Usuario"];
+                if (Factory.GetInstance<ISeguranca>().VerificarPermissao(usuario.Codigo, "EXECUTAR_ACOLHIMENTO", Modulo.URGENCIA))
+                {
+                    Vida.Model.UsuarioProfissionalUrgence usuarioprofissional = Factory.GetInstance<IUsuarioProfissionalUrgence>().BuscarPorCodigo<Vida.Model.UsuarioProfissionalUrgence>(usuario.Codigo);
+
+                    if (usuarioprofissional != null)
+                    {
+                        if (usuarioprofissional.UnidadeVinculo == usuario.Unidade.CNES)
+                        {
+                            ICBO iCbo = Factory.GetInstance<ICBO>();
+                            CBO cbo = iCbo.BuscarPorCodigo<CBO>(usuarioprofissional.CodigoCBO);
+
+                            if (iCbo.CBOPertenceEnfermeiro<CBO>(cbo) || iCbo.CBOPertenceMedico<CBO>(cbo))
+                            {
+                                long co_prontuario;
+
+                                if (Request["codigo"] != null && long.TryParse(Request["codigo"].ToString(), out co_prontuario))
+                                {
+                                    IList<EspecialidadeAtendimentoUrgence> especialidadesAtendimentos = Factory.GetInstance<IVagaUrgencia>().BuscarEspecialidadesAtendimento<EspecialidadeAtendimentoUrgence>(usuario.Unidade.CNES);
+                                    this.DropDownListEspecialidade.DataSource = especialidadesAtendimentos;
+                                    this.DropDownListEspecialidade.DataBind();
+                                    this.DropDownListEspecialidade.Items.Insert(0, new ListItem("Selecione...", "-1"));
+
+                                    if (especialidadesAtendimentos.Count() > 0)
+                                        this.DropDownListEspecialidade.SelectedValue = especialidadesAtendimentos.Where(p => p.EspecialidadePrincipal).Select(p => p.CodigoEspecialidade).First();
+
+                                    IProntuario iProntuario = Factory.GetInstance<IProntuario>();
+                                    IUrgenciaServiceFacade iUrgencia = Factory.GetInstance<IUrgenciaServiceFacade>();
+
+                                    IList<ClassificacaoRisco> classificacoesrisco = iUrgencia.ListarTodos<ClassificacaoRisco>().OrderByDescending(p => p.Ordem).ToList();
+                                    ddlClassificacaoRisco.DataValueField = "Codigo";
+                                    ddlClassificacaoRisco.DataTextField = "Descricao";
+                                    ddlClassificacaoRisco.DataSource = classificacoesrisco;
+                                    ddlClassificacaoRisco.DataBind();
+                                    ddlClassificacaoRisco.Items.Insert(0, new ListItem("Selecione...", "-1"));
+                                    this.ClassificacoesRisco = classificacoesrisco;
+
+                                    InicializaGabaritoConsulta();
+
+                                    AtualizaClassificacaoRisco(this.GabaritoRespostas);
+
+                                    IList<Vida.Model.SituacaoAtendimento> situacoes = iUrgencia.ListarTodos<Vida.Model.SituacaoAtendimento>().Where(p => p.Codigo == SituacaoAtendimento.EVASAO || p.Codigo == SituacaoAtendimento.AGUARDANDO_ATENDIMENTO).ToList();
+                                    ddlSituacao.DataValueField = "Codigo";
+                                    ddlSituacao.DataTextField = "Nome";
+                                    ddlSituacao.DataSource = situacoes;
+                                    ddlSituacao.DataBind();
+                                    ddlSituacao.Items.Insert(0, new ListItem("Selecione...", "-1"));
+
+                                    ddlSituacao.SelectedValue = SituacaoAtendimento.AGUARDANDO_ATENDIMENTO.ToString();
+
+                                    Vida.Model.Prontuario prontuario = iProntuario.BuscarPorCodigo<Vida.Model.Prontuario>(co_prontuario);
+
+                                    lblData.Text = DateTime.Today.ToString("dd/MM/yyyy");
+                                    lblPaciente.Text = prontuario.NomePacienteToString;
+                                    lblNumero.Text = prontuario.NumeroToString;
+                                }
+                            }
+                            else
+                                Response.Redirect("FormAcessoNegado.aspx?opcao=6");
+                            //ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Usuário, somente profissionais de enfermagem ou médicos tem acesso a esta página! Por favor, entre em contato com a administração.');location='Default.aspx';", true);
+                        }
+                        else
+                            Response.Redirect("FormAcessoNegado.aspx?opcao=4");
+                        //ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Usuário, o seu profissional identificado não possui vínculo com a sua atual unidade. Por favor, entrar em contato com a administração.');location='Default.aspx';", true);
+                    }
+                    else
+                        Response.Redirect("FormAcessoNegado.aspx?opcao=5");
+                    //ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Profissional não identificado! Por favor, identifique o usuário.');location='Default.aspx';", true);
+                }
+                else
+                    Response.Redirect("FormAcessoNegado.aspx?opcao=1");
+                //ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Usuário, você não tem permissão para acessar esta página! Por favor, entre em contato com a administração.');location='Default.aspx';", true);
+            }
+        }
+
+        protected void OnServerValidate_Febre(object sender, ServerValidateEventArgs args)
+        {
+            args.IsValid = true;
+
+            if (this.tbxTemperatura.Text != string.Empty)
+            {
+                float temperatura = float.Parse(this.tbxTemperatura.Text);
+
+                string febre = this.RadioButtonList_Febre.SelectedValue;
+
+                if ((temperatura >= 39 && !febre.Equals("IgualMaior39"))
+                    || (temperatura <= AcolhimentoUrgence.TEMPERATURA_PADRAO_FEBRE && !febre.Equals("Ausente"))
+                    || (temperatura > AcolhimentoUrgence.TEMPERATURA_PADRAO_FEBRE && temperatura < 39 && !febre.Equals("Menor39")))
+                    args.IsValid = false;
+            }
+        }
+
+        protected void OnTextChanged_Temperatua(object sender, EventArgs e)
+        {
+            float temperatua = 0;
+
+            if (float.TryParse(this.tbxTemperatura.Text, out temperatua))
+            {
+                if (temperatua <= AcolhimentoUrgence.TEMPERATURA_PADRAO_FEBRE)
+                {
+                    this.RadioButtonList_Febre.SelectedValue = "Ausente";
+                    //this.RadioButton_FebreAusente.Checked = true;
+                    //this.RadioButton_FebreMaior.Checked = false;
+                    //this.RadioButton_FebreMenor.Checked = false;
+                }
+                else if (temperatua >= 39)
+                {
+                    this.RadioButtonList_Febre.SelectedValue = "IgualMaior39";
+                    //this.RadioButton_FebreMaior.Checked = true;
+                    //this.RadioButton_FebreMenor.Checked = false;
+                    //this.RadioButton_FebreAusente.Checked = false;
+                }
+                else
+                {
+                    this.RadioButtonList_Febre.SelectedValue = "Menor39";
+                    //this.RadioButton_FebreMenor.Checked = true;
+                    //this.RadioButton_FebreAusente.Checked = false;
+                    //this.RadioButton_FebreMaior.Checked = false;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Salva a consulta de enfermagem
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void btnSalvar_Click(object sender, EventArgs e)
+        {
+            if (!this.Page.IsValid)
+                return;
+
+            IProntuario iProntuario = Factory.GetInstance<IProntuario>();
+            IUrgenciaServiceFacade iUrgencia = Factory.GetInstance<IUrgenciaServiceFacade>();
+            Vida.Model.UsuarioProfissionalUrgence usuarioprofissional = Factory.GetInstance<IUsuarioProfissionalUrgence>().BuscarPorCodigo<Vida.Model.UsuarioProfissionalUrgence>(((Usuario)Session["Usuario"]).Codigo);
+
+            Vida.Model.Prontuario prontuario = iProntuario.BuscarPorCodigo<Vida.Model.Prontuario>(long.Parse(Request["codigo"].ToString()));
+            prontuario.Situacao = iUrgencia.BuscarPorCodigo<Vida.Model.SituacaoAtendimento>(int.Parse(ddlSituacao.SelectedValue));
+            prontuario.DataAcolhimento = DateTime.Now;
+
+            AcolhimentoUrgence acolhimento = new AcolhimentoUrgence();
+            acolhimento.CodigoProfissional = usuarioprofissional.Id_Profissional;
+            acolhimento.CBOProfissional = usuarioprofissional.CodigoCBO;
+            acolhimento.Data = prontuario.DataAcolhimento.Value;
+
+            if (prontuario.Situacao.Codigo == SituacaoAtendimento.EVASAO)
+                prontuario.DataFinalizacao = prontuario.DataAcolhimento;
+            else
+            {
+                acolhimento.Acidente = ckbAcidente.Checked;
+                acolhimento.Alergia = ckbAlergia.Checked;
+                acolhimento.Asma = ckbAsma.Checked;
+
+                acolhimento.Queixa = TextBox_Queixa.Text;
+
+                acolhimento.Convulsao = ckbConvulsao.Checked;
+                acolhimento.Diarreia = ckbDiarreia.Checked;
+                acolhimento.DorIntensa = ckbDiarreia.Checked;
+                acolhimento.Fratura = ckbFratura.Checked;
+
+                acolhimento.DorToraxica = CheckBoxDorToraxica.Checked;
+                acolhimento.SaturacaoOxigenio = CheckBoxSaturacaoOxigenio.Checked;
+
+                acolhimento.FrequenciaCardiaca = tbxFreqCardiaca.Text;
+                acolhimento.FrequenciaRespiratoria = tbxFreqRespitatoria.Text;
+                acolhimento.Hgt = tbxHgt.Text;
+
+                acolhimento.Temperatura = tbxTemperatura.Text;
+                acolhimento.TensaoArterialInicio = tbxTensaoArterialInicio.Text;
+                acolhimento.TensaoArterialFim = tbxTensaoArterialFim.Text;
+                acolhimento.Peso = decimal.Parse(TextBox_Peso.Text);
+
+                prontuario.ClassificacaoRisco = iUrgencia.BuscarPorCodigo<ClassificacaoRisco>(int.Parse(ddlClassificacaoRisco.SelectedValue));
+                acolhimento.ClassificacaoRisco = prontuario.ClassificacaoRisco;
+                prontuario.EspecialidadeAtendimento = Factory.GetInstance<ICBO>().BuscarPorCodigo<CBO>(this.DropDownListEspecialidade.SelectedValue);
+            }
+
+            try
+            {
+                acolhimento.Prontuario = prontuario;
+                iProntuario.SalvarAcolhimento<AcolhimentoUrgence>(acolhimento);
+
+                iProntuario.Inserir(new LogUrgencia(DateTime.Now, usuarioprofissional.Id_Usuario, 7, "id prontuario=" + prontuario.Codigo));
+
+                if (prontuario.Situacao.Codigo == SituacaoAtendimento.EVASAO)
+                    ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Dados salvos com sucesso!');location='Default.aspx';", true);
+                else
+                {
+                    ConfiguracaoPA configuracaoPA = Factory.GetInstance<IVagaUrgencia>().BuscarConfiguracaoPaPorUnidade<ConfiguracaoPA>(prontuario.CodigoUnidade);
+
+                    if (configuracaoPA != null && configuracaoPA.FaseAcolhimento == ConfiguracaoPA.EM_IMPLANTACAO)
+                    {
+                        Session["documentoImpressaoUrgencia"] = Factory.GetInstance<IRelatorioUrgencia>().ObterRelatorioAcolhimento(prontuario.Codigo);
+
+                        this.Panel_BotaoFichaAcolhimento.Visible = true;
+                        ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Dados salvos com sucesso!');window.open('FormImprimirCrystalReports.aspx?nomearquivo=acolhimento.pdf', 'Acolhimento', 'height = 270, width = 250');", true);
+                    }
+                    else
+                    {
+                        this.Panel_BotaoReimprimirSenhaAtendimento.Visible = false;
+                        ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Dados salvos com sucesso!');window.open('FormImprimirSenhaAcolhimentoAtendimento.aspx?co_prontuario=" + prontuario.Codigo + "&tipo_impressao=atendimento','Impressão','height = 270, width = 250');", true);
+                    }
+
+                    this.Panel_BotaoSalvar.Visible = false;
+                }
+            }
+            catch (Exception f)
+            {
+                throw f;
+            }
+
+            HelperView.ExecutarPlanoContingencia(usuarioprofissional.Id_Usuario, prontuario.Codigo);
+        }
+
+        ///// <summary>
+        ///// Executa o plano de contingência
+        ///// </summary>
+        ///// <param name="co_usuario">código do usuário</param>
+        ///// <param name="co_prontuario">código do prontuário</param>
+        //public void ExecutarPlanoContingencia(int co_usuario, long co_prontuario)
+        //{
+        //    try
+        //    {
+        //        IProntuario iProntuario = Factory.GetInstance<IProntuario>();
+        //        iProntuario.ExecutarPlanoContingencia(co_usuario, co_prontuario);
+        //    }
+        //    catch
+        //    {
+        //    }
+        //}
+
+        ///// <summary>
+        ///// Função que executa um procedimento em background
+        ///// </summary>
+        ///// <param name="threadStart"></param>
+        //public static void StartBackgroundThread(ThreadStart threadStart)
+        //{
+        //    if (threadStart != null)
+        //    {
+        //        Thread thread = new Thread(threadStart);
+        //        thread.IsBackground = true;
+        //        thread.Start();
+        //    }
+        //}
+
+        protected void OnClick_ReimprimirSenhaAtendimento(object sender, EventArgs e)
+        {
+            ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "window.open('FormImprimirSenhaAcolhimentoAtendimento.aspx?co_prontuario=" + Request["codigo"].ToString() + "&tipo_impressao=atendimento','Impressão','height = 270, width = 250');", true);
+        }
+
+        /// <summary>
+        /// Imprime a ficha de acolhimento do paciente
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnClick_ImprimirFichaAcolhimento(object sender, EventArgs e)
+        {
+            //O valor da sessão é resgatado no momento de salvar o acolhimento.
+            //Caso isso mude, buscar a ficha de acolhimento e setar na variável de sessão
+            ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "window.open('FormImprimirCrystalReports.aspx?nomearquivo=acolhimento.pdf', 'Acolhimento', 'height = 270, width = 250');", true);
+        }
+
+        /// <summary>
+        /// Habilita/Desabilita os validators dependendo do tipo de situação
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnSelectedIndexChanged_Situacao(object sender, EventArgs e)
+        {
+            if (int.Parse(ddlSituacao.SelectedValue) == SituacaoAtendimento.EVASAO)
+            {
+                this.Panel_ClassificacaoRisco.Visible = false;
+                ddlClassificacaoRisco.SelectedValue = "-1";
+                RequiredFieldValidator_TensaoMaxima.Enabled = false;
+                RequiredFieldValidator_TensaoMinima.Enabled = false;
+                RequiredFieldValidator_FreqCard.Enabled = false;
+                RequiredFieldValidator_FreqResp.Enabled = false;
+                RequiredFieldValidator_Temperatura.Enabled = false;
+                CompareValidator_Classificacao.Enabled = false;
+                this.RequiredFieldValidator_HGT.Enabled = false;
+                this.RequiredFieldValidator_Peso.Enabled = false;
+                this.PanelEspecialidade.Visible = false;
+                this.CompareValidatorEspecialidadeAtendimento.Enabled = false;
+                this.DropDownListEspecialidade.SelectedValue = "-1";
+            }
+            else
+            {
+                AtualizaClassificacaoRisco(this.GabaritoRespostas);
+                RequiredFieldValidator_TensaoMaxima.Enabled = true;
+                RequiredFieldValidator_TensaoMinima.Enabled = true;
+                RequiredFieldValidator_FreqCard.Enabled = true;
+                RequiredFieldValidator_FreqResp.Enabled = true;
+                RequiredFieldValidator_Temperatura.Enabled = true;
+                this.RequiredFieldValidator_HGT.Enabled = true;
+                this.RequiredFieldValidator_Peso.Enabled = true;
+
+                this.Panel_ClassificacaoRisco.Visible = true;
+                this.Imagem_Classificacao.Visible = true;
+                this.CompareValidator_Classificacao.Enabled = true;
+
+                this.PanelEspecialidade.Visible = true;
+                this.CompareValidatorEspecialidadeAtendimento.Enabled = true;
+                this.DropDownListEspecialidade.SelectedValue = "-1";
+            }
+        }
+
+        /// <summary>
+        /// Modelo de Respostas para o Gabarito da Consulta
+        /// </summary>
+        /// <returns></returns>
+        private Hashtable GabaritoPontuacao()
+        {
+            Hashtable hash = new Hashtable();
+
+            hash.Add("DoencaCronica_Ausente", 0); hash.Add("DoencaCronica_Presente", 3);
+            hash.Add("QueixaAtual_SemRisco", 0); hash.Add("QueixaAtual_ComRisco", 4);
+            hash.Add("InternacaoAnterior_Nao", 0); hash.Add("InternacaoAnterior_ProntoSocorro", 1);
+            hash.Add("InternacaoAnterior_UTI", 2); hash.Add("Febre_Ausente", 0);
+            hash.Add("Febre_Menor39", 2); hash.Add("Febre_IgualMaior39", 1);
+            hash.Add("Consciencia_Consciente", 0); hash.Add("Consciencia_Agitado", 2);
+            hash.Add("Consciencia_Sonolento", 5); hash.Add("CorPele_Corado", 0);
+            hash.Add("CorPele_Palido", 2); hash.Add("CorPele_Cianotico", 5);
+            hash.Add("Hidratacao_Hidratado", 0); hash.Add("Hidratacao_AlgumaDesidratacao", 1);
+            hash.Add("Hidratacao_DesidratacaoGrave", 3); hash.Add("Hemorragia_Ausente", 0);
+            hash.Add("Hemorragia_Presente", 5); hash.Add("FrequenciaRespiratoria_Normal", 0);
+            hash.Add("FrequenciaRespiratoria_Aumentada", 1); hash.Add("FrequenciaRespiratoria_Diminuida", 5);
+            hash.Add("DesconfortoRespiratorio_Ausente", 0); hash.Add("DesconfortoRespiratorio_Presente", 3);
+            hash.Add("Dor_Ausente", 0); hash.Add("Dor_Leve", 1);
+            hash.Add("Dor_Moderada", 2); hash.Add("Dor_Grave", 3);
+
+            return hash;
+        }
+
+        /// <summary>
+        /// Inicializa o Gabarito da Consulta
+        /// </summary>
+        /// <returns></returns>
+        private void InicializaGabaritoConsulta()
+        {
+            Hashtable hash = this.GabaritoPontuacao();
+
+            string[] chaves = hash.Keys.Cast<string>().ToArray();
+
+            for (int i = 0; i < chaves.Length; i++)
+            {
+                if (int.Parse(hash[chaves[i]].ToString()) == 0)
+                    hash[chaves[i]] = true;
+                else
+                    hash[chaves[i]] = false;
+            }
+
+            this.GabaritoRespostas = hash;
+        }
+
+        private Hashtable GabaritoRespostas
+        {
+            get { return (Hashtable)Session["GabaritoRespostas"]; }
+            set { Session["GabaritoRespostas"] = value; }
+        }
+
+        /// <summary>
+        /// Chamada para atualização da classificação de risco do paciente
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnSelectedIndexChanged_DoencaCronica(object sender, EventArgs e)
+        {
+            Hashtable hash = this.GabaritoRespostas;
+
+            if (this.RadioButtonList_DoencaCronica.SelectedValue.Equals("Presente"))
+                hash["DoencaCronica_Ausente"] = false;
+            else
+                hash["DoencaCronica_Ausente"] = true;
+
+            hash["DoencaCronica_Presente"] = !(bool)hash["DoencaCronica_Ausente"];
+
+            AtualizaClassificacaoRisco(hash);
+        }
+
+        /// <summary>
+        /// Chamada para atualização da classificação de risco do paciente
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnSelectedIndexChanged_QueixaAtual(object sender, EventArgs e)
+        {
+            Hashtable hash = this.GabaritoRespostas;
+
+            if (this.RadioButtonList_Queixa.SelectedValue.Equals("ComRisco"))
+                hash["QueixaAtual_SemRisco"] = false;
+            else
+                hash["QueixaAtual_SemRisco"] = true;
+
+            hash["QueixaAtual_ComRisco"] = !(bool)hash["QueixaAtual_SemRisco"];
+
+            AtualizaClassificacaoRisco(hash);
+        }
+
+        /// <summary>
+        /// Chamada para atualização da classificação de risco do paciente
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnSelectedIndexChanged_Internacao(object sender, EventArgs e)
+        {
+            Hashtable hash = this.GabaritoRespostas;
+
+            if (this.RadioButtonList_InternacaoAnterior.SelectedValue.Equals("Nao"))
+            {
+                hash["InternacaoAnterior_Nao"] = true;
+                hash["InternacaoAnterior_ProntoSocorro"] = !(bool)hash["InternacaoAnterior_Nao"];
+                hash["InternacaoAnterior_UTI"] = !(bool)hash["InternacaoAnterior_Nao"];
+            }
+            else
+            {
+                if (this.RadioButtonList_InternacaoAnterior.Equals("ProntoSocorro"))
+                {
+                    hash["InternacaoAnterior_ProntoSocorro"] = true;
+                    hash["InternacaoAnterior_Nao"] = !(bool)hash["InternacaoAnterior_ProntoSocorro"];
+                    hash["InternacaoAnterior_UTI"] = !(bool)hash["InternacaoAnterior_ProntoSocorro"];
+                }
+                else
+                {
+                    hash["InternacaoAnterior_UTI"] = true;
+                    hash["InternacaoAnterior_Nao"] = !(bool)hash["InternacaoAnterior_UTI"];
+                    hash["InternacaoAnterior_ProntoSocorro"] = !(bool)hash["InternacaoAnterior_UTI"];
+                }
+            }
+
+            AtualizaClassificacaoRisco(hash);
+        }
+
+        /// <summary>
+        /// Chamada para atualização da classificação de risco do paciente
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnSelectedIndexChanged_Febre(object sender, EventArgs e)
+        {
+            Hashtable hash = this.GabaritoRespostas;
+
+            if (this.RadioButtonList_Febre.SelectedValue.Equals("Ausente"))
+            {
+                hash["Febre_Ausente"] = true;
+                hash["Febre_Menor39"] = !(bool)hash["Febre_Ausente"];
+                hash["Febre_IgualMaior39"] = !(bool)hash["Febre_Ausente"];
+            }
+            else
+            {
+                if (this.RadioButtonList_Febre.SelectedValue.Equals("Menor39"))
+                {
+                    hash["Febre_Menor39"] = true;
+                    hash["Febre_Ausente"] = !(bool)hash["Febre_Menor39"];
+                    hash["Febre_IgualMaior39"] = !(bool)hash["Febre_Menor39"];
+                }
+                else
+                {
+                    hash["Febre_IgualMaior39"] = true;
+                    hash["Febre_Ausente"] = !(bool)hash["Febre_IgualMaior39"];
+                    hash["Febre_Menor39"] = !(bool)hash["Febre_IgualMaior39"];
+                }
+            }
+
+            AtualizaClassificacaoRisco(hash);
+        }
+
+        /// <summary>
+        /// Chamada para atualização da classificação de risco do paciente
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnSelectedIndexChanged_Consciencia(object sender, EventArgs e)
+        {
+            Hashtable hash = this.GabaritoRespostas;
+
+            if (this.RadioButtonList_Consciencia.SelectedValue.Equals("Consciente"))
+            {
+                hash["Consciencia_Consciente"] = true;
+                hash["Consciencia_Agitado"] = !(bool)hash["Consciencia_Consciente"];
+                hash["Consciencia_Sonolento"] = !(bool)hash["Consciencia_Consciente"];
+            }
+            else
+            {
+                if (this.RadioButtonList_Consciencia.SelectedValue.Equals("Agitado"))
+                {
+                    hash["Consciencia_Agitado"] = true;
+                    hash["Consciencia_Consciente"] = !(bool)hash["Consciencia_Agitado"];
+                    hash["Consciencia_Sonolento"] = !(bool)hash["Consciencia_Agitado"];
+                }
+                else
+                {
+                    hash["Consciencia_Sonolento"] = true;
+                    hash["Consciencia_Consciente"] = !(bool)hash["Consciencia_Sonolento"];
+                    hash["Consciencia_Agitado"] = !(bool)hash["Consciencia_Sonolento"];
+                }
+            }
+
+            AtualizaClassificacaoRisco(hash);
+        }
+
+        /// <summary>
+        /// Chamada para atualização da classificação de risco do paciente
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnSelectedIndexChanged_Pele(object sender, EventArgs e)
+        {
+            Hashtable hash = this.GabaritoRespostas;
+
+            if (this.RadioButtonList_CorPelo.SelectedValue.Equals("Corado"))
+            {
+                hash["CorPele_Corado"] = true;
+                hash["CorPele_Palido"] = !(bool)hash["CorPele_Corado"];
+                hash["CorPele_Cianotico"] = !(bool)hash["CorPele_Corado"];
+            }
+            else
+            {
+                if (this.RadioButtonList_CorPelo.SelectedValue.Equals("Palido"))
+                {
+                    hash["CorPele_Palido"] = true;
+                    hash["CorPele_Corado"] = !(bool)hash["CorPele_Palido"];
+                    hash["CorPele_Cianotico"] = !(bool)hash["CorPele_Palido"];
+                }
+                else
+                {
+                    hash["CorPele_Cianotico"] = true;
+                    hash["CorPele_Corado"] = !(bool)hash["CorPele_Cianotico"];
+                    hash["CorPele_Palido"] = !(bool)hash["CorPele_Cianotico"];
+                }
+            }
+
+            AtualizaClassificacaoRisco(hash);
+        }
+
+        /// <summary>
+        /// Chamada para atualização da classificação de risco do paciente
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnSelectedIndexChanged_Hidratacao(object sender, EventArgs e)
+        {
+            Hashtable hash = this.GabaritoRespostas;
+
+            if (this.RadioButtonList_Hidatracao.SelectedValue.Equals("Hidratado"))
+            {
+                hash["Hidratacao_Hidratado"] = true;
+                hash["Hidratacao_AlgumaDesidratacao"] = !(bool)hash["Hidratacao_Hidratado"];
+                hash["Hidratacao_DesidratacaoGrave"] = !(bool)hash["Hidratacao_Hidratado"];
+            }
+            else
+            {
+                if (this.RadioButtonList_Hidatracao.SelectedValue.Equals("AlgumaDesidratacao"))
+                {
+                    hash["Hidratacao_AlgumaDesidratacao"] = true;
+                    hash["Hidratacao_Hidratado"] = !(bool)hash["Hidratacao_AlgumaDesidratacao"];
+                    hash["Hidratacao_DesidratacaoGrave"] = !(bool)hash["Hidratacao_AlgumaDesidratacao"];
+                }
+                else
+                {
+                    hash["Hidratacao_DesidratacaoGrave"] = true;
+                    hash["Hidratacao_Hidratado"] = !(bool)hash["Hidratacao_DesidratacaoGrave"];
+                    hash["Hidratacao_AlgumaDesidratacao"] = !(bool)hash["Hidratacao_DesidratacaoGrave"];
+                }
+            }
+
+            AtualizaClassificacaoRisco(hash);
+        }
+
+        /// <summary>
+        /// Chamada para atualização da classificação de risco do paciente
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnSelectedIndexChanged_Hemorragia(object sender, EventArgs e)
+        {
+            Hashtable hash = this.GabaritoRespostas;
+
+            if (this.RadioButtonList_Hemorragia.SelectedValue.Equals("Ausente"))
+                hash["Hemorragia_Ausente"] = true;
+            else
+                hash["Hemorragia_Ausente"] = false;
+
+            hash["Hemorragia_Presente"] = !(bool)hash["Hemorragia_Ausente"];
+
+            AtualizaClassificacaoRisco(hash);
+        }
+
+        /// <summary>
+        /// Chamada para atualização da classificação de risco do paciente
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnSelectedIndexChanged_Frequencia(object sender, EventArgs e)
+        {
+            Hashtable hash = this.GabaritoRespostas;
+
+            if (this.RadioButtonList_FrequenciaRespiratoria.SelectedValue.Equals("Normal"))
+            {
+                hash["FrequenciaRespiratoria_Normal"] = true;
+                hash["FrequenciaRespiratoria_Diminuida"] = !(bool)hash["FrequenciaRespiratoria_Normal"];
+                hash["FrequenciaRespiratoria_Aumentada"] = !(bool)hash["FrequenciaRespiratoria_Normal"];
+            }
+            else
+            {
+                if (this.RadioButtonList_FrequenciaRespiratoria.SelectedValue.Equals("Aumentada"))
+                {
+                    hash["FrequenciaRespiratoria_Aumentada"] = true;
+                    hash["FrequenciaRespiratoria_Normal"] = !(bool)hash["FrequenciaRespiratoria_Aumentada"];
+                    hash["FrequenciaRespiratoria_Diminuida"] = !(bool)hash["FrequenciaRespiratoria_Aumentada"];
+                }
+                else
+                {
+                    hash["FrequenciaRespiratoria_Diminuida"] = true;
+                    hash["FrequenciaRespiratoria_Normal"] = !(bool)hash["FrequenciaRespiratoria_Diminuida"];
+                    hash["FrequenciaRespiratoria_Aumentada"] = !(bool)hash["FrequenciaRespiratoria_Diminuida"];
+                }
+            }
+
+            AtualizaClassificacaoRisco(hash);
+        }
+
+        /// <summary>
+        /// Chamada para atualização da classificação de risco do paciente
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnSelectedIndexChanged_Desconforto(object sender, EventArgs e)
+        {
+            Hashtable hash = this.GabaritoRespostas;
+
+            if (this.RadioButtonList_DesconfortoRespiratorio.SelectedValue.Equals("Ausente"))
+                hash["DesconfortoRespiratorio_Ausente"] = true;
+            else
+                hash["DesconfortoRespiratorio_Ausente"] = false;
+
+            hash["DesconfortoRespiratorio_Presente"] = !(bool)hash["DesconfortoRespiratorio_Ausente"];
+
+            AtualizaClassificacaoRisco(hash);
+        }
+
+        /// <summary>
+        /// Chamada para atualização da classificação de risco do paciente
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnSelectedIndexChanged_Dor(object sender, EventArgs e)
+        {
+            Hashtable hash = this.GabaritoRespostas;
+
+            if (this.RadioButtonList_Dor.SelectedValue.Equals("Ausente"))
+            {
+                hash["Dor_Ausente"] = true;
+                hash["Dor_Leve"] = !(bool)hash["Dor_Ausente"];
+                hash["Dor_Moderada"] = !(bool)hash["Dor_Ausente"];
+                hash["Dor_Grave"] = !(bool)hash["Dor_Ausente"];
+            }
+            else
+            {
+                if (this.RadioButtonList_Dor.SelectedValue.Equals("Leve"))
+                {
+                    hash["Dor_Leve"] = true;
+                    hash["Dor_Ausente"] = !(bool)hash["Dor_Leve"];
+                    hash["Dor_Moderada"] = !(bool)hash["Dor_Leve"];
+                    hash["Dor_Grave"] = !(bool)hash["Dor_Leve"];
+                }
+                else if (this.RadioButtonList_Dor.SelectedValue.Equals("Moderada"))
+                {
+                    hash["Dor_Moderada"] = true;
+                    hash["Dor_Ausente"] = !(bool)hash["Dor_Moderada"];
+                    hash["Dor_Leve"] = !(bool)hash["Dor_Moderada"];
+                    hash["Dor_Grave"] = !(bool)hash["Dor_Moderada"];
+                }
+                else
+                {
+                    hash["Dor_Grave"] = true;
+                    hash["Dor_Ausente"] = !(bool)hash["Dor_Grave"];
+                    hash["Dor_Leve"] = !(bool)hash["Dor_Grave"];
+                    hash["Dor_Moderada"] = !(bool)hash["Dor_Grave"];
+                }
+            }
+
+            AtualizaClassificacaoRisco(hash);
+        }
+
+        /// <summary>
+        /// Atualização a classificação de risco do paciente
+        /// </summary>
+        /// <param name="hash"></param>
+        private void AtualizaClassificacaoRisco(Hashtable hash)
+        {
+            int pontuacao = 0, co_classificacao;
+            Hashtable gabaritoPontuacao = this.GabaritoPontuacao();
+
+            foreach (DictionaryEntry e in hash)
+            {
+                if (bool.Parse(e.Value.ToString()))
+                    pontuacao += int.Parse(gabaritoPontuacao[e.Key].ToString());
+            }
+
+            if (pontuacao <= 4)
+                co_classificacao = ClassificacaoRisco.AZUL;
+            else
+            {
+                if (pontuacao <= 9)
+                    co_classificacao = ClassificacaoRisco.VERDE;
+                else
+                {
+                    if (pontuacao <= 18)
+                        co_classificacao = ClassificacaoRisco.AMARELO;
+                    else
+                        co_classificacao = ClassificacaoRisco.VERMELHO;
+                }
+            }
+
+            ddlClassificacaoRisco.SelectedValue = co_classificacao.ToString();
+            OnSelectedIndexChanged_ModificaClassificacao(new object(), new EventArgs());
+
+            this.GabaritoRespostas = hash;
+        }
+
+        protected void OnSelectedIndexChanged_ModificaClassificacao(object sender, EventArgs e)
+        {
+            if (ddlClassificacaoRisco.SelectedValue != "-1")
+            {
+                ClassificacaoRisco classificacaorisco = this.ClassificacoesRisco.Where(prop => prop.Codigo == int.Parse(ddlClassificacaoRisco.SelectedValue)).First();
+                this.Imagem_Classificacao.Visible = true;
+                this.Imagem_Classificacao.ImageUrl = "~/Urgencia/img/" + classificacaorisco.Imagem;
+
+                this.RequiredFieldValidator_HGT.Enabled = true;
+
+                if (classificacaorisco.Codigo == ClassificacaoRisco.VERDE || classificacaorisco.Codigo == ClassificacaoRisco.AZUL)
+                    this.RequiredFieldValidator_HGT.Enabled = false;
+            }
+            else
+                this.Imagem_Classificacao.Visible = false;
+        }
+
+        /// <summary>
+        /// Classificações de Risco existentes
+        /// </summary>
+        private IList<ClassificacaoRisco> ClassificacoesRisco
+        {
+            set
+            {
+                if (Session["ClassificacoesAcolhimento"] == null || !(Session["ClassificacoesAcolhimento"] is IList<ClassificacaoRisco>))
+                    Session["ClassificacoesAcolhimento"] = value;
+            }
+
+            get { return (IList<ClassificacaoRisco>)Session["ClassificacoesAcolhimento"]; }
+        }
+    }
+}

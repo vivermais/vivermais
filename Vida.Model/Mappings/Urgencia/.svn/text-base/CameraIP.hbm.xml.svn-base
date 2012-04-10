@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Vida.Model">
+  <class name="Vida.Model.CameraIP" table="URG_CAMERAIP">
+    <id name="Codigo">
+      <column name="CO_CAMERA" not-null="true"/>
+      <generator class="sequence">
+        <param name="sequence">URG_CAMERAIP_SEQUENCE</param>
+      </generator>
+    </id>
+    <property name="Local" column="local" />
+    <property name="Endereco" column="endereco" />
+    <property name="CNESUnidade" column="cnesunidade" />
+  </class>
+</hibernate-mapping>

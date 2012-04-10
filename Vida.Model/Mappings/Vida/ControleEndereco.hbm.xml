@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="ViverMais.Model">
+	<class name="ViverMais.Model.ControleEndereco" table="tb_ms_controle_endereco">
+		<id name="Codigo">
+			<column name="co_endereco" not-null="true"/>
+			<generator class="assigned" />
+		</id>
+		<property name="DT_OPERACAO" column="dt_operacao"/>
+		<property name="NU_VERSAO" column="nu_versao"/>
+		<property name="CO_ORIGEM" column="co_origem"/>
+		<property name="ST_CONTROLE" column="st_controle"/>
+		<property name="ST_ATIVO" column="st_ativo"/>
+		<property name="ST_EXCLUIDO" column="st_excluido"/>
+    <!--<property name="CO_TIPO_ENDERECO" column="CO_TIPO_ENDERECO" />
+    <property name="ST_VINCULO" column="ST_VINCULO"/>-->
+    
+    <!--<property name="ST_JA_RETORNOU" column="st_ja_retornou"/>-->
+	</class>
+</hibernate-mapping>

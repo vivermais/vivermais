@@ -1,0 +1,20 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace Vida.ServiceFacade.ServiceFacades.Farmacia.NotaFiscal
+{
+    public interface INotaFiscal: IServiceFacade
+    {
+        bool ValidarCadastroNotaFiscal<T>(int co_fornecedor, string numeronota, int co_notafiscal);
+        IList<T> ListarLotesMedicamento<T>(int co_nota);
+        T BuscarItemNotaFiscal<T>(int co_itemnota);
+        int SalvarItemNotaFiscal(string lote, DateTime data_validade, int co_medicamento, int co_fabricante, int qtd_item, decimal valor_unitario, int co_nota);
+        bool ValidaCadastroItemNotaFiscal(string lote, DateTime data_validade, int co_medicamento, int co_fabricante, int co_nota, int co_itemnota);
+        IList<T> BuscarPorDescricao<T>(int co_fornecedor, string numero_nota);
+        void AtualizarItemNotaFiscal<N>(N item_nota, int qtd_item, decimal valor_unitario);
+        //void AtualizarItemNotaFiscal<N>(N item_nota, string nome_lote, int co_fabricante, DateTime data_validade, int qtd_item, float valor_unitario);
+        void ExcluirItemNotaFiscal<N>(N item_nota);
+    }
+}

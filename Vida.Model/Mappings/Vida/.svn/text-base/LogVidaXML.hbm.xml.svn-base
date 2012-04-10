@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Vida.Model">
+  <class name="Vida.Model.LogVidaXML" table="tb_pms_log_eventos_xml">
+    <id name="Codigo">
+      <column name="co_logvidaxml" not-null="true"/>
+      <generator class="sequence">
+        <param name="sequence">VIDA_LOG_XML_SEQUENCE</param>
+      </generator>
+    </id>
+    <property name="LogEvento" column="logevento"/>
+    <property name="Entidade" column="entidade"/>
+    <property name="Dados" column="dados"/>
+    <property name="Data" column="data"/>
+    <property name="Usuario" column="usuario"/>
+  </class>
+</hibernate-mapping>

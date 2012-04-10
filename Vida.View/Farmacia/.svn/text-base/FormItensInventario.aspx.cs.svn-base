@@ -1,0 +1,237 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using Vida.Model;
+using Vida.DAO;
+using Vida.ServiceFacade.ServiceFacades.Farmacia.Inventario;
+using Vida.ServiceFacade.ServiceFacades;
+using Vida.ServiceFacade.ServiceFacades.Farmacia.Medicamento;
+using Vida.ServiceFacade.ServiceFacades.Seguranca;
+
+namespace Vida.View.Farmacia
+{
+    public partial class FormItensInventario : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!IsPostBack)
+            {
+                if (!Factory.GetInstance<ISeguranca>().VerificarPermissao(((Usuario)Session["Usuario"]).Codigo, "REALIZAR_INVENTARIO", Modulo.FARMACIA) && !Factory.GetInstance<ISeguranca>().VerificarPermissao(((Usuario)Session["Usuario"]).Codigo, "REALIZAR_ABERTURA_ENCERRAMENTO_INVENTARIO", Modulo.FARMACIA))
+                    ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Usuário, você não tem permissão para acessar esta página! Por favor, entre em contato com a administração.');location='Default.aspx';", true);
+                else
+                {
+                    int temp;
+
+                    if (Request["co_inventario"] != null && int.TryParse(Request["co_inventario"].ToString(), out temp))
+                    {
+                        Inventario i = Factory.GetInstance<IInventario>().BuscarPorCodigo<Inventario>(int.Parse(Request["co_inventario"].ToString()));
+
+                        Label_Farmacia.Text = i.Farmacia.Nome;
+                        Label_DataInventario.Text = i.DataInventario.ToString("dd/MM/yyyy");
+                        //Button_CadastrarMedicamento.OnClientClick = "javascript:GB_showFullScreen('Medicamentos do Inventário','../FormCadAltItemInventario.aspx?acao=cadastrar&co_inventario=" + Request["co_inventario"].ToString() + "');";
+
+                        CarregaItensInventario(i.Codigo);
+
+                        CarregarMedicamentos();
+                        OnSelectedIndexChanged_InformacoesLote(new object(), new EventArgs());
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Mostra as informações do lote para o usuário
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnSelectedIndexChanged_InformacoesLote(object sender, EventArgs e)
+        {
+            IList<LoteMedicamento> llm = new List<LoteMedicamento>();
+
+            if (DropDownList_Lote.SelectedValue != "-1")
+                llm.Add(Factory.GetInstance<IFarmaciaServiceFacade>().BuscarPorCodigo<LoteMedicamento>(int.Parse(DropDownList_Lote.SelectedValue)));
+
+            DetailsView_InformacaoLote.DataSource = llm;
+            DetailsView_InformacaoLote.DataBind();
+        }
+
+        /// <summary>
+        /// Carrega todos os medicamentos cadastrados até o momento
+        /// </summary>
+        private void CarregarMedicamentos()
+        {
+            IList<Medicamento> lm = Factory.GetInstance<IMedicamento>().ListarTodosMedicamentos<Medicamento>().OrderBy(p => p.Nome).ToList();
+            DropDownList_Medicamento.Items.Clear();
+            DropDownList_Medicamento.Items.Add(new ListItem("Selecione...", "-1"));
+
+            foreach (Medicamento m in lm)
+                DropDownList_Medicamento.Items.Add(new ListItem(m.Nome, m.Codigo.ToString()));
+
+            DropDownList_Medicamento.Attributes.Add("onmouseover", "javascript:showTooltip(this);");
+        }
+
+        /// <summary>
+        /// Salva o novo item para o inventário
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnClick_SalvarItem(object sender, EventArgs e)
+        {
+            Inventario inventario = Factory.GetInstance<IInventario>().BuscarPorCodigo<Inventario>(int.Parse(Request["co_inventario"].ToString()));
+            LoteMedicamento loteMedicamento = Factory.GetInstance<IFarmaciaServiceFacade>().BuscarPorCodigo<LoteMedicamento>(int.Parse(DropDownList_Lote.SelectedValue.ToString()));
+            ItemInventario itemInventario = new ItemInventario();
+
+            itemInventario.QtdContada = int.Parse(TextBox_QtdContada.Text);
+            itemInventario.QtdEstoque = 0;
+            itemInventario.Inventario = inventario;
+            itemInventario.LoteMedicamento = loteMedicamento;
+
+            try
+            {
+                Factory.GetInstance<IFarmaciaServiceFacade>().Salvar(itemInventario);
+                ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Item salvo com sucesso!');", true);
+                Factory.GetInstance<IFarmaciaServiceFacade>().Salvar(new LogFarmacia(DateTime.Now, ((Usuario)Session["Usuario"]).Codigo, EventoFarmacia.INSERIR_ITEM_INVENTARIO,
+                    "id inventario: " + itemInventario.Inventario.Codigo + "id lote medicamento: " + itemInventario.LoteMedicamento.Codigo));
+
+                OnClick_CancelarCadastro(sender, e);
+            }
+            catch (Exception f)
+            {
+                throw f;
+            }
+        }
+
+        /// <summary>
+        /// Cancela a ação de cadastro do medicamento
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnClick_CancelarCadastro(object sender, EventArgs e)
+        {
+            CarregarMedicamentos();
+            DropDownList_Lote.Items.Clear();
+            DropDownList_Lote.Items.Add(new ListItem("Selecione...", "-1"));
+            OnSelectedIndexChanged_InformacoesLote(sender, e);
+            //TextBox_QtdEstoque.Text = "";
+            TextBox_QtdContada.Text = "";
+
+            //TabContainer_ItensInventario.ActiveTabIndex = 0;
+            CarregaItensInventario(int.Parse(Request["co_inventario"].ToString()));
+        }
+
+        /// <summary>
+        /// Carrega os lotes de medicamentos para o item selecionado
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnSelectedIndexChanged_CarregaLoteMedicamento(object sender, EventArgs e)
+        {
+            IList<LoteMedicamento> lm = Factory.GetInstance<ILoteMedicamento>().BuscarPorMedicamento<LoteMedicamento>(int.Parse(DropDownList_Medicamento.SelectedValue));
+            DropDownList_Lote.Items.Clear();
+            DropDownList_Lote.Items.Add(new ListItem("Selecione...", "-1"));
+
+            IList<ItemInventario> lii = Factory.GetInstance<IInventario>().ListarItensInventario<ItemInventario>(int.Parse(Request["co_inventario"].ToString()));
+
+            foreach (LoteMedicamento l in lm)
+            {
+                if (lii.Where(p => p.LoteMedicamento.Codigo == l.Codigo).FirstOrDefault() == null)
+                    DropDownList_Lote.Items.Add(new ListItem(l.Lote, l.Codigo.ToString()));
+            }
+        }
+
+        /// <summary>
+        /// Carrega os itens do inventário
+        /// </summary>
+        /// <param name="id_inventario">código do inventário</param>
+        private void CarregaItensInventario(int co_inventario)
+        {
+            GridView_Itens.DataSource = Factory.GetInstance<IInventario>().ListarItensInventario<ItemInventario>(co_inventario);
+            GridView_Itens.DataBind();
+        }
+
+        /// <summary>
+        /// Formata o gridview com o padrão especificado
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnRowDataBound_FormatarGridView(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                string CodigoLote = GridView_Itens.DataKeys[e.Row.RowIndex]["CodigoLote"].ToString();
+                LinkButton lb = (LinkButton)e.Row.FindControl("LinkButton1");
+                lb.OnClientClick = "javascript:GB_showFullScreen('Alterar Dados - Medicamento do Inventário','../FormCadAltItemInventario.aspx?acao=alterar&co_lote=" + CodigoLote + "&co_inventario=" + Request["co_inventario"].ToString() + "');";
+            }
+        }
+
+        protected void OnRowCancelingEdit_CancelarEdicao(object sender, GridViewCancelEditEventArgs e)
+        {
+            GridView_Itens.EditIndex = -1;
+            CarregaItensInventario(int.Parse(Request["co_inventario"].ToString()));
+        }
+
+        protected void OnRowEditing_EditarRegistro(object sender, GridViewEditEventArgs e)
+        {
+            GridView_Itens.EditIndex = e.NewEditIndex;
+            CarregaItensInventario(int.Parse(Request["co_inventario"].ToString()));
+        }
+
+        protected void OnRowUpdating_AlterarRegistro(object sender, GridViewUpdateEventArgs e)
+        {
+            try
+            {
+                IInventario iInventario = Factory.GetInstance<IInventario>();
+
+                GridViewRow rowGrid = GridView_Itens.Rows[e.RowIndex];
+                TextBox tbx = (TextBox)rowGrid.FindControl("TextBox_QtdContada");
+                ItemInventario itemInventario = iInventario.BuscarItemInventario<ItemInventario>(int.Parse(Request["co_inventario"].ToString()), int.Parse(GridView_Itens.DataKeys[e.RowIndex]["CodigoLote"].ToString()));
+                itemInventario.QtdContada = int.Parse(tbx.Text);
+                iInventario.Salvar(itemInventario);
+                iInventario.Salvar(new LogFarmacia(DateTime.Now, ((Usuario)Session["Usuario"]).Codigo, EventoFarmacia.ALTERAR_ITEM_INVENTARIO,
+                    "id inventario: " + itemInventario.Inventario.Codigo + "id lote medicamento: " + itemInventario.LoteMedicamento.Codigo));
+
+                GridView_Itens.EditIndex = -1;
+                CarregaItensInventario(int.Parse(Request["co_inventario"].ToString()));
+            }
+            catch (Exception f)
+            {
+                throw f;
+            }
+        }
+
+        /// <summary>
+        /// Atualiza a lista de itens do inventário
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnClick_AtualizarItens(object sender, EventArgs e) 
+        {
+            CarregaItensInventario(int.Parse(Request["co_inventario"].ToString()));
+        }
+
+        /// <summary>
+        /// Paginação do gridview
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnPageIndexChanging_Paginacao(object sender, GridViewPageEventArgs e) 
+        {
+            CarregaItensInventario(int.Parse(Request["co_inventario"].ToString()));
+            GridView_Itens.PageIndex = e.NewPageIndex;
+            GridView_Itens.DataBind();
+        }
+
+        /// <summary>
+        /// Redireciona o usuário para fechar o inventário
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnClick_FecharInventario(object sender, EventArgs e)
+        {
+            Response.Redirect("FormDadosInventario.aspx?co_inventario=" + Request["co_inventario"].ToString());
+        }
+    }
+}

@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Vida.Model">
+  <class name="Vida.Model.VinculoProfissional" table="pms_cnes_lfces021">
+    <composite-id unsaved-value="any">
+      <key-many-to-one name="EstabelecimentoSaude" class="Vida.Model.EstabelecimentoSaude" column="unidade_id" />
+      <key-many-to-one name="Profissional" class="Vida.Model.Profissional" column="cpf_prof" />
+      <key-many-to-one name="CBO" class="Vida.Model.CBO" column="cod_cbo" />
+      <key-property name="VinculoSUS" column="tp_sus_nao_sus" />
+      <key-property name="IdentificacaoVinculo" column="ind_vinc" />
+    </composite-id>
+
+    <property name="Status" column="status" />
+    <!--<property name="VinculoSUS" column="tp_sus_nao_sus" />
+    <property name="IdentificacaoVinculo" column="ind_vinc" />-->
+    <property name="RegistroConselho" column="n_registro"/>
+    <property name="DataAtualizacao" column="data_atu"/>
+    <property name="UsuarioResponsavelAtualizacao" column="usuario"/>
+    <property name="CargaHorariaAmbulatorial" column="cg_horaamb"/>
+    <property name="CargaHorariaHospitalar" column="cghorahosp"/>
+    <property name="CargaHorariaOutros" column="cghoraoutr"/>
+    <many-to-one name="OrgaoEmissorRegistroConselho" class="Vida.Model.OrgaoEmissor" column="conselhoid"/>
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="ViverMais.Model">
+	<class name="ViverMais.Model.Registro" table="tb_pms_registro" >
+		<id name="Codigo">
+			<column name="co_registro" not-null="true"/>
+			<generator class="assigned" />
+		</id>
+    <property name="NumeroRegistro" column="no_registro"/>
+    <property name="DataCompetencia" column="dt_competencia"/>
+    <!--<many-to-one name="ProcedimentoRegistro" class="ViverMais.Model.ProcedimentoRegistro" column="co_registro"/>-->
+	</class>
+</hibernate-mapping>

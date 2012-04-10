@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Vida.Model">
+  <class name="Vida.Model.ResponsavelAtesto" table="far_responsavel">
+    <id name="Codigo">
+      <column name="id_responsavel" not-null="true"/>
+      <generator class="sequence" >
+        <param name="sequence">FAR_RESPONSAVEL_SEQUENCE</param>
+      </generator>
+    </id>
+    <property name="Nome" column="responsavel" />
+  </class>
+</hibernate-mapping>

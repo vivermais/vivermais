@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DSCids" targetNamespace="http://tempuri.org/DSCids.xsd" xmlns:mstns="http://tempuri.org/DSCids.xsd" xmlns="http://tempuri.org/DSCids.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DSCids" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_DataSetName="DSCids" msprop:Generator_UserDSName="DSCids" msprop:EnableTableAdapterManager="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="Cids" msprop:Generator_UserTableName="Cids" msprop:Generator_RowDeletedName="CidsRowDeleted" msprop:Generator_TableClassName="CidsDataTable" msprop:Generator_RowChangedName="CidsRowChanged" msprop:Generator_RowClassName="CidsRow" msprop:Generator_RowChangingName="CidsRowChanging" msprop:Generator_RowEvArgName="CidsRowChangeEvent" msprop:Generator_RowEvHandlerName="CidsRowChangeEventHandler" msprop:Generator_TablePropName="Cids" msprop:Generator_TableVarName="tableCids" msprop:Generator_RowDeletingName="CidsRowDeleting">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Codigo" msprop:Generator_UserColumnName="Codigo" msprop:Generator_ColumnPropNameInRow="Codigo" msprop:Generator_ColumnVarNameInTable="columnCodigo" msprop:Generator_ColumnPropNameInTable="CodigoColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Nome" msprop:Generator_UserColumnName="Nome" msprop:Generator_ColumnPropNameInRow="Nome" msprop:Generator_ColumnVarNameInTable="columnNome" msprop:Generator_ColumnPropNameInTable="NomeColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Link_Item" msprop:Generator_UserColumnName="Link_Item" msprop:Generator_ColumnPropNameInRow="Link_Item" msprop:Generator_ColumnVarNameInTable="columnLink_Item" msprop:Generator_ColumnPropNameInTable="Link_ItemColumn" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

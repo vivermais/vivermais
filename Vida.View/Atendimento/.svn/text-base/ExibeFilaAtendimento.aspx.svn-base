@@ -1,0 +1,73 @@
+﻿    <%@ Page Language="C#" AutoEventWireup="True" CodeBehind="ExibeFilaAtendimento.aspx.cs"
+    Inherits="Vida.View.Atendimento.ExibeFilaAtendimento" MasterPageFile="~/Atendimento/MasterAtendimento.Master"
+    EnableEventValidation="false" %>
+
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <asp:Timer ID="Timer_Temporizador" runat="server" Interval="100000" OnTick="OnTick_Temporizador">
+    </asp:Timer>
+    <div id="top">
+        <h2>
+            <asp:Label ID="Label9" runat="server" Font-Bold="True" Text="Atendimento"></asp:Label></h2>
+        <asp:UpdatePanel ID="UpdatePanelEspecialidades" runat="server" ChildrenAsTriggers="true"
+            UpdateMode="Conditional">
+            <Triggers>
+                <asp:AsyncPostBackTrigger ControlID="Timer_Temporizador" EventName="Tick" />
+            </Triggers>
+            <ContentTemplate>
+                <div style="margin: 0 auto; width: 550px; margin-top: 30px">
+                    <asp:DataList ID="DataList_Especialidades" runat="server" RepeatDirection="Horizontal"
+                        RepeatLayout="Flow" RepeatColumns="6" DataKeyField="Codigo">
+                        <ItemTemplate>
+                            <asp:LinkButton ID="LinkButton_EscolherFilaEspecialidade" runat="server" OnClick="OnClick_Especialidade"
+                                CommandArgument='<%#bind("Codigo") %>' Text='<%#bind("Nome") %>'></asp:LinkButton>
+                        </ItemTemplate>
+                    </asp:DataList>
+                </div>
+                <br />
+                <fieldset class="formulario" style="width: 850px;">
+                    <legend>Relação</legend>
+                    <p>
+                        <span>
+                            <asp:GridView ID="gridFila" runat="server" AutoGenerateColumns="False" OnRowDataBound="OnRowDataBound_FormataGrid"
+                                OnSelectedIndexChanging="OnSelectedIndexChanging_PrimeiraConsultaMedica" Width="100%"
+                                DataKeyNames="Codigo" EnableViewState="true" OnInit="OnInit_gridFila">
+                                <Columns>
+                                    <asp:BoundField DataField="NumeroToString" HeaderText="Identificador" ItemStyle-HorizontalAlign="Center" />
+                                    <asp:ButtonField DataTextField="NomePacienteToString" ItemStyle-Width="280px" ButtonType="Link"
+                                        CommandName="Select" HeaderText="Paciente" ItemStyle-HorizontalAlign="Center" />
+                                    <asp:BoundField DataField="PacienteDescricao" HeaderText="Descrição" ItemStyle-HorizontalAlign="Center"
+                                        ItemStyle-Width="400px" />
+                                    <asp:ImageField HeaderText="Classificação de Risco" DataImageUrlFormatString="~/Urgencia/img/{0}"
+                                        HeaderStyle-HorizontalAlign="Center" DataImageUrlField="ImagemClassificacaoRisco"
+                                        ItemStyle-HorizontalAlign="Center">
+                                    </asp:ImageField>
+                                    <asp:BoundField DataField="NumeroToString" HeaderText="Espera" ItemStyle-HorizontalAlign="Center"
+                                        ItemStyle-Width="100px" />
+                                    <asp:TemplateField HeaderText="Reimpressão de Senha" ItemStyle-HorizontalAlign="Center">
+                                        <ItemTemplate>
+                                            <asp:LinkButton ID="LinkButton_ReimprimirSenha" runat="server" OnClientClick='<%# Eval("Codigo", "window.open(\"FormImprimirSenhaAcolhimentoAtendimento.aspx?co_prontuario={0}&tipo_impressao=atendimento\",\"Impressão\",\"height = 270, width = 250\");") %>'>
+                                                     <img id="imgvoltar" alt="Reimpressão de Senha" src="img/bts/imprimir1.png"
+                                                        onmouseover="this.src='img/bts/imprimir2.png';"
+                                                        onmouseout="this.src='img/bts/imprimir1.png';" />
+                                            </asp:LinkButton>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                </Columns>
+                                <HeaderStyle CssClass="tab" />
+                                <RowStyle CssClass="tabrow_left" />
+                                <EmptyDataRowStyle HorizontalAlign="Center" />
+                                <EmptyDataTemplate>
+                                    <asp:Label ID="lbEmpty" runat="server" Text="Nenhum registro encontrado na fila de atendimento."></asp:Label>
+                                </EmptyDataTemplate>
+                            </asp:GridView>
+                        </span>
+                    </p>
+                    </span> </p>
+                </fieldset>
+            </ContentTemplate>
+        </asp:UpdatePanel>
+    </div>
+</asp:Content>

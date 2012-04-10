@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Vida.Model">
+	<class name="Vida.Model.ItensRequisicao" table="itensrequisicao">
+	<id name="Codigo">
+		<column name="id_itensrequisicao" not-null="true"/>
+		<generator class="identity" />
+	</id>
+	<many-to-one name="Requisicao" class="Vida.Model.RequisicaoMedicamento" column="id_requisicao" />
+	<many-to-one name="Medicamento" class="Vida.Model.Medicamento" column="id_medicamento" />
+	<many-to-one name="LoteMedicamento" class="Vida.Model.LoteMedicamento" column="id_lotemedicamento" />
+	<many-to-one name="Grupo" class="Vida.Model.GrupoMedicamento" column="id_grupo" />
+    <property name="QtdPedida" column="qtdpedida" />
+    <property name="QtdFornecida" column="qtdfornecida" />
+	<property name="QtdAtendida" column="qtdatendida" />
+	<property name="Cod_Atendimento" column="cod_atendimento" />
+	<property name="SaldoAtual" column="saldoatual" />
+	<property name="SaldoAnterior" column=" saldoanterior" />
+	<property name="Solicitante" column="solicitante" />
+	<property name="QtdPedida_Distrito" column="qtdpedida_distrito" />
+	</class>
+</hibernate-mapping>

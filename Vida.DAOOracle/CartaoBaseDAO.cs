@@ -1,0 +1,107 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using ViverMais.Model;
+using Oracle.DataAccess.Client;
+using System.Data;
+using ViverMais.DAL;
+
+namespace ViverMais.DAOOracle
+{
+    public class CartaoBaseDAO:ADAO<CartaoBase>
+    {
+
+        protected override void GerarQueryPesquisaTodos()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void GerarQueryCadastro()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void GerarParametrosCadastro(CartaoBase objeto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void GerarQueryAtualizacao()
+        {
+            sqlText.Append("update tb_pms_cns set ");
+            sqlText.Append("st_atribuido = :Atribuido ");
+            sqlText.Append("where co_cartao = :NumeroCartao ");
+        }
+
+        protected override void GerarParametrosAtualizacao(CartaoBase objeto)
+        {
+            parametros.Add(new OracleParameter("Atribuido", OracleDbType.Int32));
+            parametros.Add(new OracleParameter("NumeroCartao", OracleDbType.Varchar2));
+
+            parametros[0].Value = objeto.Atribuido;
+            parametros[1].Value = objeto.Numero;
+        }
+
+        protected override void GerarQueryRemocao()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void GerarQueryBuscarID()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void GerarQueryPesquisaPorCodigo()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void GeraParametrosPesquisaPorCodigo(CartaoBase objeto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void MontarObjeto(OracleDataReader dataReader, CartaoBase objeto)
+        {
+            objeto.Numero = Convert.ToString(dataReader["co_cartao"]);
+            objeto.Atribuido = Convert.ToInt32(dataReader["st_atribuido"]);
+        }
+
+        protected override void SetarCodigoObjeto(OracleDataReader dataReader, CartaoBase objeto)
+        {
+            throw new NotImplementedException();
+        }
+
+        public CartaoBase PesquisarPrimeiroNaoAtribuido(ref OracleTransaction trans)
+        {
+            sqlText.Append("select * from tb_pms_cns where st_atribuido = 0 and rownum = 1");
+
+            DataSet dataReader = DALOracle.ExecuteReaderDs(ref trans, CommandType.Text, sqlText.ToString(), parametros.ToArray());
+            
+            sqlText.Remove(0, sqlText.Length);
+            parametros.Clear();
+
+            CartaoBase cartao = null;
+            if (dataReader!=null)
+            {
+                cartao = new CartaoBase();
+                MontarObjeto(dataReader.Tables[0].Rows[0], cartao);
+            }
+
+            return cartao;
+        }
+
+        protected override void MontarObjeto(DataRow drc, CartaoBase objeto)
+        {
+            objeto.Numero = Convert.ToString(drc["co_cartao"]);
+            objeto.Atribuido = Convert.ToInt32(drc["st_atribuido"]);
+        }
+
+        protected override void SetarCodigoObjeto(DataRow dataRow, CartaoBase objeto)
+        {
+            throw new NotImplementedException();
+        }
+    }
+}

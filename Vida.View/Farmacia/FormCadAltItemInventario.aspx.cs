@@ -1,0 +1,173 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using ViverMais.DAO;
+using ViverMais.ServiceFacade.ServiceFacades.Farmacia.Inventario;
+using ViverMais.Model;
+using ViverMais.ServiceFacade.ServiceFacades;
+using ViverMais.ServiceFacade.ServiceFacades.Farmacia.Medicamento;
+
+namespace ViverMais.View.Farmacia
+{
+    public partial class FormCadAltItemInventario : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!IsPostBack)
+                CarregaDados(Request["acao"].ToString(),Request["co_inventario"].ToString(), Request["co_lote"] != null ? Request["co_lote"].ToString() : "");
+        }
+
+        /// <summary>
+        /// Carrega os dados do item inicalmente, seja para inserção e/ou alteração
+        /// </summary>
+        private void CarregaDados(string acao,string co_inventario, string co_lote)
+        {
+            int temp;
+            ViewState["acao"] = acao; ViewState["co_inventario"] = co_inventario; ViewState["co_lote"] = co_lote;
+
+            try
+            {
+                if (acao.Equals("alterar") && int.TryParse(co_lote, out temp) && int.TryParse(co_inventario, out temp))
+                {
+                    IList<ItemInventario> lii = new List<ItemInventario>();
+                    lii.Add(Factory.GetInstance<IInventario>().BuscarItemInventario<ItemInventario>(int.Parse(co_inventario), int.Parse(co_lote)));
+                    DetailsView_ItemInventario.DataSource = lii;
+                    DetailsView_ItemInventario.DataBind();
+                    Panel_Alterar.Visible = true;
+                    Panel_Cadastrar.Visible = false;
+                }
+                else
+                {
+                    if (acao.Equals("cadastrar"))
+                    {
+                        CarregarMedicamentos();
+                        OnSelectedIndexChanged_InformacoesLote(new object(),new EventArgs());
+                        Panel_Cadastrar.Visible = true;
+                        Panel_Alterar.Visible = false;
+                    }
+                }
+            }
+            catch (Exception f)
+            {
+                throw f;
+            }
+        }
+
+        /// <summary>
+        /// Atualização dos dados do item do inventário
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnItemUpdating_Alteracao(object sender, DetailsViewUpdateEventArgs e) 
+        {
+            try
+            {
+                DetailsViewRow r = DetailsView_ItemInventario.Rows[int.Parse(e.CommandArgument.ToString())];
+                TextBox tbx = (TextBox)r.FindControl("TextBox_QuantidadeContada");
+                ItemInventario ii = Factory.GetInstance<IInventario>().BuscarItemInventario<ItemInventario>(int.Parse(ViewState["co_inventario"].ToString()), int.Parse(ViewState["co_lote"].ToString()));
+                ii.QtdContada = int.Parse(tbx.Text);
+                Factory.GetInstance<IFarmaciaServiceFacade>().Salvar(ii);
+                OnModeChanging_Modo(sender, new DetailsViewModeEventArgs(DetailsViewMode.ReadOnly,true));
+                ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Item salvo com sucesso!');", true);
+            }
+            catch (Exception f)
+            {
+                throw f;
+            }
+        }
+
+        /// <summary>
+        /// Verifica qual modo foi acionado no detailsview
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnModeChanging_Modo(object sender, DetailsViewModeEventArgs e) 
+        {
+            DetailsView_ItemInventario.ChangeMode(e.NewMode);
+            CarregaDados(ViewState["acao"].ToString(), ViewState["co_inventario"].ToString(),ViewState["co_lote"].ToString());
+        }
+
+        /// <summary>
+        /// Carrega os lotes de medicamentos para o item selecionado
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnSelectedIndexChanged_CarregaLoteMedicamento(object sender, EventArgs e) 
+        {
+            IList<LoteMedicamento> lm = Factory.GetInstance<ILoteMedicamento>().BuscarPorMedicamento<LoteMedicamento>(int.Parse(DropDownList_Medicamento.SelectedValue));
+            DropDownList_Lote.Items.Clear();
+            DropDownList_Lote.Items.Add(new ListItem("Selecione...", "-1"));
+
+            IList<ItemInventario> lii = Factory.GetInstance<IInventario>().ListarItensInventario<ItemInventario>(int.Parse(ViewState["co_inventario"].ToString()));
+
+            foreach (LoteMedicamento l in lm)
+            {
+                if ( lii.Where(p=>p.LoteMedicamento.Codigo == l.Codigo).FirstOrDefault() == null )
+                    DropDownList_Lote.Items.Add(new ListItem(l.Lote, l.Codigo.ToString()));
+            }
+        }
+
+        /// <summary>
+        /// Mostra as informações do lote para o usuário
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnSelectedIndexChanged_InformacoesLote(object sender, EventArgs e) 
+        {
+            IList<LoteMedicamento> llm = new List<LoteMedicamento>();
+
+            if (DropDownList_Lote.SelectedValue != "-1")
+                llm.Add(Factory.GetInstance<IFarmaciaServiceFacade>().BuscarPorCodigo<LoteMedicamento>(int.Parse(DropDownList_Lote.SelectedValue)));
+
+            DetailsView_InformacaoLote.DataSource = llm;
+            DetailsView_InformacaoLote.DataBind();
+        }
+
+        /// <summary>
+        /// Salva o novo item para o inventário
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnClick_SalvarItem(object sender, EventArgs e) 
+        {
+            Inventario iv  = Factory.GetInstance<IInventario>().BuscarPorCodigo<Inventario>(int.Parse(Request["co_inventario"].ToString()));
+            LoteMedicamento lm = Factory.GetInstance<IFarmaciaServiceFacade>().BuscarPorCodigo<LoteMedicamento>(int.Parse(DropDownList_Lote.SelectedValue.ToString()));
+            ItemInventario ii = new ItemInventario();
+
+            ii.QtdContada = int.Parse(TextBox_QtdContada.Text);
+            ii.QtdEstoque = int.Parse(TextBox_QtdEstoque.Text);
+            ii.Inventario = iv;
+            ii.LoteMedicamento = lm;
+
+            try
+            {
+                Factory.GetInstance<IFarmaciaServiceFacade>().Salvar(ii);
+                ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Item salvo com sucesso!');parent.parent.GB_hide();", true);
+                //ViewState["acao"] = "alterar"; ViewState["co_lote"] = DropDownList_Lote.SelectedValue;
+                //OnModeChanging_Modo(sender, new DetailsViewModeEventArgs(DetailsViewMode.ReadOnly, true));
+            }
+            catch (Exception f)
+            {
+                throw f;
+            }
+        }
+
+        /// <summary>
+        /// Carrega todos os medicamentos cadastrados até o momento
+        /// </summary>
+        private void CarregarMedicamentos()
+        {
+            IList<Medicamento> lm = Factory.GetInstance<IMedicamento>().ListarTodosMedicamentos<Medicamento>().OrderBy(p => p.Nome).ToList();
+            DropDownList_Medicamento.Items.Clear();
+            DropDownList_Medicamento.Items.Add(new ListItem("Selecione...", "-1"));
+
+            foreach (Medicamento m in lm)
+                DropDownList_Medicamento.Items.Add(new ListItem(m.Nome, m.Codigo.ToString()));
+
+            DropDownList_Medicamento.Attributes.Add("onmouseover", "javascript:showTooltip(this);");
+        }
+    }
+}

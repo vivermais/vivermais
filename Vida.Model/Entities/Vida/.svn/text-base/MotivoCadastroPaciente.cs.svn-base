@@ -1,0 +1,111 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace Vida.Model
+{
+    [Serializable]
+    public class MotivoCadastroPaciente:AModel
+    {
+        MotivoCadastro motivo;
+
+        public virtual MotivoCadastro Motivo
+        {
+            get { return motivo; }
+            set { motivo = value; }
+        }
+
+        string cnes;
+
+        public virtual string Cnes
+        {
+            get { return cnes; }
+            set { cnes = value; }
+        }
+
+        Paciente paciente;
+
+        public virtual Paciente Paciente
+        {
+            get { return paciente; }
+            set { paciente = value; }
+        }
+
+        int codigoDocumentoReferencia;
+
+        public virtual int CodigoDocumentoReferencia
+        {
+            get { return codigoDocumentoReferencia; }
+            set { codigoDocumentoReferencia = value; }
+        }
+
+        string cnsMae;
+
+        public virtual string CnsMae
+        {
+            get { return cnsMae; }
+            set { cnsMae = value; }
+        }
+
+        string numeroDocumento;
+
+        public virtual string NumeroDocumento
+        {
+            get { return numeroDocumento; }
+            set { numeroDocumento = value; }
+        }
+
+        DateTime dataOperacao;
+
+        public virtual DateTime DataOperacao
+        {
+            get { return dataOperacao; }
+            set { dataOperacao = value; }
+        }
+
+        string controle;
+
+        public virtual string Controle
+        {
+            get { return controle; }
+            set { controle = value; }
+        }
+
+        char excluido;
+
+        public virtual char Excluido
+        {
+            get { return excluido; }
+            set { excluido = value; }
+        }
+
+        int numeroVersao;
+
+        public virtual int NumeroVersao
+        {
+            get { return numeroVersao; }
+            set { numeroVersao = value; }
+        }
+
+        public MotivoCadastroPaciente()
+        {
+
+        }
+
+        public override bool Equals(object obj)
+        {
+            return this.Paciente.Codigo == ((MotivoCadastroPaciente)obj).Paciente.Codigo;
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode() * 13;
+        }
+
+        public override bool Persistido()
+        {
+            throw new NotImplementedException();
+        }
+    }
+}

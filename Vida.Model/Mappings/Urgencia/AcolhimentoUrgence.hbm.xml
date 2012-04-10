@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="ViverMais.Model">
+  <class name="ViverMais.Model.AcolhimentoUrgence" table="urg_acolhimento">
+    <id name="Codigo">
+      <column name="co_acolhimento" not-null="true"/>
+      <generator class="sequence">
+        <param name="sequence">urg_acolhimento_sequence</param>
+      </generator>
+    </id>
+
+    <many-to-one name="Prontuario" class="ViverMais.Model.Prontuario" column="co_prontuario" />
+    
+    <property name="Data" column="data" />
+    <property name="Queixa" column="queixa" type="StringClob" />
+    <property name="Temperatura" column="temperatura" />
+    <property name="Hgt" column="hgt" />
+    <property name="Acidente" column="acidente" type="YesNo"/>
+    <property name="Convulsao" column="convulsao" type="YesNo"/>
+    <property name="Asma" column="asma" type="YesNo"/>
+    <property name="DorIntensa" column="dor_intensa" type="YesNo"/>
+    <property name="Alergia" column="alergia" type="YesNo"/>
+    <property name="Diarreia" column="diarreia" type="YesNo"/>
+    <property name="DorToraxica" column="dortoraxica" type="YesNo"/>
+    <property name="SaturacaoOxigenio" column="saturacaooxigenio" type="YesNo"/>
+    <property name="Fratura" column="fratura" type="YesNo"/>
+    <property name="FrequenciaCardiaca" column="freq_cardiaca" />
+    <property name="FrequenciaRespiratoria" column="freq_respiratoria" />
+    <property name="TensaoArterialInicio" column="tensaoarterialinicio" />
+    <property name="TensaoArterialFim" column="tensaoarterialfim" />
+    <property name="Peso" column="peso" />
+    
+    <many-to-one name="ClassificacaoRisco" class="ViverMais.Model.ClassificacaoRisco" column="CO_CLASSIFICACAO" lazy="false"/>
+
+    <property name="CodigoProfissional" column="CO_PROFISSIONAL" />
+    <property name="CBOProfissional" column="cboprofissional" />
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,103 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace Vida.Model
+{
+    [Serializable]
+    public class FornecedorMedicamento
+    {
+        public static readonly char ATIVO = 'A';
+        public static readonly char INATIVO = 'I';
+
+        int codigo;
+        public virtual int Codigo
+        {
+            get { return codigo; }
+            set { codigo = value; }
+        }
+
+        string razaoSocial;
+        public virtual string RazaoSocial
+        {
+            get { return razaoSocial; }
+            set { razaoSocial = value; }
+        }
+
+        string cnpj;
+        public virtual string Cnpj
+        {
+            get { return cnpj; }
+            set { cnpj = value; }
+        }
+
+        string nomefantasia;
+        public virtual string NomeFantasia
+        {
+            get { return nomefantasia; }
+            set { nomefantasia = value; }
+        }
+
+        string codigopais;
+        public virtual string CodigoPais
+        {
+            get { return codigopais; }
+            set { codigopais = value; }
+        }
+
+        string codigouf;
+        public virtual string CodigoUf
+        {
+            get { return codigouf; }
+            set { codigouf = value; }
+        }
+
+        string codigocidade;
+        public virtual string CodigoCidade
+        {
+            get { return codigocidade; }
+            set { codigocidade = value; }
+        }
+
+        int codigobairro;
+        public virtual int CodigoBairro
+        {
+            get { return codigobairro; }
+            set { codigobairro = value; }
+        }
+
+        string endereco;
+        public virtual string Endereco
+        {
+            get { return endereco; }
+            set { endereco = value; }
+        }
+
+        string telefone;
+        public virtual string Telefone
+        {
+            get { return telefone; }
+            set { telefone = value; }
+        }
+
+        string fax;
+        public virtual string Fax
+        {
+            get { return fax; }
+            set { fax = value; }
+        }
+
+        char situacao;
+        public virtual char Situacao
+        {
+            get { return situacao; }
+            set { situacao = value; }
+        }
+
+        public FornecedorMedicamento()
+        {
+
+        }
+    }
+}

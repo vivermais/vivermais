@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Vida - Sistema Integrado de Saúde</title>
+</head>
+<STYLE type="text/css">
+
+.manut {
+	font-family: Verdana, Geneva, sans-serif;
+	font-weight:bold;
+	font-size:11px;
+	color:#4183b9
+}
+
+
+</STYLE>
+
+<body>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td height="39" align="center">&nbsp;</td>
+  </tr>
+  <tr>
+    <td align="center"><img src="img_erro/vida_logo.png" width="300" height="225" /></td>
+  </tr>
+  <tr>
+    <td align="center">&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="0" height="0" align="center" class="manut"><p>SISTEMA EM MANUTENÇÃO.</p>
+    <p>Previsão de retorno: 16:20h (17/08/2010)</p></td>
+  </tr>
+  <tr>
+    <td height="0">&nbsp;</td>
+  </tr>
+</table>
+</body>
+</html>

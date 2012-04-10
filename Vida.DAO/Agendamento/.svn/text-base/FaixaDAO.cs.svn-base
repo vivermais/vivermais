@@ -1,0 +1,41 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Vida.Model;
+using NHibernate;
+using NHibernate.Criterion;
+using Vida.ServiceFacade.ServiceFacades.EstabelecimentoSaude;
+using System.Collections;
+using Vida.ServiceFacade.ServiceFacades.Agendamento;
+using Vida.DAO.FormatoDataOracle;
+
+namespace Vida.DAO.Agendamento
+{
+    public class FaixaDAO : AgendamentoServiceFacadeDAO, IFaixa
+    {
+        #region IFaixa Members
+
+        public FaixaDAO()
+        {
+
+        }
+
+        IList<T> IFaixa.BuscarFaixaAPAC<T>(int ano)
+        {
+            string hql = "from Vida.Model.Faixa faixa where faixa.Quantidade_utilizada < faixa.Quantitativo";
+            hql += " and faixa.Ano_vigencia ='" + ano + "'";
+            return Session.CreateQuery(hql).List<T>();
+
+        }
+
+        T IFaixa.BuscarCodigoFaixa<T>(string faixa)
+        {
+            string hql = "from Vida.Model.Faixa faixa where faixa.FaixaInicial <='" + faixa + "' and faixa.FaixaFinal >='" + faixa+"'";
+            return Session.CreateQuery(hql).UniqueResult<T>();
+        }
+
+        #endregion
+
+    }
+}

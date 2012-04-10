@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DSPrescricaoProcedimento" targetNamespace="http://tempuri.org/DSPrescricaoProcedimento.xsd" xmlns:mstns="http://tempuri.org/DSPrescricaoProcedimento.xsd" xmlns="http://tempuri.org/DSPrescricaoProcedimento.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DSPrescricaoProcedimento" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_UserDSName="DSPrescricaoProcedimento" msprop:Generator_DataSetName="DSPrescricaoProcedimento" msprop:EnableTableAdapterManager="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="Procedimento" msprop:Generator_UserTableName="Procedimento" msprop:Generator_RowDeletedName="ProcedimentoRowDeleted" msprop:Generator_RowChangedName="ProcedimentoRowChanged" msprop:Generator_RowClassName="ProcedimentoRow" msprop:Generator_RowChangingName="ProcedimentoRowChanging" msprop:Generator_RowEvArgName="ProcedimentoRowChangeEvent" msprop:Generator_RowEvHandlerName="ProcedimentoRowChangeEventHandler" msprop:Generator_TableClassName="ProcedimentoDataTable" msprop:Generator_TableVarName="tableProcedimento" msprop:Generator_RowDeletingName="ProcedimentoRowDeleting" msprop:Generator_TablePropName="Procedimento">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Link_Item" msprop:Generator_UserColumnName="Link_Item" msprop:Generator_ColumnVarNameInTable="columnLink_Item" msprop:Generator_ColumnPropNameInRow="Link_Item" msprop:Generator_ColumnPropNameInTable="Link_ItemColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Procedimento" msprop:Generator_UserColumnName="Procedimento" msprop:Generator_ColumnVarNameInTable="columnProcedimento" msprop:Generator_ColumnPropNameInRow="Procedimento" msprop:Generator_ColumnPropNameInTable="ProcedimentoColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Intervalo" msprop:Generator_UserColumnName="Intervalo" msprop:Generator_ColumnVarNameInTable="columnIntervalo" msprop:Generator_ColumnPropNameInRow="Intervalo" msprop:Generator_ColumnPropNameInTable="IntervaloColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Cid" msprop:Generator_UserColumnName="Cid" msprop:Generator_ColumnPropNameInRow="Cid" msprop:Generator_ColumnVarNameInTable="columnCid" msprop:Generator_ColumnPropNameInTable="CidColumn" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

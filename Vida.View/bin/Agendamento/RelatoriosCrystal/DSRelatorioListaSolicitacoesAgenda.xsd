@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DSRelatorioListaSolicitacoesAgenda" targetNamespace="http://tempuri.org/DSRelatorioListaSolicitacoesAgenda.xsd" xmlns:mstns="http://tempuri.org/DSRelatorioListaSolicitacoesAgenda.xsd" xmlns="http://tempuri.org/DSRelatorioListaSolicitacoesAgenda.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DSRelatorioListaSolicitacoesAgenda" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_DataSetName="DSRelatorioListaSolicitacoesAgenda" msprop:Generator_UserDSName="DSRelatorioListaSolicitacoesAgenda" msprop:EnableTableAdapterManager="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="ListaSolicitacoesAgenda" msprop:Generator_UserTableName="ListaSolicitacoesAgenda" msprop:Generator_RowDeletedName="ListaSolicitacoesAgendaRowDeleted" msprop:Generator_TableClassName="ListaSolicitacoesAgendaDataTable" msprop:Generator_RowChangedName="ListaSolicitacoesAgendaRowChanged" msprop:Generator_RowClassName="ListaSolicitacoesAgendaRow" msprop:Generator_RowChangingName="ListaSolicitacoesAgendaRowChanging" msprop:Generator_RowEvArgName="ListaSolicitacoesAgendaRowChangeEvent" msprop:Generator_RowEvHandlerName="ListaSolicitacoesAgendaRowChangeEventHandler" msprop:Generator_TablePropName="ListaSolicitacoesAgenda" msprop:Generator_TableVarName="tableListaSolicitacoesAgenda" msprop:Generator_RowDeletingName="ListaSolicitacoesAgendaRowDeleting">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Nome_x0020_Paciente" msprop:Generator_UserColumnName="Nome Paciente" msprop:Generator_ColumnPropNameInRow="Nome_Paciente" msprop:Generator_ColumnVarNameInTable="columnNome_Paciente" msprop:Generator_ColumnPropNameInTable="Nome_PacienteColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="CNS" msprop:Generator_UserColumnName="CNS" msprop:Generator_ColumnPropNameInRow="CNS" msprop:Generator_ColumnVarNameInTable="columnCNS" msprop:Generator_ColumnPropNameInTable="CNSColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Telefone" msprop:Generator_UserColumnName="Telefone" msprop:Generator_ColumnPropNameInRow="Telefone" msprop:Generator_ColumnVarNameInTable="columnTelefone" msprop:Generator_ColumnPropNameInTable="TelefoneColumn" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

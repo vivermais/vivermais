@@ -1,0 +1,359 @@
+﻿<%@ Page Language="C#" MasterPageFile="~/Agendamento/MasterAgendamento.Master" AutoEventWireup="True"
+    CodeBehind="FormConfirmarAgendaCompleta.aspx.cs" Inherits="Vida.View.Agendamento.FormConfirmarAgendaCompleta"
+    Title="Untitled Page" %>
+
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder2" runat="server">
+
+    <script type="text/javascript">
+        function AplicarTooltipAPAC(id_control, html)
+        {
+            var control = document.getElementById(id_control);
+            
+            if(control != null)
+            {
+                control.setAttribute("title", html);
+                $("#" + id_control + "[title]").tooltip({tipClass:'tooltip2',offset: [0, 50],effect: 'slide'}).dynamic({ left: { direction: 'center right', bounce: true }  });
+                    
+            }
+        }
+    </script>
+
+    <script type="text/javascript" language="javascript">
+        function Cover(bottom, top, ignoreSize) {
+            var location = Sys.UI.DomElement.getLocation(bottom);
+            //top.style.position = 'absolute';
+            top.style.top = location.y + ' px';
+            top.style.left = location.x + ' px';
+            if (!ignoreSize) {
+                top.style.height = bottom.offsetHeight + 'px';
+                top.style.width = bottom.offsetWidth + 'px';
+            }
+        }
+        function calendarShown(sender, e) {
+            sender._switchMode("years");
+        }
+        
+        function ValidarData(sender, args)
+        {
+            args.IsValid = VerificaData(args.Value);
+        }
+         
+        function VerificaData(valor) {
+            var date=valor;
+            var ardt=new Array;
+            var ExpReg= new RegExp("(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[012])/[12][0-9]{3}");
+            ardt=date.split("/");
+            erro=false;
+            
+            if ( date.search(ExpReg)==-1){
+                    erro = true;
+            }
+            else if (((ardt[1]==4)||(ardt[1]==6)||(ardt[1]==9)||(ardt[1]==11))&&(ardt[0]>30))
+                    erro = true;
+            else if ( ardt[1]==2) {
+                    if ((ardt[0]>28)&&((ardt[2]%4)!=0))
+                            erro = true;
+                    if ((ardt[0]>29)&&((ardt[2]%4)==0))
+                            erro = true;
+            }
+            return !erro;
+        }
+    </script>
+
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder3" runat="server">
+    <div id="top">
+        <h2>
+            Confirmação de Agenda Completa</h2>
+        <fieldset class="formulario">
+            <legend>Registrar Execução</legend>
+            <p>
+                <span class="rotulo">Data Inicial:</span> <span>
+                    <asp:TextBox ID="tbxData_Inicial" CssClass="campo" runat="server" MaxLength="10"
+                        AutoPostBack="true" OnTextChanged="tbxData_Inicial_TextChanged" Width="70px">
+                    </asp:TextBox>
+                    <cc1:CalendarExtender runat="server" ID="CalendarExtender1" Format="dd/MM/yyyy" TargetControlID="tbxData_Inicial"
+                        Animated="true">
+                    </cc1:CalendarExtender>
+                    <cc1:MaskedEditExtender ID="MaskedEditExtender1" runat="server" InputDirection="LeftToRight"
+                        TargetControlID="tbxData_Inicial" Mask="99/99/9999" MaskType="Date">
+                    </cc1:MaskedEditExtender>
+                    <asp:RequiredFieldValidator ID="RequiredFieldValidator1" Font-Size="XX-Small" runat="server"
+                        ControlToValidate="tbxData_Inicial" ErrorMessage="Campo Obrigatório" ValidationGroup="ValidationPesquisarAgendas">
+                    </asp:RequiredFieldValidator>
+                    <asp:CustomValidator ID="CustomValidator_DataInicial" runat="server" ClientValidationFunction="ValidarData"
+                        ControlToValidate="tbxData_Inicial" ErrorMessage="Data Inicial Inválida." ValidateEmptyText="true"
+                        Font-Size="XX-Small" ValidationGroup="ValidationPesquisarAgendas"></asp:CustomValidator>
+                </span>
+            </p>
+            <p>
+                <span class="rotulo">Data Final:</span> <span>
+                    <asp:TextBox ID="tbxData_Final" CssClass="campo" runat="server" MaxLength="10" Width="70px" AutoPostBack="true" OnTextChanged="tbxData_Final_TextChanged">
+                    </asp:TextBox>
+                    <asp:RequiredFieldValidator ID="RequiredFieldValidator2" Font-Size="XX-Small" runat="server"
+                        ControlToValidate="tbxData_Final" ErrorMessage="Campo Obrigatório" ValidationGroup="ValidationPesquisarAgendas">
+                    </asp:RequiredFieldValidator>
+                    <cc1:CalendarExtender runat="server" ID="CalendarExtender2" Format="dd/MM/yyyy" TargetControlID="tbxData_Final"
+                        Animated="true">
+                    </cc1:CalendarExtender>
+                    <cc1:MaskedEditExtender ID="MaskedEditExtender2" runat="server" InputDirection="LeftToRight"
+                        TargetControlID="tbxData_Final" Mask="99/99/9999" MaskType="Date">
+                    </cc1:MaskedEditExtender>
+                    <asp:CompareValidator ID="CompareValidatorFinal" runat="server" ControlToValidate="tbxData_Final"
+                        Display="Dynamic" Font-Size="XX-Small" ErrorMessage="A data final é inválida"
+                        ValidationGroup="ValidationPesquisarAgendas" Operator="DataTypeCheck" Type="Date"></asp:CompareValidator>
+                </span>
+            </p>
+            <asp:UpdatePanel ID="UpdatePanelProcedimento" runat="server" RenderMode="Inline"
+                ChildrenAsTriggers="true">
+                <Triggers>
+                    <asp:AsyncPostBackTrigger ControlID="tbxData_Inicial" EventName="TextChanged" />
+                    <asp:AsyncPostBackTrigger ControlID="tbxData_Final" EventName="TextChanged" />
+                </Triggers>
+                <ContentTemplate>
+                    <p>
+                        <span class="rotulo">Procedimento</span> <span>
+                            <asp:DropDownList ID="ddlProcedimento" Width="500px" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlProcedimento_SelectedIndexChanged">
+                            </asp:DropDownList>
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidatorProcedimento" Font-Size="XX-Small"
+                                runat="server" ControlToValidate="ddlProcedimento" ErrorMessage="Campo Obrigatório"
+                                ValidationGroup="ValidationPesquisarAgendas" InitialValue="0">
+                            </asp:RequiredFieldValidator>
+                        </span>
+                    </p>
+                </ContentTemplate>
+            </asp:UpdatePanel>
+            <asp:UpdatePanel ID="UpdatePanelCbo" runat="server" UpdateMode="Conditional" RenderMode="Inline">
+                <Triggers>
+                    <asp:AsyncPostBackTrigger ControlID="tbxData_Inicial" EventName="TextChanged" />
+                    <asp:AsyncPostBackTrigger ControlID="ddlProcedimento" EventName="SelectedIndexChanged" />
+                </Triggers>
+                <ContentTemplate>
+                    <p>
+                        <span class="rotulo">CBO</span> <span>
+                            <asp:DropDownList ID="ddlCBO" runat="server" DataTextField="Nome" AutoPostBack="true"
+                                DataValueField="Codigo" OnSelectedIndexChanged="ddlCBO_SelectedIndexChanged">
+                            </asp:DropDownList>
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidatorCBO" Font-Size="XX-Small" runat="server"
+                                ControlToValidate="ddlCBO" ErrorMessage="Campo Obrigatório" ValidationGroup="ValidationPesquisarAgendas"
+                                InitialValue="0">
+                            </asp:RequiredFieldValidator>
+                        </span>
+                    </p>
+                </ContentTemplate>
+            </asp:UpdatePanel>
+            <asp:UpdatePanel ID="UpdatePanelSubGrupo" runat="server" UpdateMode="Conditional">
+                <Triggers>
+                    <asp:AsyncPostBackTrigger ControlID="tbxData_Inicial" EventName="TextChanged" />
+                    <asp:AsyncPostBackTrigger ControlID="ddlProcedimento" EventName="SelectedIndexChanged" />
+                    <asp:AsyncPostBackTrigger ControlID="ddlCBO" EventName="SelectedIndexChanged" />
+                </Triggers>
+                <ContentTemplate>
+                    <p>
+                        <span class="rotulo">Sub-Grupo:</span> <span>
+                            <asp:DropDownList ID="ddlSubGrupo" CssClass="drop" runat="server" Width="300px">
+                            </asp:DropDownList>
+                        </span>
+                    </p>
+                </ContentTemplate>
+            </asp:UpdatePanel>
+            <asp:UpdatePanel ID="UpdatePanelProfissional" runat="server" UpdateMode="Conditional">
+                <Triggers>
+                    <asp:AsyncPostBackTrigger ControlID="tbxData_Inicial" EventName="TextChanged" />
+                    <asp:AsyncPostBackTrigger ControlID="ddlProcedimento" EventName="SelectedIndexChanged" />
+                    <asp:AsyncPostBackTrigger ControlID="ddlCBO" EventName="SelectedIndexChanged" />
+                </Triggers>
+                <ContentTemplate>
+                    <p>
+                        <span class="rotulo">Profissional</span> <span>
+                            <asp:DropDownList ID="ddlProfissional" runat="server" DataTextField="Nome" DataValueField="CPF">
+                            </asp:DropDownList>
+                        </span>
+                    </p>
+                </ContentTemplate>
+            </asp:UpdatePanel>
+            <div class="botoesroll">
+                <asp:LinkButton ID="btnpesquisar" runat="server" OnClick="btnPesquisar_Click" ValidationGroup="ValidationPesquisarAgendas">
+                <img id="img_pesquisar" alt="" src="img/pesquisar_1.png"
+                onmouseover="img_pesquisar.src='img/pesquisar_2.png';"
+                onmouseout="img_pesquisar.src='img/pesquisar_1.png';" />
+                </asp:LinkButton></div>
+            <asp:UpdatePanel ID="UpdatePanelAgendas" runat="server" UpdateMode="Conditional"
+                RenderMode="Inline" ChildrenAsTriggers="true">
+                <Triggers>
+                    <asp:AsyncPostBackTrigger ControlID="btnpesquisar" EventName="Click" />
+                </Triggers>
+                <ContentTemplate>
+                    <p>
+                        <span>
+                            <asp:GridView ID="gridAgenda" runat="server" AutoGenerateColumns="False" AllowSorting="True" CssClass="gridview"
+                                AllowPaging="true" PageSize="10" OnPageIndexChanging="gridAgenda_OnPageIndexChanging"
+                                OnSelectedIndexChanged="gridAgenda_SelectedIndexChanged"
+                                GridLines="Vertical" DataKeyNames="Codigo">
+                               
+                                <Columns>
+                                    <asp:BoundField DataField="Codigo">
+                                        <HeaderStyle CssClass="colunaEscondida" />
+                                        <ItemStyle CssClass="colunaEscondida" />
+                                    </asp:BoundField>
+                                    <asp:BoundField DataField="Data" HeaderText="Data" ReadOnly="true" DataFormatString="{0:dd/MM/yyyy}">
+                                        <ItemStyle Width="70px" />
+                                    </asp:BoundField>
+                                    <asp:BoundField DataField="TurnoToString" HeaderText="Turno" ReadOnly="true">
+                                        <ItemStyle Width="60px" />
+                                    </asp:BoundField>
+                                    <asp:BoundField DataField="Cbo" HeaderText="Especialidade" ReadOnly="true">
+                                        <HeaderStyle HorizontalAlign="Left" />
+                                        <ItemStyle Width="250px" />
+                                    </asp:BoundField>
+                                    <asp:BoundField DataField="SubGrupo" HeaderText="SubGrupo" ReadOnly="true">
+                                        <ItemStyle Width="250px" />
+                                    </asp:BoundField>
+                                    <asp:BoundField DataField="ID_Profissional" HeaderText="Profissional" ReadOnly="true">
+                                        <ItemStyle Width="250px" />
+                                    </asp:BoundField>
+                                    <asp:BoundField DataField="Quantidade" HeaderText="Quantidade" ReadOnly="true">
+                                        <ItemStyle Width="60px" />
+                                    </asp:BoundField>
+                                    <asp:BoundField DataField="QuantidadeAgendada" HeaderText="Quantidade Agendada" ReadOnly="true">
+                                        <ItemStyle Width="60px" />
+                                    </asp:BoundField>
+                                    <asp:CommandField ShowSelectButton="true" SelectImageUrl="~/Agendamento/img/bt_edit.png"
+                                        ButtonType="Image" />
+                                </Columns>
+                                <EmptyDataTemplate>
+                                    <asp:Label ID="Label1" runat="server" Text="Nenhum Registro Encontrado!" Font-Size="X-Small"
+                                        ForeColor="Red"></asp:Label>
+                                </EmptyDataTemplate>
+                                <PagerStyle CssClass="GridviewSelected" ForeColor="Black" HorizontalAlign="Center" />
+                                <SelectedRowStyle CssClass="GridviewPager"  />
+                                
+                            </asp:GridView>
+                        </span>
+                    </p>
+                </ContentTemplate>
+            </asp:UpdatePanel>
+        </fieldset>
+        <p>
+            &nbsp;
+        </p>
+        <asp:UpdatePanel ID="UpdatePanelSolicitacaoes" runat="server" UpdateMode="Conditional"
+            RenderMode="Inline">
+            <Triggers>
+                <asp:AsyncPostBackTrigger ControlID="gridAgenda" EventName="SelectedIndexChanged" />
+            </Triggers>
+            <ContentTemplate>
+                <asp:GridView ID="GridViewSolicitacoes" runat="server" AutoGenerateColumns="False" CssClass="gridview"
+                    AllowSorting="True" AllowPaging="true" PageSize="10" OnPageIndexChanging="GridViewSolicitacoes_OnPageIndexChanging"
+                    BorderStyle="None" BorderWidth="1px" CellPadding="3" GridLines="Vertical" DataKeyNames="Codigo"
+                    OnRowUpdating="GridViewSolicitacoes_RowUpdating" OnRowEditing="GridViewSolicitacoes_RowEditing"
+                    OnRowCancelingEdit="GridViewSolicitacoes_RowCancelingEdit" OnRowDataBound="GridViewSolicitacoes_RowDataBound">
+                    
+                    <Columns>
+                        <%--<asp:BoundField HeaderText="" DataField="Codigo" ReadOnly="true">
+                            <ItemStyle CssClass="colunaEscondida" />
+                            <HeaderStyle CssClass="colunaEscondida" />
+                        </asp:BoundField>--%>
+                        <asp:BoundField HeaderText="CNS" DataField="CNS" ReadOnly="true" />
+                        <asp:BoundField HeaderText="PACIENTE" DataField="Paciente" ReadOnly="true" />
+                        <asp:TemplateField HeaderText="IDENTIFICADOR" ItemStyle-HorizontalAlign="Center">
+                            <ItemTemplate>
+                                <asp:TextBox ID="tbxIdentificador" runat="server" CssClass="campo" Width="85px" ReadOnly="true"
+                                    Text='<%#bind("Identificador") %>'>
+                                </asp:TextBox>
+                            </ItemTemplate>
+                            <EditItemTemplate>
+                                <asp:TextBox ID="tbxIdentificador" runat="server" MaxLength="13" CssClass="campo"
+                                    Width="85px" Text='<%#bind("Identificador") %>'>
+                                </asp:TextBox>
+                                <asp:RequiredFieldValidator ID="RequiredFieldIdentificador" runat="server" ControlToValidate="tbxIdentificador"
+                                    Display="None" ErrorMessage="O identificador é obrigatório" ValidationGroup="ValidationGroupSolicitacao">
+                                </asp:RequiredFieldValidator>
+                                <asp:RegularExpressionValidator ID="RegularExpressionIdentificador2" runat="server"
+                                    Display="None" ErrorMessage="Digito inválido no Identificador" ControlToValidate="tbxIdentificador"
+                                    ValidationExpression="^[0-9\s]{1,13}$" Font-Size="XX-Small" ValidationGroup="ValidationGroupSolicitacao">
+                                </asp:RegularExpressionValidator>
+                            </EditItemTemplate>
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="CID Executante" ItemStyle-HorizontalAlign="Center">
+                            <ItemTemplate>
+                                <%--<asp:DropDownList ID="ddlCID" runat="server" CssClass="campo" DataTextField="Nome" DataValueField="Codigo" DataSourceID='<%#bind("CID") %>'></asp:DropDownList>--%>
+                                <asp:DropDownList ID="ddlCID" runat="server" CssClass="campo" DataTextField="Nome" DataValueField="Codigo" Width="300px" Enabled="false"></asp:DropDownList>
+                                <%--<asp:TextBox ID="tbxCID" runat="server" CssClass="campo" Width="70px" ReadOnly="true"
+                                    Text='<%#bind("CID") %>'>
+                                </asp:TextBox>--%>
+                            </ItemTemplate>
+                            <EditItemTemplate>
+                                <%--<asp:DropDownList ID="ddlCID" runat="server" CssClass="campo" DataTextField="Nome" DataValueField="Codigo" DataSourceID='<%#bind("CID") %>'></asp:DropDownList>--%>
+                                <asp:DropDownList ID="ddlCID" runat="server" CssClass="campo" DataTextField="Nome" DataValueField="Codigo" Width="300px" Enabled="true"></asp:DropDownList>
+                                <%--<asp:TextBox ID="tbxCID" runat="server" MaxLength="13" CssClass="campo" Width="70px"
+                                    Text='<%#bind("CID") %>'>
+                                </asp:TextBox>--%>
+                                <%--<asp:CustomValidator ID="CustomValidatorCID" runat="server" Display="Dynamic" ControlToValidate="tbxCID"
+                                    Font-Size="XX-Small" ValidationGroup="ValidationGroupSolicitacao" OnServerValidate="CustomValidatorCID_ServerValidate">
+                                </asp:CustomValidator>--%>
+                            </EditItemTemplate>
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Nº Prontuário" ItemStyle-HorizontalAlign="Center">
+                            <ItemTemplate>
+                                <asp:TextBox ID="tbxProntuario" runat="server" CssClass="campo" Width="70px" ReadOnly="true"
+                                    Text='<%#bind("Prontuario") %>'>
+                                </asp:TextBox>
+                            </ItemTemplate>
+                            <EditItemTemplate>
+                                <asp:TextBox ID="tbxProntuario" runat="server" MaxLength="10" CssClass="campo" Width="70px"
+                                    Text='<%#bind("Prontuario") %>'>
+                                </asp:TextBox>
+                                <asp:CompareValidator ID="CompareValidatorProntuario" Font-Size="XX-Small" runat="server"
+                                ControlToValidate="tbxProntuario" Display="Dynamic" ErrorMessage="O campo Prontuário deve conter apenas Números"
+                                Operator="DataTypeCheck" Type="Double" ValidationGroup="ValidationGroupSolicitacao">
+                            </asp:CompareValidator>
+                            </EditItemTemplate>
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:TemplateField>                        
+                        <asp:TemplateField HeaderText="FALTA" ItemStyle-HorizontalAlign="Center">
+                            <ItemTemplate>
+                                <asp:CheckBox ID="chkBoxFalta" Enabled="false" Checked='<%#bind("Faltoso") %>' runat="server" />
+                            </ItemTemplate>
+                            <EditItemTemplate>
+                                <asp:CheckBox ID="chkBoxFalta" runat="server" AutoPostBack="true" OnCheckedChanged="chkBoxFalta_OnCheckedChanged"
+                                    Checked='<%#bind("Faltoso") %>' />
+                            </EditItemTemplate>
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:TemplateField>
+                        <asp:BoundField HeaderText="STATUS" DataField="NomeSituacao" ReadOnly="true" />
+                        <asp:TemplateField HeaderText="Dados APAC" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle">
+                            <ItemTemplate>
+                                <asp:Image ID="imgAPAC" ImageUrl="~/Agendamento/img/procurar.png" runat="server" />
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Editar" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle">
+                            <ItemTemplate>
+                                <asp:LinkButton ID="btnEditarSolicitacao" runat="server" CommandName="Edit" CausesValidation="false">
+                                    <asp:Image ID="imgEdit" ImageUrl="~/Agendamento/img/bt_edit.png" runat="server" />
+                                </asp:LinkButton>
+                            </ItemTemplate>
+                            <EditItemTemplate>
+                                <asp:LinkButton ID="LinkButton_ProsseguirConfirmacao" runat="server" CommandName="Update"
+                                    CausesValidation="true" OnClientClick="javascript:if (Page_ClientValidate('ValidationGroupSolicitacao')) return confirm('Confirma as informações para esta Solicitação?');return false;">
+                                    <asp:Image ID="imgFinalizar" ImageUrl="~/Agendamento/img/confirma.png" AlternateText="Confirmar"
+                                        runat="server" />
+                                </asp:LinkButton>
+                                <asp:LinkButton ID="LinkButton_CancelarConfirmacao" runat="server" CommandName="Cancel"
+                                    CausesValidation="false">
+                                    <asp:Image ID="imgCancelar" ImageUrl="~/Agendamento/img/cancela.png" runat="server"
+                                        AlternateText="Cancelar" />
+                                </asp:LinkButton>
+                                <asp:ValidationSummary ID="ValidationSummary1" runat="server" ShowMessageBox="true"
+                                    ShowSummary="false" ValidationGroup="ValidationGroupSolicitacao" />
+                            </EditItemTemplate>
+                        </asp:TemplateField>
+                    </Columns>
+                </asp:GridView>
+            </ContentTemplate>
+        </asp:UpdatePanel>
+    </div>
+</asp:Content>

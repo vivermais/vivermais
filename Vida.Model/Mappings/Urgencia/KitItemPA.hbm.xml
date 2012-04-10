@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="ViverMais.Model">
+  <class name="ViverMais.Model.KitItemPA" table="URG_KIT_ITEM_PA">
+    <!--<composite-id unsaved-value="none">
+      <key-many-to-one name="KitPA" column="CO_KITPA" class="ViverMais.Model.KitPA" lazy="false"></key-many-to-one>
+      <key-many-to-one name="ItemPA" column="CO_ITEMPA" class="ViverMais.Model.ItemPA" lazy="false"></key-many-to-one>
+    </composite-id>-->
+    <id name="Codigo">
+      <column name="codigo" not-null="true"/>
+      <generator class="sequence">
+        <param name="sequence">URG_KITITEM_SEQUENCE</param>
+      </generator>
+    </id>
+    <many-to-one name="KitPA" column="CO_KITPA" class="ViverMais.Model.KitPA" lazy="false" />
+    <many-to-one name="ItemPA" column="CO_ITEMPA" class="ViverMais.Model.ItemPA" lazy="false" />
+    <property name="Quantidade" column="quantidade"></property>
+  </class>
+</hibernate-mapping>

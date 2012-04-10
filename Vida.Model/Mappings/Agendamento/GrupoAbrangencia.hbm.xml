@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="ViverMais.Model">
+  <class name="ViverMais.Model.GrupoAbrangencia" table="AGD_GRUPO_ABRANGENCIA">
+    <id name="Codigo">
+      <column name="CODIGO_GRUPO" not-null="true" />
+      <generator class="sequence">
+        <param name="sequence">AGD_GRUPOABRANGENCIA_SEQUENCE</param>
+      </generator>
+    </id>    
+    <property name="NomeGrupo" column="NOME" />
+    <property name="Ativo" column="ATIVO" />
+    <bag name="Municipios" table="AGD_GRUPOABRANG_MUNICIPIO">
+      <key column="CODIGO_GRUPO"/>
+      <many-to-many column="CO_MUNICIPIO" class="ViverMais.Model.Municipio" />
+    </bag>
+    <!--<many-to-one name="Municipio" class="ViverMais.Model.Municipio" column="CO_MUNICIPIO" />-->
+  </class>
+</hibernate-mapping>

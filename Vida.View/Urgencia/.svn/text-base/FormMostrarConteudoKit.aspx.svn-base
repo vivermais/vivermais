@@ -1,0 +1,34 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="FormMostrarConteudoKit.aspx.cs" Inherits="Vida.View.Urgencia.FormMostrarConteudoKit" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head runat="server">
+    <title></title>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <div>
+        <h2>Kit: <asp:Label ID="Label_Kit" runat="server" Text=""></asp:Label></h2>
+        <fieldset>
+            <legend>Medicamentos</legend>
+            <p>
+                <span>
+                    <div id="div_medicamentos" runat="server">
+                    </div>
+                </span>
+            </p>
+        </fieldset>
+        <fieldset>
+            <legend>Itens PA</legend>
+            <p>
+                <span>
+                    <div id="div_itens" runat="server">
+                    </div>
+                </span>
+            </p>
+        </fieldset>
+    </div>
+    </form>
+</body>
+</html>

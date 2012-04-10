@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="ViverMais.Model">
+	<class name="ViverMais.Model.UsuarioDistritoFarmacia" table="far_usuariodistrito">
+    <composite-id unsaved-value="any">
+      <key-property name="CodigoUsuario" column="id_usuario" />
+      <key-property name="CodigoDistrito" column="id_distrito" />
+    </composite-id>
+	</class>
+</hibernate-mapping>

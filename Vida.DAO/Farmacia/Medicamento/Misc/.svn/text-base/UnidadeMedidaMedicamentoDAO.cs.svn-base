@@ -1,0 +1,20 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Vida.ServiceFacade.ServiceFacades.Farmacia.Medicamento.Misc;
+
+namespace Vida.DAO.Farmacia.Medicamento.Misc
+{
+    public class UnidadeMedidaMedicamentoDAO : FarmaciaServiceFacadeDAO, IUnidadeMedidaMedicamento
+    {
+        #region IUnidadeMedidaMedicamento Members
+            T IUnidadeMedidaMedicamento.VerificaDuplicidadeUnidadePorSigla<T>(string sigla, int co_unidade)
+            {
+                string hql = string.Empty;
+                hql = "FROM Vida.Model.UnidadeMedidaMedicamento AS u WHERE u.Sigla = '" + sigla + "' AND u.Codigo <> " + co_unidade;
+                return Session.CreateQuery(hql).UniqueResult<T>();
+            }
+        #endregion
+    }
+}

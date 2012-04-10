@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Vida.Model">
+	<class name="Vida.Model.ItensNotaFiscal" table="itensnotafiscal">
+    <id name="Codigo">
+      <column name="id_itemnotafiscal" not-null="true"/>
+      <generator class="identity" />
+    </id>
+	<!--<composite-id unsaved-value="any">
+		<key-many-to-one name="NotaFiscal" class="Vida.Model.NotaFiscal" column="id_notafiscal" />
+		<key-many-to-one name="LoteMedicamento" class="Vida.Model.LoteMedicamento" column="id_lotemedicamento" />
+	</composite-id>-->
+    <many-to-one name="NotaFiscal" column="id_notafiscal" class="Vida.Model.NotaFiscal"></many-to-one>
+    <many-to-one name="LoteMedicamento" column="id_lotemedicamento" class="Vida.Model.LoteMedicamento"></many-to-one>
+    <property name="Quantidade" column="quantidade" />
+    <property name="ValorUnitario" column="valorunit" />
+  </class>
+</hibernate-mapping>

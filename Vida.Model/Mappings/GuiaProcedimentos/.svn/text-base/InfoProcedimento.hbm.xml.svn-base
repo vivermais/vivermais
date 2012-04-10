@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Vida.Model">
+  <class name="Vida.Model.InfoProcedimento" table="GUIA_INFOPROCEDIMENTO">
+    <id name="Codigo">
+      <column name="co_infoprocedimento" not-null="true"/>
+      <generator class="sequence" >
+        <param name="sequence">GUIA_INFOPROCEDIMENTO_SEQUENCE</param>
+      </generator>
+    </id>
+    <many-to-one name="Procedimento" class="Vida.Model.Procedimento" column="CO_PROCEDIMENTO" lazy="false"/>
+    <property name="Conceito" column="CONCEITO" />
+    <property name="Aplicacao" column="APLICACAO" />
+    <property name="Preparo" column="PREPARO" />
+    <property name="Dicas" column="DICAS" />
+    <property name="Observacao" column="OBSERVACAO" />
+  </class>
+</hibernate-mapping>

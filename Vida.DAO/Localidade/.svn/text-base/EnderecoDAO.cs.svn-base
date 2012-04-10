@@ -1,0 +1,184 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Vida.ServiceFacade.ServiceFacades.Localidade;
+using NHibernate;
+using Oracle.DataAccess.Client;
+
+namespace Vida.DAO.Localidade
+{
+    public class EnderecoDAO : VidaServiceFacadeDAO, IEndereco
+    {
+        string connectionString = string.Empty;
+
+        public string ConnectionString
+        {
+            get
+            {
+                if (connectionString == string.Empty)
+                {
+                    if (Vida.DAO.Properties.Resources.VidaGaiaConnectionString.Contains(Session.Connection.ConnectionString))
+                    {
+                        this.connectionString = Vida.DAO.Properties.Resources.VidaGaiaConnectionString;
+                    }
+                    if (Vida.DAO.Properties.Resources.VidaMorfeuConnectionString.Contains(Session.Connection.ConnectionString))
+                    {
+                        this.connectionString = Vida.DAO.Properties.Resources.VidaMorfeuConnectionString;
+                    }
+                    if (Vida.DAO.Properties.Resources.VidaProducaoConectionString.Contains(Session.Connection.ConnectionString))
+                    {
+                        this.connectionString = Vida.DAO.Properties.Resources.VidaProducaoConectionString;
+                    }
+                    this.connectionString = this.connectionString
+                            .Replace("SERVER", "Data Source")
+                            .Replace("ADDRESS=", "ADDRESS_LIST=(ADDRESS=")
+                            .Replace("))(CONNECT", ")))(CONNECT")
+                            .Replace("uid", "User Id")
+                            .Replace("pwd", "Password");
+                }
+                return connectionString;
+            }
+        }
+
+        public EnderecoDAO()
+        {
+          
+        }
+
+        #region IEndereco Members
+
+        T IEndereco.BuscarPorPaciente<T>(string co_paciente)
+        {
+            string hql = "select eu.Endereco from Vida.Model.EnderecoUsuario eu where eu.CodigoPaciente='" + co_paciente + "'";
+            hql += " and eu.Excluido = '0'";
+            return Session.CreateQuery(hql).UniqueResult<T>();
+            throw new NotImplementedException();
+        }
+
+        void IEndereco.CadastrarEndereco<T, P>(T endereco, P paciente)
+        {
+            //using (Session.BeginTransaction())
+            using (ISession session = NHibernateHttpHelper.SessionFactories["vida"].OpenSession())
+            {
+                try
+                {
+                    session.BeginTransaction();
+                    Vida.Model.ControleEndereco controle = new Vida.Model.ControleEndereco();
+                    controle.Codigo = DateTime.Now.ToString("yyyyMMdd-hhmm") + "-endereco-pms-" + Guid.NewGuid().ToString().Remove(21);
+                    session.Save(controle);
+                    ((Vida.Model.Endereco)(object)endereco).ControleEndereco = controle;
+                    session.Save(endereco);
+                    Vida.Model.EnderecoUsuario eu = new Vida.Model.EnderecoUsuario();
+                    eu.Endereco = (Vida.Model.Endereco)(object)endereco;
+                    eu.CodigoPaciente = ((Vida.Model.Paciente)(object)paciente).Codigo;
+                    eu.TipoEndereco = session.Get<Vida.Model.TipoEndereco>("01");
+                    session.Save(eu);
+                    session.Transaction.Commit();
+                }
+                catch (Exception e)
+                {
+                    session.Transaction.Rollback();
+                    throw e;
+                }
+            }
+        }
+
+        void IEndereco.AtualizarEndereco<T>(T endereco)
+        {
+            //this.Update(endereco);
+
+            //using (ISession session = NHibernateHttpHelper.SessionFactories["vida"].OpenSession())
+            //{
+            //    try
+            //    {
+            //        session.Transaction.Begin();
+            //        if (!session.Contains(endereco))
+            //        {
+            //            session.Update(endereco);
+            //        }
+            //        session.Transaction.Commit();
+            //    }
+            //    catch (Exception e)
+            //    {
+            //        session.Transaction.Rollback();
+            //        throw e;
+            //    }
+            //    finally
+            //    {
+            //        session.Close();
+            //    }
+            //}
+            Vida.Model.Endereco e = (Vida.Model.Endereco)(object)endereco;
+            //string strCon = Session.Connection.ConnectionString
+            //                .Replace("SERVER", "Data Source")
+            //                .Replace("ADDRESS=", "ADDRESS_LIST=(ADDRESS=")
+            //                .Replace("))(CONNECT", ")))(CONNECT")
+            //                .Replace("uid", "User Id")
+            //                + "Password=salvador;";
+            using (OracleConnection con = new OracleConnection(this.ConnectionString))
+            {
+                con.Open();
+                OracleCommand cmd = con.CreateCommand();
+                try
+                {
+                    cmd.Transaction = con.BeginTransaction();
+                    cmd.CommandText =
+                        "update tb_ms_endereco set " +
+                        "no_logradouro = '" + e.Logradouro + "'," +
+                        "nu_logradouro = '" + e.Numero + "'," +
+                        "no_compl_logradouro = '" + e.Complemento + "'," +
+                        "no_bairro = '" + e.Bairro + "'," +
+                        "co_cep = '" + e.CEP + "'," +
+                        "nu_ddd = '" + e.DDD + "'," +
+                        "nu_telefone = '" + e.Telefone + "'," +
+                        "co_municipio = '" + e.Municipio.Codigo + "'" +
+                        " where " +
+                        "co_endereco = '" + e.Codigo + "'";
+                    //cmd.Parameters.Add("no_logradouro", e.Logradouro);
+                    //cmd.Parameters.Add("nu_logradouro", e.Numero);
+                    //cmd.Parameters.Add("no_compl_logradouro", e.Complemento);
+                    //cmd.Parameters.Add("no_bairro", e.Bairro);
+                    //cmd.Parameters.Add("co_cep", e.CEP);
+                    //cmd.Parameters.Add("nu_ddd", e.DDD);
+                    //cmd.Parameters.Add("nu_telefone", e.Telefone);
+                    //cmd.Parameters.Add("co_municipio", e.Municipio.Codigo);
+                    //cmd.Parameters.Add("co_endereco", e.Codigo);
+                    cmd.ExecuteNonQuery();
+                    cmd.Transaction.Commit();
+                    con.Close();
+                }
+                catch (Exception x)
+                {
+                    cmd.Transaction.Rollback();
+                    throw x;
+                }
+                finally
+                {
+                    con.Close();
+                }
+            }
+        }
+
+        #endregion
+
+        //#region IServiceFacade Members
+
+        //T Vida.ServiceFacade.ServiceFacades.IServiceFacade.BuscarPorCodigo<T>(object codigo)
+        //{
+        //    return this.FindByPrimaryKey<T>(codigo);
+        //}
+
+        //void Vida.ServiceFacade.ServiceFacades.IServiceFacade.Salvar(object obj)
+        //{
+        //    this.Save(obj);
+        //}
+
+        //IList<T> Vida.ServiceFacade.ServiceFacades.IServiceFacade.ListarTodos<T>()
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        //#endregion
+    }
+}

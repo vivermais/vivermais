@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="ViverMais.Model">
+  <class name="ViverMais.Model.ProntuarioExameEletivo" table="URG_PRONTUARIOEXAMEELETIVO">
+    <id name="Codigo">
+      <column name="CO_PRONTUARIOEXAME" not-null="true"/>
+      <generator class="sequence">
+        <param name="sequence">URG_PRONTEXAMEELET_SEQUENCE</param>
+      </generator>
+    </id>
+    <many-to-one name="Prontuario" class="ViverMais.Model.Prontuario" column="CO_PRONTUARIO" lazy="false"/>
+    <many-to-one name="Exame" class="ViverMais.Model.ExameEletivo" column="CO_EXAME" lazy="false"/>
+    <property name="Data" column="data"></property>
+    <property name="Profissional" column="CO_PROFISSIONAL"></property>
+    <property name="CBOProfissional" column="cbo_profissional"></property>
+  </class>
+</hibernate-mapping>

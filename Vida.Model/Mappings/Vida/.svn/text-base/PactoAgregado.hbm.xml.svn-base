@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Vida.Model">
+  <class name="Vida.Model.PactoAgregadoProcedCBO" table="rl_pms_pacto_agregado">
+    <id name="Codigo">
+      <column name="id_pacto_agregado" not-null="true"/>
+      <generator class="assigned" />
+    </id>
+    <property name="Percentual" column="PERCENTUAL" />
+    <property name="ValorPactuado" column="valor_pactuado" />
+    <property name="ValorRestante" column="valor_restante" />
+    <property name="BloqueiaCota" column="bloqueia_cota" />
+    <property name="TipoPacto" column="TIPOPACTO" />
+    <property name="Ativo" column="ATIVO" />
+    <many-to-one name="Agregado" column="id_agregado" class="Vida.Model.Agregado"/>
+    <many-to-one name="Pacto" column="id_pacto" class="Vida.Model.Pacto"/>
+    <many-to-one name="Procedimento" column="ID_procedimento" class="Vida.Model.Procedimento"/>
+    <many-to-one name="Cbo" column="ID_CBO" class="Vida.Model.CBO"/>
+  </class>
+</hibernate-mapping>

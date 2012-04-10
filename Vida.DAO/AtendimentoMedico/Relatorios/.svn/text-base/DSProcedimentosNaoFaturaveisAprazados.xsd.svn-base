@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DSProcedimentosNaoFaturaveisAprazados" targetNamespace="http://tempuri.org/DSProcedimentosNaoFaturaveisAprazados.xsd" xmlns:mstns="http://tempuri.org/DSProcedimentosNaoFaturaveisAprazados.xsd" xmlns="http://tempuri.org/DSProcedimentosNaoFaturaveisAprazados.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DSProcedimentosNaoFaturaveisAprazados" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_UserDSName="DSProcedimentosNaoFaturaveisAprazados" msprop:Generator_DataSetName="DSProcedimentosNaoFaturaveisAprazados" msprop:EnableTableAdapterManager="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="Procedimento" msprop:Generator_UserTableName="Procedimento" msprop:Generator_RowDeletedName="ProcedimentoRowDeleted" msprop:Generator_RowChangedName="ProcedimentoRowChanged" msprop:Generator_RowClassName="ProcedimentoRow" msprop:Generator_RowChangingName="ProcedimentoRowChanging" msprop:Generator_RowEvArgName="ProcedimentoRowChangeEvent" msprop:Generator_RowEvHandlerName="ProcedimentoRowChangeEventHandler" msprop:Generator_TableClassName="ProcedimentoDataTable" msprop:Generator_TableVarName="tableProcedimento" msprop:Generator_RowDeletingName="ProcedimentoRowDeleting" msprop:Generator_TablePropName="Procedimento">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="StatusExecutor" msprop:Generator_UserColumnName="StatusExecutor" msprop:Generator_ColumnPropNameInRow="StatusExecutor" msprop:Generator_ColumnVarNameInTable="columnStatusExecutor" msprop:Generator_ColumnPropNameInTable="StatusExecutorColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Nome" msprop:Generator_UserColumnName="Nome" msprop:Generator_ColumnPropNameInRow="Nome" msprop:Generator_ColumnVarNameInTable="columnNome" msprop:Generator_ColumnPropNameInTable="NomeColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="HorarioAplicacao" msprop:Generator_UserColumnName="HorarioAplicacao" msprop:Generator_ColumnPropNameInRow="HorarioAplicacao" msprop:Generator_ColumnVarNameInTable="columnHorarioAplicacao" msprop:Generator_ColumnPropNameInTable="HorarioAplicacaoColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="NomeProfissionalSolicitante" msprop:Generator_UserColumnName="NomeProfissionalSolicitante" msprop:Generator_ColumnPropNameInRow="NomeProfissionalSolicitante" msprop:Generator_ColumnVarNameInTable="columnNomeProfissionalSolicitante" msprop:Generator_ColumnPropNameInTable="NomeProfissionalSolicitanteColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="HorarioExecucao" msprop:Generator_UserColumnName="HorarioExecucao" msprop:Generator_ColumnPropNameInRow="HorarioExecucao" msprop:Generator_ColumnVarNameInTable="columnHorarioExecucao" msprop:Generator_ColumnPropNameInTable="HorarioExecucaoColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="CodigoPrescricao" msprop:Generator_UserColumnName="CodigoPrescricao" msprop:Generator_ColumnPropNameInRow="CodigoPrescricao" msprop:Generator_ColumnVarNameInTable="columnCodigoPrescricao" msprop:Generator_ColumnPropNameInTable="CodigoPrescricaoColumn" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

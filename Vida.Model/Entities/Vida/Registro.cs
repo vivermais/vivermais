@@ -1,0 +1,55 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace ViverMais.Model
+{
+    [Serializable]
+    public class Registro
+    {
+        public static int BPA_CONSOLIDADO = 1;
+        public static int BPA_INDIVIDUALIZADO = 2;
+        public static int AIH_PROC_PRINCIPAL = 3;
+        public static int AIH_PROC_ESPECIAL = 4;
+        public static int AIH_PROC_SECULDARIO = 5;
+        public static int APAC_PROC_PRINCIPAL = 6;
+        public static int APAC_PROC_SECUNDARIO = 7;
+
+        private string codigo;
+
+        ///<summary>
+        ///Código do instrumento de registro do procedimento
+        ///</summary>
+        public virtual string Codigo 
+        {
+            get { return codigo; }
+            set { codigo = value; }
+        }
+        
+        private string numeroRegistro;
+        ///<summary>
+        ///Nome do instrumento de registro do procedimento: BPA-I,BPA-C,APAC
+        ///</summary>
+        public virtual string NumeroRegistro
+        {
+            get { return numeroRegistro; }
+            set { numeroRegistro = value; }
+        }
+
+        ///<summary>
+        ///Data que informa a competência de validade deste registro
+        ///</summary>
+        private string dataCompetencia;
+
+        public virtual string DataCompetencia
+        {
+            get { return dataCompetencia; }
+            set { dataCompetencia = value; }
+        }
+        
+        public Registro() 
+        {
+        }
+    }
+}

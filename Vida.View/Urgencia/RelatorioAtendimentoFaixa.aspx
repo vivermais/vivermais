@@ -1,0 +1,39 @@
+﻿<%@ Page Language="C#" MasterPageFile="~/Urgencia/MasterRelatorioUrgencia.Master"
+    AutoEventWireup="true" CodeBehind="RelatorioAtendimentoFaixa.aspx.cs" Inherits="ViverMais.View.Urgencia.RelatorioAtendimentoFaixa"
+    Title="Untitled Page" %>
+
+<%@ Register Assembly="CrystalDecisions.Web, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304"
+    Namespace="CrystalDecisions.Web" TagPrefix="CR" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+<CR:CrystalReportViewer ID="CrystalReportViewer_AtendimentoFaixa" runat="server" AutoDataBind="true"
+ DisplayGroupTree="False"></CR:CrystalReportViewer>
+<%--    <h3>
+        Relatório de Atendimentos Por Faixa Etária
+    </h3>
+    <p>
+        Unidade: <span style="margin-left: 5px;">
+            <asp:Label ID="lblUnidade" runat="server"></asp:Label>
+        </span><span style="margin-left: 300px;">Período: 
+            <asp:Label runat="server" ID="lblPeriodo"></asp:Label>
+        </span>
+    </p>
+    <p>
+        Data: <span style="margin-left: 5px;">
+            <asp:Label ID="lblData" runat="server"></asp:Label>
+        </span><span style="margin-left: 345px;">Sexo: 
+            <asp:Label runat="server" ID="lblSexo"></asp:Label>
+        </span>
+    </p>
+    <asp:GridView ID="GridViewAtendimentoFaixa" runat="server" 
+        AutoGenerateColumns="false"
+        ShowHeader="false" Width="300px">
+        <Columns>
+            <asp:BoundField HeaderText="Sexo" DataField="Sexo" />
+            <asp:BoundField HeaderText="Faixa Etária" DataField="FaixaEtaria" />
+            <asp:BoundField HeaderText="Quantidade" DataField="Qtd" />
+        </Columns>
+    </asp:GridView> --%>
+</asp:Content>

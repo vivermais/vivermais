@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Vida.Model">
+  <class name="Vida.Model.Consultorio" table="consultorio">
+    <id name="Codigo">
+      <column name="id_consultorio" not-null="true"/>
+      <generator class="identity" />
+    </id>
+    <many-to-one name="TipoConsultorio" class="Vida.Model.TipoConsultorio" column="id_tipoconsultorio" />
+    <property name="CodigoUnidade" column="id_unidade" />
+    <property name="VagasInfantil" column="vaga_infantil" />
+    <property name="VagasMasculina" column="vaga_masculina" />
+    <property name="VagasFeminina" column="vaga_feminina" />
+    <property name="VagasInfantilOcupadas" column="vaga_infantil_ocupada" />
+    <property name="VagasMasculinaOcupadas" column="vaga_masculina_ocupada" />
+    <property name="VagasFemininaOcupadas" column="vaga_feminina_ocupada" />
+    
+    <!--<property name="Vaga" column="vaga" />
+    <property name="VagaOcupada" column="vaga_ocupada" />-->
+  </class>
+</hibernate-mapping>

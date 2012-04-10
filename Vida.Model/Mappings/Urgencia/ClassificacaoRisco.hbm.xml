@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="ViverMais.Model">
+  <class name="ViverMais.Model.ClassificacaoRisco" table="URG_CLASSIFICACAORISCO">
+    <id name="Codigo">
+      <column name="CO_CLASSIFICACAO" not-null="true"/>
+      <generator class="assigned" />
+    </id>
+    <property name="Descricao" column="descricao" />
+    <property name="Cor" column="cor" />
+    <property name="Imagem" column="imagem" />
+    <property name="Ordem" column="ordem" />
+    <property name="CorGrafico" column="corgrafico" />
+  </class>
+</hibernate-mapping>

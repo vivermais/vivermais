@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="ViverMais.Model">
+	<class name="ViverMais.Model.Banco" table="pms_cnes_lfces023">
+		<id name="Codigo">
+			<column name="cod_banco" not-null="true"/>
+			<generator class="assigned" />
+		</id>
+		<property name="Descricao" column="descricao"/>
+    <property name="DataAtualizacao" column="data_atu"/>    
+	</class>
+</hibernate-mapping>

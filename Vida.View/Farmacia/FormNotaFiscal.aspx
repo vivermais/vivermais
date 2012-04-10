@@ -1,0 +1,284 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="FormNotaFiscal.aspx.cs"
+    Inherits="ViverMais.View.Farmacia.FormNotaFiscal" MasterPageFile="~/Farmacia/MasterFarmacia.Master"
+    EnableEventValidation="false" %>
+
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
+<asp:Content ID="c_head" runat="server" ContentPlaceHolderID="head">
+    <style type="text/css">
+        .formulario2
+        {
+            width: 640px;
+            height: auto;
+            margin-left: 5px;
+            margin-right: 5px;
+            padding: 10px 10px 20px 10px;
+        }
+    </style>
+</asp:Content>
+<asp:Content ID="c_body" runat="server" ContentPlaceHolderID="ContentPlaceHolder1">
+    <div id="top">
+        <h2>
+            Formulário Nota Fiscal</h2>
+        <fieldset class="formulario">
+            <legend>Nota Fiscal</legend>
+            <p>
+                <span>
+                    <asp:Panel ID="Panel_Cadastro" runat="server" Visible="false">
+                        <cc1:TabContainer ID="TabContainer_NotaFiscal" runat="server">
+                            <cc1:TabPanel ID="TabPanel_Um" runat="server" HeaderText="Dados">
+                                <ContentTemplate>
+                                    <%--<asp:UpdatePanel ID="UpdatePanel1" runat="server">
+                                        <ContentTemplate>--%>
+                                    <fieldset class="formulario2">
+                                        <legend>Nota Fiscal</legend>
+                                        <p>
+                                            <span class="rotulo">Número da Nota</span> <span style="margin-left: 5px;">
+                                                <asp:TextBox ID="TextBox_NumeroNota" CssClass="campo" runat="server"></asp:TextBox>
+                                            </span>
+                                        </p>
+                                        <p>
+                                            <span class="rotulo">Data de Recebimento</span> <span style="margin-left: 5px;">
+                                                <asp:TextBox ID="TextBox_DataRecebimento" CssClass="campo" runat="server"></asp:TextBox>
+                                            </span>
+                                        </p>
+                                        <p>
+                                            <span class="rotulo">Data de Atesto</span> <span style="margin-left: 5px;">
+                                                <asp:TextBox ID="TextBox_DataAtesto" CssClass="campo" runat="server"></asp:TextBox>
+                                            </span>
+                                        </p>
+                                        <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Conditional">
+                                            <Triggers>
+                                                <asp:AsyncPostBackTrigger ControlID="TabPanel_Dois$Button1" EventName="Click" />
+                                                <asp:AsyncPostBackTrigger ControlID="TabPanel_Dois$GridView_Responsavel" EventName="RowUpdating" />
+                                            </Triggers>
+                                            <ContentTemplate>
+                                                <p>
+                                                    <span class="rotulo">Responsável pelo Atesto</span> <span style="margin-left: 5px;">
+                                                        <asp:DropDownList ID="DropDownList_Responsavel" runat="server">
+                                                        </asp:DropDownList>
+                                                        <%--<asp:Button ID="Button_NovoResponsavel" runat="server" Text="Novo" OnClientClick="javascript:GB_showFullScreen('Responsável Atesto','../FormExibeResponsavelAtesto.aspx');" />
+                                                <asp:Button ID="Button_AtualizarListaResponsavel" runat="server" Text="Atualizar" OnClick="OnClick_CarregaResponsaveis" />--%>
+                                                    </span>
+                                                </p>
+                                            </ContentTemplate>
+                                        </asp:UpdatePanel>
+                                        <p>
+                                            <span class="rotulo">Fornecedor</span> <span style="margin-left: 5px;">
+                                                <asp:DropDownList ID="DropDownList_Fornecedor" runat="server">
+                                                    <asp:ListItem Text="Selecione..." Value="-1"></asp:ListItem>
+                                                </asp:DropDownList>
+                                            </span>
+                                        </p>
+                                        <p>
+                                            <span class="rotulo">Processo de Origem</span> <span style="margin-left: 5px;">
+                                                <asp:TextBox ID="TextBox_ProcessoOrigem" CssClass="campo" runat="server"></asp:TextBox>
+                                            </span>
+                                        </p>
+                                        <p>
+                                            <span class="rotulo">Empenho</span> <span style="margin-left: 5px;">
+                                                <asp:TextBox ID="TextBox_Empenho" CssClass="campo" runat="server"></asp:TextBox>
+                                            </span>
+                                        </p>
+                                        <p>
+                                            <span class="rotulo">AFM</span> <span style="margin-left: 5px;">
+                                                <asp:TextBox ID="TextBox_AFM" CssClass="campo" runat="server"></asp:TextBox>
+                                            </span>
+                                        </p>
+                                        <p align="center">
+                                            <span>
+                                                <asp:Button ID="Button_Salvar" runat="server" Text="Salvar" OnClick="OnClick_Salvar"
+                                                    ValidationGroup="ValidationGroup_cadNotaFiscal" />
+                                                <asp:Button ID="Button_Cancelar" runat="server" Text="Voltar" PostBackUrl="~/Farmacia/FormBuscaNotaFiscal.aspx" />
+                                            </span>
+                                        </p>
+                                        <p>
+                                            <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ErrorMessage="Número da Nota é Obrigatório!"
+                                                ControlToValidate="TextBox_NumeroNota" Display="None" ValidationGroup="ValidationGroup_cadNotaFiscal"></asp:RequiredFieldValidator>
+                                            <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ErrorMessage="Data de Recebimento é Obrigatório!"
+                                                ControlToValidate="TextBox_DataRecebimento" Display="None" ValidationGroup="ValidationGroup_cadNotaFiscal"></asp:RequiredFieldValidator>
+                                            <asp:CompareValidator ID="CompareValidator3" runat="server" ErrorMessage="Formato inválido para Data de Recebimento!"
+                                                Display="None" ControlToValidate="TextBox_DataRecebimento" Operator="DataTypeCheck"
+                                                Type="Date" ValidationGroup="ValidationGroup_cadNotaFiscal"></asp:CompareValidator>
+                                            <asp:CompareValidator ID="CompareValidator4" runat="server" ErrorMessage="Data de Recebimento deve ser igual ou maior que 01/01/1900."
+                                                Display="None" ControlToValidate="TextBox_DataRecebimento" ValueToCompare="01/01/1900"
+                                                Operator="GreaterThanEqual" Type="Date" ValidationGroup="ValidationGroup_cadNotaFiscal"></asp:CompareValidator>
+                                            <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" ErrorMessage="Data de Atesto é Obrigatório!"
+                                                ControlToValidate="TextBox_DataAtesto" Display="None" ValidationGroup="ValidationGroup_cadNotaFiscal"></asp:RequiredFieldValidator>
+                                            <asp:CompareValidator ID="CompareValidator5" runat="server" ErrorMessage="Formato inválido para Data de Atesto!"
+                                                Display="None" ControlToValidate="TextBox_DataAtesto" Operator="DataTypeCheck"
+                                                Type="Date" ValidationGroup="ValidationGroup_cadNotaFiscal"></asp:CompareValidator>
+                                            <asp:CompareValidator ID="CompareValidator6" runat="server" ErrorMessage="Data de Atesto deve ser igual ou maior que 01/01/1900."
+                                                Display="None" ControlToValidate="TextBox_DataAtesto" ValueToCompare="01/01/1900"
+                                                Operator="GreaterThanEqual" Type="Date" ValidationGroup="ValidationGroup_cadNotaFiscal"></asp:CompareValidator>
+                                            <asp:CompareValidator ID="CompareValidator1" runat="server" ErrorMessage="Responsável pelo Atesto é Obrigatório!"
+                                                ControlToValidate="DropDownList_Responsavel" ValueToCompare="-1" Operator="GreaterThan"
+                                                Display="None" ValidationGroup="ValidationGroup_cadNotaFiscal"></asp:CompareValidator>
+                                            <asp:CompareValidator ID="CompareValidator2" runat="server" ErrorMessage="Fornecedor é Obrigatório!"
+                                                ControlToValidate="DropDownList_Fornecedor" ValueToCompare="-1" Operator="GreaterThan"
+                                                Display="None" ValidationGroup="ValidationGroup_cadNotaFiscal"></asp:CompareValidator>
+                                            <asp:RegularExpressionValidator ID="RegularExpressionValidator2" runat="server" ControlToValidate="TextBox_ProcessoOrigem"
+                                                Display="None" ErrorMessage="Há caracters inválidos no Processo de Origem da Nota Fiscal."
+                                                Font-Size="XX-Small" ValidationExpression="^[0-9a-zA-Z\s]{1,}$" ValidationGroup="ValidationGroup_cadNotaFiscal"></asp:RegularExpressionValidator>
+                                            <asp:RegularExpressionValidator ID="RegularExpressionValidator3" runat="server" ControlToValidate="TextBox_Empenho"
+                                                Display="None" ErrorMessage="Há caracters inválidos no Empenho da Nota Fiscal."
+                                                Font-Size="XX-Small" ValidationExpression="^[0-9a-zA-Z\s]{1,}$" ValidationGroup="ValidationGroup_cadNotaFiscal"></asp:RegularExpressionValidator>
+                                            <asp:RegularExpressionValidator ID="RegularExpressionValidator4" runat="server" ControlToValidate="TextBox_AFM"
+                                                Display="None" ErrorMessage="Há caracters inválidos na AFM da Nota Fiscal." Font-Size="XX-Small"
+                                                ValidationExpression="^[0-9a-zA-Z\s]{1,}$" ValidationGroup="ValidationGroup_cadNotaFiscal"></asp:RegularExpressionValidator>
+                                            <asp:ValidationSummary ID="ValidationSummary1" runat="server" ShowMessageBox="true"
+                                                ShowSummary="false" ValidationGroup="ValidationGroup_cadNotaFiscal" />
+                                            <cc1:CalendarExtender ID="CalendarExtender1" runat="server" TargetControlID="TextBox_DataRecebimento"
+                                                Format="dd/MM/yyyy">
+                                            </cc1:CalendarExtender>
+                                            <cc1:MaskedEditExtender ID="MaskedEditExtender1" runat="server" TargetControlID="TextBox_DataRecebimento"
+                                                InputDirection="LeftToRight" Mask="99/99/9999" MaskType="Date">
+                                            </cc1:MaskedEditExtender>
+                                            <cc1:CalendarExtender ID="CalendarExtender2" runat="server" TargetControlID="TextBox_DataAtesto"
+                                                Format="dd/MM/yyyy">
+                                            </cc1:CalendarExtender>
+                                            <cc1:MaskedEditExtender ID="MaskedEditExtender2" runat="server" TargetControlID="TextBox_DataAtesto"
+                                                InputDirection="LeftToRight" Mask="99/99/9999" MaskType="Date">
+                                            </cc1:MaskedEditExtender>
+                                        </p>
+                                    </fieldset>
+                                    <%--                                            </ContentTemplate>
+                                        </asp:UpdatePanel>--%>
+                                </ContentTemplate>
+                            </cc1:TabPanel>
+                            <cc1:TabPanel ID="TabPanel_Dois" runat="server" HeaderText="Responsável Atesto">
+                                <ContentTemplate>
+                                    <fieldset class="formulario2">
+                                        <legend>Formulário de Cadastro</legend>
+                                        <asp:UpdatePanel ID="UpdatePanel3" runat="server" UpdateMode="Conditional">
+                                            <Triggers>
+                                                <asp:AsyncPostBackTrigger ControlID="Button1" EventName="Click" />
+                                            </Triggers>
+                                            <ContentTemplate>
+                                                <p>
+                                                    <span class="rotulo">Nome</span> <span style="margin-left: 5px;">
+                                                        <asp:TextBox ID="TextBox_Nome" CssClass="campo" runat="server" Width="300px"></asp:TextBox>
+                                                    </span>
+                                                </p>
+                                            </ContentTemplate>
+                                        </asp:UpdatePanel>
+                                        <p align="center">
+                                            <span>
+                                                <asp:Button ID="Button1" runat="server" Text="Salvar" OnClick="OnClick_SalvarResponsavel"
+                                                    ValidationGroup="ValidationGroup_cadResponsavel" />
+                                                <asp:Button ID="Button2" runat="server" Text="Cancelar" OnClick="OnClick_CancelarCadastroResponsavel" />
+                                            </span>
+                                        </p>
+                                        <p>
+                                            <asp:RequiredFieldValidator ID="RequiredFieldValidator4" runat="server" ErrorMessage="Nome é Obrigatório!"
+                                                ValidationGroup="ValidationGroup_cadResponsavel" ControlToValidate="TextBox_Nome"
+                                                Display="None"></asp:RequiredFieldValidator>
+                                            <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ControlToValidate="TextBox_Nome"
+                                                Display="None" ErrorMessage="Há caracters inválidos no Nome do Responsável."
+                                                Font-Size="XX-Small" ValidationExpression="^[0-9a-zA-Z\s]{1,}$" ValidationGroup="ValidationGroup_cadResponsavel"></asp:RegularExpressionValidator>
+                                            <asp:ValidationSummary ID="ValidationSummary2" runat="server" ShowMessageBox="true"
+                                                ShowSummary="false" ValidationGroup="ValidationGroup_cadResponsavel" />
+                                        </p>
+                                    </fieldset>
+                                    <asp:UpdatePanel ID="UpdatePanel_Dois" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="true">
+                                        <Triggers>
+                                            <asp:AsyncPostBackTrigger ControlID="Button1" EventName="Click" />
+                                        </Triggers>
+                                        <ContentTemplate>
+                                            <fieldset class="formulario2">
+                                                <legend>Responsáveis Cadastrados</legend>
+                                                <p>
+                                                    <span>
+                                                        <asp:GridView ID="GridView_Responsavel" runat="server" AutoGenerateColumns="false"
+                                                            AllowPaging="true" PageSize="20" OnPageIndexChanging="OnPageIndexChanging_Paginacao"
+                                                            PagerSettings-Mode="Numeric" DataKeyNames="Codigo" Width="600px" OnRowCancelingEdit="OnRowCancelingEdit_CancelarEdicaoResponsavel"
+                                                            OnRowEditing="OnRowEditing_EditarResponsavel" OnRowUpdating="OnRowUpdating_AtualizarResponsavel">
+                                                            <Columns>
+                                                                <asp:TemplateField HeaderText="Nome">
+                                                                    <ItemTemplate>
+                                                                        <asp:Label ID="Label_NomeResponsavel" runat="server" Text='<%#bind("Nome") %>'></asp:Label>
+                                                                        <%--<asp:TextBox ID="TextBox_NomeResponsavel" runat="server" Text='<%#bind("Nome") %>'></asp:TextBox>--%>
+                                                                    </ItemTemplate>
+                                                                    <EditItemTemplate>
+                                                                        <asp:TextBox ID="TextBox_NomeResponsavel" CssClass="campo" runat="server" Text='<%#bind("Nome") %>'></asp:TextBox>
+                                                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator5" runat="server" ErrorMessage="Nome é Obrigatório!"
+                                                                            ControlToValidate="TextBox_NomeResponsavel" Display="None"></asp:RequiredFieldValidator>
+                                                                        <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ControlToValidate="TextBox_NomeResponsavel"
+                                                                            Display="None" ErrorMessage="Há caracters inválidos no Nome do Responsável."
+                                                                            Font-Size="XX-Small" ValidationExpression="^[0-9a-zA-Z\s]{1,}$"></asp:RegularExpressionValidator>
+                                                                        <asp:ValidationSummary ID="ValidationSummary3" runat="server" ShowMessageBox="true"
+                                                                            ShowSummary="false" />
+                                                                    </EditItemTemplate>
+                                                                </asp:TemplateField>
+                                                                <asp:CommandField CancelText="Cancelar" EditText="Editar" UpdateText="Atualizar"
+                                                                    ButtonType="Link" InsertVisible="false" ShowEditButton="true" />
+                                                                <%--<asp:BoundField HeaderText="Nome" DataField="Nome" />--%>
+                                                                <%-- <asp:HyperLinkField HeaderText="Nome" DataNavigateUrlFields="Codigo"
+                                                                DataNavigateUrlFormatString="~/Farmacia/FormResponsavelAtestoNotaFiscal.aspx?co_responsavel={0}"
+                                                                DataTextField="Nome" />--%>
+                                                            </Columns>
+                                                            <HeaderStyle CssClass="tab" />
+                                                            <RowStyle CssClass="tabrow" />
+                                                            <EmptyDataRowStyle HorizontalAlign="Center" />
+                                                            <EmptyDataTemplate>
+                                                                <asp:Label ID="lbEmpty" runat="server" Text="Nenhum registro encontrado."></asp:Label>
+                                                            </EmptyDataTemplate>
+                                                        </asp:GridView>
+                                                    </span>
+                                                </p>
+                                            </fieldset>
+                                        </ContentTemplate>
+                                    </asp:UpdatePanel>
+                                </ContentTemplate>
+                            </cc1:TabPanel>
+                        </cc1:TabContainer>
+                    </asp:Panel>
+                    <asp:Panel ID="Panel_Visualizacao" runat="server" Visible="false">
+                        <fieldset class="formulario2">
+                            <legend>Dados da Nota Fiscal</legend>
+                            <p>
+                                <span class="rotulo">Número da Nota</span> <span style="margin-left: 5px;">
+                                    <asp:Label ID="Label_NumeroNota" runat="server" Text=""></asp:Label>
+                                </span>
+                            </p>
+                            <p>
+                                <span class="rotulo">Data de Recebimento</span> <span style="margin-left: 5px;">
+                                    <asp:Label ID="Label_DataRecebimento" runat="server" Text=""></asp:Label>
+                                </span>
+                            </p>
+                            <p>
+                                <span class="rotulo">Data de Atesto</span> <span style="margin-left: 5px;">
+                                    <asp:Label ID="Label_DataAtesto" runat="server" Text=""></asp:Label>
+                                </span>
+                            </p>
+                            <p>
+                                <span class="rotulo">Responsável pelo Atesto</span> <span style="margin-left: 5px;">
+                                    <asp:Label ID="Label_ResponsavelAtesto" runat="server" Text=""></asp:Label>
+                                </span>
+                            </p>
+                            <p>
+                                <span class="rotulo">Fornecedor</span> <span style="margin-left: 5px;">
+                                    <asp:Label ID="Label_Fornecedor" runat="server" Text=""></asp:Label>
+                                </span>
+                            </p>
+                            <p>
+                                <span class="rotulo">Processo de Origem</span> <span style="margin-left: 5px;">
+                                    <asp:Label ID="Label_ProcessoOrigem" runat="server" Text=""></asp:Label>
+                                </span>
+                            </p>
+                            <p>
+                                <span class="rotulo">Empenho</span> <span style="margin-left: 5px;">
+                                    <asp:Label ID="Label_Empenho" runat="server" Text=""></asp:Label>
+                                </span>
+                            </p>
+                            <p>
+                                <span class="rotulo">AFM</span> <span style="margin-left: 5px;">
+                                    <asp:Label ID="Label_AFM" runat="server" Text=""></asp:Label>
+                                </span>
+                            </p>
+                        </fieldset>
+                    </asp:Panel>
+                </span>
+            </p>
+        </fieldset>
+    </div>
+</asp:Content>

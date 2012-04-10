@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="ViverMais.Model">
+  <class name="ViverMais.Model.Solicitacao" table="AGD_SOLICITACAO">
+    <cache usage="read-write"/>
+    <id name="Codigo">
+        <column name="CO_SOLICITACAO" not-null="true"/>
+        <generator class="sequence">
+            <param name="sequence">AGD_SOLICITACAO_SEQUENCE</param>
+        </generator>
+    </id>
+    <property name="ID_Paciente" column="CO_PACIENTE" />
+    <many-to-one name="Agenda" class="ViverMais.Model.Agenda" column="CO_AGENDA" fetch="join"/>
+    <many-to-one name="UsuarioSolicitante" class="ViverMais.Model.Usuario" column="co_usuario" fetch="join" />
+    <property name="Data_Solicitacao" column="DATA_SOLICITACAO" />
+    <property name="Identificador" column="IDENTIFICADOR" />
+    <property name="Situacao" column="SITUACAO" />
+    <property name="Data_Confirmacao" column="DATA_CONFIRMACAO" />
+    <property name="Qtd" column="QTD" />
+    <property name="Prioridade" column="PRIORIDADE" />
+    <property name="EasSolicitante" column="CNES_SOLICITANTE" />
+    <property name="Observacao" column="OBSERVACAO" />
+    <property name ="JustificativaIndeferimento" column="JUSTIFICATIVA" />
+    <property name="NumeroProtocolo" column="NUMERO_PROTOCOLO" />
+    <many-to-one name="Procedimento" class="ViverMais.Model.Procedimento" column="CO_PROCEDIMENTO" fetch="join"/>
+    <property name="CidSolicitante" column="CO_CID_SOLICITANTE" />
+    <property name="Id_ProfissionalSolicitante" column="CPF_PROF_SOLICITANTE" />
+    <property name="JustificativaDesmarcar" column="JUSTIFICATIVA_DESMARCAR" />
+    <property name="TelefoneContato" column="TELEFONE_CONTATO" />
+    <property name="DataIndeferimento" column="data_indeferimento" />
+    <property name="TipoCotaUtilizada" column="tipo_cota_utilizada" />
+    <many-to-one name="UsuarioRegulador" class="ViverMais.Model.Usuario" column="CO_USUARIO_REGULADOR" fetch="join" />
+    <many-to-one name="PactoReferenciaSaldo" class="ViverMais.Model.PactoReferenciaSaldo" column="ID_PACTO_AGREG_REF_SALDO" fetch="join" />
+    <many-to-one name="PactoAbrangenciaAgregado" column="ID_PACTO_ABRANG_AGREGADO" class="ViverMais.Model.PactoAbrangenciaAgregado" fetch="join"/>
+    <many-to-one name="CidExecutante" column="CO_CID_EXECUTANTE" class="ViverMais.Model.Cid" fetch="join"/>
+    <property name="Prontuario" column="co_prontuario" />
+  </class>
+</hibernate-mapping>

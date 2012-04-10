@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Menu>
+  <div class="menu-barra-module" style="background: url('URLPART/Vacina/img/barramenu.png' ) no-repeat;">
+    <div style="margin-top: 8px; margin-left: 14px">
+      <ul class="menu2" id="menu">
+        <li>
+          <a href="#" class="menulink">Administração</a>
+          <ul>
+            <li>
+              <a href="FormExibeDoenca.aspx">Doença</a>
+            </li>
+            <li>
+              <a href="FormExibeFabricante.aspx">Fabricante</a>
+            </li>
+            <li>
+              <a href="FormExibeVacina.aspx">Imunobiológico</a>
+            </li>
+            <li>
+              <a href="FormExibirPesquisarLote.aspx">Lote de Imunobiológico</a>
+            </li>
+            <li Permissao="MANTER_PARAMETRIZACAO_VACINA">
+              <a href="FormParametrizarVacina.aspx">Parametrização</a>
+            </li>
+            <li>
+              <a href="FormExibeSalaVacina.aspx">Sala de Vacina</a>
+            </li>
+            <li Permissao="MANTER_UNIDADE_MEDIDA_VACINA">
+              <a href="FormExibeUnidadeMedidaVacina.aspx">Unidade de Medida</a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="#" class="menulink">Movimento</a>
+          <ul>
+            <li Permissao="MANTER_CARTAO_VACINA">
+              <a href="FormPesquisaPaciente.aspx?tipo=cartao">Cartão de Vacina</a>
+            </li>
+            <li>
+              <a href="#" class="sub">Dispensação</a>
+              <ul>
+                <li Permissao="PESQUISAR_DISPENSACAO" class="topline">
+                  <a href="FormPesquisaPaciente.aspx?tipo=pesquisardispensacao">Pesquisar</a>
+                </li>
+                <li Permissao="DISPENSACAO_VACINA">
+                  <a href="FormPesquisaPaciente.aspx?tipo=dispensacao">Vacinação</a>
+                </li>
+              </ul>
+            </li>
+            <li Permissao="CONSULTAR_ESTOQUE_VACINA">
+              <a href="FormConsultarEstoque.aspx">Consultar Estoque</a>
+            </li>
+            <PermissaoEspecial Nome="INVENTARIO">
+              <li>
+                <a href="FormInventario.aspx">Inventário</a>
+              </li>
+            </PermissaoEspecial>
+            <li>
+              <a href="#" class="sub">Movimentação de Imunobiológicos</a>
+              <ul>
+                <PermissaoEspecial Nome="NOVAMOVIMENTACAO">
+                  <li class="topline">
+                    <a href="FormEscolheDadosMovimentacao.aspx">Nova</a>
+                  </li>
+                </PermissaoEspecial>
+                <li Permissao="PESQUISAR_MOVIMENTACAO">
+                  <a href="FormPesquisarMovimentacao.aspx">Pesquisar</a>
+                </li>
+                <li>
+                  <a href="#" class="sub">Remanejamento</a>
+                  <ul>
+                    <li Permissao="RECEBER_REMANEJAMENTO">
+                      <a href="FormReceberRemanejamento.aspx">Receber</a>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <PermissaoEspecial Nome="RELATORIOS">
+          <li>
+            <a href="FormRelatoriosVacina.aspx" class="menulink">Relatórios</a>
+          </li>
+        </PermissaoEspecial>
+      </ul>
+    </div>
+  </div>
+</Menu>

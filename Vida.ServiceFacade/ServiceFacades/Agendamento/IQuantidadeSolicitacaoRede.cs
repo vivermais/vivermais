@@ -1,0 +1,13 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace ViverMais.ServiceFacade.ServiceFacades.Agendamento
+{
+    public interface IQuantidadeSolicitacaoRede : IAgendamentoServiceFacade
+    {
+        //object BuscaQuantidadeSolicitacoes(string competencia, string co_procedimento, string co_cbo, string cnes);
+        T BuscaQuantidade<T>(string competencia, string co_procedimento, string co_cbo, string cnes, int co_subgrupo);
+    }
+}

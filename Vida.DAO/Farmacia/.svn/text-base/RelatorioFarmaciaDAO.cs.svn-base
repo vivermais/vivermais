@@ -1,0 +1,119 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Collections;
+using Vida.ServiceFacade.ServiceFacades.Farmacia;
+using Vida.Model;
+using Vida.ServiceFacade.ServiceFacades;
+using Vida.ServiceFacade.ServiceFacades.EstabelecimentoSaude;
+
+namespace Vida.DAO.Farmacia
+{
+    public class RelatorioFarmaciaDAO : FarmaciaServiceFacadeDAO, IRelatorioFarmacia
+    {
+
+        #region IRelatorioFarmacia Members
+
+        IList IRelatorioFarmacia.ObterMovimentacaoDiaria(DateTime data, int codigoFarmacia)
+        {
+            string hql =
+               "select item.LoteMedicamento.Medicamento.Nome, item.LoteMedicamento.Medicamento.UnidadeMedida.Sigla, sum(item.QtdDispensada) " +
+               " from Vida.Model.ItensDispensacao item " +
+               " where item.Farmacia.Codigo=" + codigoFarmacia + " and " +
+               " item.DataAtendimento='" + data.ToString("yyyy-MM-dd") + "' " +
+               " group by item.LoteMedicamento.Medicamento.Nome, item.LoteMedicamento.Medicamento.UnidadeMedida.Sigla";
+            return Session.CreateQuery(hql).List();
+        }
+
+        IList<T> IRelatorioFarmacia.ObterRelatorioPosicaoEstoqueLote<T>(int codigoFarmacia)
+        {
+            string hql =
+                "from Vida.Model.Estoque estoque " +
+                " where estoque.Farmacia.Codigo=" + codigoFarmacia +
+                " and estoque.QuantidadeEstoque > 0" +
+                " order by estoque.LoteMedicamento.Medicamento.Nome";
+            return Session.CreateQuery(hql).List<T>();
+        }
+
+        IList<T> IRelatorioFarmacia.ObterRelatorioLotesAVencer<T>(int codigoFarmacia, DateTime data) 
+        {
+            string hql =
+                "from Vida.Model.Estoque estoque " +
+                " where estoque.Farmacia.Codigo=" + codigoFarmacia +
+                " and estoque.LoteMedicamento.Validade='" + data.ToString("yyyy-MM-dd") + "'"+
+                " order by estoque.LoteMedicamento.Validade, estoque.LoteMedicamento.Medicamento.Nome";
+            return Session.CreateQuery(hql).List<T>();
+        }
+
+        IList IRelatorioFarmacia.ObterRelatorioConsumoMedioMensal(int codigoFarmacia, DateTime dataInicial, DateTime dataFinal)
+        {
+            string hql =
+               "select item.LoteMedicamento.Medicamento.Nome, sum(item.QtdDispensada) " +
+               " from Vida.Model.ItensDispensacao item " +
+               " where item.Farmacia.Codigo=" + codigoFarmacia + " and " +
+               " item.DataAtendimento between '" + dataInicial.ToString("yyyy-MM-dd") + "' and '" + dataFinal.ToString("yyyy-MM-dd") + "' " +
+               " group by item.LoteMedicamento.Medicamento.Nome order by item.LoteMedicamento.Medicamento.Nome";
+            return Session.CreateQuery(hql).List();
+        }
+
+        IList IRelatorioFarmacia.ObterRelatorioProducaoUsuario(int codigoUsuario, DateTime data)
+        {
+            string hql =
+               "select item.LoteMedicamento.Medicamento.Nome, sum(item.QtdDispensada) " +
+               " from Vida.Model.ItensDispensacao item " +
+               " where item.CodigoUsuario=" + codigoUsuario + " and " +
+               " item.DataAtendimento=" + data.ToString("yyyy-MM-dd") + "' " +
+               " group by item.LoteMedicamento.Medicamento.Nome";
+            return Session.CreateQuery(hql).List();
+        }
+
+        IList IRelatorioFarmacia.ObterRelatorioConsolidadoRM(int codigoDistrito, int mes, int ano)
+        {
+            string hql =
+               "select item.LoteMedicamento.Medicamento.Nome, item.LoteMedicamento.Medicamento.UnidadeMedida.Sigla, sum(item.QtdFornecida), sum(item.QtdPedida), item.Requisicao.Farmacia.CodigoUnidade" +
+               " from Vida.Model.ItensRequisicao item " +
+               " where month(item.Requisicao.DataRequisicao)="+mes +
+               " and year(item.Requisicao.DataRequisicao)="+ano+
+               " group by item.LoteMedicamento.Medicamento.Nome, item.LoteMedicamento.Medicamento.UnidadeMedida.Sigla, item.Requisicao.Farmacia.CodigoUnidade " +
+               " order by item.LoteMedicamento.Medicamento.Nome";
+            IList result = Session.CreateQuery(hql).List();
+            IList resultFinal = new ArrayList();
+            IList<Vida.Model.EstabelecimentoSaude> unidades = Factory.GetInstance<IEstabelecimentoSaude>().BuscarUnidadeDistrito<Vida.Model.EstabelecimentoSaude>(codigoDistrito);
+            IList unids = new ArrayList();
+            foreach (Vida.Model.EstabelecimentoSaude item in unidades)
+            {
+                unids.Add(item.CNES);
+            }
+            foreach (object item in result)
+            {
+                object[] valor = (object[])item;
+                if (valor[4] != null && unids.Contains(valor[4].ToString()))
+                    resultFinal.Add(item);
+            }
+            return resultFinal;
+        }
+
+        IList IRelatorioFarmacia.ObterRelatorioNotaFiscalLote(int codigoLoteMedicamento)
+        {
+            string hql =
+               "select item.NotaFiscal.NumeroNotaFiscal, item.NotaFiscal.DataRecebimento, item.NotaFiscal.Fornecedor.RazaoSocial, item.NotaFiscal.Empenho " +
+               " from Vida.Model.ItemNotaFiscal item " +
+               " where item.LoteMedicamento.Codigo=" + codigoLoteMedicamento +
+               " order by item.NotaFiscal.DataRecebimento";
+            return Session.CreateQuery(hql).List();
+        }
+
+        IList IRelatorioFarmacia.ObterRelatorioValorUnitarioMedicamento(DateTime dataInicio, DateTime dataFim)
+        {
+            string hql =
+               "select item.LoteMedicamento.Medicamento.Nome, item.ValorUnitario, item.Quantidade " +
+               " from Vida.Model.ItemNotaFiscal item " +
+               " where item.NotaFiscal.DataRecebimento between '" + dataInicio.ToString("yyyy-MM-dd") + "' and '" + dataFim.ToString("yyyy-MM-dd") + "'" +
+               " order by item.NotaFiscal.DataRecebimento";
+            return Session.CreateQuery(hql).List();
+        }
+
+        #endregion
+    }
+}

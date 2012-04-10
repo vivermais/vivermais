@@ -1,0 +1,44 @@
+﻿body
+{
+}
+
+.forms {
+	background-color: #e2f9ff;
+	font-family: Verdana, Geneva, sans-serif;
+	font-size: 11px;
+	color: #204756;
+	border: 1px solid #577f98;
+	height: 18px;
+	margin: 0px;
+}
+
+.botao {
+	font-family: Verdana, Geneva, sans-serif;
+	font-size: 11px;
+	color: #FFF;
+	background-color: #185968;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: none;
+	border-left-style: none;
+	padding: 4px;
+}
+
+
+
+.texto {
+	font-family: Verdana, Geneva, sans-serif;
+	font-size: 12px;
+	color: #386576;
+}
+.textonoticia {
+	font-family: Verdana, Geneva, sans-serif;
+	font-size: 11px;
+	color: #0c0c0c;
+}
+
+
+.formesp 
+{
+    margin-bottom:5px;
+}

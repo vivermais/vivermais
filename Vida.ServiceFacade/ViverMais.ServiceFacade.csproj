@@ -1,0 +1,247 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{E0DB8510-1A5F-44BD-B865-88AA26B02C3E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Vida.ServiceFacade</RootNamespace>
+    <AssemblyName>Vida.ServiceFacade</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=12.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" />
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AbstractFactory.cs" />
+    <Compile Include="ServiceFacades\Agendamento\Agenda\IAmbulatorial.cs" />
+    <Compile Include="ServiceFacades\Agendamento\IFaixaUtilizada.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ServiceFacades\Agendamento\IGrupoAbrangenciaMunicipio.cs" />
+    <Compile Include="ServiceFacades\Agendamento\IPactoAbrangenciaAgregado.cs" />
+    <Compile Include="ServiceFacades\Agendamento\IPactoAbrangencia.cs" />
+    <Compile Include="ServiceFacades\Agendamento\IAfastamentoEAS.cs" />
+    <Compile Include="ServiceFacades\Agendamento\IAfastamentoProfissional.cs" />
+    <Compile Include="ServiceFacades\Agendamento\IFaixaProcedimento.cs" />
+    <Compile Include="ServiceFacades\Agendamento\IGrupoAbrangencia.cs" />
+    <Compile Include="ServiceFacades\Agendamento\IListaProcura.cs" />
+    <Compile Include="ServiceFacades\Agendamento\IPactoAgregadoProcedCbo.cs" />
+    <Compile Include="ServiceFacades\Agendamento\ILaudo.cs" />
+    <Compile Include="ServiceFacades\Agendamento\IPactoReferenciaSaldo.cs" />
+    <Compile Include="ServiceFacades\Agendamento\IParametrizacaoFPO.cs" />
+    <Compile Include="ServiceFacades\Agendamento\IProcedimentoAgregado.cs" />
+    <Compile Include="ServiceFacades\Agendamento\IPacto.cs" />
+    <Compile Include="ServiceFacades\Agendamento\IProgramaDeSaude.cs" />
+    <Compile Include="ServiceFacades\Agendamento\IProgramaDeSaudeProcedimentoCBO.cs" />
+    <Compile Include="ServiceFacades\Agendamento\IProgramaDeSaudeUnidade.cs" />
+    <Compile Include="ServiceFacades\Agendamento\IQuantidadeSolicitacaoRede.cs" />
+    <Compile Include="ServiceFacades\Agendamento\IRelatorioAgendamento.cs" />
+    <Compile Include="ServiceFacades\Agendamento\ISubGrupoProcedimentoCbo.cs" />
+    <Compile Include="ServiceFacades\Agendamento\IUnidade.cs" />
+    <Compile Include="ServiceFacades\Agregado\IAgregado.cs" />
+    <Compile Include="ServiceFacades\Agendamento\ITipoSolicitacaoEstabelecimento.cs" />
+    <Compile Include="ServiceFacades\Agendamento\ISubTipoVinculacao.cs" />
+    <Compile Include="ServiceFacades\Agendamento\ITipoVinculacao.cs" />
+    <Compile Include="ServiceFacades\Agendamento\IPreparo.cs" />
+    <Compile Include="ServiceFacades\Agendamento\ITipoProcedimento.cs" />
+    <Compile Include="ServiceFacades\Agendamento\ISolicitacao.cs" />
+    <Compile Include="ServiceFacades\Agendamento\IFatura.cs" />
+    <Compile Include="ServiceFacades\Agendamento\IParametroAgendaEspecifica.cs" />
+    <Compile Include="ServiceFacades\Agendamento\IParametroAgendaDistrital.cs" />
+    <Compile Include="ServiceFacades\Agendamento\IParametroAgenda.cs" />
+    <Compile Include="ServiceFacades\Agendamento\IFeriado.cs" />
+    <Compile Include="ServiceFacades\Agregado\Misc\IGrupoAgregado.cs" />
+    <Compile Include="ServiceFacades\Agregado\Misc\ISubGrupoAgregado.cs" />
+    <Compile Include="ServiceFacades\AtendimentoMedico\Urgencia\IFaturaBPAUrgencia.cs" />
+    <Compile Include="ServiceFacades\AtendimentoMedico\Misc\ICameraIP.cs" />
+    <Compile Include="ServiceFacades\AtendimentoMedico\Misc\IControleExameUrgence.cs" />
+    <Compile Include="ServiceFacades\AtendimentoMedico\Misc\IControlePrescricaoUrgence.cs" />
+    <Compile Include="ServiceFacades\AtendimentoMedico\Misc\IFaixaEtaria.cs" />
+    <Compile Include="ServiceFacades\AtendimentoMedico\Misc\ILogUrgencia.cs" />
+    <Compile Include="ServiceFacades\AtendimentoMedico\Urgencia\IAprazamento.cs" />
+    <Compile Include="ServiceFacades\AtendimentoMedico\Urgencia\IExame.cs" />
+    <Compile Include="ServiceFacades\AtendimentoMedico\Urgencia\IPrescricao.cs" />
+    <Compile Include="ServiceFacades\AtendimentoMedico\Urgencia\IEvolucaoMedica.cs" />
+    <Compile Include="ServiceFacades\AtendimentoMedico\Urgencia\IItemPA.cs" />
+    <Compile Include="ServiceFacades\AtendimentoMedico\Urgencia\IKitPA.cs" />
+    <Compile Include="ServiceFacades\AtendimentoMedico\Urgencia\IProcedimentoNaoFaturavel.cs" />
+    <Compile Include="ServiceFacades\AtendimentoMedico\Urgencia\IRelatorioUrgencia.cs" />
+    <Compile Include="ServiceFacades\AtendimentoMedico\Urgencia\IPacienteUrgence.cs" />
+    <Compile Include="ServiceFacades\AtendimentoMedico\Urgencia\IUsuarioProfissionalUrgence.cs" />
+    <Compile Include="ServiceFacades\AtendimentoMedico\Urgencia\IVagaUrgencia.cs" />
+    <Compile Include="ServiceFacades\IAtendimentoServiceFacade.cs" />
+    <Compile Include="ServiceFacades\Atendimento\Misc\IRegistroEletronicoAtendimento.cs" />
+    <Compile Include="ServiceFacades\BPA\IEnviarBPA.cs" />
+    <Compile Include="ServiceFacades\Farmacia\Dispensacao\IReceitaDispensacao.cs" />
+    <Compile Include="ServiceFacades\ILaboratorioServiceFacade.cs" />
+    <Compile Include="ServiceFacades\ISenhador.cs" />
+    <Compile Include="ServiceFacades\IVacinaServiceFacade.cs" />
+    <Compile Include="ServiceFacades\Farmacia\Dispensacao\IDispensacao.cs" />
+    <Compile Include="ServiceFacades\Farmacia\Misc\IUsuarioDistritoFarmacia.cs" />
+    <Compile Include="ServiceFacades\Farmacia\Misc\IFarmacia.cs" />
+    <Compile Include="ServiceFacades\Farmacia\Movimentacao\IMovimentacao.cs" />
+    <Compile Include="ServiceFacades\Farmacia\Movimentacao\IRequisicaoMedicamento.cs" />
+    <Compile Include="ServiceFacades\Farmacia\Movimentacao\IEstoque.cs" />
+    <Compile Include="ServiceFacades\Farmacia\Inventario\IInventario.cs" />
+    <Compile Include="ServiceFacades\Farmacia\IRelatorioFarmacia.cs" />
+    <Compile Include="ServiceFacades\Farmacia\Medicamento\IFornecedorMedicamento.cs" />
+    <Compile Include="ServiceFacades\Farmacia\Medicamento\ILoteMedicamento.cs" />
+    <Compile Include="ServiceFacades\Farmacia\Medicamento\IMedicamento.cs" />
+    <Compile Include="ServiceFacades\Farmacia\Medicamento\Misc\ISubElencoMedicamento.cs" />
+    <Compile Include="ServiceFacades\Farmacia\Medicamento\Misc\IElencoMedicamento.cs" />
+    <Compile Include="ServiceFacades\Farmacia\Medicamento\Misc\IUnidadeMedidaMedicamento.cs" />
+    <Compile Include="ServiceFacades\Farmacia\Misc\ISetor.cs" />
+    <Compile Include="ServiceFacades\Farmacia\NotaFiscal\INotaFiscal.cs" />
+    <Compile Include="ServiceFacades\IAgendamentoServiceFacade.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceFacades\Agendamento\IFaixa.cs" />
+    <Compile Include="ServiceFacades\Agendamento\IFPO.cs" />
+    <Compile Include="ServiceFacades\AtendimentoMedico\Urgencia\IEvolucaoEnfermagem.cs" />
+    <Compile Include="ServiceFacades\AtendimentoMedico\Urgencia\IProntuario.cs" />
+    <Compile Include="ServiceFacades\IFarmaciaServiceFacade.cs" />
+    <Compile Include="ServiceFacades\IUrgenciaServiceFacade.cs" />
+    <Compile Include="ServiceFacades\EstabelecimentoSaude\IEstabelecimentoSaude.cs" />
+    <Compile Include="ServiceFacades\EstabelecimentoSaude\Misc\IDesativacaoEstabelecimento.cs" />
+    <Compile Include="ServiceFacades\EstabelecimentoSaude\Misc\ISituacaoEstabelecimento.cs" />
+    <Compile Include="ServiceFacades\EstabelecimentoSaude\Misc\ITipoEstabelecimentoSaude.cs" />
+    <Compile Include="ServiceFacades\IServiceFacade.cs" />
+    <Compile Include="ServiceFacades\IVidaServiceFacade.cs" />
+    <Compile Include="ServiceFacades\Laboratorio\IExameLaboratorio.cs" />
+    <Compile Include="ServiceFacades\Laboratorio\IPacienteLaboratorio.cs" />
+    <Compile Include="ServiceFacades\Laboratorio\ISolicitanteExameLaboratorio.cs" />
+    <Compile Include="ServiceFacades\Localidade\IBairro.cs" />
+    <Compile Include="ServiceFacades\Localidade\IDistrito.cs" />
+    <Compile Include="ServiceFacades\Localidade\IEndereco.cs" />
+    <Compile Include="ServiceFacades\Localidade\ILogradouro.cs" />
+    <Compile Include="ServiceFacades\Localidade\IMunicipio.cs" />
+    <Compile Include="ServiceFacades\Misc\ILogEventos.cs" />
+    <Compile Include="ServiceFacades\Misc\IServicoSaude.cs" />
+    <Compile Include="ServiceFacades\Paciente\IPaciente.cs" />
+    <Compile Include="ServiceFacades\Procedimento\IProcedimento.cs" />
+    <Compile Include="ServiceFacades\Procedimento\Misc\ICBO.cs" />
+    <Compile Include="ServiceFacades\Procedimento\Misc\IGrupoCBO.cs" />
+    <Compile Include="ServiceFacades\Procedimento\Misc\IRegistro.cs" />
+    <Compile Include="ServiceFacades\Procedimento\Misc\ICid.cs" />
+    <Compile Include="ServiceFacades\Procedimento\Misc\IForma.cs" />
+    <Compile Include="ServiceFacades\Procedimento\Misc\IGrupo.cs" />
+    <Compile Include="ServiceFacades\Procedimento\Misc\ISubGrupo.cs" />
+    <Compile Include="ServiceFacades\Profissional\IProfissionalSolicitante.cs" />
+    <Compile Include="ServiceFacades\Profissional\IProfissional.cs" />
+    <Compile Include="ServiceFacades\Profissional\Misc\IOrgaoEmissor.cs" />
+    <Compile Include="ServiceFacades\Profissional\Misc\IArea.cs" />
+    <Compile Include="ServiceFacades\Profissional\Misc\IEquipe.cs" />
+    <Compile Include="ServiceFacades\Profissional\Misc\IVinculo.cs" />
+    <Compile Include="ServiceFacades\Relatorio\IRelatorioCNS.cs" />
+    <Compile Include="ServiceFacades\Relatorio\IRelatorioGenerico.cs" />
+    <Compile Include="ServiceFacades\Seguranca\IPerfil.cs" />
+    <Compile Include="ServiceFacades\Seguranca\IUsuario.cs" />
+    <Compile Include="ServiceFacades\Seguranca\ISeguranca.cs" />
+    <Compile Include="ServiceFacades\Senhador\ISenhaSenhador.cs" />
+    <Compile Include="ServiceFacades\Senhador\IServicoSenhador.cs" />
+    <Compile Include="ServiceFacades\SiteVida\INewsLetterServiceFacade.cs" />
+    <Compile Include="ServiceFacades\Vacina\IRelatorioVacina.cs" />
+    <Compile Include="ServiceFacades\Vacina\Misc\IEstrategiaImunobiologico.cs" />
+    <Compile Include="ServiceFacades\Vacina\Misc\IDoencaVacina.cs" />
+    <Compile Include="ServiceFacades\Vacina\Misc\IItemVacina.cs" />
+    <Compile Include="ServiceFacades\Vacina\Misc\IItemDoseVacina.cs" />
+    <Compile Include="ServiceFacades\Vacina\Misc\IEstoque.cs" />
+    <Compile Include="ServiceFacades\Vacina\Misc\ICartaoVacina.cs" />
+    <Compile Include="ServiceFacades\Vacina\Misc\ILoteVacina.cs" />
+    <Compile Include="ServiceFacades\Vacina\Misc\IDispensacao.cs" />
+    <Compile Include="ServiceFacades\Vacina\Misc\IItemInventarioVacina.cs" />
+    <Compile Include="ServiceFacades\Vacina\Misc\ICampanhaVacinacao.cs" />
+    <Compile Include="ServiceFacades\Vacina\Misc\IDoseVacina.cs" />
+    <Compile Include="ServiceFacades\Vacina\Misc\IMotivoMovimentoVacina.cs" />
+    <Compile Include="ServiceFacades\Vacina\Misc\IParametrizacaoVacina.cs" />
+    <Compile Include="ServiceFacades\Vacina\Misc\IFabricanteVacina.cs" />
+    <Compile Include="ServiceFacades\Vacina\Misc\ISalaVacina.cs" />
+    <Compile Include="ServiceFacades\Vacina\Misc\IVacina.cs" />
+    <Compile Include="ServiceFacades\Vacina\Movimentacao\IEstoqueVacina.cs" />
+    <Compile Include="ServiceFacades\Vacina\Movimentacao\IInventarioVacina.cs" />
+    <Compile Include="ServiceFacades\Vacina\Movimentacao\IMovimentoVacina.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ServiceFacades\Vacina\Misc\.svn\entries" />
+    <None Include="ServiceFacades\Vacina\Misc\.svn\format" />
+    <None Include="ServiceFacades\Vacina\Misc\.svn\text-base\ICampanhaVacinacao.cs.svn-base" />
+    <None Include="ServiceFacades\Vacina\Misc\.svn\text-base\ICartaoVacina.cs.svn-base" />
+    <None Include="ServiceFacades\Vacina\Misc\.svn\text-base\IDispensacao.cs.svn-base" />
+    <None Include="ServiceFacades\Vacina\Misc\.svn\text-base\IDoencaVacina.cs.svn-base" />
+    <None Include="ServiceFacades\Vacina\Misc\.svn\text-base\IDoseVacina.cs.svn-base" />
+    <None Include="ServiceFacades\Vacina\Misc\.svn\text-base\IEstoque.cs.svn-base" />
+    <None Include="ServiceFacades\Vacina\Misc\.svn\text-base\IEstrategiaImunobiologico.cs.svn-base" />
+    <None Include="ServiceFacades\Vacina\Misc\.svn\text-base\IFabricanteVacina.cs.svn-base" />
+    <None Include="ServiceFacades\Vacina\Misc\.svn\text-base\IItemDoseVacina.cs.svn-base" />
+    <None Include="ServiceFacades\Vacina\Misc\.svn\text-base\IItemInventarioVacina.cs.svn-base" />
+    <None Include="ServiceFacades\Vacina\Misc\.svn\text-base\IItemVacina.cs.svn-base" />
+    <None Include="ServiceFacades\Vacina\Misc\.svn\text-base\ILoteVacina.cs.svn-base" />
+    <None Include="ServiceFacades\Vacina\Misc\.svn\text-base\IParametrizacaoVacina.cs.svn-base" />
+    <None Include="ServiceFacades\Vacina\Misc\.svn\text-base\ISalaVacina.cs.svn-base" />
+    <None Include="ServiceFacades\Vacina\Misc\.svn\text-base\IVacina.cs.svn-base" />
+    <None Include="ServiceFacades\Vacina\Misc\.svn\tmp\tempfile.tmp" />
+    <None Include="ServiceFacades\Vacina\Movimentacao\.svn\entries" />
+    <None Include="ServiceFacades\Vacina\Movimentacao\.svn\format" />
+    <None Include="ServiceFacades\Vacina\Movimentacao\.svn\text-base\IDispensacao.cs.svn-base" />
+    <None Include="ServiceFacades\Vacina\Movimentacao\.svn\text-base\IEstoqueVacina.cs.svn-base" />
+    <None Include="ServiceFacades\Vacina\Movimentacao\.svn\text-base\IInventarioVacina.cs.svn-base" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ServiceFacades\GuiaProcedimentos\" />
+    <Folder Include="ServiceFacades\Vacina\Misc\.svn\prop-base\" />
+    <Folder Include="ServiceFacades\Vacina\Misc\.svn\props\" />
+    <Folder Include="ServiceFacades\Vacina\Misc\.svn\tmp\prop-base\" />
+    <Folder Include="ServiceFacades\Vacina\Misc\.svn\tmp\props\" />
+    <Folder Include="ServiceFacades\Vacina\Misc\.svn\tmp\text-base\" />
+    <Folder Include="ServiceFacades\Vacina\Movimentacao\.svn\prop-base\" />
+    <Folder Include="ServiceFacades\Vacina\Movimentacao\.svn\props\" />
+    <Folder Include="ServiceFacades\Vacina\Movimentacao\.svn\tmp\prop-base\" />
+    <Folder Include="ServiceFacades\Vacina\Movimentacao\.svn\tmp\props\" />
+    <Folder Include="ServiceFacades\Vacina\Movimentacao\.svn\tmp\text-base\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,32 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace Vida.ServiceFacade.ServiceFacades.Farmacia.Movimentacao
+{
+    public interface IRequisicaoMedicamento : IFarmaciaServiceFacade
+    {
+        IList<T> BuscarPorFarmacia<T>(int co_farmacia, int codstatus);
+
+        IList<T> BuscarPorDistrito<T>(int co_distrito);
+
+        IList<T> BuscarItensRequisicao<T>(int co_requisicao);
+
+        IList<T> ListarAutorizadas<T>();
+
+        IList<T> ListarAutorizadas<T>(int co_farmacia);
+
+        int CalculaConsumoDispensacao(DateTime dataInicial, DateTime dataFinal, int co_medicamento, int co_farmacia);
+
+        int CalculaConsumoMovimentacao(DateTime dataInicial, DateTime dataFinal, int co_medicamento, int co_farmacia);
+
+        int BuscarSaldoAtual(int co_medicamento, int co_farmacia);
+
+        DateTime BuscarDataUltimaRequisicao();
+
+        void AlterarItemRequisicao<T>(T item, int qtdFornecidaAnterior, int co_loteMedicamento);
+
+        IList<T> PesquisarRequisicao<T>(int co_farmacia, DateTime dataabertura, int numerorequisicao, int status);
+    }
+}

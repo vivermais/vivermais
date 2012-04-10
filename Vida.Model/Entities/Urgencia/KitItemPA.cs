@@ -1,0 +1,65 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace ViverMais.Model
+{
+    [Serializable]
+    public class KitItemPA
+    {
+        private long codigo;
+        public virtual long Codigo
+        {
+            get { return codigo; }
+            set { codigo = value; }
+        }
+
+        private KitPA kitpa;
+        public virtual KitPA KitPA
+        {
+            get { return kitpa; }
+            set { kitpa = value; }
+        }
+
+        private ItemPA itempa;
+        public virtual ItemPA ItemPA
+        {
+            get { return itempa; }
+            set { itempa = value; }
+        }
+
+        private int quantidade;
+
+        public virtual int Quantidade
+        {
+            get { return quantidade; }
+            set { quantidade = value; }
+        }
+
+        public override bool Equals(object obj)
+        {
+            return this.KitPA.Codigo == ((KitItemPA)obj).KitPA.Codigo &&
+                   this.ItemPA.Codigo == ((KitItemPA)obj).ItemPA.Codigo;
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode() * 87;
+        }
+
+        public KitItemPA()
+        {
+        }
+
+        public virtual string NomeItem
+        {
+            get { return ItemPA.Nome; }
+        }
+
+        public virtual int CodigoItem 
+        {
+            get { return ItemPA.Codigo; }
+        }
+    }
+}

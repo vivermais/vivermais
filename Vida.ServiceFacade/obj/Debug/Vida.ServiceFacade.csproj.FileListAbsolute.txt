@@ -1,0 +1,21 @@
+L:\SISTEMAS\VIDA\Vida.ServiceFacade\bin\Debug\Vida.ServiceFacade.dll
+L:\SISTEMAS\VIDA\Vida.ServiceFacade\bin\Debug\Vida.ServiceFacade.pdb
+L:\SISTEMAS\VIDA\Vida.ServiceFacade\obj\Debug\ResolveAssemblyReference.cache
+L:\SISTEMAS\VIDA\Vida.ServiceFacade\obj\Debug\Vida.ServiceFacade.dll
+L:\SISTEMAS\VIDA\Vida.ServiceFacade\obj\Debug\Vida.ServiceFacade.pdb
+L:\lucas01\SISTEMAS\VIDA\Vida.ServiceFacade\bin\Debug\Vida.ServiceFacade.dll
+L:\lucas01\SISTEMAS\VIDA\Vida.ServiceFacade\bin\Debug\Vida.ServiceFacade.pdb
+L:\lucas01\SISTEMAS\VIDA\Vida.ServiceFacade\bin\Debug\Microsoft.Office.Interop.Excel.dll
+L:\lucas01\SISTEMAS\VIDA\Vida.ServiceFacade\bin\Debug\Microsoft.Vbe.Interop.dll
+L:\lucas01\SISTEMAS\VIDA\Vida.ServiceFacade\bin\Debug\office.dll
+L:\lucas01\SISTEMAS\VIDA\Vida.ServiceFacade\obj\Debug\ResolveAssemblyReference.cache
+L:\lucas01\SISTEMAS\VIDA\Vida.ServiceFacade\obj\Debug\Vida.ServiceFacade.dll
+L:\lucas01\SISTEMAS\VIDA\Vida.ServiceFacade\obj\Debug\Vida.ServiceFacade.pdb
+C:\Documents and Settings\lucassantos\vivermais\Vida.ServiceFacade\bin\Debug\Vida.ServiceFacade.dll
+C:\Documents and Settings\lucassantos\vivermais\Vida.ServiceFacade\bin\Debug\Vida.ServiceFacade.pdb
+C:\Documents and Settings\lucassantos\vivermais\Vida.ServiceFacade\bin\Debug\Microsoft.Office.Interop.Excel.dll
+C:\Documents and Settings\lucassantos\vivermais\Vida.ServiceFacade\bin\Debug\Microsoft.Vbe.Interop.dll
+C:\Documents and Settings\lucassantos\vivermais\Vida.ServiceFacade\bin\Debug\office.dll
+C:\Documents and Settings\lucassantos\vivermais\Vida.ServiceFacade\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\lucassantos\vivermais\Vida.ServiceFacade\obj\Debug\Vida.ServiceFacade.dll
+C:\Documents and Settings\lucassantos\vivermais\Vida.ServiceFacade\obj\Debug\Vida.ServiceFacade.pdb

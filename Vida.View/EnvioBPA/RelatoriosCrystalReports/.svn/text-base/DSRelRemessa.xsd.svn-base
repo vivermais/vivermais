@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DSRelRemessa" targetNamespace="http://tempuri.org/DSRelRemessa.xsd" xmlns:mstns="http://tempuri.org/DSRelRemessa.xsd" xmlns="http://tempuri.org/DSRelRemessa.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DSRelRemessa" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_UserDSName="DSRelRemessa" msprop:Generator_DataSetName="DSRelRemessa" msprop:EnableTableAdapterManager="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="corpo" msprop:Generator_UserTableName="corpo" msprop:Generator_RowDeletedName="corpoRowDeleted" msprop:Generator_RowChangedName="corpoRowChanged" msprop:Generator_RowClassName="corpoRow" msprop:Generator_RowChangingName="corpoRowChanging" msprop:Generator_RowEvArgName="corpoRowChangeEvent" msprop:Generator_RowEvHandlerName="corpoRowChangeEventHandler" msprop:Generator_TableClassName="corpoDataTable" msprop:Generator_TableVarName="tablecorpo" msprop:Generator_RowDeletingName="corpoRowDeleting" msprop:Generator_TablePropName="corpo">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="competencia" msprop:Generator_UserColumnName="competencia" msprop:Generator_ColumnVarNameInTable="columncompetencia" msprop:Generator_ColumnPropNameInRow="competencia" msprop:Generator_ColumnPropNameInTable="competenciaColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="unidaderesponsavel" msprop:Generator_UserColumnName="unidaderesponsavel" msprop:Generator_ColumnVarNameInTable="columnunidaderesponsavel" msprop:Generator_ColumnPropNameInRow="unidaderesponsavel" msprop:Generator_ColumnPropNameInTable="unidaderesponsavelColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="unidadesigla" msprop:Generator_UserColumnName="unidadesigla" msprop:Generator_ColumnVarNameInTable="columnunidadesigla" msprop:Generator_ColumnPropNameInRow="unidadesigla" msprop:Generator_ColumnPropNameInTable="unidadesiglaColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="unidadecgccpf" msprop:Generator_UserColumnName="unidadecgccpf" msprop:Generator_ColumnVarNameInTable="columnunidadecgccpf" msprop:Generator_ColumnPropNameInRow="unidadecgccpf" msprop:Generator_ColumnPropNameInTable="unidadecgccpfColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="arquivogerado" msprop:Generator_UserColumnName="arquivogerado" msprop:Generator_ColumnVarNameInTable="columnarquivogerado" msprop:Generator_ColumnPropNameInRow="arquivogerado" msprop:Generator_ColumnPropNameInTable="arquivogeradoColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="numeroregistro" msprop:Generator_UserColumnName="numeroregistro" msprop:Generator_ColumnVarNameInTable="columnnumeroregistro" msprop:Generator_ColumnPropNameInRow="numeroregistro" msprop:Generator_ColumnPropNameInTable="numeroregistroColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="campocontrole" msprop:Generator_UserColumnName="campocontrole" msprop:Generator_ColumnVarNameInTable="columncampocontrole" msprop:Generator_ColumnPropNameInRow="campocontrole" msprop:Generator_ColumnPropNameInTable="campocontroleColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="numerofolha" msprop:Generator_UserColumnName="numerofolha" msprop:Generator_ColumnPropNameInRow="numerofolha" msprop:Generator_ColumnVarNameInTable="columnnumerofolha" msprop:Generator_ColumnPropNameInTable="numerofolhaColumn" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

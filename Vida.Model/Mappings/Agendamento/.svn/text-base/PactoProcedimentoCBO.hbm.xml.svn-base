@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Vida.Model">
+  <class name="Vida.Model.PactoProcedimentoCBO" table="agd_pacto_proced_cbo">
+    <id name="Codigo">
+      <column name="ID_PACTO_PROCED_CBO" not-null="true"/>
+      <generator class="assigned" />
+    </id>
+    <many-to-one name="Pacto" column="id_pacto" class="Vida.Model.Pacto"/>
+    <many-to-one name="Procedimento" column="id_procedimento" class="Vida.Model.Procedimento"/>
+    <many-to-one name="Cbo" column="id_cbo" class="Vida.Model.CBO"/>
+    <property name="ValorPactuado" column="valor_pactuado" />
+    <property name="ValorRestante" column="valor_restante" />
+    <property name="Ativo" column="ATIVO"/>
+    <property name="Percentual" column="PERCENTUAL"/>
+    <!--<property name="BloqueiaCota" column="bloqueia_cota" />-->
+  </class>
+</hibernate-mapping>

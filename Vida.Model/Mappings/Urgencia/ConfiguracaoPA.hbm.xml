@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="ViverMais.Model">
+  <class name="ViverMais.Model.ConfiguracaoPA" table="URG_CONFIGURACAOPA">
+    <id name="Codigo">
+      <column name="co_configuracao" not-null="true"/>
+      <generator class="sequence">
+        <param name="sequence">urg_configuracaopa_sequence</param>
+      </generator>
+    </id>
+    
+    <many-to-one name="Estabelecimento" class="ViverMais.Model.EstabelecimentoSaude" column="co_unidade" />
+    <property name="FaseAcolhimento" column="faseacolhimento"></property>
+  </class>
+</hibernate-mapping>

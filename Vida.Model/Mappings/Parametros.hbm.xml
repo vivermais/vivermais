@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Cygnus2.Model">
+	<class name="Cygnus2.Model.Parametros" table="Parametros">
+
+		<id name="Codigo">
+			<column name="id_parametros" not-null="true"/>
+			<generator class="identity" />
+		</id>
+
+		<property name="Min_Dias" column="min_dias" />
+		<property name="Max_Dias" column="max_dias" />
+		<property name="Competencia" column="competencia" />
+		<property name="Min_Dias_Espera" column="min_dias_espera" />
+		<property name="Pct_Vagas_Espera" column="pct_vagas_espera" />
+		<property name="Min_Dias_Cancela" column="min_dias_cancela" />
+		<property name="Min_Dias_Reaproveita" column="min_dias_reaproveita" />
+
+	</class>
+</hibernate-mapping>

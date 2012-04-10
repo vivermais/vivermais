@@ -1,0 +1,163 @@
+/* Estilos do formulário - VIDA */
+
+.formulario
+{
+  width:700px;
+  height:121px;
+  margin-left: 0px;
+  margin-right:0;
+  padding: 10px 10px 20px 10px;
+}
+
+
+br{
+clear: left;
+}
+
+legend  {
+	font-family:Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	letter-spacing: 0px;
+	font-weight: bold;
+	line-height: 1.2;
+	color: #000000;
+	padding: 3px 8px;
+	background: #EFEFEF;
+}
+
+fieldset {
+	border:1px dashed #CCC;
+	padding:10px;
+}
+.form {
+	margin:0;
+	padding:0;
+}
+
+.buttons {
+	background: #e3e3db;
+	font-size:12px; 
+	color: #333333; 
+	padding: 6px 10px;
+	border-width: 2px;
+	border-style: solid;
+	border-color: #fff #d8d8d0 #d8d8d0 #fff;
+	text-decoration: none;
+	text-transform:uppercase;
+	font-weight:bold;
+}
+
+div, p, select { font-family:Verdana, Arial, Helvetica, sans-serif;
+    width: 256px;
+}
+
+.sis_fonte_small { font-size:11px; font-family:Verdana, Arial, Helvetica, sans-serif; }
+
+
+/*Estilo - Estabelecimento*/
+
+
+.campo_es
+{
+	font-family: Arial;
+	font-size: 11px;
+	border: 1px solid #4f7494;
+	line-height: 17px;
+	height: 17px;
+	margin-top: 0px;
+	/*display: list-item;*/
+	background:#e1ecf5;
+	color:#476986;
+	display:inherit;
+	margin-right:5px;
+	padding-left:5px;
+
+}
+
+.rotulo_es
+{
+	float:left;
+	height: 17px;
+	font-size: 10px;
+	color: #e1ecf5;
+	background-color:#4f7494;
+	border: 1px solid #4f7494;
+	padding-bottom:2px;
+	padding-left:8px;
+	width: 156px;
+	line-height: 25px;
+	margin-top: 0px;
+	margin-left:1px;
+	/*display:block;*/
+	margin-right:5px;
+			
+}
+
+
+fieldset_es {
+	border:1px dashed #962424;
+	padding:10px;
+	padding-left:20px;
+	margin-bottom:20px;
+}
+
+.formulario_es
+{
+  width:700px;
+  height:auto;
+  margin-left: 0px;
+  margin-right:0;
+  padding: 10px 10px 20px 10px;
+}
+
+legend_es  {
+	font-family:Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	letter-spacing: 0px;
+	font-weight: bold;
+	line-height: 1.2;
+	color: #FFFFFF;
+	padding: 6px 12px;
+	background: #962424;
+	margin-top:30px;
+	padding-bottom:10px;
+}
+
+.drop_es
+{
+	font-family: Arial;
+	font-size: 11px;
+	border: 1px solid #4f7494;
+	line-height: 17px;
+	height: 21px;
+	margin-top: 0px;
+	/*display: list-item;*/
+	background:#e1ecf5;
+	color:#476986;
+	display:inherit;
+	margin-right:5px;
+	padding-left:5px;
+
+}
+
+ .botoesroll_es
+{
+    float:left;
+    width:auto;
+    margin-right:20px;
+    padding:0px 10px 0 0;
+    text-decoration: none;
+}
+
+.legend_es  {
+	font-family:Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	letter-spacing: 0px;
+	font-weight: bold;
+	line-height: 1.2;
+	color: #FFFFFF;
+	padding: 6px 12px;
+	background: #4f7494;
+	margin-top:30px;
+	padding-bottom:10px;
+}

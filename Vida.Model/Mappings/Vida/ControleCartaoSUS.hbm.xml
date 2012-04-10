@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="ViverMais.Model">
+	<class name="ViverMais.Model.ControleCartaoSUS" table="tb_pms_controle_cns">
+		<composite-id>
+			<key-property name="NumeroCartao" column="numero_cartao"/>
+			<key-property name="ViaCartao" column="via_cartao" />
+		</composite-id>
+		<property name="DataEmissao" column="data_emissao"/>
+		<many-to-one name="Usuario" class="ViverMais.Model.Usuario" column="co_usuario"/>
+	</class>
+</hibernate-mapping>

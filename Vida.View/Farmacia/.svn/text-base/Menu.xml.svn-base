@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Menu>
+  <div class="menu-barra-module" style="background: url('URLPART/Farmacia/img/barramenu.png' ) no-repeat;">
+    <div style="margin-top: 0px; margin-left: 14px">
+      <ul class="menu2" id="menu">
+        <li>
+          <a href="#" class="menulink">Admnistração</a>
+          <ul>
+            <li Permissao="MANTER_ELENCO_MEDICAMENTO"><a href="FormExibeElenco.aspx">Elenco de Medicamentos</a></li>
+            <li Permissao="MANTER_FABRICANTE"><a href="FormExibeFabricante.aspx">Fabricante</a></li>
+            <li Permissao="MANTER_FARMACIA"><a href="FormExibeFarmacia.aspx">Farmácia</a></li>
+            <li Permissao="MANTER_MEDICAMENTO"><a href="FormBuscaMedicamento.aspx">Medicamento</a></li>
+            <li Permissao="MANTER_SETOR"><a href="FormBuscaSetor.aspx">Setor</a></li>
+            <li Permissao="MANTER_SUB_ELENCO_MEDICAMENTO"><a href="FormExibeSubElencoMedicamento.aspx">Sub-Elenco de Medicamentos</a></li>
+            <li Permissao="MANTER_UNIDADE_MEDIDA"><a href="FormExibeUnidadeMedicamento.aspx">Forma Farmacêutica</a></li>
+            <li Permissao="VINCULAR_UNIDADE_DISTRITO_RM"><a href="FormUnidadeRecebimentoRM.aspx">Unidades Responsáveis - RM</a></li>
+            <li Permissao="VINCULAR_USUARIO_FARMACIA"><a href="VincularUsuarioFarmacia.aspx">Vincular Usuário a Farmácia</a></li>
+            <li><a href="FormVincularElencoFarmacia.aspx">Vincular Elenco a Farmácia</a></li>
+            <li><a href="FormVincularUsuarioDistrito.aspx">Vincular Usuário a Distrito</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="#" class="menulink">Movimento</a>
+          <ul>
+            <li>
+              <a href="#" class="sub">Dispensação</a>
+              <ul>
+                <li class="topline">
+                  <a href="FormBuscaDispensacao.aspx">Pesquisar Receita</a>
+                </li>
+                <li Permissao="CADASTRAR_RECEITA">
+                  <a href="FormGerarReceitaDispensacao.aspx">Registrar Nova Receita</a>
+                </li>
+              </ul>
+            </li>
+            <li Permissao="CONSULTAR_ESTOQUE">
+              <a href="FormPesquisaEstoque.aspx">Consultar Estoque</a>
+            </li>
+            <li Permissao="REALIZAR_INVENTARIO">
+              <a href="FormInventario.aspx">Inventário</a>
+            </li>
+            <li>
+              <a href="#" class="sub">Movimentação</a>
+              <ul>
+                <li class="topline">
+                  <a href="FormEscolheDadosMovimentacao.aspx">Nova</a>
+                </li>
+                <li Permissao="PESQUISAR_MOVIMENTACAO">
+                  <a href="FormBuscarMovimento.aspx">Pesquisar</a>
+                </li>
+                <li>
+                  <a href="#" class="sub">Remanejamento</a>
+                  <ul>
+                    <li class="topline" Permissao="PESQUISAR_REMANEJAMENTO">
+                      <a href="FormPesquisarRemanejamento.aspx">Pesquisar</a>
+                    </li>
+                    <li Permissao="RECEBER_REMANEJAMENTO">
+                      <a href="FormReceberRemanejamento.aspx">Receber</a>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <a href="FormBuscaRM.aspx">Requisição de Medicamentos</a>
+            </li>
+            <li Permissao="MANTER_LOTE_MEDICAMENTO">
+              <a href="FormExibeLoteMedicamento.aspx">Lotes de Medicamento</a>
+            </li>
+            <li>
+              <a href="#">Recebimento do Almoxarifado</a>
+            </li>
+            <li>
+              <a href="FormBuscaRMAutorizacao.aspx">Autorização RM (Distrito)</a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="#" class="menulink">Almoxarifado</a>
+          <ul>
+            <li>
+              <a href="FormBuscaNotaFiscal.aspx">Nosta Fiscal</a>
+            </li>
+            <li>
+              <a href="FormBuscaRMAtendimento.aspx">Requisição</a>
+            </li>
+            <li Permissao="MANTER_FORNECEDOR">
+              <a href="FormExibeFornecedor.aspx">Fornecedores</a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="RelatoriosFarmacia.aspx" class="menulink">Relatórios</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</Menu>

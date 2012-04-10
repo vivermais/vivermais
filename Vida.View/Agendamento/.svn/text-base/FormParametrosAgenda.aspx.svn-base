@@ -1,0 +1,74 @@
+﻿<%@ Page Language="C#" MasterPageFile="~/Agendamento/MasterAgendamento.Master" AutoEventWireup="true" CodeBehind="FormParametrosAgenda.aspx.cs" Inherits="Vida.View.Agendamento.FormParametrosAgenda" Title="Untitled Page" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder2" runat="server">
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder3" runat="server">
+ <fieldset style="width: 392px">
+		<legend>Parâmetros do Agendamento</legend>
+		<p>
+		    <span>&nbsp;</span>
+		</p>
+		<p>
+            <span class="rotulo">Mínimo Dias Abertura Agenda:</span>
+            <asp:TextBox CssClass="campo" ID="tbxMin_Dias" runat="server" 
+                Width="100px"></asp:TextBox>
+            <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" 
+                ControlToValidate="tbxMin_Dias" Display="Dynamic" 
+                ErrorMessage="RequiredFieldValidator1">Campo Obrigatório</asp:RequiredFieldValidator>
+		</p>
+		<p>
+            <span class="rotulo">Máximo Dias Abertura Agenda:</span>
+            <asp:TextBox CssClass="campo" ID="tbxMax_Dias" runat="server" 
+                Width="100px"></asp:TextBox>            
+		    <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" 
+                ControlToValidate="tbxMax_Dias" Display="Dynamic" 
+                ErrorMessage="Campo Obrigatório"></asp:RequiredFieldValidator>
+		</p>
+		<p>
+            <span class="rotulo">Competência (MMAAAA):</span>
+            <asp:TextBox CssClass="campo" ID="tbxCompetencia" runat="server" 
+                Width="100px"></asp:TextBox>            
+		    <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" 
+                ControlToValidate="tbxCompetencia" Display="Dynamic" 
+                ErrorMessage="Preencha o campo Competência"></asp:RequiredFieldValidator>
+		</p>
+		<p>
+            <span class="rotulo">Mínimo Dias Fila Espera:</span>
+            <asp:TextBox CssClass="campo" ID="tbxMin_Dias_Espera" runat="server" 
+                Width="100px"></asp:TextBox>
+            <asp:RequiredFieldValidator ID="RequiredFieldValidator4" runat="server" 
+                ControlToValidate="tbxMin_Dias_Espera" Display="Dynamic" 
+                ErrorMessage="Campo Obrigatório"></asp:RequiredFieldValidator>                            
+		</p>
+		<p>
+            <span class="rotulo">Percentual Vagas Fila:</span>
+            <asp:TextBox CssClass="campo" ID="tbxPct_Vagas_Espera" runat="server" 
+                Width="100px"></asp:TextBox>
+            <asp:RequiredFieldValidator ID="RequiredFieldValidator5" runat="server" 
+                ControlToValidate="tbxPct_Vagas_Espera" Display="Dynamic" 
+                ErrorMessage="Campo Obrigatório"></asp:RequiredFieldValidator>                         
+		</p>
+		<p>
+            <span class="rotulo">Mín Dias Cancelamento:</span>
+            <asp:TextBox CssClass="campo" ID="tbxMin_Dias_Cancela" runat="server" 
+                Width="100px"></asp:TextBox>
+            <asp:RequiredFieldValidator ID="RequiredFieldValidator6" runat="server" 
+                ControlToValidate="tbxMin_Dias_Cancela" Display="Dynamic" 
+                ErrorMessage="Campo Obrigatório"></asp:RequiredFieldValidator>               
+		</p>
+		<p>
+            <span class="rotulo">Mín Dias Reaproveitamento:</span>
+            <asp:TextBox CssClass="campo" ID="tbxMin_Dias_Reaproveita" runat="server" 
+                Width="100px"></asp:TextBox> 
+            <asp:RequiredFieldValidator ID="RequiredFieldValidator7" runat="server" 
+                ControlToValidate="tbxMin_Dias_Reaproveita" Display="Dynamic" 
+                ErrorMessage="Campo Obrigatório"></asp:RequiredFieldValidator>         
+		</p>				
+		<p>
+            <asp:Button ID="btnSalvar" runat="server" Text="Salvar" 
+                onclick="btnSalvar_Click" />
+            <asp:Button ID="btnVoltar" runat="server" Text="Voltar" 
+                PostBackUrl="~/Home.aspx" CausesValidation="False" />
+		</p>
+		
+	</fieldset>
+</asp:Content>

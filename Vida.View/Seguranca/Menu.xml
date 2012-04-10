@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Menu>
+  <div class="menu-barra-module" style="background: url('URLPART/Seguranca/img/barramenu.png' ) no-repeat;">
+    <div style="margin-top: 8px; margin-left: 14px;">
+      <ul class="menu2" id="menu">
+        <li>
+          <a href="#" class="menulink">Usuários</a>
+          <ul>
+            <li Permissao="MANTER_USUARIO">
+              <a href="FormUsuario.aspx">Novo</a>
+            </li>
+            <PermissaoEspecial Nome="LISTARUSUARIOS">
+              <li>
+                <a href="ListaUsuarios.aspx">Editar</a>
+              </li>
+            </PermissaoEspecial>
+          </ul>
+        </li>
+        <li>
+          <a href="#" class="menulink">Perfil</a>
+          <ul>
+            <li Permissao="MANTER_PERFIL">
+              <a href="FormPerfil.aspx">Novo</a>
+            </li>
+            <li Permissao="MANTER_PERFIL">
+              <a href="FormBuscaPerfil.aspx">Editar</a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="#" class="menulink">Senha</a>
+          <ul>
+            <li Permissao="ALTERAR_SENHA">
+              <a href="AlterarSenha.aspx">Alterar</a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="#" class="menulink">Log de Eventos</a>
+          <ul>
+            <li Permissao="VISUALIZAR_LOG">
+              <a href="VisualizarLog.aspx">Visualizar</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</Menu>

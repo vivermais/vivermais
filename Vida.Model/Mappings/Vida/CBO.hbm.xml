@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="ViverMais.Model">
+  <class name="ViverMais.Model.CBO" table="tb_pms_ocupacao_proc">
+    <id name="Codigo">
+      <column name="co_ocupacao" not-null="true"/>
+      <generator class="assigned" />
+    </id>
+    <property name="Nome" column="no_ocupacao"/>
+    <property name="OcupacaoSaude" column="ocu_saude"/>
+    <many-to-one name="CategoriaOcupacao" class="ViverMais.Model.CategoriaOcupacao" column="co_categoria"/>
+    <many-to-one name="GrupoCBO" class="ViverMais.Model.GrupoCBO" column="id_grupo"/>
+  </class>
+</hibernate-mapping>

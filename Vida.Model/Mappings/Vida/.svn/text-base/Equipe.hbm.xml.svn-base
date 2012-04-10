@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Vida.Model">
+  <class name="Vida.Model.Equipe" table="pms_cnes_lfces037">
+
+    <composite-id>
+      <key-many-to-one name="Area" class="Vida.Model.Area" >
+        <column name="cod_mun"></column>
+        <column name="cod_area"></column>
+      </key-many-to-one>
+      <key-property name="Codigo" column="seq_equipe" />
+    </composite-id>
+    
+    <many-to-one name="EstabelecimentoSaude" class="Vida.Model.EstabelecimentoSaude" column="unidade_id" />
+    <many-to-one name="TipoEquipe" class="Vida.Model.TipoEquipe" column="tp_equipe" />
+    <property name="NomeReferencia" column="nm_referencia"/>
+    <property name="AtendePopQuilombolas" column="tp_pop_assist_quilomb"/>
+    <property name="AtendePopAssentados" column="tp_pop_assist_assent"/>
+    <property name="AtendePopGeral" column="tp_pop_assist_geral"/>
+    <property name="AtendePopEscola" column="tp_pop_assist_escola"/>
+    <property name="AtendePopPronasci" column="tp_pop_assist_pronasc"/>
+    <property name="AtendePopIndigena" column="tp_pop_assist_indigen"/>
+    <property name="StatusEquipe" column="statusmov"/>
+    <property name="DataDesativacao" column="dt_desativacao"/>
+  </class>
+</hibernate-mapping>

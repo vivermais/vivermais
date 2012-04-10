@@ -1,0 +1,15 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace Vida.ServiceFacade.ServiceFacades.Agendamento
+{
+    public interface IFaixaUtilizada : IAgendamentoServiceFacade
+    {
+        IList<T> BuscarFaixaUtilizada<T>(string faixaAPAC);
+        T BuscaFaixaUtilizadaPorNumeroFaixa<T>(string numeroFaixa, string codigofaixa);
+
+
+    }
+}

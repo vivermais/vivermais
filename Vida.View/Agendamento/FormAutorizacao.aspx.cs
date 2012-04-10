@@ -1,0 +1,358 @@
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Xml.Linq;
+using ViverMais.ServiceFacade.ServiceFacades;
+using ViverMais.DAO;
+using ViverMais.Model;
+using System.Collections.Generic;
+using System.IO;
+using ViverMais.ServiceFacade.ServiceFacades.Agendamento;
+using ViverMais.ServiceFacade.ServiceFacades.Paciente;
+using ViverMais.ServiceFacade.ServiceFacades.Procedimento;
+using ViverMais.ServiceFacade.ServiceFacades.Agendamento.Agenda;
+using ViverMais.ServiceFacade.ServiceFacades.Localidade;
+using ViverMais.ServiceFacade.ServiceFacades.Seguranca;
+using ViverMais.BLL;
+using ViverMais.View.Agendamento.Helpers;
+
+
+namespace ViverMais.View.Agendamento
+{
+    public partial class FormAutorizacao : System.Web.UI.Page
+    {
+        private int pageSize = 10;
+        
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!IsPostBack)
+            {
+                if (Factory.GetInstance<ISeguranca>().VerificarPermissao(((Usuario)Session["Usuario"]).Codigo, "MOVIMENTACAO_AUTORIZACAO_AMBULATORIAL", Modulo.AGENDAMENTO))
+                {
+                    PanelExibeSolicitacao.Visible = false;
+                    PanelExibeMunicipio.Visible = false;
+                    PanelExibeProcedimento.Visible = false;
+
+                    // Prepara lista de Procedimentos a partir do FPO por Unidade e Competencia
+                    ddlProcedimento.Items.Clear();
+                    ddlProcedimento.Items.Add(new ListItem("Selecione...", "0"));
+                    Session["page_Actived"] = 0;
+                    CarregaRadionButtonListMunicipio();
+                }
+                else
+                    ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Usuário, você não tem permissão para acessar esta página! Por favor, entre em contato com a administração.');location='Default.aspx';", true);
+            }
+        }
+
+        void CarregaRadionButtonListMunicipio()
+        {
+            rbtMunicipio.Items.Clear();
+            rbtMunicipio.Items.Add(new ListItem("Salvador", Solicitacao.rbtItemSalvador.ToString()));
+            rbtMunicipio.Items.Add(new ListItem("Interior", Solicitacao.rbtItemInterior.ToString()));
+            rbtMunicipio.Items.Add(new ListItem("Município Específico", Solicitacao.rbtItemMunicipioEspecifico.ToString()));
+        }
+
+        void AtualizaBotoes()
+        {
+            int pageActived = int.Parse(Session["page_Actived"].ToString());
+            if (pageActived == 0)
+            {
+                lknAnterior.Visible = false;
+                if(gridSolicitacao.Rows.Count < 10)
+                    lknProximo.Visible = false;
+                else
+                    lknProximo.Visible = true;
+            }
+            else if (pageActived == (ddlPaginas.Items.Count - 2)) //Se estiver no final da Paginação. Coloco 2, pq tem o Item que é o Selecione...
+            {
+                lknProximo.Visible = false;
+                lknAnterior.Visible = true;
+            }
+            else
+            {
+                lknProximo.Visible = true;
+                lknAnterior.Visible = true;
+            }
+        }
+
+        void AtualizaLabelQtdRegistros()
+        {
+            int qtdTotalRegistros;
+            if (rbtMunicipio.SelectedValue != string.Empty)//Se ele Selecionou Município
+                qtdTotalRegistros = Factory.GetInstance<ISolicitacao>().QuantidadeTotalSolicitacoesPendentes(rbtPrioridade.SelectedValue, tbxCartaoSUS.Text, ddlProcedimento.SelectedValue, int.Parse(rbtMunicipio.SelectedValue), ddlMunicipios.SelectedValue);
+            else
+                qtdTotalRegistros = Factory.GetInstance<ISolicitacao>().QuantidadeTotalSolicitacoesPendentes(rbtPrioridade.SelectedValue, tbxCartaoSUS.Text, ddlProcedimento.SelectedValue);
+            
+            if (qtdTotalRegistros == 0)
+                lblQtd.Visible = false;
+            else
+            {
+                lblQtd.Visible = true;
+                if (lblQtd.Text != qtdTotalRegistros.ToString())
+                    lblQtd.Text = "Quantidade de Registros: " + qtdTotalRegistros;
+            }
+            CarregaDropDownPaginas(qtdTotalRegistros, gridSolicitacao.PageSize);
+        }
+
+        private void InserirTrigger(string idcontrole, string nomeevento, UpdatePanel updatepanel)
+        {
+            AsyncPostBackTrigger trigger = new AsyncPostBackTrigger();
+            trigger.ControlID = idcontrole;
+            trigger.EventName = nomeevento;
+            updatepanel.Triggers.Add(trigger);
+        }
+
+        protected int CalculaIdade(DateTime dataatual, DateTime datanascimento)
+        {
+            int idade = dataatual.Year - datanascimento.Year;
+            if (dataatual.Month < datanascimento.Month || (dataatual.Month == datanascimento.Month &&
+                dataatual.Day < datanascimento.Day))
+                idade--;
+            return idade;
+        }
+        protected void OnClick_VagasDisponiveis(object sender, EventArgs e)
+        {
+            Redirector.Redirect("RelatorioVagas.aspx", "_blank", "");
+        }
+
+        public void btnPesquisar_Click(object sender, EventArgs e)
+        {
+            if ((rbtnEspecialidade.SelectedValue != "") && (ddlProcedimento.SelectedValue == "0"))
+            {
+                ClientScript.RegisterClientScriptBlock(typeof(String), "ok", "<script>alert('Se você selecionou um Tipo De Processamento, Informe um Procedimento Válido!');</script>");
+                return;
+            }
+            else if ((rbtMunicipio.SelectedValue == "2") && (ddlMunicipios.SelectedValue == "0"))
+            {
+                ClientScript.RegisterClientScriptBlock(typeof(String), "ok", "<script>alert('Selecione um Município Válido!');</script>");
+                return;
+            }
+            this.pageSize = gridSolicitacao.PageSize;
+
+            IAgendamentoServiceFacade iAgendamento = Factory.GetInstance<IAgendamentoServiceFacade>();
+            ISolicitacao iSolicitacao = Factory.GetInstance<ISolicitacao>();
+
+            
+
+            IList<ViverMais.Model.Solicitacao> solicitacoes;
+            int qtdTotalRegistros;
+            if (rbtMunicipio.SelectedValue != string.Empty)//Se ele Selecionou Município
+            {
+                solicitacoes = iSolicitacao.ListarSolicitacoesPendentes<ViverMais.Model.Solicitacao>(rbtPrioridade.SelectedValue, tbxCartaoSUS.Text, ddlProcedimento.SelectedValue, 0, this.pageSize, int.Parse(rbtMunicipio.SelectedValue), ddlMunicipios.SelectedValue);
+                qtdTotalRegistros = iSolicitacao.QuantidadeTotalSolicitacoesPendentes(rbtPrioridade.SelectedValue, tbxCartaoSUS.Text, ddlProcedimento.SelectedValue, int.Parse(rbtMunicipio.SelectedValue), ddlMunicipios.SelectedValue);
+            }
+            else
+            {
+                qtdTotalRegistros = iSolicitacao.QuantidadeTotalSolicitacoesPendentes(rbtPrioridade.SelectedValue, tbxCartaoSUS.Text, ddlProcedimento.SelectedValue);
+                solicitacoes = iSolicitacao.ListarSolicitacoesPendentes<ViverMais.Model.Solicitacao>(rbtPrioridade.SelectedValue, tbxCartaoSUS.Text, ddlProcedimento.SelectedValue, 0, this.pageSize);
+            }
+            PanelExibeSolicitacao.Visible = true;
+            DataTable table = new DataTable();
+            table.Columns.Add("Codigo");
+            table.Columns.Add("Prioridade");
+            table.Columns.Add("Data_Solicitacao");
+            table.Columns.Add("CNS");
+            table.Columns.Add("Nome");
+            table.Columns.Add("Procedimento");
+            table.Columns.Add("Idade");
+            table.Columns.Add("CID");
+            table.Columns.Add("Municipio");
+            Session["Solicitacoes"] = table;
+            this.CarregaDadosGridviewSolicitacoes(solicitacoes);
+            this.CarregaDropDownPaginas(qtdTotalRegistros, gridSolicitacao.PageSize);
+
+            AtualizaLabelQtdRegistros();
+            gridSolicitacao.DataBind();
+            Session["page_Actived"] = 0;
+            this.InserirTrigger(ddlPaginas.UniqueID, "SelectedIndexChanged", this.UpdatePanelSolicitacoes);
+            this.InserirTrigger(lknAnterior.UniqueID, "Click", this.UpdatePanelSolicitacoes);
+            this.InserirTrigger(lknProximo.UniqueID, "Click", this.UpdatePanelSolicitacoes);
+            AtualizaBotoes();
+        }
+
+        protected void ddlPaginas_OnSelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (ddlPaginas.SelectedValue != "-1")
+            {
+                int paginaSelecionada = int.Parse(ddlPaginas.SelectedValue);
+                Session["page_Actived"] = paginaSelecionada;
+                IList<Solicitacao> solicitacoes;
+                if (rbtMunicipio.SelectedValue != string.Empty)//Se ele Selecionou Município
+                    solicitacoes = Factory.GetInstance<ISolicitacao>().ListarSolicitacoesPendentes<ViverMais.Model.Solicitacao>(rbtPrioridade.SelectedValue, tbxCartaoSUS.Text, ddlProcedimento.SelectedValue, paginaSelecionada, this.pageSize, int.Parse(rbtMunicipio.SelectedValue), ddlMunicipios.SelectedValue);
+                else
+                    solicitacoes = Factory.GetInstance<ISolicitacao>().ListarSolicitacoesPendentes<ViverMais.Model.Solicitacao>(rbtPrioridade.SelectedValue, tbxCartaoSUS.Text, ddlProcedimento.SelectedValue, paginaSelecionada, this.pageSize);
+                this.CarregaDadosGridviewSolicitacoes(solicitacoes);
+                gridSolicitacao.DataBind();
+            }
+            UpdatePanelSolicitacoes.Update();
+            AtualizaLabelQtdRegistros();
+            AtualizaBotoes();
+        }
+
+        protected void CarregaDropDownPaginas(int qtdTotalRegistros, int pageSize)
+        {
+            if (qtdTotalRegistros != ddlPaginas.Items.Count - 1) //O -1, é o do Selecione...
+            {
+                ddlPaginas.Items.Clear();
+                double dblPageCount = (double)(Convert.ToDecimal(qtdTotalRegistros) / Convert.ToDecimal(pageSize));
+                int PageCount = Convert.ToInt32(Math.Ceiling(dblPageCount));
+                for (int i = 0; i < PageCount; i++)
+                    ddlPaginas.Items.Add(new ListItem((i + 1).ToString(), i.ToString()));
+                ddlPaginas.Items.Insert(0, new ListItem("Selecione...", "-1"));
+                if (Session["page_Actived"] != null)
+                {
+                    if (ddlPaginas.Items.FindByValue(Session["page_Actived"].ToString()) != null)
+                        ddlPaginas.Items.FindByValue(Session["page_Actived"].ToString()).Selected = true;
+                    else
+                        ddlPaginas.SelectedValue = "-1";
+                }
+            }
+        }
+
+        protected void CarregaDadosGridviewSolicitacoes(IList<Solicitacao> solicitacoes)
+        {
+            DataTable table = (DataTable)Session["Solicitacoes"];
+            if (table.Rows != null && table.Rows.Count != 0)
+                table.Rows.Clear();
+            ITipoProcedimento iTipoProcedimento = Factory.GetInstance<ITipoProcedimento>();
+            foreach (Solicitacao solicitacao in solicitacoes)
+            {
+                ViverMais.Model.Paciente paciente = PacienteBLL.PesquisarCompleto(solicitacao.ID_Paciente);
+                Endereco endereco = EnderecoBLL.PesquisarCompletoPorPaciente(paciente);
+                DataRow row = table.NewRow();
+                row["Codigo"] = solicitacao.Codigo;
+
+                switch (solicitacao.Prioridade)
+                {
+                    case "0": row["Prioridade"] = "Vermelho";
+                        break;
+                    case "1": row["Prioridade"] = "Amarelo";
+                        break;
+                    case "2": row["Prioridade"] = "Verde";
+                        break;
+                    case "3": row["Prioridade"] = "Azul";
+                        break;
+                    case "4": row["Prioridade"] = "Branco";
+                        break;
+                }
+
+                row["Data_Solicitacao"] = solicitacao.Data_Solicitacao.ToString("dd/MM/yyyy");
+                IList<CartaoSUS> cartoes = CartaoSUSBLL.ListarPorPaciente(paciente);
+                if (cartoes.Count != 0)
+                    row["CNS"] = cartoes.FirstOrDefault().Numero;
+                else
+                    row["CNS"] = "Sem nº de Cartão";
+                DateTime datanascimento = paciente.DataNascimento;
+                int idade = CalculaIdade(solicitacao.Data_Solicitacao, datanascimento);
+                //ViverMais.Model.Procedimento procedimento = Factory.GetInstance<IViverMaisServiceFacade>().BuscarPorCodigo<ViverMais.Model.Procedimento>(solicitacao.ID_Procedimento);
+                row["Nome"] = paciente.Nome;
+                row["Procedimento"] = solicitacao.Procedimento.Nome;
+                row["Idade"] = idade;
+                row["CID"] = solicitacao.CidSolicitante;
+                if (endereco != null)
+                    row["Municipio"] = endereco.Municipio.NomeSemUF;
+                else
+                    row["Municipio"] = String.Empty;
+                table.Rows.Add(row);
+            }
+
+            gridSolicitacao.DataSource = table;
+            lknAnterior.Visible = false;
+        }
+
+        protected void btnAnterior_Click(object sender, EventArgs e)
+        {
+            int page_Actived = int.Parse(Session["page_Actived"].ToString());
+            page_Actived--;
+            Session["page_Actived"] = page_Actived;
+            IList<ViverMais.Model.Solicitacao> solicitacoes = null;
+            if (rbtMunicipio.SelectedValue != string.Empty)//Se ele Selecionou Município
+                solicitacoes = Factory.GetInstance<ISolicitacao>().ListarSolicitacoesPendentes<ViverMais.Model.Solicitacao>(rbtPrioridade.SelectedValue, tbxCartaoSUS.Text, ddlProcedimento.SelectedValue, page_Actived, this.pageSize, int.Parse(rbtMunicipio.SelectedValue), ddlMunicipios.SelectedValue);
+            else
+                solicitacoes = Factory.GetInstance<ISolicitacao>().ListarSolicitacoesPendentes<ViverMais.Model.Solicitacao>(rbtPrioridade.SelectedValue, tbxCartaoSUS.Text, ddlProcedimento.SelectedValue, page_Actived, this.pageSize);
+            this.CarregaDadosGridviewSolicitacoes(solicitacoes);
+            gridSolicitacao.PageIndex = page_Actived;
+            gridSolicitacao.DataBind();
+            if (page_Actived == 0)
+                lknAnterior.Visible = false;
+            else
+                AtualizaBotoes();
+            lknProximo.Visible = true;
+            AtualizaLabelQtdRegistros();
+            ddlPaginas.SelectedValue = page_Actived.ToString();
+            UpdatePanelSolicitacoes.Update();
+        }
+
+        protected void btnProximo_Click(object sender, EventArgs e)
+        {
+            int page_Actived = int.Parse(Session["page_Actived"].ToString());
+            page_Actived++;
+            Session["page_Actived"] = page_Actived;
+            IList<ViverMais.Model.Solicitacao> solicitacoes = null;
+            if (rbtMunicipio.SelectedValue != string.Empty)//Se ele Selecionou Município
+                solicitacoes = Factory.GetInstance<ISolicitacao>().ListarSolicitacoesPendentes<ViverMais.Model.Solicitacao>(rbtPrioridade.SelectedValue, tbxCartaoSUS.Text, ddlProcedimento.SelectedValue, page_Actived, this.pageSize, int.Parse(rbtMunicipio.SelectedValue), ddlMunicipios.SelectedValue);
+            else
+                solicitacoes = Factory.GetInstance<ISolicitacao>().ListarSolicitacoesPendentes<ViverMais.Model.Solicitacao>(rbtPrioridade.SelectedValue, tbxCartaoSUS.Text, ddlProcedimento.SelectedValue, page_Actived, this.pageSize);
+            this.CarregaDadosGridviewSolicitacoes(solicitacoes);
+            gridSolicitacao.PageIndex = page_Actived;
+            gridSolicitacao.DataBind();
+            if (solicitacoes.Count < 10)
+                lknProximo.Visible = false;
+            else
+                AtualizaBotoes();
+            lknAnterior.Visible = true;
+            AtualizaLabelQtdRegistros();
+            UpdatePanelSolicitacoes.Update();
+            ddlPaginas.SelectedValue = page_Actived.ToString();
+        }
+
+        protected void rbtnEspecialidade_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            PanelExibeProcedimento.Visible = true;
+            ddlProcedimento.Items.Clear();
+            ddlProcedimento.Items.Add(new ListItem("Selecione...", "0"));
+
+            IViverMaisServiceFacade iViverMais = Factory.GetInstance<IViverMaisServiceFacade>();
+            IList<ViverMais.Model.TipoProcedimento> tipoprocedimentos = Factory.GetInstance<ITipoProcedimento>().ListarProcedimentosPorTipo<ViverMais.Model.TipoProcedimento>(rbtnEspecialidade.SelectedValue);
+            List<Procedimento> procedimentos = new List<Procedimento>();
+            if (tipoprocedimentos.Count != 0)
+            {
+                foreach (ViverMais.Model.TipoProcedimento tipoprocedimento in tipoprocedimentos)
+                {
+                    ViverMais.Model.Procedimento procedimento = iViverMais.BuscarPorCodigo<ViverMais.Model.Procedimento>(tipoprocedimento.Procedimento);
+                    procedimentos.Add(procedimento);
+
+                }
+                procedimentos = procedimentos.OrderBy(p => p.Nome).ToList();
+                foreach (Procedimento proced in procedimentos)
+                    ddlProcedimento.Items.Add(new ListItem(proced.Nome, proced.Codigo));
+            }
+        }
+
+        protected void rbtMunicipio_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            switch (rbtMunicipio.SelectedValue)
+            {
+                case "2": PanelExibeMunicipio.Visible = true;
+                    IList<Municipio> municipios = Factory.GetInstance<IMunicipio>().ListarPorEstado<Municipio>("BA");
+                    ddlMunicipios.Items.Add(new ListItem("Selecione...", "0"));
+                    foreach (Municipio mun in municipios)
+                    {
+                        if (mun.Codigo != "292740")//Ele Retira Salvador da Lista de Pacto
+                            ddlMunicipios.Items.Add(new ListItem(mun.Nome, mun.Codigo));
+                    }
+                    break;
+                default: PanelExibeMunicipio.Visible = false;
+                    break;
+            }
+        }
+    }
+}

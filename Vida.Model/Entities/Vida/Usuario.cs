@@ -1,0 +1,153 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using ViverMais.Model.Entities;
+
+namespace ViverMais.Model
+{
+    [Serializable]
+    [RelatorioAttribute(true, true)]
+    public class Usuario:AModel
+    {
+        int codigo;
+
+        [RelatorioAttribute(true, true)]
+        public virtual int Codigo
+        {
+            get { return codigo; }
+            set { codigo = value; }
+        }
+
+
+        string nome;
+
+        [RelatorioAttribute(true, true)]
+        public virtual string Nome
+        {
+            get { return nome; }
+            set { nome = value; }
+        }
+
+
+        string login;
+
+        [RelatorioAttribute(true, true)]
+        public virtual string Login
+        {
+            get { return login; }
+            set { login = value; }
+        }
+
+        int ativo;
+
+        [RelatorioAttribute(false, true)]
+        public virtual int Ativo
+        {
+            get { return ativo; }
+            set { ativo = value; }
+        }
+
+        public virtual string Status
+        {
+            get
+            {
+                return Convert.ToBoolean(ativo) ? "Ativo" : "Inativo";
+            }
+        }
+
+        string senha;
+
+        public virtual string Senha
+        {
+            get { return senha; }
+            set { senha = value; }
+        }
+
+        IList<Perfil> perfis;
+
+        public virtual IList<Perfil> Perfis
+        {
+            get { return perfis; }
+            set { perfis = value; }
+        }
+
+        EstabelecimentoSaude unidade;
+
+        [RelatorioAttribute(false, true)]
+        public virtual EstabelecimentoSaude Unidade
+        {
+            get { return unidade; }
+            set { unidade = value; }
+        }
+
+        public virtual string UnidadeToString
+        {
+            get { return Unidade.NomeFantasia; }
+        }
+
+        private Profissional profissionalSaude;
+        [RelatorioAttribute(false, true)]
+        public virtual Profissional ProfissionalSaude
+        {
+            get { return profissionalSaude; }
+            set { profissionalSaude = value; }
+        }
+
+        string cartaoSUS;
+
+        public virtual string CartaoSUS
+        {
+            get { return cartaoSUS; }
+            set { cartaoSUS = value; }
+        }
+
+        private DateTime datanascimento;
+        public virtual DateTime DataNascimento
+        {
+            get { return datanascimento; }
+            set { datanascimento = value; }
+        }
+
+        public static IList<Usuario> RemoverUsuarioLista(IList<Usuario> usuarios, int co_usuario)
+        {
+            var usuarioexcluir = usuarios.Select((Usuario, index) => new { index, Usuario }).Where(p => p.Usuario.Codigo == co_usuario).First();
+            usuarios.RemoveAt(usuarioexcluir.index);
+
+            return usuarios;
+        }
+
+        public Usuario()
+        {
+
+        }
+
+        public override string ToString()
+        {
+            return this.Nome;
+        }
+
+        public virtual string NomeUsuarioSemCaracterEspecial(string texto)
+        {
+            string comAcentos = "ÄÅÁÂÀÃäáâàãÉÊËÈéêëèÍÎÏÌíîïìÖÓÔÒÕöóôòõÜÚÛüúûùÇç";
+            string semAcentos = "AAAAAAaaaaaEEEEeeeeIIIIiiiiOOOOOoooooUUUuuuuCc";
+            
+            for (int i = 0; i < comAcentos.Length; i++)
+            {
+                texto = texto.Replace(comAcentos[i].ToString(), semAcentos[i].ToString());
+            }
+
+            return texto;
+        }
+
+        //public static IList<Usuario> FiltrarUsuarios(IList<Usuario> usuarios)
+        //{
+        //    return usuarios;
+        //}
+
+        public override bool Persistido()
+        {
+            throw new NotImplementedException();
+        }
+    }
+}

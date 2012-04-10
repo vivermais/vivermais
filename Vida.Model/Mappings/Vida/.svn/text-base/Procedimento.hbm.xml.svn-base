@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Vida.Model">
+  <class name="Vida.Model.Procedimento" table="tb_pms_procedimento">
+    <id name="Codigo">
+      <column name="co_procedimento" not-null="true"/>
+      <generator class="assigned" />
+    </id>
+
+    <property name="Nome" column="no_procedimento"/>
+    <property name="Complexidade" column="tp_complexidade"/>
+    <property name="RestricaoSexo" column="tp_sexo"/>
+    <property name="QtdMaximaExecucao" column="qt_maxima_execucao"/>
+    <property name="QtdDiasPermanencia" column="qt_dias_permanencia"/>
+    <property name="QtdPontos" column="qt_pontos"/>
+    <property name="IdadeMinima" column="vl_idade_minima"/>
+    <property name="IdadeMaxima" column="vl_idade_maxima"/>
+    <property name="VL_SA" column="vl_sa"/>
+    <property name="VL_SH" column="vl_sh"/>
+    <property name="VL_SP" column="vl_sp"/>
+    <!--<many-to-one name="ProcedimentoRegistro" class="Vida.Model.ProcedimentoRegistro" column="co_procedimento"/>-->
+    <many-to-one name="FinanciamentoProcedimento" class="Vida.Model.FinanciamentoProcedimento" column="co_financiamento"/>
+    <many-to-one name="RubricaProcedimento" class="Vida.Model.RubricaProcedimento" column="co_rubrica"/>
+    <property name="DataCompetencia" column="dt_competencia"/>
+
+  </class>
+</hibernate-mapping>

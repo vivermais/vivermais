@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Vida.Model">
+  <class name="Vida.Model.Evolucao" table="evolucao">
+    <id name="Codigo">
+      <column name="id_evolucao" not-null="true"/>
+      <generator class="identity" />
+    </id>
+    <many-to-one name="Prontuario" class="Vida.Model.Prontuario" column="id_prontuario" />
+    <property name="CodigoProfissional" column="id_profissional" />
+    
+    <property name="Observacao" column="observacao" />
+    <property name="Aprazamento" column="aprazamento" />
+	<property name="Data" column="data" />
+  </class>
+</hibernate-mapping>

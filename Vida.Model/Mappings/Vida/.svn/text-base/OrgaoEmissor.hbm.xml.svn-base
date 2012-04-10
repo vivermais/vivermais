@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Vida.Model">
+	<class name="Vida.Model.OrgaoEmissor" table="tb_ms_orgao_emissor">
+		<id name="Codigo">
+			<column name="co_orgao_emissor" not-null="true"/>
+			<generator class="assigned" />
+		</id>
+		<property name="Nome" column="ds_orgao_emissor"/>
+    <many-to-one name="CategoriaOcupacao" class="Vida.Model.CategoriaOcupacao" column="co_categoria"/>
+	</class>
+</hibernate-mapping>

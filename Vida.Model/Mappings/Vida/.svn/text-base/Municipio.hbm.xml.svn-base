@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Vida.Model">
+	<class name="Vida.Model.Municipio" table="tb_ms_municipio">
+		<id name="Codigo">
+			<column name="co_municipio" not-null="true"/>
+			<generator class="assigned" />
+		</id>
+		<property name="Nome" column="ds_municipio"/>
+		<many-to-one name="UF" class="Vida.Model.UF" column="sg_uf"/>
+	</class>
+</hibernate-mapping>

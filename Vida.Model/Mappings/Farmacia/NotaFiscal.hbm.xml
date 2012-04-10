@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="ViverMais.Model">
+	<class name="ViverMais.Model.NotaFiscal" table="far_notafiscal">
+		<id name="Codigo">
+			<column name="id_notafiscal" not-null="true"/>
+      <generator class="sequence" >
+        <param name="sequence">FAR_NOTAFISCAL_SEQUENCE</param>
+      </generator>
+		</id>
+		<property name="DataRecebimento" column="data_recebimento" />
+		<property name="DataAtesto" column="data_atesto" />
+		<many-to-one name="Fornecedor" class="ViverMais.Model.FornecedorMedicamento" column="id_fornecedor" />
+		<property name="NumeroNota" column="num_notafiscal" />
+		<property name="ProcessoOrigem" column="processoentrada" />
+		<property name="Empenho" column="empenho" />
+		<many-to-one name="Responsavel" class="ViverMais.Model.ResponsavelAtesto" column="id_responsavel" />
+    <many-to-one name="Farmacia" class="ViverMais.Model.Farmacia" column="id_farmacia" />
+		<property name="Afm" column="afm" />
+		<property name="Status" column="status" />
+	</class>
+</hibernate-mapping>

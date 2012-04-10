@@ -1,0 +1,29 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" MasterPageFile="~/MasterMain.Master"
+    CodeBehind="MasterAtendimento.Master.cs" Inherits="Vida.View.Atendimento.MasterAtendimento" %>
+
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <title>Vida - Módulo Atendimento</title>
+    <link rel="stylesheet" href="" type="text/css" media="screen" />
+    <link rel="Stylesheet" href="css/style-barra-modulo.css" type="text/css" media="screen" />
+    <link rel="Stylesheet" href="css/style_form_atendimento.css" type="text/css" media="screen" />
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+        <div id="bgguiaProcedimentos">
+            <div id="DivMenu" runat="server" visible="false">
+                <div style="margin-top: 8px; margin-left: 14px">
+                    <ul class="menu2" id="menu">
+ <%--                       <li><a href="#" class="menulink">Cadastro</a>
+                            <ul>
+                                <li><a href="FormCadastroProcedimento.aspx">Cadastro de Procedimento</a></li>
+                            </ul>
+                        </li>  --%>                     
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </asp:ContentPlaceHolder>
+</asp:Content>

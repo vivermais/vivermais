@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="ViverMais.Model">
+  <class name="ViverMais.Model.Profissional" table="pms_cnes_lfces018">
+    
+    <id name="CPF">
+      <column name="cpf_prof" not-null="true"/>
+      <generator class="assigned" />
+    </id>
+    
+    <!--<property name="Prof_ID" column="prof_id"/>-->
+    <property name="Nome" column="nome_prof"/>
+    <property name="Nacionalidade" column="ind_nacio"/>
+    <many-to-one name="RacaCor" class="ViverMais.Model.RacaCor" column="cd_raca"/>
+    <!--<property name="CPF" column="cpf_prof"/>-->
+    <property name="RG" column="num_ident"/>
+    <property name="DataNascimento" column="data_nasc"/>
+    <property name="Sexo" column="sexo"/>
+    <property name="NomeMae" column="nome_mae"/>
+    <property name="NomePai" column="nome_pai"/>
+    <property name="Telefone" column="telefone"/>
+    <property name="TituloEleitor" column="tit_eleit"/>
+    <property name="ZonaEleitoral" column="zona"/>
+    <property name="SecaoEleitoral" column="secao"/>
+    <!--<property name="RegistroConselho" column="n_registro"/>-->
+    <!--<many-to-one name="OrgaoEmissorRegistroConselho" class="ViverMais.Model.OrgaoEmissor" column="conselhoid"/>-->
+    <many-to-one name="OrgaoEmissorRG" class="ViverMais.Model.OrgaoEmissor" column="codorgemis"/>
+    <many-to-one name="UfOrgaoEmissor" class="ViverMais.Model.UF" column="sigla_est"/>
+    <property name="DataEmissaoRG" column="data_emiss"/>
+    <many-to-one name="Banco" class="ViverMais.Model.Banco" column="cod_banco"/>
+    <property name="NumeroAgencia" column="num_agenc"/>
+    <property name="ContaCorrente" column="conta_cc"/>
+    <property name="VinculoSUS" column="tp_sus_nao_sus"/>
+    <property name="PISPASEP" column="PISPASEP"/>
+    <property name="NumeroCarteiraTrabalho" column="ctps_numer"/>
+    <property name="SerieCarteiraTrabalho" column="serie"/>    
+    <many-to-one name="TipoLogradouro" class="ViverMais.Model.TipoLogradouro" column="cd_tp_logr"/>
+    <many-to-one name="UfResidencia" class="ViverMais.Model.UF" column="uf_res"/>
+    <property name="Logradouro" column="logradouro"/>
+    <property name="Numero" column="numero"/>
+    <property name="Complemento" column="complement"/>
+    <property name="CEP" column="cod_cep"/>
+    <many-to-one name="Bairro" class="ViverMais.Model.Bairro" column="co_bairro"/>
+    <many-to-one name="Municipio" class="ViverMais.Model.Municipio" column="cod_mun_res"/>
+    <property name="StatusProfissional" column="statusmov"/>
+    <property name="DataAtualizacao" column="data_atu"/>
+    <property name="UsuarioResponsavelAtualizacao" column="usuario"/>
+	  <!--<property name="CodigoPacienteViverMais" column="co_usuario"/>-->
+    <property name="CartaoSUS" column="cod_cns"/>
+  </class>
+</hibernate-mapping>

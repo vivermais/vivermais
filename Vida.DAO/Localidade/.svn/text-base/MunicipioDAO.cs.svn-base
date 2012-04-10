@@ -1,0 +1,58 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Vida.ServiceFacade.ServiceFacades.Localidade;
+using NHibernate;
+using NHibernate.Criterion;
+
+namespace Vida.DAO.Localidade
+{
+    public class MunicipioDAO : VidaServiceFacadeDAO, IMunicipio
+    {
+        public MunicipioDAO() //: base("vida")
+        {
+
+        }
+
+        #region IMunicipio Members
+
+        IList<T> IMunicipio.ListarPorEstado<T>(string siglaEstado)
+        {
+            string hql = "from Vida.Model.Municipio municipio where municipio.UF.Sigla = '" + siglaEstado + "'";
+            hql += " order by municipio.Nome";
+            return Session.CreateQuery(hql).List<T>();
+        }
+
+        IList<T> IMunicipio.BuscarPorNomeDaBahia<T>(string nome)
+        {
+            string hql = "from Vida.Model.Municipio municipio where municipio.UF.Sigla = 'BA'";
+            //hql += " and municipio.Nome like '"+ nome+"%'";
+            hql += " AND TRANSLATE(UPPER(municipio.Nome),'ÄÅÁÂÀÃäáâàãÉÊËÈéêëèÍÎÏÌíîïìÖÓÔÒÕöóôòõÜÚÛüúûùÇç','AAAAAAaaaaaEEEEeeeeIIIIiiiiOOOOOoooooUUUuuuuCc')";
+            hql += " LIKE ";
+            hql += " TRANSLATE(UPPER('" + nome + "%'),'ÄÅÁÂÀÃäáâàãÉÊËÈéêëèÍÎÏÌíîïìÖÓÔÒÕöóôòõÜÚÛüúûùÇç','AAAAAAaaaaaEEEEeeeeIIIIiiiiOOOOOoooooUUUuuuuCc')";
+            return Session.CreateQuery(hql).List<T>();
+        }
+
+        #endregion
+
+        //#region IServiceFacade Members
+
+        //T Vida.ServiceFacade.ServiceFacades.IServiceFacade.BuscarPorCodigo<T>(object codigo)
+        //{
+        //    return this.FindByPrimaryKey<T>(codigo);
+        //}
+
+        //void Vida.ServiceFacade.ServiceFacades.IServiceFacade.Salvar(object obj)
+        //{
+        //    this.Save(obj);
+        //}
+
+        //IList<T> Vida.ServiceFacade.ServiceFacades.IServiceFacade.ListarTodos<T>()
+        //{
+        //    return this.FindAll<T>();
+        //}
+
+        //#endregion
+    }
+}

@@ -1,0 +1,52 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="FormItemPA.aspx.cs" Inherits="ViverMais.View.Urgencia.FormItemPA"
+    MasterPageFile="~/Urgencia/MasterUrgencia.Master" EnableEventValidation="false" %>
+
+<asp:Content ID="c_head" runat="server" ContentPlaceHolderID="head">
+</asp:Content>
+<asp:Content ID="c_body" runat="server" ContentPlaceHolderID="ContentPlaceHolder1">
+<%--    <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+        <ContentTemplate>--%>
+            <div id="top">
+                <h2>
+                    Item PA</h2>
+                <fieldset class="formulario">
+                    <legend>Formulário de Cadastro</legend>
+                    <p>
+                        <span class="rotulo">Código:</span> <span style="margin-left: 5px;">
+                            <asp:TextBox ID="tbxCodigoSIGTAP" CssClass="campo" runat="server" MaxLength="9"></asp:TextBox>
+                        </span>
+                    </p>
+                    <p>
+                        <span class="rotulo">Descrição:</span> <span style="margin-left: 5px;">
+                            <asp:TextBox ID="tbxNome" CssClass="campo" runat="server" Width="400px" MaxLength="300"></asp:TextBox>
+                        </span>
+                    </p>
+                    <p>
+                        <span class="rotulo">Status</span> <span class="camporadio">
+                            <asp:RadioButton ID="RadioButton_Ativo" runat="server" CssClass="camporadio" Width="20px"
+                                GroupName="GroupName_Situacao" Checked="true" />Ativo
+                            <asp:RadioButton ID="RadioButton_Inativo" runat="server" CssClass="camporadio" Width="20px"
+                                GroupName="GroupName_Situacao" />Inativo </span>
+                    </p>
+                    <p align="center">
+                        <span>
+                            <asp:ImageButton ID="btnSalvar" runat="server" ImageUrl="~/Urgencia/img/bts/btn_salvar1.png"
+                                Width="134px" Height="38px" OnClick="btnSalvar_Click" ValidationGroup="ValidationGroup_cadItemPA" />
+                            <asp:ImageButton ID="Button_Cancelar" runat="server" ImageUrl="~/Urgencia/img/bts/btn_cancelar1.png"
+                                Width="134px" Height="38px" PostBackUrl="~/Urgencia/FormExibeItem.aspx" />
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ErrorMessage="Código é Obrigatório!"
+                                ControlToValidate="tbxCodigoSIGTAP" Display="None" ValidationGroup="ValidationGroup_cadItemPA"></asp:RequiredFieldValidator>
+                            <asp:RegularExpressionValidator ID="RequiredFieldValidator3" runat="server" ErrorMessage="Código deve possuir 10 dígitos"
+                                ControlToValidate="tbxCodigoSIGTAP" Display="None" ValidationGroup="ValidationGroup_cadItemPA"
+                                ValidationExpression="\d{10}"></asp:RegularExpressionValidator>
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ErrorMessage="Descrição é Obrigatório!"
+                                ControlToValidate="tbxNome" Display="None" ValidationGroup="ValidationGroup_cadItemPA"></asp:RequiredFieldValidator>
+                            <asp:ValidationSummary ID="ValidationSummary1" runat="server" ShowMessageBox="true"
+                                ShowSummary="false" ValidationGroup="ValidationGroup_cadItemPA" />
+                        </span>
+                    </p>
+                </fieldset>
+            </div>
+<%--        </ContentTemplate>
+    </asp:UpdatePanel>--%>
+</asp:Content>

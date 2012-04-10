@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="ViverMais.Model">
+  <class name="ViverMais.Model.TipoEstabelecimento" table="pms_cnes_nfces010">
+    <id name="Codigo">
+      <column name="tp_unid_id" not-null="true"/>
+      <generator class="assigned" />
+    </id>
+    <property name="Descricao" column="descricao"/>
+  </class>
+</hibernate-mapping>

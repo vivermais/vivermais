@@ -1,0 +1,83 @@
+﻿<%@ Page Language="C#" MasterPageFile="~/Profissional/MasterProfissional.Master"
+    AutoEventWireup="true" CodeBehind="FormProfissional.aspx.cs" Inherits="ViverMais.View.Profissional.FormProfissional"
+    Title="Untitled Page" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder3" runat="server">
+    <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+        <Triggers>
+            
+            <%--<asp:AsyncPostBackTrigger ControlID="Wizard1" />--%>
+            <%--            <asp:AsyncPostBackTrigger ControlID="tbxCartaoSus" EventName="OnTextChanged" />
+--%>
+        </Triggers>
+        <ContentTemplate>
+            <div id="top">
+                <h2>
+                    Formulário Para Cadastro de Profissional</h2>
+                <fieldset class="formulario">
+                    <legend>Cadastro</legend>
+                    
+                    <p>
+                        <span class="rotulo">
+                            <asp:Label ID="lblnomeProfissional" runat="server" Text="Nome"></asp:Label></span>
+                        <span><asp:TextBox ID="tbxNomeProfissional" runat="server" CssClass="campo" MaxLength="60" ></asp:TextBox></span>
+                            
+                            
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" ErrorMessage="Campo Obrigatório!" ValidationGroup="Salvar" ControlToValidate="tbxNomeProfissional">
+                            </asp:RequiredFieldValidator>
+                                
+                    </p>
+                    <p>
+                        <span class="rotulo">
+                            <asp:Label ID="lblNumConselho" runat="server" Text="Número Conselho"></asp:Label></span>
+                        <span>
+                            <asp:TextBox ID="tbxNumConselho" runat="server" CssClass="campo" MaxLength="10"></asp:TextBox></span>
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ValidationGroup="Salvar" ErrorMessage="Campo Obrigatório!" ControlToValidate="tbxNumConselho">
+                            </asp:RequiredFieldValidator>
+                    </p>
+                    <p>
+                    <span class="rotulo"><asp:Label ID="lblCategoria" runat="server" Text="Categoria" ></asp:Label></span>
+                        
+                        <span>
+                            <asp:DropDownList ID="ddlCategoria" runat="server" ValidationGroup="Salvar" CssClass="drop">
+                            </asp:DropDownList>
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="ddlCategoria"
+                                ErrorMessage="*" ForeColor="Red" Font-Bold="true" InitialValue="0"></asp:RequiredFieldValidator>
+                        </span>
+                    </p>
+                    
+                    
+                    <%--<p>
+                        <span class="rotulo">
+                            <asp:Label ID="lblEstado" runat="server" Text="UF"></asp:Label></span>
+                        <span style="margin-left:5px;"></span>
+                            <asp:DropDownList ID="ddlEstado" runat="server"></asp:DropDownList>
+                            
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidator4" runat="server" ErrorMessage="Campo Obrigatório!" ValidationGroup="Salvar" ControlToValidate="ddlEstado">
+                            </asp:RequiredFieldValidator>
+                    </p>--%>
+                    
+                    <div class="botoesroll">
+                        <asp:LinkButton ID="btnSalvar" runat="server" OnClick="btnSalvar_Click" CausesValidation="true" ValidationGroup="Salvar">
+                        <img id="imgsalvar" alt="Salvar" src="img/salvar_1.png"
+                            onmouseover="imgsalvar.src='img/salvar_2.png';"
+                            onmouseout="imgsalvar.src='img/salvar_1.png';" />
+                        </asp:LinkButton>
+                        </div>
+                          <div class="botoesroll">
+                        <asp:LinkButton ID="btnVoltar" runat="server" CausesValidation="false" 
+                            PostBackUrl="~/Profissional/BuscaProfissional.aspx">
+                        <img id="imgVoltar" alt="Voltar" src="img/voltar_1.png"
+                            onmouseover="imgVoltar.src='img/voltar_2.png';"
+                            onmouseout="imgVoltar.src='img/voltar_1.png';" />
+                        </asp:LinkButton>
+                        </div>
+                        
+                    
+                </fieldset>
+            </div>
+        </ContentTemplate>
+    </asp:UpdatePanel>
+</asp:Content>

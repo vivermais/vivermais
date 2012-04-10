@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Vida.Model">
+  <class name="Vida.Model.EstadoCivil" table="TB_MS_ESTADO_CIVIL">
+    <id name="Codigo">
+      <column name="CO_ESTADO_CIVIL" not-null="true"/>
+      <generator class="assigned" />
+    </id>
+    <property name="Descricao" column="DS_ESTADO_CIVIL"/>
+    <property name="DataAtivacaoDesativacao" column="DT_ATIV_DESAT"/>
+    <property name="SituacaoAtivacao" column="ST_ATIVACAO"/>
+  </class>
+</hibernate-mapping>

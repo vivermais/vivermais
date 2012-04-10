@@ -1,0 +1,59 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" MasterPageFile="~/MasterMain.Master"
+    CodeBehind="MasterPaciente.master.cs" Inherits="Vida.View.Paciente.MasterPaciente" %>
+
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <title>Vida - Módulo Paciente</title>
+    <link rel="stylesheet" href="style_form_paciente.css" type="text/css" media="screen" />
+    <script type="text/javascript">
+        function ValidarData(sender, args)
+        {
+            args.IsValid = VerificaData(args.Value);
+        }
+         
+        function VerificaData(valor) {
+            var date=valor;
+            var ardt=new Array;
+            var ExpReg= new RegExp("(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[012])/[12][0-9]{3}");
+            ardt=date.split("/");
+            erro=false;
+            
+            if ( date.search(ExpReg)==-1)
+                    erro = true;
+            
+            else if (((ardt[1]==4)||(ardt[1]==6)||(ardt[1]==9)||(ardt[1]==11))&&(ardt[0]>30))
+                    erro = true;
+            else if ( ardt[1]==2) {
+                    if ((ardt[0]>28)&&((ardt[2]%4)!=0))
+                            erro = true;
+                    if ((ardt[0]>29)&&((ardt[2]%4)==0))
+                            erro = true;
+            }
+            return !erro;
+        }
+    </script>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+    </asp:ContentPlaceHolder>
+    
+    <cc1:alwaysvisiblecontrolextender runat="server" id="AlwaysVisibleControlExtender2"
+        targetcontrolid="UpDateProgressPaciente" verticalside="Middle" verticaloffset="10"
+        horizontalside="Center" horizontaloffset="10" scrolleffectduration=".1">
+    </cc1:alwaysvisiblecontrolextender>
+    <div>
+        <asp:UpdateProgress ID="UpDateProgressPaciente" runat="server" DisplayAfter="1" DynamicLayout="false">
+            <ProgressTemplate>
+                <div id="progressBackgroundFilter">
+                </div>
+                <div id="processMessage">
+                    <div id="bgloader">
+                        <img src="img/ajax-loadernn.gif" style="margin-left: 68px; margin-top: 45px;" alt="" />
+                    </div>
+                </div>
+            </ProgressTemplate>
+        </asp:UpdateProgress>
+    </div>
+</asp:Content>

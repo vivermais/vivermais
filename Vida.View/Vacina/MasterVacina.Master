@@ -1,0 +1,113 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" MasterPageFile="~/MasterMain.Master"
+    CodeBehind="MasterVacina.Master.cs" Inherits="ViverMais.View.Vacina.MasterVacina" CompilationMode="Always" %>
+
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <link rel="stylesheet" href="style_form_vacina.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="style-barra-modulo.css" type="text/css" media="screen" />
+    <link href="GreyBox/gb_styles.css" rel="stylesheet" type="text/css" media="screen" />
+    <link rel="stylesheet" href="js/jqModal.css" type="text/css" media="screen" />
+
+    <script type="text/javascript" src="js/jquery-1.2.6.pack.js"></script>
+
+    <script type="text/javascript" src="js/jqModal.js"></script>
+    
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+
+    <script type="text/javascript" language="javascript">
+        function showTooltip(obj) {
+            if (obj.options[obj.selectedIndex].title == "") {
+                obj.title = obj.options[obj.selectedIndex].text;
+                obj.options[obj.selectedIndex].title = obj.options[obj.selectedIndex].text;
+                for (i = 0; i < obj.options.length; i++) {
+                    obj.options[i].title = obj.options[i].text;
+                }
+            }
+            else
+                obj.title = obj.options[obj.selectedIndex].text;
+        }
+    </script>
+
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <% 
+        string url = Request.Url.ToString();
+        url = url.Substring(0, url.LastIndexOf(char.Parse("/")));
+    %>
+
+    <script type="text/javascript">
+        var GB_ROOT_DIR = '<%=url %>/GreyBox/';
+    </script>
+    
+    <script type="text/javascript" src="/GreyBox/AJS.js"></script>
+
+    <script type="text/javascript" src="/GreyBox/AJS_fx.js"></script>
+
+    <script type="text/javascript" src="/GreyBox/gb_scripts.js"></script>
+
+    <%--<div id="bgvacina">--%>
+<%--        <div id="DivMenu" runat="server" visible="false">
+            <div style="margin-top: 8px; margin-left: 14px">
+                <ul class="menu2" id="menu">
+                    <li><a href="#" class="menulink">Administração</a>
+                        <ul>
+                            <li><a href="FormExibeDoenca.aspx">Doença</a></li>
+                            <li><a href="FormExibeFabricante.aspx">Fabricante</a></li>
+                            <li><a href="FormExibeVacina.aspx">Imunobiológico</a></li>
+                            <li><a href="FormExibirPesquisarLote.aspx">Lote de Imunobiológico</a></li>
+                            <li><a href="FormParametrizarVacina.aspx">Parametrização</a></li>
+                            <li><a href="FormExibeSalaVacina.aspx">Sala de Vacina</a></li>
+                            <li><a href="FormExibeUnidadeMedidaVacina.aspx">Unidade de Medida</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#" class="menulink">Movimento</a>
+                        <ul>
+                            <li><a href="FormPesquisaPaciente.aspx?tipo=cartao">Cartão de Vacina</a></li>
+                            <li><a href="#" class="sub">Dispensação</a>
+                                <ul>
+                                    <li class="topline"><a href="FormPesquisaPaciente.aspx?tipo=pesquisardispensacao">Pesquisar</a></li>
+                                    <li><a href="FormPesquisaPaciente.aspx?tipo=dispensacao">Vacinação</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="FormConsultarEstoque.aspx">Consultar Estoque</a></li>
+                            <li><a href="FormInventario.aspx">Inventário</a></li>
+                            <li><a href="#" class="sub">Movimentação de Imunobiológicos</a>
+                                <ul>
+                                    <li class="topline"><a href="FormEscolheDadosMovimentacao.aspx">Nova</a></li>
+                                    <li><a href="FormPesquisarMovimentacao.aspx">Pesquisar</a></li>
+                                    <li><a href="#" class="sub">Remanejamento</a>
+                                        <ul>
+                                            <li><a href="FormReceberRemanejamento.aspx">Receber</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><a href="FormRelatoriosVacina.aspx" class="menulink">Relatórios</a></li>
+                </ul>
+            </div>
+        </div>--%>
+    <%--</div>--%>
+    <cc1:AlwaysVisibleControlExtender runat="server" ID="AlwaysVisibleControlExtender2"
+        TargetControlID="UpDateProgressVacina" VerticalSide="Middle" VerticalOffset="10"
+        HorizontalSide="Center" HorizontalOffset="10" ScrollEffectDuration=".1">
+    </cc1:AlwaysVisibleControlExtender>
+    <br />
+    
+    <asp:UpdateProgress ID="UpDateProgressVacina" runat="server" DisplayAfter="1" DynamicLayout="false">
+        <ProgressTemplate>
+            <div id="progressBackgroundFilter">
+            </div>
+            <div id="processMessage">
+                <div id="bgloader">
+                    <img src="img/ajax-loadernn.gif" alt="" style="margin-left: 68px; margin-top: 45px;" />
+                </div>
+            </div>
+        </ProgressTemplate>
+    </asp:UpdateProgress>
+    
+    <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+    </asp:ContentPlaceHolder>
+</asp:Content>

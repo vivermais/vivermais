@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="ViverMais.Model">
+  <class name="ViverMais.Model.SubGrupoAgregado" table="tb_pms_subgrupo_agregado">
+    <id name="Codigo">
+      <column name="id_subgrupo" not-null="true"/>
+      <generator class="assigned" />
+    </id>
+    <property name="Nome" column="nome"/>
+    <many-to-one name="GrupoAgregado" class="ViverMais.Model.GrupoAgregado" column="id_grupo"/>
+  </class>
+</hibernate-mapping>

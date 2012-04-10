@@ -1,0 +1,155 @@
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Xml.Linq;
+using Vida.DAO;
+using Vida.Model;
+using Vida.ServiceFacade.ServiceFacades.Paciente;
+using System.Collections.Generic;
+
+namespace Vida.View.Agendamento
+{
+    public partial class FormVinculoPacienteProgramaDeSaude : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!IsPostBack)
+            {
+                if (Factory.GetInstance<Vida.ServiceFacade.ServiceFacades.Seguranca.ISeguranca>().VerificarPermissao(((Usuario)Session["Usuario"]).Codigo, "INATIVAR PACIENTE DO PROGRAMA", Modulo.AGENDAMENTO))
+                {
+                    CarregaProgramasDeSaude();
+                }
+                else
+                {
+
+                }
+            }
+        }
+
+        void CarregaProgramasDeSaude()
+        {
+            ddlProgramaDeSaude.DataSource = Factory.GetInstance<Vida.ServiceFacade.ServiceFacades.IVidaServiceFacade>().ListarTodos<ProgramaDeSaude>("Nome", true).Where(programa => programa.Ativo).ToList();
+            ddlProgramaDeSaude.DataBind();
+            ddlProgramaDeSaude.Items.Insert(0, new ListItem("Selecione", "0"));
+            ddlProgramaDeSaude.Focus();
+        }
+
+        protected void ddlProgramaDeSaude_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void btnPesquisar_Click1(object sender, ImageClickEventArgs e)
+        {
+            if (!Page.IsValid)
+                return;
+            IPaciente ipaciente = Factory.GetInstance<IPaciente>();
+            IList<Vida.Model.Paciente> pacientes = new List<Vida.Model.Paciente>();
+
+            if (!string.IsNullOrEmpty(tbxCartaoSUS.Text))
+            {
+                Vida.Model.Paciente paciente = ipaciente.PesquisarPacientePorCNS<Vida.Model.Paciente>(tbxCartaoSUS.Text);
+                if (paciente != null)
+                {
+                    pacientes.Add(paciente);
+                }
+            }
+            else
+            {
+                if (tbxNome.Text.Trim() != string.Empty && (tbxNomeMae.Text.Trim() == string.Empty && tbxDataNascimento.Text.Trim() == string.Empty)
+                  || tbxNomeMae.Text.Trim() != string.Empty && (tbxNome.Text.Trim() == string.Empty && tbxDataNascimento.Text.Trim() == string.Empty)
+                  || tbxDataNascimento.Text.Trim() != string.Empty && (tbxNome.Text.Trim() == string.Empty && tbxNomeMae.Text.Trim() == string.Empty)
+                )
+                {
+                    ScriptManager.RegisterStartupScript(Page, typeof(Page), "ok", "alert('Favor informar ao menos dois campos para a busca.');", true);
+                    //ClientScript.RegisterClientScriptBlock(Page.GetType(), "alerta", "alert('Favor informar ao menos dois campos para a busca.');", true);
+                    return;
+                }
+                pacientes = ipaciente.PesquisarPaciente<Vida.Model.Paciente>(tbxNome.Text.ToUpper(), tbxNomeMae.Text.ToUpper(), string.IsNullOrEmpty(tbxDataNascimento.Text) ? DateTime.MinValue : DateTime.Parse(tbxDataNascimento.Text));
+            }
+
+            Session["WUCPacientes"] = pacientes;
+            GridViewPacientes.DataSource = pacientes;
+            GridViewPacientes.DataBind();
+            tbxNome.Text = string.Empty;
+            tbxNomeMae.Text = string.Empty;
+            tbxDataNascimento.Text = string.Empty;
+            tbxCartaoSUS.Text = string.Empty;
+        }
+
+        protected void btnFazerUpload_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void rbtnFormaCadastro_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (rbtnFormaCadastro.SelectedValue == "A")//Através de Arquivo
+            {
+                PanelImportacao.Visible = true;
+                PanelPesquisaPaciente.Visible = false;
+            }
+            else if (rbtnFormaCadastro.SelectedValue == "P")//Através de Arquivo
+            {
+                PanelImportacao.Visible = false;
+                PanelPesquisaPaciente.Visible = true;
+            }
+        }
+
+        protected void CustomValidatorNomePaciente_ServerValidate(object source, ServerValidateEventArgs args)
+        {
+            args.IsValid = true;
+            if (!string.IsNullOrEmpty(tbxCartaoSUS.Text))
+                return;
+            if (tbxNome.Text != string.Empty && tbxNome.Text.Split(' ').Length < 2)
+            {
+                args.IsValid = false;
+            }
+        }
+
+        protected void CustomValidatorNomeMae_ServerValidate(object source, ServerValidateEventArgs args)
+        {
+            args.IsValid = true;
+            if (!string.IsNullOrEmpty(tbxCartaoSUS.Text))
+                return;
+            if (tbxNomeMae.Text != string.Empty && tbxNomeMae.Text.Split(' ').Length < 2)
+            {
+                args.IsValid = false;
+            }
+        }
+
+        protected void CustomValidatorCampos_ServerValidate(object source, ServerValidateEventArgs args)
+        {
+            args.IsValid = true;
+            if (!string.IsNullOrEmpty(tbxCartaoSUS.Text))
+                return;
+            if (tbxNome.Text != string.Empty && tbxNomeMae.Text == string.Empty && tbxDataNascimento.Text == string.Empty)
+            {
+                args.IsValid = false;
+            }
+        }
+
+        protected void CustomValidatorRequired_ServerValidate(object source, ServerValidateEventArgs args)
+        {
+            args.IsValid = true;
+            if (tbxNome.Text == string.Empty && tbxNomeMae.Text == string.Empty && tbxDataNascimento.Text == string.Empty && tbxCartaoSUS.Text == string.Empty)
+                args.IsValid = false;
+        }
+
+        protected void Accordion1_ItemCommand(object sender, CommandEventArgs e)
+        {
+            tbxNome.Text = string.Empty;
+            tbxNomeMae.Text = string.Empty;
+            tbxDataNascimento.Text = string.Empty;
+            tbxCartaoSUS.Text = string.Empty;
+        }
+    }
+}

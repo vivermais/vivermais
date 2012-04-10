@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DSExames" targetNamespace="http://tempuri.org/DSExames.xsd" xmlns:mstns="http://tempuri.org/DSExames.xsd" xmlns="http://tempuri.org/DSExames.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DSExames" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_DataSetName="DSExames" msprop:Generator_UserDSName="DSExames" msprop:EnableTableAdapterManager="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="Exame" msprop:Generator_UserTableName="Exame" msprop:Generator_RowDeletedName="ExameRowDeleted" msprop:Generator_TableClassName="ExameDataTable" msprop:Generator_RowChangedName="ExameRowChanged" msprop:Generator_RowClassName="ExameRow" msprop:Generator_RowChangingName="ExameRowChanging" msprop:Generator_RowEvArgName="ExameRowChangeEvent" msprop:Generator_RowEvHandlerName="ExameRowChangeEventHandler" msprop:Generator_TablePropName="Exame" msprop:Generator_TableVarName="tableExame" msprop:Generator_RowDeletingName="ExameRowDeleting">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="DataSolicitacao" msprop:Generator_UserColumnName="DataSolicitacao" msprop:Generator_ColumnPropNameInRow="DataSolicitacao" msprop:Generator_ColumnVarNameInTable="columnDataSolicitacao" msprop:Generator_ColumnPropNameInTable="DataSolicitacaoColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="ProfissionalSolicitante" msprop:Generator_UserColumnName="ProfissionalSolicitante" msprop:Generator_ColumnPropNameInRow="ProfissionalSolicitante" msprop:Generator_ColumnVarNameInTable="columnProfissionalSolicitante" msprop:Generator_ColumnPropNameInTable="ProfissionalSolicitanteColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Exame" msprop:Generator_UserColumnName="Exame" msprop:Generator_ColumnPropNameInRow="Exame" msprop:Generator_ColumnVarNameInTable="columnExame" msprop:Generator_ColumnPropNameInTable="ExameColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="DataResultado" msprop:Generator_UserColumnName="DataResultado" msprop:Generator_ColumnPropNameInRow="DataResultado" msprop:Generator_ColumnVarNameInTable="columnDataResultado" msprop:Generator_ColumnPropNameInTable="DataResultadoColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Resultado" msprop:Generator_UserColumnName="Resultado" msprop:Generator_ColumnPropNameInRow="Resultado" msprop:Generator_ColumnVarNameInTable="columnResultado" msprop:Generator_ColumnPropNameInTable="ResultadoColumn" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

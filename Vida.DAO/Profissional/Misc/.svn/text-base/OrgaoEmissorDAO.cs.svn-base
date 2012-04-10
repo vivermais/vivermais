@@ -1,0 +1,21 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Vida.ServiceFacade.ServiceFacades.Profissional.Misc;
+
+namespace Vida.DAO.Profissional.Misc
+{
+    public class OrgaoEmissorDAO: VidaServiceFacadeDAO, IOrgaoEmissor
+    {
+        #region IOrgaoEmissorDAO
+        T IOrgaoEmissor.BuscarOrgaoEmissorPorCategoria<T>(string id_categoria)
+        {
+            string hql = string.Empty;
+            hql += "from Vida.Model.OrgaoEmissor oe";
+            hql += " where oe.CategoriaOcupacao.Codigo= '"+ id_categoria+"'";
+            return Session.CreateQuery(hql).UniqueResult<T>();
+        }
+        #endregion
+    }
+}

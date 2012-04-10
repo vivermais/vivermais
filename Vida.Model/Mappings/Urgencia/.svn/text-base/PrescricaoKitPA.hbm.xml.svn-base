@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Vida.Model">
+  <class name="Vida.Model.PrescricaoKitPA" table="prescricao_kit">
+    <composite-id unsaved-value="none">
+      <key-many-to-one name="Prescricao" class="Vida.Model.Prescricao" column="id_prescricao" lazy="false"/>
+      <key-many-to-one name="KitPA" class="Vida.Model.KitPA" column="id_kit" lazy="false"/>
+    </composite-id>
+    <property name="Intervalo" column="intervalo" />
+    <many-to-one name="ViaAdministracao" class="Vida.Model.ViaAdministracao" column="id_viaadministracao" lazy="false"></many-to-one>
+    <many-to-one name="FormaAdministracao" class="Vida.Model.FormaAdministracao" column="id_formaadministracao" lazy="false"></many-to-one>
+  </class>
+</hibernate-mapping>

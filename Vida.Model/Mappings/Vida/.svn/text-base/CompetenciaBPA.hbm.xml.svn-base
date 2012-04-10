@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Vida.Model">
+  <class name="Vida.Model.CompetenciaBPA" table="tb_pms_competencia_bpa">
+    <id name="Codigo">
+      <column name="ID_COMPETENCIA_BPA" not-null="true"/>
+      <generator class="sequence">
+        <param name="sequence">BPA_COMPETENCIA</param>
+      </generator>
+    </id>
+
+    <property name="Ano" column="ano"/>
+	<property name="Mes" column="mes"/>
+	<property name="DataInicial" column="data_inicial"/>
+	<property name="DataFinal" column="data_final"/>
+    
+  </class>
+</hibernate-mapping>

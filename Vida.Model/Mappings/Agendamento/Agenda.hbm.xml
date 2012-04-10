@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="ViverMais.Model">
+  <class name="ViverMais.Model.Agenda" table="AGD_AGENDA">
+    <cache usage="read-write"/>
+    <id name="Codigo">
+      <column name="CO_AGENDA" not-null="true"/>
+      <generator class="sequence">
+        <param name="sequence">AGD_AGENDA_SEQUENCE</param>
+      </generator>
+    </id>
+
+    <many-to-one name="ID_Profissional" class="ViverMais.Model.Profissional" column="CPF_PROF" fetch="join"/>
+    <!--<property name="ID_Profissional" column="CPF_PROF" />-->
+
+    <many-to-one name="Estabelecimento" class="ViverMais.Model.EstabelecimentoSaude" column="CNES" fetch="join"/>
+    
+    <!--<property name="ID_Unidade" column="CNES" />-->
+    <many-to-one name="Procedimento" class="ViverMais.Model.Procedimento" column="CO_PROCEDIMENTO" fetch="join"/>
+    <many-to-one name="SubGrupo" class="ViverMais.Model.SubGrupo" column="CO_SUBGRUPO" fetch="join"/>
+    
+    <!--<property name="Procedimento" column="CO_PROCEDIMENTO" />-->
+    <many-to-one name="Cbo" class="ViverMais.Model.CBO" column="CO_OCUPACAO" fetch="join"/>
+    <!--<property name="Cbo" column="CO_OCUPACAO" />-->
+    <property name="Data" column="DATA" />
+    <property name="Turno" column="TURNO" />
+    <property name="Hora_Inicial" column="HORA_INICIAL" />
+    <property name="Hora_Final" column="HORA_FINAL" />
+    <property name="Quantidade" column="QUANTIDADE" />
+    <!--<property name="QuantidadeAgendada" formula="( SELECT count(*) FROM AGD_SOLICITACAO sol where sol.co_agenda = co_agenda and (sol.Situacao = '2' or sol.Situacao = '5' or sol.Situacao = '7'))" />-->
+    <property name="QuantidadeAgendada" column="QUANTIDADE_AGENDADA" />
+    <property name="Competencia" column="COMPETENCIA" />
+    <property name="Bloqueada" column="BLOQUEADA" />
+    <property name="Publicada" column="PUBLICADA" />
+    <property name="MotivoBloqueio" column="MOTIVO_BLOQUEIO" />
+    <property name="ObservacaoBloqueio" column="OBSERVACAO_BLOQUEIO" />
+  </class>
+</hibernate-mapping>

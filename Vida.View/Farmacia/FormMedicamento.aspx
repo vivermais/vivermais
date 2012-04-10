@@ -1,0 +1,135 @@
+﻿<%@ Page Language="C#" AutoEventWireup="True" CodeBehind="FormMedicamento.aspx.cs"
+    Inherits="ViverMais.View.Farmacia.FormMedicamento" EnableEventValidation="false" MasterPageFile="~/Farmacia/MasterFarmacia.Master" %>
+
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
+<asp:Content ContentPlaceHolderID="head" ID="c_head" runat="server">
+</asp:Content>
+<asp:Content ContentPlaceHolderID="ContentPlaceHolder1" ID="c_body" runat="server">
+    <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+        <ContentTemplate>
+            <div id="top">
+                <h2>
+                    Formulário para Cadastro de Medicamento</h2>
+                <fieldset class="formulario">
+                    <legend>Forma Farmacêutica</legend>
+                    <p>
+                        <span>
+                            <cc1:TabContainer ID="TabContainer1" runat="server" ActiveTabIndex="0">
+                                <cc1:TabPanel ID="TabPanel_Um" runat="server" HeaderText="Medicamento">
+                                    <ContentTemplate>
+                                        <fieldset>
+                                            <legend>Medicamento</legend>
+                                            <p>
+                                                <span class="rotulo">Código</span><span> </span><span style="margin-left: 5px;">
+                                                    <asp:TextBox ID="TextBox_Codigo" runat="server" MaxLength="9" CssClass="campo"></asp:TextBox></span></p>
+                                            <br />
+                                            <p>
+                                                <span class="rotulo">Nome</span><span> </span><span style="margin-left: 5px;">
+                                                    <asp:TextBox ID="TextBox_Nome" runat="server" CssClass="campo" Width="300px"></asp:TextBox></span></p>
+                                                 <br />
+                                            <p>
+                                                <span class="rotulo">Unidade de Medida</span><span> </span><span>                                                    <asp:DropDownList ID="DropDownList_UnidadeMedida" runat="server" CssClass="campo" Height="26px">                                                        <asp:ListItem Text="Selecione..." Value="-1"></asp:ListItem>                                                    </asp:DropDownList>
+                                                </span>
+                                            </p>
+                                                 <br />
+                                            <p>
+                                                <span class="rotulo">Antibiótico</span><span> 
+                                                    <asp:RadioButton ID="RadioButton_NaoAntibiotico" runat="server" Checked="true" 
+                                                        GroupName="GroupName_Antibiotico" Width="20px" />
+                                                    Não</span>
+                                                    <span>
+                                                    <asp:RadioButton ID="RadioButton_Antibiotico" runat="server"  
+                                                        GroupName="GroupName_Antibiotico" Width="20px"  />
+                                                    Sim</span>
+                                            </p>
+                                            <p>
+                                              <div class="botoesroll">
+                                                    <asp:LinkButton ID="Button_Salvar" runat="server" OnClick="OnClick_Salvar"
+                                                        ValidationGroup="ValidationGroup_cadMedicamento" >
+                                                         <img id="imgsalvar" runat="server" />
+                                                        </asp:LinkButton>
+                                                        </div>
+                                                        
+                                                         <div class="botoesroll">
+                                                        <asp:LinkButton ID="Button_Cancelar"
+                                                            runat="server" Text="Cancelar" PostBackUrl="~/Farmacia/Default.aspx" >
+                                                             <img id="imgcancelar" alt="Cancelar" src="img/btn/cancelar1.png"
+                                                               onmouseover="imgcancelar.src='img/btn/cancelar1.png';"
+                                                               onmouseout="imgcancelar.src='img/btn/cancelar1.png';" />
+                                                            </asp:LinkButton>
+                                                            </div>
+                                                            
+                                                            
+                                                            <asp:RequiredFieldValidator
+                                                                ID="RequiredFieldValidator2" runat="server" ErrorMessage="Código é Obrigatório!"
+                                                                Display="None" ControlToValidate="TextBox_Codigo" ValidationGroup="ValidationGroup_cadMedicamento"></asp:RequiredFieldValidator><asp:RequiredFieldValidator
+                                                                    ID="RequiredFieldValidator1" runat="server" ErrorMessage="Nome é Obrigatório!"
+                                                                    Display="None" ControlToValidate="TextBox_Nome" ValidationGroup="ValidationGroup_cadMedicamento"></asp:RequiredFieldValidator><asp:CompareValidator
+                                                                        ID="CompareValidator1" runat="server" ErrorMessage="Selecione uma Forma Farmacêutica!"
+                                                                        Display="None" ControlToValidate="DropDownList_UnidadeMedida" ValidationGroup="ValidationGroup_cadMedicamento"
+                                                                        ValueToCompare="-1" Operator="GreaterThan"></asp:CompareValidator><asp:ValidationSummary
+                                                                            ID="ValidationSummary1" runat="server" ShowMessageBox="true" ShowSummary="false"
+                                                                            ValidationGroup="ValidationGroup_cadMedicamento" />
+                                                </span>
+                                            </p>
+                                        </fieldset>
+                                    </ContentTemplate>
+                                </cc1:TabPanel>
+                                <cc1:TabPanel ID="TabPanel_Dois" runat="server" HeaderText="Elencos do Medicamento">
+                                    <ContentTemplate>
+                                        <fieldset>
+                                            <legend>Elencos do Medicamento</legend>
+                                            <p>
+                                                <span>
+                                                    <asp:GridView ID="GridView_ElencoMedicamento" runat="server" Width="660px" AutoGenerateColumns="false"
+                                                        OnPageIndexChanging="OnPageIndexChanging_PaginacaoElenco" PageSize="20" PagerSettings-Mode="Numeric"
+                                                        DataKeyNames="Codigo">
+                                                        <Columns>
+                                                            <asp:HyperLinkField HeaderText="Nome" DataNavigateUrlFormatString="FormElencoMedicamentos.aspx?codigo={0}"
+                                                                DataTextField="Nome" DataNavigateUrlFields="Codigo" ItemStyle-HorizontalAlign="Center" />
+                                                        </Columns>
+                                                        <EmptyDataRowStyle HorizontalAlign="Center" />
+                                                        <HeaderStyle BackColor="#194129" Font-Bold="True" ForeColor="White" Height="20px" HorizontalAlign="Center"/>
+                                    <RowStyle ForeColor="Black" BackColor="#f0f0f0" Font-Bold="true" Height="18px" HorizontalAlign="Center" />
+                                    <PagerStyle BackColor="#194129" ForeColor="White" HorizontalAlign="Center" />
+                                                        <EmptyDataTemplate>
+                                                            <asp:Label ID="lbEmpty" runat="server" Text="Nenhum registro encontrado."></asp:Label></EmptyDataTemplate>
+                                                    </asp:GridView>
+                                                </span>
+                                            </p>
+                                        </fieldset>
+                                    </ContentTemplate>
+                                </cc1:TabPanel>
+                                <cc1:TabPanel ID="TabPanel_Tres" runat="server" HeaderText="Sub-Elencos do Medicamento">
+                                    <ContentTemplate>
+                                        <fieldset>
+                                            <legend>Sub-Elencos do Medicamento</legend>
+                                            <p>
+                                                <span>
+                                                    <asp:GridView ID="GridView_SubElencoMedicamento" runat="server" Width="660px" AutoGenerateColumns="false"
+                                                        OnPageIndexChanging="OnPageIndexChanging_PaginacaoSubElenco" PageSize="20" PagerSettings-Mode="Numeric">
+                                                        <Columns>
+                                                            <asp:HyperLinkField HeaderText="Nome" DataNavigateUrlFormatString="FormSubElencoMedicamento.aspx?codigo={0}"
+                                                                DataTextField="Nome" DataNavigateUrlFields="Codigo" ItemStyle-HorizontalAlign="Center" />
+                                                        </Columns>
+                                                        <EmptyDataRowStyle HorizontalAlign="Center" />
+                                                        <HeaderStyle CssClass="tab" />
+                                                        <RowStyle CssClass="tabrow" />
+                                                        <EmptyDataTemplate>
+                                                            <asp:Label ID="lbEmpty" runat="server" Text="Nenhum registro encontrado."></asp:Label></EmptyDataTemplate>
+                                                    </asp:GridView>
+                                                </span>
+                                            </p>
+                                        </fieldset>
+                                    </ContentTemplate>
+                                </cc1:TabPanel>
+                            </cc1:TabContainer>
+                        </span>
+                        <p>
+                        </p>
+                    </p>
+                </fieldset>
+            </div>
+        </ContentTemplate>
+    </asp:UpdatePanel>
+</asp:Content>

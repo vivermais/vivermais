@@ -1,0 +1,3 @@
+C:\Users\Lucas\vivermais\Vida.DAO\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Lucas\vivermais\Vida.DAO\obj\Debug\Vida.DAO.Properties.Resources.resources
+C:\Users\Lucas\vivermais\Vida.DAO\obj\Debug\ViverMais.DAO.csproj.GenerateResource.Cache

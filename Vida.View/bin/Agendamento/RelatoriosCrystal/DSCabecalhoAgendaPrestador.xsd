@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DSCabecalhoAgendaPrestador" targetNamespace="http://tempuri.org/DSCabecalhoAgendaPrestador.xsd" xmlns:mstns="http://tempuri.org/DSCabecalhoAgendaPrestador.xsd" xmlns="http://tempuri.org/DSCabecalhoAgendaPrestador.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DSCabecalhoAgendaPrestador" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_UserDSName="DSCabecalhoAgendaPrestador" msprop:Generator_DataSetName="DSCabecalhoAgendaPrestador" msprop:EnableTableAdapterManager="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="CabecalhoAgendaPrestador" msprop:Generator_UserTableName="CabecalhoAgendaPrestador" msprop:Generator_RowDeletedName="CabecalhoAgendaPrestadorRowDeleted" msprop:Generator_RowChangedName="CabecalhoAgendaPrestadorRowChanged" msprop:Generator_RowClassName="CabecalhoAgendaPrestadorRow" msprop:Generator_RowChangingName="CabecalhoAgendaPrestadorRowChanging" msprop:Generator_RowEvArgName="CabecalhoAgendaPrestadorRowChangeEvent" msprop:Generator_RowEvHandlerName="CabecalhoAgendaPrestadorRowChangeEventHandler" msprop:Generator_TableClassName="CabecalhoAgendaPrestadorDataTable" msprop:Generator_TableVarName="tableCabecalhoAgendaPrestador" msprop:Generator_RowDeletingName="CabecalhoAgendaPrestadorRowDeleting" msprop:Generator_TablePropName="CabecalhoAgendaPrestador">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="UnidadeExecutante" msprop:Generator_UserColumnName="UnidadeExecutante" msprop:Generator_ColumnVarNameInTable="columnUnidadeExecutante" msprop:Generator_ColumnPropNameInRow="UnidadeExecutante" msprop:Generator_ColumnPropNameInTable="UnidadeExecutanteColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Periodo" msprop:Generator_UserColumnName="Periodo" msprop:Generator_ColumnVarNameInTable="columnPeriodo" msprop:Generator_ColumnPropNameInRow="Periodo" msprop:Generator_ColumnPropNameInTable="PeriodoColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Procedimento" msprop:Generator_UserColumnName="Procedimento" msprop:Generator_ColumnVarNameInTable="columnProcedimento" msprop:Generator_ColumnPropNameInRow="Procedimento" msprop:Generator_ColumnPropNameInTable="ProcedimentoColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="QtdRegistros" msprop:Generator_UserColumnName="QtdRegistros" msprop:Generator_ColumnPropNameInRow="QtdRegistros" msprop:Generator_ColumnVarNameInTable="columnQtdRegistros" msprop:Generator_ColumnPropNameInTable="QtdRegistrosColumn" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Vida.Model">
+  <class name="Vida.Model.ProcedimentoCid" table="tb_pms_rl_procedimento_cid">
+    <composite-id>
+      <key-many-to-one name="Procedimento" class="Vida.Model.Procedimento" column="co_procedimento" not-found="ignore"/>
+      <key-many-to-one name="Cid" class="Vida.Model.Cid" column="co_cid" not-found="ignore"/>
+    </composite-id>
+    <property name="DataCompetencia" column="dt_competencia"/>
+    <property name="CidPrincipal" column="st_principal"/>
+  </class>
+</hibernate-mapping>

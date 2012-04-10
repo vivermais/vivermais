@@ -1,0 +1,12 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace Vida.ServiceFacade.ServiceFacades.Procedimento.Misc
+{
+    public interface IGrupoCBO: IVidaServiceFacade
+    {
+        T BuscarPorCBO<T>(string co_cbo);
+    }
+}

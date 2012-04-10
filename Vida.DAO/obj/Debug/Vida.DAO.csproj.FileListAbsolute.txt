@@ -1,0 +1,316 @@
+L:\SISTEMAS\VIDA\Vida.DAO\obj\Debug\ResolveAssemblyReference.cache
+L:\SISTEMAS\VIDA\Vida.DAO\obj\Debug\Vida.DAO.Properties.Resources.resources
+L:\SISTEMAS\VIDA\Vida.DAO\obj\Debug\Vida.DAO.csproj.GenerateResource.Cache
+L:\SISTEMAS\VIDA\Vida.DAO\bin\Debug\lib\Oracle.DataAccess.dll
+L:\SISTEMAS\VIDA\Vida.DAO\bin\Debug\Vida.DAO.dll
+L:\SISTEMAS\VIDA\Vida.DAO\bin\Debug\Vida.DAO.pdb
+L:\SISTEMAS\VIDA\Vida.DAO\bin\Debug\Castle.Core.dll
+L:\SISTEMAS\VIDA\Vida.DAO\bin\Debug\Castle.DynamicProxy2.dll
+L:\SISTEMAS\VIDA\Vida.DAO\bin\Debug\FusionCharts.dll
+L:\SISTEMAS\VIDA\Vida.DAO\bin\Debug\ICSharpCode.SharpZipLib.dll
+L:\SISTEMAS\VIDA\Vida.DAO\bin\Debug\Iesi.Collections.dll
+L:\SISTEMAS\VIDA\Vida.DAO\bin\Debug\log4net.dll
+L:\SISTEMAS\VIDA\Vida.DAO\bin\Debug\NHibernate.Caches.SysCache.dll
+L:\SISTEMAS\VIDA\Vida.DAO\bin\Debug\NHibernate.dll
+L:\SISTEMAS\VIDA\Vida.DAO\bin\Debug\NPOI.DDF.dll
+L:\SISTEMAS\VIDA\Vida.DAO\bin\Debug\NPOI.dll
+L:\SISTEMAS\VIDA\Vida.DAO\bin\Debug\NPOI.HPSF.dll
+L:\SISTEMAS\VIDA\Vida.DAO\bin\Debug\NPOI.HSSF.dll
+L:\SISTEMAS\VIDA\Vida.DAO\bin\Debug\NPOI.POIFS.dll
+L:\SISTEMAS\VIDA\Vida.DAO\bin\Debug\NPOI.Util.dll
+L:\SISTEMAS\VIDA\Vida.DAO\bin\Debug\Oracle.DataAccess.dll
+L:\SISTEMAS\VIDA\Vida.DAO\bin\Debug\Vida.BLL.dll
+L:\SISTEMAS\VIDA\Vida.DAO\bin\Debug\Vida.Model.dll
+L:\SISTEMAS\VIDA\Vida.DAO\bin\Debug\Vida.ServiceFacade.dll
+L:\SISTEMAS\VIDA\Vida.DAO\bin\Debug\Vida.DAOOracle.dll
+L:\SISTEMAS\VIDA\Vida.DAO\bin\Debug\Vida.DAL.dll
+L:\SISTEMAS\VIDA\Vida.DAO\bin\Debug\Vida.ServiceFacade.pdb
+L:\SISTEMAS\VIDA\Vida.DAO\bin\Debug\NPOI.xml
+L:\SISTEMAS\VIDA\Vida.DAO\bin\Debug\NPOI.Util.xml
+L:\SISTEMAS\VIDA\Vida.DAO\bin\Debug\Vida.Model.pdb
+L:\SISTEMAS\VIDA\Vida.DAO\bin\Debug\Vida.DAOOracle.pdb
+L:\SISTEMAS\VIDA\Vida.DAO\bin\Debug\Vida.DAL.pdb
+L:\SISTEMAS\VIDA\Vida.DAO\bin\Debug\Vida.BLL.pdb
+L:\SISTEMAS\VIDA\Vida.DAO\bin\Debug\NPOI.HSSF.xml
+L:\SISTEMAS\VIDA\Vida.DAO\bin\Debug\NPOI.DDF.xml
+L:\SISTEMAS\VIDA\Vida.DAO\bin\Debug\NPOI.POIFS.xml
+L:\SISTEMAS\VIDA\Vida.DAO\bin\Debug\NPOI.HPSF.xml
+L:\SISTEMAS\VIDA\Vida.DAO\obj\Debug\Vida.DAO.dll
+L:\SISTEMAS\VIDA\Vida.DAO\obj\Debug\Vida.DAO.pdb
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\lib\Oracle.DataAccess.dll
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelAcolhimentoProntuario.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelAtendimentoCID.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelAtendimentoFaixa.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelCabecalho.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelCabecalhoAtendimentoCID.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelCabecalhoAtendimentoFaixa.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelcabecalhoEvasao.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelCabecalhoLeitosFaixa.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelCabecalhoSituacao.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelCids.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelClassificacoesRisco.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelConsultaMedicaProntuario.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelConsultaMedicaRelatorioGeral.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelEvasao.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelEvolucaoMedicaRelatorioGeral.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelEvolucoesEnfermagem.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelEvolucoesMedica.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelExamesProntuario.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelFichaAtendimentoProntuario.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelItensAprazadosPrescricao.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelLeitosFaixa.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelMedicamentosAprazados.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelPrescricaoMedicamento.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelPrescricaoProcedimento.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelPrescricaoProcedimentoNaoFaturavel.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelPrescricoesProntuario.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelProcedenciaCID.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelProcedimentosFPO.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelRelatorioGeralProntuario.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelResponsaveisAprazamento.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelSituacao.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelSubProcedenciaCID.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelSubProcedimentosFPO.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelSubProcedimentosNaoFaturaveisFPO.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelSubTempoPermanencia.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelTabelaAprazados.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelTempoPermanencia.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\Vacina\Relatorios\CrystalReport_cabecalho_vert.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\Vacina\Relatorios\RelCabecalhoInventarioVacina.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\Vacina\Relatorios\RelCorpoDispensacaoVacina.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\Vacina\Relatorios\RelDispensacaoVacina.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\Vacina\Relatorios\RelHistoricoItemMovimentacao.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\Vacina\Relatorios\RelImpressaoCartaoVacina.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\Vacina\Relatorios\RelInventarioConferenciaVacina.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\Vacina\Relatorios\RelInventarioFinalVacina.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\Vacina\Relatorios\RelMovimento.rpt
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelAcolhimentoProntuario1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelAtendimentoCID1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelAtendimentoFaixa1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelCabecalho1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelCabecalhoAtendimentoCID1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelCabecalhoAtendimentoFaixa1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelcabecalhoEvasao1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelCabecalhoLeitosFaixa1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelCabecalhoSituacao1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelCids1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelClassificacoesRisco1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelConsultaMedicaProntuario1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelConsultaMedicaRelatorioGeral1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelEvasao1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelEvolucaoMedicaRelatorioGeral1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelEvolucoesEnfermagem1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelEvolucoesMedica1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelExamesProntuario1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelFichaAtendimentoProntuario1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelItensAprazadosPrescricao1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelLeitosFaixa1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelMedicamentosAprazados1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelPrescricaoMedicamento1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelPrescricaoProcedimento1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelPrescricaoProcedimentoNaoFaturavel1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelPrescricoesProntuario1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelProcedenciaCID1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelProcedimentosFPO1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelRelatorioGeralProntuario1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelResponsaveisAprazamento1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelSituacao1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelSubProcedenciaCID1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelSubProcedimentosFPO1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelSubProcedimentosNaoFaturaveisFPO1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelSubTempoPermanencia1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelTabelaAprazados1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelTempoPermanencia1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\Vacina\Relatorios\CrystalReport_cabecalho_vert1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\Vacina\Relatorios\RelCabecalhoInventarioVacina1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\Vacina\Relatorios\RelCorpoDispensacaoVacina1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\Vacina\Relatorios\RelDispensacaoVacina1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\Vacina\Relatorios\RelHistoricoItemMovimentacao1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\Vacina\Relatorios\RelImpressaoCartaoVacina1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\Vacina\Relatorios\RelInventarioConferenciaVacina1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\Vacina\Relatorios\RelInventarioFinalVacina1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\Vacina\Relatorios\RelMovimento1.cs
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\Vida.DAO.dll
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\Vida.DAO.pdb
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\Castle.Core.dll
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\Castle.DynamicProxy2.dll
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\DevExpress.Data.v10.2.dll
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\DevExpress.Web.v10.2.dll
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\FusionCharts.dll
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\ICSharpCode.SharpZipLib.dll
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\Iesi.Collections.dll
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\itextsharp.dll
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\log4net.dll
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\Microsoft.Office.Interop.Excel.dll
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\NHibernate.Caches.SysCache.dll
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\NHibernate.dll
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\NPOI.DDF.dll
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\NPOI.dll
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\NPOI.HPSF.dll
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\NPOI.HSSF.dll
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\NPOI.POIFS.dll
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\NPOI.Util.dll
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\Vida.BLL.dll
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\Vida.DAL.dll
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\Vida.Model.dll
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\Vida.ServiceFacade.dll
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\office.dll
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\Vida.DAOOracle.dll
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\Microsoft.Vbe.Interop.dll
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\Vida.ServiceFacade.pdb
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\NPOI.xml
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\NPOI.Util.xml
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\NPOI.DDF.xml
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\Vida.Model.pdb
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\Vida.DAOOracle.pdb
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\Vida.DAL.pdb
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\Vida.BLL.pdb
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\NPOI.HSSF.xml
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\NPOI.POIFS.xml
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\bin\Debug\NPOI.HPSF.xml
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\obj\Debug\ResolveAssemblyReference.cache
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\obj\Debug\Vida.DAO.Properties.Resources.resources
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\obj\Debug\Vida.DAO.csproj.GenerateResource.Cache
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\obj\Debug\Vida.DAO.dll
+L:\lucas01\SISTEMAS\VIDA\Vida.DAO\obj\Debug\Vida.DAO.pdb
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\lib\Oracle.DataAccess.dll
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelAcolhimentoProntuario.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelAtendimentoCID.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelAtendimentoFaixa.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelCabecalho.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelCabecalhoAtendimentoCID.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelCabecalhoAtendimentoFaixa.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelcabecalhoEvasao.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelCabecalhoLeitosFaixa.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelCabecalhoSituacao.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelCids.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelClassificacoesRisco.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelConsultaMedicaProntuario.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelConsultaMedicaRelatorioGeral.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelEvasao.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelEvolucaoMedicaRelatorioGeral.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelEvolucoesEnfermagem.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelEvolucoesMedica.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelExamesProntuario.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelFichaAtendimentoProntuario.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelItensAprazadosPrescricao.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelLeitosFaixa.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelMedicamentosAprazados.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelPrescricaoMedicamento.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelPrescricaoProcedimento.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelPrescricaoProcedimentoNaoFaturavel.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelPrescricoesProntuario.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelProcedenciaCID.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelProcedimentosFPO.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelRelatorioGeralProntuario.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelResponsaveisAprazamento.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelSituacao.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelSubProcedenciaCID.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelSubProcedimentosFPO.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelSubProcedimentosNaoFaturaveisFPO.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelSubTempoPermanencia.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelTabelaAprazados.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelTempoPermanencia.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\Vacina\Relatorios\CrystalReport_cabecalho_vert.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\Vacina\Relatorios\RelCabecalhoInventarioVacina.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\Vacina\Relatorios\RelCorpoDispensacaoVacina.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\Vacina\Relatorios\RelDispensacaoVacina.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\Vacina\Relatorios\RelHistoricoItemMovimentacao.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\Vacina\Relatorios\RelImpressaoCartaoVacina.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\Vacina\Relatorios\RelInventarioConferenciaVacina.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\Vacina\Relatorios\RelInventarioFinalVacina.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\Vacina\Relatorios\RelMovimento.rpt
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelAcolhimentoProntuario1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelAtendimentoCID1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelAtendimentoFaixa1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelCabecalho1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelCabecalhoAtendimentoCID1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelCabecalhoAtendimentoFaixa1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelcabecalhoEvasao1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelCabecalhoLeitosFaixa1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelCabecalhoSituacao1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelCids1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelClassificacoesRisco1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelConsultaMedicaProntuario1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelConsultaMedicaRelatorioGeral1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelEvasao1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelEvolucaoMedicaRelatorioGeral1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelEvolucoesEnfermagem1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelEvolucoesMedica1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelExamesProntuario1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelFichaAtendimentoProntuario1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelItensAprazadosPrescricao1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelLeitosFaixa1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelMedicamentosAprazados1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelPrescricaoMedicamento1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelPrescricaoProcedimento1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelPrescricaoProcedimentoNaoFaturavel1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelPrescricoesProntuario1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelProcedenciaCID1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelProcedimentosFPO1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelRelatorioGeralProntuario1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelResponsaveisAprazamento1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelSituacao1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelSubProcedenciaCID1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelSubProcedimentosFPO1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelSubProcedimentosNaoFaturaveisFPO1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelSubTempoPermanencia1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelTabelaAprazados1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\AtendimentoMedico\Relatorios\RelTempoPermanencia1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\Vacina\Relatorios\CrystalReport_cabecalho_vert1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\Vacina\Relatorios\RelCabecalhoInventarioVacina1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\Vacina\Relatorios\RelCorpoDispensacaoVacina1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\Vacina\Relatorios\RelDispensacaoVacina1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\Vacina\Relatorios\RelHistoricoItemMovimentacao1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\Vacina\Relatorios\RelImpressaoCartaoVacina1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\Vacina\Relatorios\RelInventarioConferenciaVacina1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\Vacina\Relatorios\RelInventarioFinalVacina1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\Vacina\Relatorios\RelMovimento1.cs
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\Vida.DAO.dll
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\Vida.DAO.pdb
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\Castle.Core.dll
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\Castle.DynamicProxy2.dll
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\DevExpress.Data.v10.2.dll
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\DevExpress.Web.v10.2.dll
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\FusionCharts.dll
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\ICSharpCode.SharpZipLib.dll
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\Iesi.Collections.dll
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\itextsharp.dll
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\log4net.dll
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\Microsoft.Office.Interop.Excel.dll
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\NHibernate.Caches.SysCache.dll
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\NHibernate.dll
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\NPOI.DDF.dll
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\NPOI.dll
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\NPOI.HPSF.dll
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\NPOI.HSSF.dll
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\NPOI.POIFS.dll
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\NPOI.Util.dll
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\Vida.BLL.dll
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\Vida.DAL.dll
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\Vida.Model.dll
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\Vida.ServiceFacade.dll
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\office.dll
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\Vida.DAOOracle.dll
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\Microsoft.Vbe.Interop.dll
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\Vida.ServiceFacade.pdb
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\NPOI.xml
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\NPOI.Util.xml
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\NPOI.DDF.xml
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\Vida.Model.pdb
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\Vida.DAOOracle.pdb
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\Vida.DAL.pdb
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\Vida.BLL.pdb
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\NPOI.HSSF.xml
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\NPOI.POIFS.xml
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\bin\Debug\NPOI.HPSF.xml
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\obj\Debug\Vida.DAO.Properties.Resources.resources
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\obj\Debug\Vida.DAO.csproj.GenerateResource.Cache
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\obj\Debug\Vida.DAO.dll
+C:\Documents and Settings\lucassantos\vivermais\Vida.DAO\obj\Debug\Vida.DAO.pdb
+C:\Users\Lucas\vivermais\Vida.DAO\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Lucas\vivermais\Vida.DAO\obj\Debug\Vida.DAO.Properties.Resources.resources
+C:\Users\Lucas\vivermais\Vida.DAO\obj\Debug\Vida.DAO.csproj.GenerateResource.Cache
+C:\Users\Lucas\vivermais\Vida.DAO\obj\Debug\Vida.DAO.dll
+C:\Users\Lucas\vivermais\Vida.DAO\obj\Debug\Vida.DAO.pdb

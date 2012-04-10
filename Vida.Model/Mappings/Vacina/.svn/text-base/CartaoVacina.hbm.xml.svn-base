@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Vida.Model">
+	<class name="Vida.Model.CartaoVacina" table="VCN_CARTAOVACINA" >
+		<!--<id name="Codigo">
+			<column name="CO_CARTAOVACINA" not-null="true"/>
+			<generator class="assigned" />
+		</id>-->
+    <id name="Codigo">
+      <column name="CO_CARTAOVACINA" not-null="true"/>
+      <generator class="sequence">
+        <param name="sequence">vcn_cartaovacina_sequence</param>
+      </generator>
+    </id>
+    <many-to-one name="Paciente" class="Vida.Model.Paciente" column="CO_USUARIO" fetch="join"/>
+    <!--<many-to-one name="DispensacaoVacina" class="Vida.Model.DispensacaoVacina" column="CO_VACINACAO" fetch="join"/>-->
+		<!--<many-to-one name="LoteVacina" class="Vida.Model.LoteVacina" column="CO_LOTE" lazy="false"/>-->
+    <many-to-one name="Vacina" class="Vida.Model.Vacina" column="CO_VACINA" lazy="false"/>
+    <many-to-one name="DoseVacina" class="Vida.Model.DoseVacina" column="CO_DOSEVACINA" lazy="false"/>
+    <property name="DataAplicacao" column="DATA_APLICACAO" />
+    <property name="Lote" column="LOTE" />
+    <property name="Local" column="LOCAL" />
+    <property name="Motivo" column="Motivo" />
+    <property name="ValidadeLote" column="validade_lote" />
+    <!--<many-to-one name="SalaVacina" class="Vida.Model.SalaVacina" column="CO_SALAVACINA" lazy="false"/>-->
+    <many-to-one name="ItemDispensacao" class="Vida.Model.ItemDispensacaoVacina" column="co_itemdispensacao" fetch="join"/>
+	</class>
+</hibernate-mapping>

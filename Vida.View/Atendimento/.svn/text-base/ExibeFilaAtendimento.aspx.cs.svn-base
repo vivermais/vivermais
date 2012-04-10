@@ -1,0 +1,202 @@
+﻿using System;
+using Vida.DAO;
+using System.Web;
+using System.Linq;
+using System.Data;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Collections.Generic;
+using Vida.ServiceFacade.ServiceFacades;
+using Vida.ServiceFacade.ServiceFacades.AtendimentoMedico.Urgencia;
+using Vida.Model;
+using Vida.ServiceFacade.ServiceFacades.Seguranca;
+using System.IO;
+using AjaxControlToolkit;
+
+namespace Vida.View.Atendimento
+{
+    public partial class ExibeFilaAtendimento : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!IsPostBack)
+            {
+                //((MasterAtendimento)Master).AjaxLoading = false;
+                IUsuarioProfissionalUrgence iUsuarioProfissional = Factory.GetInstance<IUsuarioProfissionalUrgence>();
+
+                Usuario usuario = (Usuario)Session["Usuario"];
+                //bool acessoMedico = iUsuarioProfissional.VerificarAcessoMedico(usuario.Codigo, "REALIZAR_CONSULTA_MEDICA", usuario.Unidade.CNES);
+
+                //if (!acessoMedico)
+                //{
+                //    gridFila.Columns.RemoveAt(1);
+
+                //    BoundField nomepaciente = new BoundField();
+                //    nomepaciente.DataField = "NomePacienteToString";
+                //    nomepaciente.HeaderText = "Paciente";
+                //    nomepaciente.ItemStyle.HorizontalAlign = HorizontalAlign.Center;
+                //    nomepaciente.ItemStyle.Width = Unit.Pixel(280);
+                //    gridFila.Columns.Insert(1, nomepaciente);
+                //}
+
+                EspecialidadeAtendimentoUrgence[] especialidades = Factory.GetInstance<IVagaUrgencia>().BuscarEspecialidadesAtendimento<EspecialidadeAtendimentoUrgence>(usuario.Unidade.CNES).OrderBy(p => p.Especialidade.Nome).ToArray();
+
+                this.DataList_Especialidades.DataSource = especialidades.Select(p => p.Especialidade).OrderBy(p => p.Nome).ToArray();
+                this.DataList_Especialidades.DataBind();
+
+                if (especialidades.Count() == 0)
+                {
+                    this.gridFila.DataSource = null;
+                    this.gridFila.DataBind();
+                }
+                else
+                {
+                    UsuarioProfissionalUrgence usuarioProfissional = iUsuarioProfissional.BuscarPorCodigo<UsuarioProfissionalUrgence>(usuario.Codigo);
+                    string especialidade = especialidades.Where(p => p.EspecialidadePrincipal).Select(p => p.Especialidade.Codigo).FirstOrDefault();
+
+                    if (string.IsNullOrEmpty(especialidade))
+                        especialidade = especialidades[0].Especialidade.Codigo;
+
+                    if (usuarioProfissional != null &&
+                        especialidades.Select(p => p.Especialidade.Codigo).Contains(usuarioProfissional.CodigoCBO))
+                        especialidade = usuarioProfissional.CodigoCBO;
+
+                    this.EspecialidadeSelecionada = especialidade;
+                    Session.Remove("FilaAtendimento");
+                    this.CarregaAtendimentos(true, false, this.EspecialidadeSelecionada);
+                    this.AlterarLayoutOpcoesEspecialidades(this.EspecialidadeSelecionada);
+                }
+
+                //CarregaAtendimentos(true, false);
+            }
+        }
+
+        private string EspecialidadeSelecionada
+        {
+            get { return ViewState["especialidade_selecionada"].ToString(); }
+            set { ViewState["especialidade_selecionada"] = value; }
+        }
+
+        protected void OnInit_gridFila(object sender, EventArgs e)
+        {
+            if (!Page.IsPostBack)
+                Session.Remove("acessoMedico");
+
+            bool acessoMedico;
+
+            if (Session["acessoMedico"] == null)
+            {
+                IUsuarioProfissionalUrgence iUsuarioProfissional = Factory.GetInstance<IUsuarioProfissionalUrgence>();
+                Usuario usuario = (Usuario)Session["Usuario"];
+                acessoMedico = iUsuarioProfissional.VerificarAcessoMedico(usuario.Codigo, "REALIZAR_CONSULTA_MEDICA", usuario.Unidade.CNES);
+
+                Session["acessoMedico"] = acessoMedico;
+            }
+            else
+                acessoMedico = (bool)Session["acessoMedico"];
+
+            if (!acessoMedico)
+            {
+                gridFila.Columns.RemoveAt(1);
+
+                BoundField nomepaciente = new BoundField();
+                nomepaciente.DataField = "NomePacienteToString";
+                nomepaciente.HeaderText = "Paciente";
+                nomepaciente.ItemStyle.HorizontalAlign = HorizontalAlign.Center;
+                nomepaciente.ItemStyle.Width = Unit.Pixel(280);
+                gridFila.Columns.Insert(1, nomepaciente);
+            }
+        }
+
+        private void AlterarLayoutOpcoesEspecialidades(string especialidadeselecionada)
+        {
+            foreach (DataListItem item in this.DataList_Especialidades.Items)
+            {
+                LinkButton lbbutton = (LinkButton)item.FindControl("LinkButton_EscolherFilaEspecialidade");
+
+                if (lbbutton.CommandArgument.ToString().Equals(especialidadeselecionada))
+                    lbbutton.CssClass = "seleciona-especialidadeon";
+                else
+                    lbbutton.CssClass = "seleciona-especialidadeoff";
+            }
+
+            this.UpdatePanelEspecialidades.Update();
+        }
+
+        protected void OnClick_Especialidade(object sender, EventArgs e)
+        {
+            this.EspecialidadeSelecionada = ((LinkButton)sender).CommandArgument.ToString();
+            this.AlterarLayoutOpcoesEspecialidades(this.EspecialidadeSelecionada);
+            this.CarregaAtendimentos(true, false, this.EspecialidadeSelecionada);
+        }
+
+        /// <summary>
+        /// Carrega a fila de atendimento
+        /// </summary>
+        private void CarregaAtendimentos(bool carregamentoinicial, bool ler_arquivo, string co_especialidade)
+        {
+            Usuario usuario = (Usuario)Session["Usuario"];
+            bool existe_nova_entrada = false;
+
+            if (ler_arquivo)
+            {
+                var stream = new FileStream(Server.MapPath("~/Urgencia/Documentos/FilaAtendimento/" + usuario.Unidade.CNES + ".txt"), FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite);
+                TextReader leitura = new StreamReader(stream);
+                TextWriter escrita = new StreamWriter(stream);
+
+                if (Convert.ToChar(leitura.ReadLine()) == 'S')
+                {
+                    existe_nova_entrada = true;
+                    stream.Seek(0, SeekOrigin.Begin);
+                    escrita.WriteLine('N');
+                    escrita.Flush();
+                }
+
+                stream.Close();
+            }
+
+            if (carregamentoinicial || existe_nova_entrada)
+            {
+                IProntuario iProntuario = Factory.GetInstance<IProntuario>();
+                IList<Vida.Model.Prontuario> fila = iProntuario.BuscarFilaAtendimentoUnidade<Vida.Model.Prontuario>(((Vida.Model.Usuario)Session["Usuario"]).Unidade.CNES, co_especialidade);
+
+                //DataTable tabela = iProntuario.getDataTablePronturario<IList<Vida.Model.Prontuario>>(fila);
+
+                Session["FilaAtendimento"] = fila;
+                //Session["TabelaFilaAtendimento"] = tabela;
+            }
+
+            gridFila.DataSource = (IList<Vida.Model.Prontuario>)Session["FilaAtendimento"];
+            gridFila.DataBind();
+        }
+
+        protected void OnTick_Temporizador(object sender, EventArgs e)
+        {
+            this.CarregaAtendimentos(false, true, this.EspecialidadeSelecionada);
+        }
+
+        /// <summary>
+        /// Formata o gridview de acordo com a classificação de risco do paciente
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnRowDataBound_FormataGrid(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                long co_prontuario = long.Parse(this.gridFila.DataKeys[e.Row.RowIndex]["Codigo"].ToString());
+
+                if (Session["FilaAtendimento"] != null && Session["FilaAtendimento"] is IList<Vida.Model.Prontuario>)
+                {
+                    IList<Vida.Model.Prontuario> prontuarios = (IList<Vida.Model.Prontuario>)Session["FilaAtendimento"];
+                    e.Row.Cells[4].Text = prontuarios.Where(p => p.Codigo == co_prontuario).First().EsperaAtualFilaAtendimento;
+                }
+            }
+        }
+
+        protected void OnSelectedIndexChanging_PrimeiraConsultaMedica(object sender, GridViewSelectEventArgs e)
+        {
+            Response.Redirect("FormProntuario.aspx?codigo=" + gridFila.DataKeys[e.NewSelectedIndex]["Codigo"].ToString());
+        }
+    }
+}

@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Vida.Model">
+  <class name="Vida.Model.SenhaProfissionalSenhador" table="senhr_senhaprofissional">
+    <id name="Codigo">
+      <column name="co_senhaprofissional" not-null="true"/>
+      <generator class="sequence">
+        <param name="sequence">senhr_senhaprof_sequence</param>
+      </generator>
+    </id>
+
+    <many-to-one name="Profissional" class="Vida.Model.Profissional" column="co_profissional" />
+    <many-to-one name="Senha" class="Vida.Model.SenhaSenhador" column="co_senha" />
+
+  </class>
+</hibernate-mapping>

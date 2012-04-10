@@ -1,0 +1,61 @@
+﻿using System;
+using NHibernate;
+using Vida.Model;
+using System.Linq;
+using System.Text;
+using NHibernate.Criterion;
+using System.Collections.Generic;
+using Vida.ServiceFacade.ServiceFacades.AtendimentoMedico.Urgencia;
+
+namespace Vida.DAO.AtendimentoMedico.Urgencia
+{
+    public class PacienteUrgenceDAO: UrgenciaServiceFacadeDAO, IPacienteUrgence
+    {
+        P IPacienteUrgence.BuscarPorInicializacaoUnica<P>(string co_pacienteVida)
+        {
+            string hql = string.Empty;
+            //hql = "FROM Vida.Model.PacienteUrgence AS p WHERE p.CodigoVida = '" + co_pacienteVida + "' AND p.Descricao IS NULL";
+            hql = "FROM Vida.Model.PacienteUrgence AS p WHERE p.CodigoVida = '" + co_pacienteVida + "' AND p.Simplificado = 'N'";
+            return Session.CreateQuery(hql).UniqueResult<P>();
+        }
+
+        //IList<T> IPacienteUrgence.BuscarPorCodigoVida<T>(string co_pacientevida)
+        //{
+        //    string hql = string.Empty;
+        //    hql = "FROM Vida.Model.PacienteUrgence AS p WHERE p.CodigoVida = '" + co_pacientevida + "'";
+        //    return Session.CreateQuery(hql).List<T>();
+        //}
+
+        IList<T> IPacienteUrgence.BuscarPorDescricao<T>(string descricao)
+        {
+            string hql = string.Empty;
+            hql = "FROM Vida.Model.PacienteUrgence AS p WHERE ";
+            hql += " TRANSLATE(UPPER(p.Descricao),'ÄÅÁÂÀÃäáâàãÉÊËÈéêëèÍÎÏÌíîïìÖÓÔÒÕöóôòõÜÚÛüúûùÇç','AAAAAAaaaaaEEEEeeeeIIIIiiiiOOOOOoooooUUUuuuuCc')";
+            hql += " LIKE ";
+            hql += " TRANSLATE(UPPER('%" + descricao + "%'),'ÄÅÁÂÀÃäáâàãÉÊËÈéêëèÍÎÏÌíîïìÖÓÔÒÕöóôòõÜÚÛüúûùÇç','AAAAAAaaaaaEEEEeeeeIIIIiiiiOOOOOoooooUUUuuuuCc')";
+
+            //hql = "FROM Vida.Model.PacienteUrgence AS p WHERE p.Descricao LIKE '%" +descricao + "%'";
+            return Session.CreateQuery(hql).List<T>();
+        }
+
+        //P IPacienteUrgence.BuscarRegistroAbertoPacienteSUS<P>(P _prontuario, string codigo_pacientevida)
+        //{
+        //    Prontuario prontuario = (Prontuario)(object)_prontuario;
+
+        //    return Session.CreateQuery(@"FROM Vida.Model.Prontuario p WHERE p.Codigo <> " + prontuario.Codigo +
+        //        " AND p.Paciente.CodigoVida IS NOT NULL AND p.Paciente.CodigoVida = '" + codigo_pacientevida + "' AND p.CodigoUnidade='" + prontuario.CodigoUnidade + "'" +
+        //        " AND (p.Situacao.Codigo = " + SituacaoAtendimento.ATENDIMENTO_INICIAL + " OR p.Situacao.Codigo = " + SituacaoAtendimento.AGUARDANDO_ATENDIMENTO +
+        //        " OR p.Situacao.Codigo = " + SituacaoAtendimento.EM_OBSERVACAO_UNIDADE + " OR p.Situacao.Codigo = " + SituacaoAtendimento.AGUARDANDO_REGULACAO_ENFERMARIA +
+        //        " OR p.Situacao.Codigo = " + SituacaoAtendimento.AGUARDANDO_REGULACAO_UTI + ")").UniqueResult<P>();
+        //}
+
+        //IList<T> IPacienteUrgence.BuscarPacientesSemIdentificacao<T>(string co_unidade)
+        //{
+        //    string hql = string.Empty;
+        //    hql = "FROM Vida.Model.PacienteUrgence AS p WHERE ";
+        //    hql += " p.CodigoUnidade='" + co_unidade + "'";
+        //    hql += " AND p.Paciente";
+        //    return Session.CreateQuery(hql).List<T>();
+        //}
+    }
+}

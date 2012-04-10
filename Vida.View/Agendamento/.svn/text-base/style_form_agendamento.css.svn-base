@@ -1,0 +1,802 @@
+/* Estilos do formulário - MODULO AGENDAMENTO */
+
+body
+{
+    background-color: #ebf0f5;
+}
+
+#progressBackgroundFilter
+{
+    position: fixed;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
+    background-color: #000;
+    z-index: 1000;
+    filter: alpha(opacity=75);
+    opacity: 0.5;
+    z-index: 1000;
+}
+
+.botoesroll
+{
+    float: left;
+    width: auto;
+    padding: 0px 20px 0 0;
+    text-decoration: none;
+    margin-top: 10px;
+}
+
+
+
+#processMessage
+{
+    position: fixed;
+    top: 30%;
+    left: 43%;
+    padding: 10px;
+    width: 14%;
+    z-index: 1001; /*background-color: #fff;*/ /*border: solid 1px #000;*/
+}
+#bgloader
+{
+    background: url(img/bg-loader.png) no-repeat center;
+    width: 205px;
+    height: 195px;
+    margin-left: -35px;
+}
+
+#divbotoesposition
+{
+    padding: 15px 0 0 0;
+}
+
+#bgagendamento
+{
+    background-color: #ebf0f5;
+    width: 100%;
+    height: 65px;
+}
+
+.backgroundblue
+{
+    background-color: #ebf0f5;
+}
+
+.calendar
+{
+    z-index: 99999;
+    background-color: #fff;
+}
+
+#top
+{
+    width: 813px;
+    height: auto;
+    float: inherit;
+    margin: 0 auto;
+    z-index: 999;
+    background-color: #ebf0f5;
+    padding-right: 60px;
+}
+
+h2
+{
+    font-family: arial;
+    margin: 0px 0px 0px 0px;
+    padding: 22px 0px 0px 50px;
+    background: url(   'img/h2.png' ) no-repeat left;
+    color: #333333;
+    height: 48px;
+    width: 810px;
+    font-size: 24px;
+    font-weight: normal;
+}
+
+h4
+{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 9px;
+}
+
+
+.label
+{
+    font-family: Arial;
+    font-size: 11px;
+    border: none;
+    line-height: 17px;
+    height: 17px;
+    background: #ffffff;
+    color: #243d81;
+    display: inherit;
+    margin-right: 5px;
+}
+
+p
+{
+    float: none;
+}
+
+
+
+
+legend
+{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    letter-spacing: 0px;
+    font-weight: bold;
+    line-height: 1.8;
+    color: #ffffff;
+    padding: 3px 12px;
+    background: #477ba5;
+    padding-bottom: 5px;
+    margin-top: 10px;
+    margin-bottom: 30px;
+}
+
+fieldset
+{
+    border: 1px dashed #477ba5;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+.formulario
+{
+    width: 700px;
+    height: auto; /*margin-left: 117px;*/
+    margin-right: 0;
+    padding: 10px 10px 20px 10px;
+}
+
+.formulario2
+{
+    width: 900px;
+    height: auto; /*margin-left: 117px;*/
+    margin-right: 0;
+    padding: 10px 10px 20px 10px;
+}
+
+.formulario3
+{
+    width: 750px;
+    height: auto; /*margin-left: 117px;*/
+    margin-right: 0;
+    padding: 10px 10px 20px 10px;
+}
+
+.formulario4
+{
+    width: 800px;
+    height: auto; /*margin-left: 117px;*/
+    margin-right: 0;
+    padding: 10px 10px 20px 10px;
+}
+
+.formularioMenor
+{
+    width: 500px;
+    height: auto;
+    margin-right: 0;
+    padding: 10px 10px 5px 10px;
+}
+
+.formularioMedio
+{
+    width: 675px;
+    height: auto;
+    margin-right: 0;
+    padding: 10px 10px 5px 10px;
+}
+
+.rotulo
+{
+    float: left;
+    height: 17px;
+    font-size: 10px;
+    color: #ffffff;
+    background-color: #8fb2cc;
+    border: 1px solid #8fb2cc;
+    padding-bottom: 2px;
+    padding-left: 8px;
+    width: 156px;
+    line-height: 25px;
+    margin-top: 1px;
+    margin-left: 1px; /*display:block;*/
+    margin-right: 5px;
+    font-weight: bold;
+    clear: both;
+}
+
+.rotulo-panel
+{
+    float: left;
+    height: 17px;
+    font-size: 10px;
+    color: #c6d8e6;
+    background-color: #174972;
+    border: 1px solid #174972;
+    padding-bottom: 2px;
+    padding-left: 8px;
+    width: 156px;
+    line-height: 25px;
+    margin-top: 3px;
+    margin-left: 1px; /*display:block;*/
+    margin-right: 2px;
+    font-weight: bold;
+    clear: both;
+}
+
+
+
+.rotulomin
+{
+    line-height: 17px; /*height: 17px;*/
+    font-size: 10px;
+    background-color: #8fb2cc;
+    margin-left: 5px;
+    border: 1px solid #8fb2cc; /* padding-bottom:2px; */
+    padding-right: 25px;
+    padding-top: 6px;
+    padding-left: 8px;
+    margin-bottom: 6px;
+    color: #ffffff;
+}
+
+.colunaEscondida
+{
+    display: none;
+}
+
+.legenda
+{
+    font-size: x-small;
+    font-weight: bold;
+}
+
+.campoMaiusculo
+{
+    background-position: #FFFFFF;
+    font-family: Arial;
+    font-size: 11px; /*border: 1px solid #8fb2cc;*/
+    border: 1px solid #8fb2cc;
+    line-height: 16px;
+    height: 16px;
+    margin-top: 0px; /*display: list-item;*/
+    background: #FFFFFF;
+    color: #243d81;
+    display: inherit;
+    margin-right: 5px;
+    padding-left: 5px;
+    text-transform: uppercase;
+}
+
+.campo
+{
+    background-position: #FFFFFF;
+    font-family: Arial;
+    font-size: 11px; /*border: 1px solid #8fb2cc;*/
+    border: 1px solid #8fb2cc;
+    line-height: 16px;
+    height: 16px;
+    margin-top: 0px; /*display: list-item;*/
+    background: #FFFFFF;
+    color: #243d81;
+    display: inherit;
+    margin-right: 5px;
+    padding-left: 5px;
+}
+
+
+.drop
+{
+    font-family: Arial;
+    font-size: 11px;
+    border: 1px solid #8fb2cc;
+    line-height: 17px;
+    height: 25px;
+    margin-top: 0px; /*display: list-item;*/
+    background: #ffffff;
+    color: #243d81;
+    display: inherit;
+    margin-right: 5px;
+    padding-left: 5px;
+}
+
+.camporadio
+{
+    font-family: Arial;
+    font-size: 11px;
+    height: 21px;
+    margin-top: 0px;
+    border: solid 1px #8fb2cc;
+    padding-right: 10px;
+    margin-bottom: 0px; /*Alinhamento do texto dentro da linha*/
+    vertical-align: text-bottom;
+    text-align: left;
+}
+
+.camporadio_list
+{
+    font-family: Arial;
+    font-size: 11px;
+    margin-top: 0px;
+    margin-bottom: 0px; /*Alinhamento do texto dentro da linha*/
+    text-align: left;
+    font-weight: bold;
+}
+.camporadio_end
+{
+    font-family: Arial;
+    font-size: 11px;
+    height: 23px;
+    margin-top: 0px;
+    background: #f6f6f6;
+    padding-right: 40px;
+    margin-bottom: 0px; /*Alinhamento do texto dentro da linha*/
+    vertical-align: middle;
+}
+
+.radio
+{
+    font-family: Arial;
+    font-size: 10px;
+    border: 1px solid #8fb2cc;
+    text-align: left;
+}
+
+.radio1
+{
+    font-weight: bold;
+    font-size: 11px;
+    font-family: Arial;
+}
+
+/*Classe HEADER das tabelas*/
+.tab
+{
+    font-family: Verdana;
+    font-size: x-small;
+    border: 1px solid #CCC;
+    height: 18px;
+    background-color: #e7e7e7;
+    font-weight: bold;
+}
+
+/*Classe ROW das tabelas*/
+.tabrow
+{
+    font-family: arial;
+    font-size: 8pt;
+    border: 1px solid #CCC;
+    height: 18px;
+    text-align: center;
+}
+
+.tabrow_left
+{
+    font-family: arial;
+    font-size: 8pt;
+    border: 1px solid #CCC;
+    height: 18px;
+}
+
+.form
+{
+    margin: 0;
+    padding: 0;
+}
+
+.buttons
+{
+    background: #e3e3db;
+    font-size: 12px;
+    color: #333333;
+    padding: 6px 10px;
+    border-width: 2px;
+    border-style: solid;
+    border-color: #fff #d8d8d0 #d8d8d0 #fff;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+div, select
+{
+    font-family: Arial, Verdana, Helvetica, sans-serif;
+    text-decoration: none;
+}
+
+.sis_fonte_small
+{
+    font-size: 11px;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+/* Estilo do Accordeon*/
+.accordionHeader
+{
+    border: 1px solid #142126;
+    color: #142126;
+    background-color: #eee; /*font-weight: bold;*/
+    padding: 5px;
+    margin-top: 5px;
+    cursor: pointer;
+    width: 500px;
+    font-size: 10px;
+}
+
+.accordionHeaderSelected
+{
+    border: 1px solid #142126;
+    color: white;
+    background-color: #142126; /*font-weight: bold;*/
+    padding: 5px;
+    margin-top: 5px;
+    cursor: pointer;
+    width: 500px;
+    font-size: 10px;
+}
+
+.accordionContent
+{
+    background-color: #fff;
+    border: 1px solid #142126;
+    border-top: none;
+    padding: 5px;
+    padding-top: 10px;
+    width: 500px;
+    font-size: 10px;
+}
+
+
+/*MENU---------------------------------------------------------*/
+
+/* #top_menu1
+    {
+	     float:left;
+	      padding:0;
+	        margin:0;
+    }*/
+
+.top_menu
+{
+    font-family: Arial, Verdana, Sans-Serif;
+    background: #ebf0f5 url(    'img/aba_menu_agendamento.png' ) no-repeat left;
+    height: 45px;
+    margin: 0 0px 0 0px;
+    padding: 0 3px 0 15px;
+    line-height: 27px;
+    width: 471px;
+    position: relative;
+    top: -30px;
+    left: 454px;
+    float: left;
+    z-index: 2;
+}
+
+#container_menu
+{
+    width: 776px;
+    height: 99px;
+    margin-left: -500px;
+    margin-top: -300px;
+    position: absolute;
+    left: 56%;
+    top: 131%;
+    vertical-align: top;
+}
+
+.divrow_menu
+{
+    display: block;
+    vertical-align: top;
+}
+.divcell_menu
+{
+    display: inline;
+    position: relative;
+    width: 172px;
+    height: 39px;
+    float: right;
+    overflow: hidden;
+    margin-bottom: 0px;
+    top: 0px;
+    left: 0px;
+}
+
+.divlogin
+{
+    display: inline;
+    position: relative;
+    float: left;
+    width: 1001px;
+    height: 143px;
+    overflow: hidden;
+    margin-bottom: 0px;
+    top: 0px;
+    left: 0px;
+}
+.divfoot
+{
+    display: inline;
+    position: relative;
+    width: 1001px;
+    height: 29px;
+    float: left;
+    overflow: hidden;
+    margin-bottom: 0px;
+    background: #000 url(    'img/bgfoot.jpg' );
+}
+
+.contatdor-caracteres
+{
+    font-family: Arial;
+    color: #666666;
+    font-size: 11px;
+    width: 227px;
+    border: solid 1px #8fb2cc;
+    padding: 3px 5px 3px 5px;
+    font-weight: bold;
+    margin-left: 222px;
+}
+
+
+
+/* Estilos do Gridview ---------------- */
+
+TABLE.gridview
+{
+    background-color: #6699FF;
+    border: solid 1px #000;
+    font-family: Arial;
+    font-size: 14px;
+    margin-top: 25px;
+    width: 100%;
+}
+TABLE.gridview TR
+{
+    background-color: #c8dced;
+    color: #4b7fac;
+    border: solid 1px #fff;
+    font-size: 12px;
+}
+
+TABLE.gridview TR a
+{
+    color: #c8dcee;
+    font-weight: bold;
+}
+
+TABLE.gridview TR a:hover
+{
+    color: #08807b;
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+
+
+
+TABLE.gridview TR:hover
+{
+    background-color: #c0d6eb;
+    color: #08807b;
+}
+TABLE.gridview TH
+{
+    background: #78a4c8;
+    color: #FFFFFF;
+    padding: 7px 10px 7px 10px;
+    font-weight: bold;
+    background-image: url(img/bg-head-grid.png);
+    font-size: 12px;
+}
+TABLE.gridview TD
+{
+    padding: 5px 10px 5px 10px;
+    height: 18px;
+    border: solid 1px #e5ebf1;
+}
+
+
+.GridviewSelected
+{
+    background-color: Aqua;
+    color: #fff;
+}
+
+
+.GridviewPager
+{
+    background-color: #999 !important;
+    font-weight: bold;
+    color: #000;
+}
+
+
+.align-icon
+{
+    text-align: center;
+}
+
+.align-icon:hover
+{
+    text-align: center;
+}
+
+.icon-effect
+{
+    opacity: 0.85;
+    -moz-opacity: 0.85;
+    filter: alpha(opacity=85);
+}
+
+.icon-effect:hover
+{
+    opacity: 1;
+    -moz-opacity: 1;
+    filter: alpha(opacity=100);
+}
+
+
+/* Final do GridView --------------- */
+
+.tooltipInfo
+{
+    color: #216ead;
+    font-weight: bold;
+    clear: left;
+    font-size: 13px;
+}
+
+.tooltipDados
+{
+    color: #4380b2;
+    font-weight: normal;
+    clear: left;
+    font-size: 11px;
+}
+
+
+
+/* PANEL */
+
+.divMensagem
+{
+    position: fixed;
+    top: 50%;
+    margin-top: -280px;
+    left: 50%;
+    margin-left: -300px;
+    width: 600px;
+    z-index: 102;
+    background-color: #0d2639;
+    border: #ffffff 5px solid;
+    padding-right: 20px;
+    padding-left: 20px;
+    padding-bottom: 20px;
+    color: #c5d4df;
+    padding-top: 10px;
+    text-align: justify;
+    font-family: Verdana;
+}
+
+.divMensagem300
+{
+      
+    left: 50%;
+    margin-left: -150px;
+    width: 300px;
+    z-index: 102;
+    background-color: #0d2639;
+    border: #ffffff 5px solid;
+    padding-right: 20px;
+    padding-left: 20px;
+    padding-bottom: 20px;
+    color: #c5d4df;
+    padding-top: 10px;
+    text-align: justify;
+    font-family: Verdana;
+}
+
+.backgroundMensagem
+{
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+    min-height: 100%;
+    background-color: #000;
+    filter: alpha(opacity=85);
+    moz-opacity: 0.3;
+    opacity: 0.3;
+}
+
+
+
+/************ DROPBOX ***********/
+
+.DropDownList
+{
+    width:400px;height:15px;
+    background-color:#f8f8f8;border:solid 1px #4f817e;
+    padding:10px;
+    font-size:11px !important;
+    margin:5px 15px 15px 0!important;
+    display:block
+    }
+    
+    
+.DropDownList:hover
+{
+    width:400px;
+    height:15px;
+    background-color:#f2f2f2;
+    border:solid 1px #4f817e;
+    padding:6px;
+    font-size:16px;
+    margin:5px 15px 15px 0;
+    display:block
+    }
+    
+.Dropbox-item
+    {
+   
+    padding:10px;
+    background-color:#f8f8f8 !important;
+    font-size:11px !important;
+    background-color:#f2f2f2 !important;
+                  }
+                  
+                  
+.Dropbox-item:hover
+{
+    
+    background-color:#dadada !important;
+    }
+    
+.Dropbox-border
+    {border:solid 1px #999}
+    
+    
+    
+    
+    
+.dropdown
+{
+    background-color:#f8f8f8;border:solid 1px #4f817e;font-size:15px !important;}
+
+.dropdown:hover
+{
+    background-color:#f0f7f7;border:solid 1px #4f817e;padding:15px;font-size:16px;margin:5px 15px 5px 0;display:block}
+
+.dropdown:focus
+{
+    background-color:#f0f7f7;border:solid 1px #193e3c;padding:15px;font-size:16px;margin:5px 15px 5px 0;display:block}
+    
+    
+    
+.botaoCombo 
+{
+    background-image:url(../Agendamento/img/btn-combobox.png); width:18px; height:17px; cursor:pointer;
+    
+    }
+    
+    
+    .botaoCombo:hover
+{
+    background-image:url(../Agendamento/img/btn-combobox.png); width:18px; height:17px; cursor:pointer;
+      filter: alpha(opacity=80);
+    opacity: 0.8;
+    
+    
+    }

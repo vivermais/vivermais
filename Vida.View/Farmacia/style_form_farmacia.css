@@ -1,0 +1,559 @@
+/* Estilos do formulário - MODULO AGENDAMENTO */
+
+body
+{
+    background-color: #f7fdfa;
+}
+
+p
+{
+    margin: 2px 0 8px;
+    width: auto;
+}
+
+
+.botoesroll
+{
+    float: left;
+    width: auto;
+    padding: 5px 20px 10px 0;
+    text-decoration: none;
+    border: 0px;
+}
+
+#divbotoesposition
+{
+    padding: 15px 0 0 0;
+}
+
+#bgfarmacia
+{
+    background-color: #f7fdfa;
+    width: 100%;
+    height: 20px;
+}
+
+.backgroundgreen2
+{
+    background-color: #f7fdfa;
+}
+
+
+#top	{
+    width:813px;
+    height:auto;
+    float:inherit;
+    margin:0 auto;
+    z-index:auto;
+    background-color:#f7fdfa;
+    padding-right:60px;
+   
+}
+
+h2
+{
+
+    font-family:arial;
+    margin: 0px 0px 0px 0px;
+    padding:22px 0px 0px 50px;
+    Background: url( 'img/h2.png' ) no-repeat left;
+    color: #333333;
+    height:48px;
+    width:810px;
+    font-size:24px;
+    font-weight:normal;
+}
+
+h4
+{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 11px;
+}
+
+
+
+.label_form
+{
+    float: left;
+    width: 70px;
+}
+
+br
+{
+    clear: left;
+}
+
+legend
+{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    letter-spacing: 0px;
+    font-weight: bold;
+    line-height: 1.3;
+    color: #FFFFFF;
+    padding: 7px 12px;
+    padding-bottom: 10px;
+    background-color: #345f45;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+
+fieldset
+{
+    border: 1px dashed #345f45;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+.formulario
+{
+    width: 700px;
+    height: auto; /*margin-left: 117px;*/
+    margin-right: 0;
+    padding: 10px 10px 5px 10px;
+}
+
+.formulario2
+{
+    width: 915px;
+    height: auto; /*margin-left: 117px;*/
+    margin-right: 0;
+    padding: 10px 10px 5px 10px;
+}
+
+.formulario3
+{
+    width: 480px;
+    height: auto; /*margin-left: 117px;*/
+    margin-right: 0;
+    padding: 10px 10px 5px 10px;
+}
+
+.campo
+{
+    font-family: Arial;
+    font-size: 11px;
+    border: 1px solid #5a866c;
+    line-height: 17px;
+    height: 17px;
+    margin-top: 0px;
+    background: #ffffff;
+    color: #345f45;
+    margin-right: 5px;
+    padding-left: 5px;
+}
+
+
+.campo-dados
+{
+    font-family: Arial;
+    font-size: 11px;
+    border: 1px solid #5a866c;
+    line-height: 17px;
+    height: 17px;
+    margin-top: 0px;
+    background: #ffffff;
+    color: #345f45;
+    margin-right: 5px;
+    padding-left: 5px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
+
+.rotulo
+{
+    float: left;
+    height: 17px;
+    font-size: 10px;
+    border: 1px solid #5a866c;
+    background-color: #5a866c;
+    color: #ffffff;
+    padding-bottom: 2px;
+    padding-left: 8px;
+    width: 156px;
+    line-height: 25px;
+    margin-top: 0px; /*display:block;*/
+    margin-right: 5px;
+    font-weight: bold;
+}
+
+.rotulo2
+{
+    float: left;
+    height: 17px;
+    font-size: 10px;
+    border: 1px solid #006666;
+    background-color: #006666;
+    color: #ffffff;
+    padding-bottom: 2px;
+    padding-left: 4px;
+    width: 156px;
+    line-height: 25px;
+    margin-top: 0px; /*display:block;*/
+    margin-right: 1px;
+    font-weight: bold;
+    margin-left: 20px;
+}
+
+
+.rotulo_effect
+{
+    float: left;
+    height: 17px;
+    font-size: 10px;
+    border: 1px solid #19482c;
+    background-color: #19482c;
+    color: #ffffff;
+    padding-bottom: 2px;
+    padding-left: 4px;
+    width: 156px;
+    line-height: 25px;
+    margin-top: 0px; /*display:block;*/
+    margin-right: 6px;
+    font-weight: bold;
+    margin-left: 0px;
+}
+
+.rotulomin
+{
+    line-height: 25px;
+    font-size: 10px;
+    background-color: #5a866c;
+    margin-left: 30px;
+    border: 1px solid #5a866c;
+    padding-right: 25px;
+    padding-top: 6px;
+    padding-left: 4px;
+    margin-bottom: 6px;
+    color: #ffffff;
+    line-height: 25px;
+    font-weight: bold;
+    height: 17px;
+}
+
+.colunaEscondida
+{
+    display: none;
+}
+
+
+.comboBox
+{
+    font-family: Verdana;
+    font-size: 10px;
+    border: 1px solid #CCC;
+    margin-bottom: 0px;
+}
+
+.label
+{
+    font-family: Verdana;
+    font-size: 11px;
+    color: Black;
+    text-decoration: underline;
+    font-weight: bold;
+    height: 20px;
+}
+
+.labelMensagem
+{
+    font-family: Verdana;
+    font-size: 10px;
+    color: Black;
+    text-align: justify;
+    font-weight: bold;
+    height: 20px;
+}
+
+.camporadio
+{
+    border: 1px solid #000000;
+    background-position: #f6f6f6;
+    font-family: Arial;
+    font-size: 11px;
+    height: 23px;
+    margin-top: 0px;
+    background: #f6f6f6;
+    padding-left: 50px;
+    margin-bottom: 0px; /*Alinhamento do texto dentro da linha*/
+    vertical-align: middle;
+}
+
+.camporadio_end
+{
+    font-family: Arial;
+    font-size: 11px;
+    height: 23px;
+    margin-top: 0px;
+    background: #f6f6f6;
+    padding-right: 40px;
+    margin-bottom: 0px; /*Alinhamento do texto dentro da linha*/
+    vertical-align: middle;
+}
+
+.hearderGridView
+{
+    background: #538065;
+    font-weight: bold;
+    color: #FFFFFF;
+    height: 22px;
+    font-size: x-small;
+}
+
+.rowGridView
+{
+    color: #000000;
+    background: #f5f5f5;
+    height: 21px;
+    font-size: x-small;
+}
+
+.radio
+{
+    font-family: Verdana;
+    font-size: 10px;
+    border: 1px solid #AAA;
+}
+
+/*Classe HEADER das tabelas*/
+.tab
+{
+    font-family: Verdana;
+    font-size: x-small;
+    border: 1px solid #CCC;
+    height: 22px;
+    background-color: #e7e7e7;
+    font-weight: bold;
+    word-wrap: break-word;	 
+}
+
+/*Classe ROW das tabelas*/
+.tabrow
+{
+    font-family: arial;
+    font-size: 8pt;
+    border: 1px solid #CCC;
+    height: 18px;
+    text-align: center;
+    word-wrap: break-word;	 
+}
+
+.tabrow_left
+{
+    font-family: arial;
+    font-size: 8pt;
+    border: 1px solid #CCC;
+    height: 18px;
+    word-wrap: break-word;	 
+}
+
+.form
+{
+    margin: 0;
+    padding: 0;
+}
+
+.buttons
+{
+    background: #e3e3db;
+    font-size: 12px;
+    color: #333333;
+    padding: 6px 10px;
+    border-width: 2px;
+    border-style: solid;
+    border-color: #fff #d8d8d0 #d8d8d0 #fff;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+div, select
+{
+    font-family: Arial, Verdana, Helvetica, sans-serif;
+    text-decoration: none;
+}
+
+.sis_fonte_small
+{
+    font-size: 11px;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+/* Estilo do Accordeon*/
+.accordionHeader
+{
+    border: 1px solid #142126;
+    color: #142126;
+    background-color: #eee; /*font-weight: bold;*/
+    padding: 5px;
+    margin-top: 5px;
+    cursor: pointer;
+    width: 500px;
+}
+
+.accordionHeaderSelected
+{
+    border: 1px solid #142126;
+    color: white;
+    background-color: #142126; /*font-weight: bold;*/
+    padding: 5px;
+    margin-top: 5px;
+    cursor: pointer;
+    width: 500px;
+}
+
+.accordionContent
+{
+    background-color: #fff;
+    border: 1px solid #142126;
+    border-top: none;
+    padding: 5px;
+    padding-top: 10px;
+    width: 500px;
+}
+.mine
+{
+}
+
+/*MENU---------------------------------------------------------*/
+
+/* #top_menu1
+    {
+	     float:left;
+	      padding:0;
+	        margin:0;
+    }*/
+
+.top_menu
+{
+    font-family: Arial, Verdana, Sans-Serif;
+    background: #f7fdfa url(  'img/aba_menu_farmac.png' ) no-repeat left;
+    height: 45px;
+    margin: 0 0px 0 0px;
+    padding: 0 3px 0 15px;
+    line-height: 27px;
+    width: 471px;
+    position: relative;
+    top: -30px;
+    left: 454px;
+    float: left;
+    z-index: 2;
+}
+
+#container_menu
+{
+    width: 776px;
+    height: 99px;
+    margin-left: -500px;
+    margin-top: -300px;
+    position: absolute;
+    left: 56%;
+    top: 131%;
+    vertical-align: top;
+}
+
+.divrow_menu
+{
+    display: block;
+    vertical-align: top;
+}
+
+.divcell_menu
+{
+    display: inline;
+    position: relative;
+    width: 172px;
+    height: 39px;
+    float: right;
+    overflow: hidden;
+    margin-bottom: 0px;
+    top: 0px;
+    left: 0px;
+}
+
+.divlogin
+{
+    display: inline;
+    position: relative;
+    float: left;
+    width: 1001px;
+    height: 143px;
+    overflow: hidden;
+    margin-bottom: 0px;
+    top: 0px;
+    left: 0px;
+}
+.divfoot
+{
+    display: inline;
+    position: relative;
+    width: 1001px;
+    height: 29px;
+    float: left;
+    overflow: hidden;
+    margin-bottom: 0px;
+    background: #000 url(  'img/bgfoot.jpg' );
+}
+
+
+.botao-pequeno
+{
+    border: solid 1px #5a866c;
+    background-color: #e5f5ea;
+    color: #3e6d51;
+    height: 19px;
+    font-family: Arial;
+    font-size: 11px;
+}
+
+
+#bgloader
+{
+    background: url(img/bg-loader.png) no-repeat center;
+    width: 205px;
+    height: 195px;
+    margin-left: -35px;
+}
+
+#progressBackgroundFilter
+{
+    position: fixed;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
+    background-color: #000;
+    filter: alpha(opacity=75);
+    opacity: 0.5;
+    z-index: 1000;
+}
+
+#processMessage
+{
+    position: fixed;
+    top: 30%;
+    left: 43%;
+    padding: 10px;
+    width: 14%;
+    z-index: 1001; /*background-color: #fff;*/ /*border: solid 1px #000;*/
+}
+
+
+.listbox
+{
+    border-style: solid;
+    border-left-width: 1px;
+    background-color: Blue;
+}
+
+
+.espimg
+{
+    margin-left: 15px;
+    margin-right: 15px;
+}

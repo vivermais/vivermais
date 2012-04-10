@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DSEvolucaoMedica" targetNamespace="http://tempuri.org/DSEvolucaoMedica.xsd" xmlns:mstns="http://tempuri.org/DSEvolucaoMedica.xsd" xmlns="http://tempuri.org/DSEvolucaoMedica.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DSEvolucaoMedica" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_UserDSName="DSEvolucaoMedica" msprop:Generator_DataSetName="DSEvolucaoMedica" msprop:EnableTableAdapterManager="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="EvolucaoMedica" msprop:Generator_UserTableName="EvolucaoMedica" msprop:Generator_RowDeletedName="EvolucaoMedicaRowDeleted" msprop:Generator_RowChangedName="EvolucaoMedicaRowChanged" msprop:Generator_RowClassName="EvolucaoMedicaRow" msprop:Generator_RowChangingName="EvolucaoMedicaRowChanging" msprop:Generator_RowEvArgName="EvolucaoMedicaRowChangeEvent" msprop:Generator_RowEvHandlerName="EvolucaoMedicaRowChangeEventHandler" msprop:Generator_TableClassName="EvolucaoMedicaDataTable" msprop:Generator_TableVarName="tableEvolucaoMedica" msprop:Generator_RowDeletingName="EvolucaoMedicaRowDeleting" msprop:Generator_TablePropName="EvolucaoMedica">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Data" msprop:Generator_UserColumnName="Data" msprop:Generator_ColumnPropNameInRow="Data" msprop:Generator_ColumnVarNameInTable="columnData" msprop:Generator_ColumnPropNameInTable="DataColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Profissional" msprop:Generator_UserColumnName="Profissional" msprop:Generator_ColumnPropNameInRow="Profissional" msprop:Generator_ColumnVarNameInTable="columnProfissional" msprop:Generator_ColumnPropNameInTable="ProfissionalColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Conteudo" msprop:Generator_UserColumnName="Conteudo" msprop:Generator_ColumnPropNameInRow="Conteudo" msprop:Generator_ColumnVarNameInTable="columnConteudo" msprop:Generator_ColumnPropNameInTable="ConteudoColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Link_Item" msprop:Generator_UserColumnName="Link_Item" msprop:Generator_ColumnPropNameInRow="Link_Item" msprop:Generator_ColumnVarNameInTable="columnLink_Item" msprop:Generator_ColumnPropNameInTable="Link_ItemColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="ClassificacaoRisco" msprop:Generator_UserColumnName="ClassificacaoRisco" msprop:Generator_ColumnPropNameInRow="ClassificacaoRisco" msprop:Generator_ColumnVarNameInTable="columnClassificacaoRisco" msprop:Generator_ColumnPropNameInTable="ClassificacaoRiscoColumn" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

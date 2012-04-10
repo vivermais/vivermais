@@ -1,0 +1,176 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Vida.Model;
+using Oracle.DataAccess.Client;
+using System.Data;
+using Vida.DAL;
+
+namespace Vida.DAOOracle
+{
+    public class EnderecoDAO:ADAO<Endereco>
+    {
+
+        public void Cadastrar(Endereco objeto, ref OracleTransaction trans)
+        {
+            GerarQueryCadastro();
+            GerarParametrosCadastro(objeto);
+            DALOracle.ExecuteNonQuery(ref trans, CommandType.Text, sqlText.ToString(), parametros.ToArray());
+            sqlText.Remove(0, sqlText.Length);
+            parametros.Clear();
+
+            //Chama a função para gerar log através de xml
+            new DAOLogXml().SalvarLog(ref trans, objeto, 1);       
+        }
+
+        protected override void GerarQueryCadastro()
+        {
+            sqlText.Append("insert into tb_ms_endereco ");
+            sqlText.Append("(co_endereco, no_logradouro, nu_logradouro, ");
+            sqlText.Append("no_compl_logradouro, no_bairro, co_cep, ");
+            sqlText.Append("nu_ddd, nu_telefone, co_tipo_logradouro, co_municipio) ");
+            sqlText.Append("values ");
+            sqlText.Append("(:Codigo, :Logradouro, :Numero, ");
+            sqlText.Append(":Complemento, :Bairro, :CEP, ");
+            sqlText.Append(":DDD, :Telefone, :TipoLogradouro, :Municipio)");
+        }
+
+        protected override void GerarParametrosCadastro(Endereco objeto)
+        {
+            parametros.Add(new OracleParameter("Codigo", OracleDbType.Varchar2));
+            parametros.Add(new OracleParameter("Logradouro", OracleDbType.Varchar2));
+            parametros.Add(new OracleParameter("Numero", OracleDbType.Varchar2));
+            parametros.Add(new OracleParameter("Complemento", OracleDbType.Varchar2));
+            parametros.Add(new OracleParameter("Bairro", OracleDbType.Varchar2));
+            parametros.Add(new OracleParameter("CEP", OracleDbType.Varchar2));
+            parametros.Add(new OracleParameter("DDD", OracleDbType.Varchar2));
+            parametros.Add(new OracleParameter("Telefone", OracleDbType.Varchar2));
+            parametros.Add(new OracleParameter("TipoLogradouro", OracleDbType.Varchar2));
+            parametros.Add(new OracleParameter("Municipio", OracleDbType.Varchar2));
+
+            parametros[0].Value = objeto.Codigo;
+            parametros[1].Value = objeto.Logradouro;
+            parametros[2].Value = objeto.Numero;
+            parametros[3].Value = objeto.Complemento;
+            parametros[4].Value = objeto.Bairro;
+            parametros[5].Value = objeto.CEP;
+            parametros[6].Value = objeto.DDD;
+            parametros[7].Value = objeto.Telefone;
+            parametros[8].Value = objeto.TipoLogradouro.Codigo;
+            parametros[9].Value = objeto.Municipio.Codigo;
+            
+        }
+
+        protected override void GerarQueryAtualizacao()
+        {
+            sqlText.Append("update tb_ms_endereco set ");
+            sqlText.Append("no_logradouro = :Logradouro, ");
+            sqlText.Append("nu_logradouro = :Numero, ");
+            sqlText.Append("no_compl_logradouro = :Complemento, ");
+            sqlText.Append("no_bairro = :Bairro, ");
+            sqlText.Append("co_cep = :CEP, ");
+            sqlText.Append("nu_ddd = :DDD, ");
+            sqlText.Append("nu_telefone = :Telefone, ");
+            sqlText.Append("co_tipo_logradouro = :TipoLogradouro," );
+            sqlText.Append("co_municipio = :Municipio ");
+            sqlText.Append("where co_endereco = :Codigo ");
+        }
+
+        protected override void GerarParametrosAtualizacao(Endereco objeto)
+        {
+            parametros.Add(new OracleParameter("Logradouro", OracleDbType.Varchar2));
+            parametros.Add(new OracleParameter("Numero", OracleDbType.Varchar2));
+            parametros.Add(new OracleParameter("Complemento", OracleDbType.Varchar2));
+            parametros.Add(new OracleParameter("Bairro", OracleDbType.Varchar2));
+            parametros.Add(new OracleParameter("CEP", OracleDbType.Varchar2));
+            parametros.Add(new OracleParameter("DDD", OracleDbType.Varchar2));
+            parametros.Add(new OracleParameter("Telefone", OracleDbType.Varchar2));
+            parametros.Add(new OracleParameter("TipoLogradouro", OracleDbType.Varchar2));
+            parametros.Add(new OracleParameter("Municipio", OracleDbType.Varchar2));
+            parametros.Add(new OracleParameter("Codigo", OracleDbType.Varchar2));
+
+            parametros[0].Value = objeto.Logradouro;
+            parametros[1].Value = objeto.Numero;
+            parametros[2].Value = objeto.Complemento;
+            parametros[3].Value = objeto.Bairro;
+            parametros[4].Value = objeto.CEP;
+            parametros[5].Value = objeto.DDD;
+            parametros[6].Value = objeto.Telefone;
+            parametros[7].Value = objeto.TipoLogradouro.Codigo;
+            parametros[8].Value = objeto.Municipio.Codigo;
+            parametros[9].Value = objeto.Codigo;
+        }
+
+        protected override void GerarQueryRemocao()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void GerarQueryBuscarID()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void GerarQueryPesquisaPorCodigo()
+        {
+            sqlText.Append("select * from tb_ms_endereco ");
+            sqlText.Append("where co_endereco = :Codigo ");
+        }
+
+        protected override void MontarObjeto(Oracle.DataAccess.Client.OracleDataReader dataReader, Endereco objeto)
+        {
+            objeto.ControleEndereco = new ControleEndereco();
+            objeto.ControleEndereco.Codigo = Convert.ToString(dataReader["co_endereco"]);
+            objeto.Logradouro = Convert.ToString(dataReader["no_logradouro"]);
+            objeto.Numero = Convert.ToString(dataReader["nu_logradouro"]);
+            objeto.Complemento = Convert.ToString(dataReader["no_compl_logradouro"]);
+            objeto.Bairro = Convert.ToString(dataReader["no_bairro"]);
+            objeto.CEP = Convert.ToString(dataReader["co_cep"]);
+            objeto.DDD = Convert.ToString(dataReader["nu_ddd"]);
+            objeto.Telefone = Convert.ToString(dataReader["nu_telefone"]);
+            objeto.TipoLogradouro = new TipoLogradouro();
+            objeto.TipoLogradouro.Codigo = Convert.ToString(dataReader["co_tipo_logradouro"]);
+            objeto.Municipio = new Municipio();
+            objeto.Municipio.Codigo = Convert.ToString(dataReader["co_municipio"]);
+        }
+
+        protected override void SetarCodigoObjeto(OracleDataReader dataReader, Endereco objeto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void GeraParametrosPesquisaPorCodigo(Endereco objeto)
+        {
+            parametros.Add(new OracleParameter("Codigo", OracleDbType.Varchar2));
+            parametros[0].Value = objeto.Codigo;
+        }
+
+        protected override void GerarQueryPesquisaTodos()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void MontarObjeto(DataRow drc, Endereco objeto)
+        {
+            objeto.ControleEndereco = new ControleEndereco();
+            objeto.ControleEndereco.Codigo = Convert.ToString(drc["co_endereco"]);
+            objeto.Logradouro = Convert.ToString(drc["no_logradouro"]);
+            objeto.Numero = Convert.ToString(drc["nu_logradouro"]);
+            objeto.Complemento = Convert.ToString(drc["no_compl_logradouro"]);
+            objeto.Bairro = Convert.ToString(drc["no_bairro"]);
+            objeto.CEP = Convert.ToString(drc["co_cep"]);
+            objeto.DDD = Convert.ToString(drc["nu_ddd"]);
+            objeto.Telefone = Convert.ToString(drc["nu_telefone"]);
+            objeto.TipoLogradouro = new TipoLogradouro();
+            objeto.TipoLogradouro.Codigo = Convert.ToString(drc["co_tipo_logradouro"]);
+            objeto.Municipio = new Municipio();
+            objeto.Municipio.Codigo = Convert.ToString(drc["co_municipio"]);
+        }
+
+        protected override void SetarCodigoObjeto(DataRow dataRow, Endereco objeto)
+        {
+            throw new NotImplementedException();
+        }
+    }
+}

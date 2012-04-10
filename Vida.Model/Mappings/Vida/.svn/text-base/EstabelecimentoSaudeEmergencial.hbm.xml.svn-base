@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Vida.Model">
+  <class name="Vida.Model.EstabelecimentoSaudeEmergencial" table="VIDA_UNIDADEEMERGENCIAL" >
+    <id name="Codigo">
+      <column name="co_unidade" not-null="true"/>
+      <generator class="sequence">
+        <param name="sequence">VIDA_EASEMERGENCIAL_SEQUENCE</param>
+      </generator>
+    </id>
+    <property name="Nome" column="nome"/>
+    <property name="CNES" column="cnes"/>
+  </class>
+</hibernate-mapping>

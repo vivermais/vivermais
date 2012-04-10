@@ -1,0 +1,42 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="RelatorioFilaAcolhimentoUnidades.aspx.cs" Inherits="Vida.View.Urgencia.RelatorioFilaAcolhimentoUnidades" MasterPageFile="~/Urgencia/MasterRelatorioUrgencia.Master" EnableEventValidation="false" %>
+
+<asp:Content ID="c_head" runat="server" ContentPlaceHolderID="head">
+</asp:Content>
+
+<asp:Content ID="c_body" runat="server" ContentPlaceHolderID="ContentPlaceHolder1">
+<div id="top">
+    <h2>ACOLHIMENTO</h2>
+    <fieldset>
+        <legend>Relação</legend>
+        <p>
+            <span>
+                <asp:GridView ID="GridView_Acolhimento" AutoGenerateColumns="false" Width="750px"
+                    DataKeyNames="CNES" runat="server" OnRowDataBound="OnRowDataBound_FormataGridView">
+                    <Columns>
+                        <asp:BoundField HeaderText="Unidade" DataField="NomeFantasia"/>
+                        <asp:TemplateField HeaderText="Quantidade de Pacientes">
+                            <ItemTemplate>
+                                <asp:Label ID="Label_QtdPaciente" runat="server" Text=""></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                    </Columns>
+                    <HeaderStyle CssClass="tab" />
+                    <RowStyle CssClass="tabrow" />
+                </asp:GridView>
+                
+        <%--                <asp:DataList ID="DataList_Acolhimento" runat="server" OnItemDataBound="OnItemDataBound_FormataDataList"
+                 DataKeyField="Codigo">
+                    <ItemTemplate>
+                        <p>
+                            <span>
+                                <asp:Label ID="lbUnidade" runat="server" Text='<%#bind("NomeFantasia") %>'></asp:Label>
+                                <asp:Label ID="lbQuantidadePaciente" runat="server" Text=""></asp:Label>
+                            </span>
+                        </p>
+                    </ItemTemplate>
+                </asp:DataList>--%>
+            </span>
+        </p>
+    </fieldset>
+</div>
+</asp:Content>

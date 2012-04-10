@@ -1,0 +1,372 @@
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Xml.Linq;
+using ViverMais.Model;
+using ViverMais.DAO;
+using ViverMais.ServiceFacade.ServiceFacades;
+using ViverMais.ServiceFacade.ServiceFacades.Agendamento;
+using System.Collections.Generic;
+using ViverMais.ServiceFacade.ServiceFacades.Procedimento.Misc;
+using ViverMais.ServiceFacade.ServiceFacades.Paciente;
+using ViverMais.ServiceFacade.ServiceFacades.Seguranca;
+using ViverMais.BLL;
+
+namespace ViverMais.View.Agendamento
+{
+    public partial class FormTempRegistraExecucao : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!IsPostBack)
+            {
+                // Busca Validade do Codigo de Controle
+
+                int validade_codigo = 0;
+                Parametros parametros = Factory.GetInstance<IAgendamentoServiceFacade>().ListarTodos<Parametros>().FirstOrDefault();
+                if (parametros == null)
+                {
+                    ClientScript.RegisterClientScriptBlock(typeof(String), "ok", "<script>alert('Parametro não cadastrado !');</script>");
+                    return;
+                }
+                CarregaCID();
+                validade_codigo = parametros.Validade_Codigo;
+                Session["validade_codigo"] = validade_codigo;
+                PanelExibeDados.Visible = false;
+                PanelExibeCID.Visible = false;
+                PanelExibeMedicoRegulador.Visible = false;
+                tbxIdentificador.Focus();
+
+            }
+        }
+
+        protected void Salvar_Click(object sender, EventArgs e)
+        {
+            // int id_agenda = int.Parse(Session["id_agenda"].ToString());
+            int id_solicitacao = int.Parse(Session["id_solicitacao"].ToString());
+            IAgendamentoServiceFacade iagendamento = Factory.GetInstance<IAgendamentoServiceFacade>();
+            Solicitacao solicitacao = Factory.GetInstance<IAgendamentoServiceFacade>().BuscarPorCodigo<Solicitacao>(id_solicitacao);
+
+            solicitacao.Data_Confirmacao = DateTime.Now.Date;
+
+            DateTime data_solicitacao = solicitacao.Agenda.Data;
+            int validade_codigo = int.Parse(Session["validade_codigo"].ToString());
+
+            DateTime data = data_solicitacao.AddDays(validade_codigo);
+            DateTime hoje = DateTime.Today;
+            if (hoje > data)
+            {
+                ClientScript.RegisterClientScriptBlock(typeof(String), "ok", "<script>alert('Código de Controle fora da Validade !');</script>");
+                return;
+            }
+
+            solicitacao.Situacao = Convert.ToChar(Solicitacao.SituacaoSolicitacao.CONFIRMADA).ToString();
+
+            //Faço a busca para verificar se o procedimento é individualizado
+            IList<ProcedimentoRegistro> pr = Factory.GetInstance<IRegistro>().BuscarPorProcedimento<ProcedimentoRegistro>(solicitacao.Agenda.Procedimento.Codigo, 02);//02 - Codigo Individualizado
+            if (pr.Count != 0)
+            {
+                Cid cid = iagendamento.BuscarPorCodigo<Cid>(ddlCID.SelectedValue);
+                if (cid != null)
+                    solicitacao.CidExecutante = cid;
+            }
+
+            iagendamento.Salvar(solicitacao);
+            Factory.GetInstance<IAgendamentoServiceFacade>().Inserir(new LogAgendamento(DateTime.Now, ((Usuario)Session["Usuario"]).Codigo, 11, "ID_SOLICITACAO:" + solicitacao.Codigo));
+            ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Dados Salvos com Sucesso!.');location='FormTempRegistraExecucao.aspx';", true);
+            //ClientScript.RegisterClientScriptBlock(typeof(String), "ok", "<script type='text/javascript'>alert('Dados salvos com sucesso!');window.location='FormConfirmarAgenda.aspx?id_agenda=" + id_agenda + "'</script>");
+            lknSalvar.Enabled = false;
+            Session.Remove("id_solicitacao");
+        }
+
+        protected void OnClick_BuscarCID(object sender, EventArgs e)
+        {
+            ddlCID.Items.Clear();
+            ddlCID.Items.Add(new ListItem("Selecione...", "0"));
+            tbxCID.Text = tbxCID.Text.ToUpper();
+            Cid cid = Factory.GetInstance<ICid>().BuscarPorCodigo<Cid>(tbxCID.Text);
+
+            if (cid != null)
+            {
+                ListItem item = new ListItem(cid.Codigo + " - " + cid.Nome, cid.Codigo.ToString());
+                ddlCID.Items.Add(item);
+            }
+            ddlCID.Focus();
+            //ddlCID.Attributes.Add("onmouseover", "javascript:showTooltip(this);");
+        }
+
+        protected void OnSelectedIndexChanged_BuscarCids(object sender, EventArgs e)
+        {
+            ddlCID.Items.Clear();
+            ddlCID.Items.Add(new ListItem("Selecione...", "0"));
+
+            IList<Cid> listaCID = Factory.GetInstance<ICid>().BuscarPorGrupo<Cid>(ddlGrupoCID.SelectedValue.ToString());
+            foreach (Cid cid in listaCID)
+            {
+                ListItem item = new ListItem(cid.Codigo + " - " + cid.Nome, cid.Codigo.ToString());
+                ddlCID.Items.Add(item);
+            }
+
+            ddlCID.Focus();
+            //ddlCID.Attributes.Add("onmouseover", "javascript:showTooltip(this);");
+        }
+
+        void CarregaCID()
+        {
+            //Carrega os Dados Para Busca do CID
+            ddlGrupoCID.Items.Clear();
+            IList<string> codcids = Factory.GetInstance<ICid>().ListarGrupos();
+            ddlGrupoCID.Items.Add(new ListItem("Selecione...", "0"));
+            foreach (string letra in codcids)
+                ddlGrupoCID.Items.Add(new ListItem(letra, letra));
+        }
+
+        protected void ddlPaciente_OnSelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (ddlPaciente.SelectedValue != "0")
+            {
+                IList<Solicitacao> solicitacoes = (IList<Solicitacao>)Session["Solicitacoes"];
+                Solicitacao solicitacao = solicitacoes.Where(p => p.ID_Paciente == ddlPaciente.SelectedValue).FirstOrDefault();
+                //lknSalvar.Enabled = true;
+
+                int id_solicitacao = solicitacao.Codigo;
+                Session["id_solicitacao"] = id_solicitacao;
+
+                Usuario usuario = (Usuario)Session["Usuario"];
+
+                if (solicitacao.Agenda.Estabelecimento.CNES != usuario.Unidade.CNES)
+                {
+                    ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Registro não pertence à Unidade Referenciada na Agenda!');", true);
+                    return;
+                }
+                if (solicitacao.Situacao == Convert.ToChar(Solicitacao.SituacaoSolicitacao.CONFIRMADA).ToString())//Se já estiver Confirmada
+                {
+                    ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Atendimento já foi realizado!');", true);
+                    return;
+                }
+                else if (solicitacao.Situacao == Convert.ToChar(Solicitacao.SituacaoSolicitacao.DESMARCADA).ToString())//Se já estiver Desmarcada
+                {
+                    ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('A solicitação está Desmarcada!');", true);
+                    return;
+                }
+
+                PanelExibeDados.Visible = true;
+                lblDataAtendimento.Text = solicitacao.Agenda.Data.ToShortDateString();
+                if (solicitacao.Agenda.Turno == "T")
+                    lblTurno.Text = "Tarde";
+                else if (solicitacao.Agenda.Turno == "M")
+                    lblTurno.Text = "Manhã";
+
+                lknSalvar.Enabled = true;
+
+                //Pega o Nome do Profissional
+                //string co_profissional = 
+                //IViverMaisServiceFacade iProfissional = Factory.GetInstance<IViverMaisServiceFacade>();
+                //ViverMais.Model.Profissional profissional = iProfissional.BuscarPorCodigo<ViverMais.Model.Profissional>(co_profissional);
+                lblProfissional.Text = solicitacao.Agenda.ID_Profissional.Nome;
+
+                ////Pega o Nome do Paciente
+                //ViverMais.Model.Paciente paciente = Factory.GetInstance<IPaciente>().BuscarPorCodigo<ViverMais.Model.Paciente>(solicitacao.ID_Paciente);
+                //lblPaciente.Text = paciente.Nome;
+
+                //Pega o Nome do Procedimento
+                ViverMais.Model.Procedimento procedimento = Factory.GetInstance<IViverMaisServiceFacade>().BuscarPorCodigo<ViverMais.Model.Procedimento>(solicitacao.Agenda.Procedimento.Codigo);
+                lblProcedimento.Text = solicitacao.Agenda.Procedimento.Codigo + " - " + solicitacao.Agenda.Procedimento.Nome;
+
+                //Faço a busca para verificar se o procedimento é individualizado
+                ProcedimentoRegistro pr = Factory.GetInstance<IRegistro>().BuscarPorProcedimento<ProcedimentoRegistro>(solicitacao.Agenda.Procedimento.Codigo, Registro.BPA_INDIVIDUALIZADO).FirstOrDefault();//02 - Codigo Individualizado
+                if (pr != null)
+                {
+                    PanelExibeCID.Visible = true;
+                    IList<ProcedimentoCid> procedimentoCid = Factory.GetInstance<ICid>().BuscarPorProcedimento<ProcedimentoCid>(procedimento.Codigo);
+                    if (procedimentoCid.Count != 0)
+                    {
+                        PanelBuscaCID.Visible = false;
+                        ddlCID.Items.Add(new ListItem("Selecione...", "-1"));
+                        foreach (ProcedimentoCid procedCid in procedimentoCid)
+                        {
+                            ddlCID.Items.Add(new ListItem(procedCid.Cid.Codigo + " - " + procedCid.Cid.Nome, procedCid.Cid.Codigo));
+                        }
+                    }
+                    else
+                    {
+                        PanelBuscaCID.Visible = true;
+                    }
+                }
+                else
+                    PanelExibeCID.Visible = false;
+
+
+                // Verifico se o procedimento é APAC para mostrar o CNS e o Nome do Médico Autorizador
+                ProcedimentoRegistro procregistro = Factory.GetInstance<IRegistro>().BuscarPorProcedimento<ProcedimentoRegistro>(solicitacao.Agenda.Procedimento.Codigo, Registro.APAC_PROC_PRINCIPAL).FirstOrDefault();
+                if (procregistro != null)
+                {
+                    PanelExibeMedicoRegulador.Visible = true;
+                    Usuario regulador = Factory.GetInstance<IUsuario>().BuscarPorCodigo<Usuario>(solicitacao.UsuarioRegulador.Codigo);
+                    if (regulador != null)
+                    {
+                        lblMedicoAutorizador.Text = regulador.Nome.ToString();
+                        lblCNSAutorizador.Text = regulador.CartaoSUS.ToString();
+                        DateTime suaData = solicitacao.Agenda.Data.AddDays(60);
+                        DateTime ultimoDiaMesAtual = DateTime.Now;
+                        int mesAtual = suaData.Month;
+                        for (int i = 1; i < 32; i++)
+                        {
+
+                            ultimoDiaMesAtual = suaData.AddDays(i);
+                            if (mesAtual != ultimoDiaMesAtual.Month)
+                            {
+                                ultimoDiaMesAtual = ultimoDiaMesAtual.AddDays(-1);
+                                break;
+                            }
+                        }
+                        lblValidadeInicial.Text = solicitacao.Agenda.Data.ToShortDateString();
+                        lblValidadeFinal.Text = ultimoDiaMesAtual.ToShortDateString();
+
+
+                    }
+                    else
+                    {
+                        lblMedicoAutorizador.Text = "-";
+                        lblCNSAutorizador.Text = "-";
+                    }
+
+                }
+            }
+        }
+
+        protected void btnPesquisar_Click(object sender, EventArgs e)
+        {
+            string identificador = tbxIdentificador.Text.Trim();
+            IList<Solicitacao> solicitacoes = Factory.GetInstance<ISolicitacao>().BuscaSolicitacaoPeloIdentificador<Solicitacao>(identificador).Where(p => p.Situacao == Convert.ToChar(Solicitacao.SituacaoSolicitacao.AUTORIZADA).ToString() && p.Agenda.Data <= DateTime.Now && DateTime.Now <= p.Agenda.Data.AddDays(int.Parse(Session["validade_codigo"].ToString()))).ToList();
+            if (solicitacoes.Count == 0)
+            {
+                ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Identificador não cadastrado ou fora da Validade!');", true);
+                //ClientScript.RegisterClientScriptBlock(typeof(String), "ok", "<script>alert('Identificador não cadastrado !');</script>");
+                return;
+            }
+
+            ddlPaciente.Items.Clear();
+            ddlPaciente.Items.Add(new ListItem("Selecione...", "0"));
+
+            foreach (Solicitacao solicitacao in solicitacoes)
+            {
+                ViverMais.Model.Paciente paciente = PacienteBLL.Pesquisar(solicitacao.ID_Paciente);
+                ddlPaciente.Items.Add(new ListItem(paciente.Nome, paciente.Codigo));
+            }
+            Session["Solicitacoes"] = solicitacoes;
+            
+        }
+
+        //    Usuario usuario = (Usuario)Session["Usuario"];
+
+        //    if (solicitacao.Agenda.Estabelecimento.CNES != usuario.Unidade.CNES)
+        //    {
+        //        ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Registro não pertence à Unidade Referenciada na Agenda!');", true);
+        //        return;
+        //    }
+        //    if (solicitacao.Situacao == Convert.ToChar(Solicitacao.SituacaoSolicitacao.CONFIRMADA).ToString())//Se já estiver Confirmada
+        //    {
+        //        ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Atendimento já foi realizado!');", true);
+        //        return;
+        //    }
+        //    else if (solicitacao.Situacao == Convert.ToChar(Solicitacao.SituacaoSolicitacao.DESMARCADA).ToString())//Se já estiver Desmarcada
+        //    {
+        //        ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('A solicitação está Desmarcada!');", true);
+        //        return;
+        //    }
+
+        //    PanelExibeDados.Visible = true;
+        
+        //    lblDataAtendimento.Text = solicitacao.Agenda.Data.ToShortDateString();
+        //    if (solicitacao.Agenda.Turno == "T")
+        //        lblTurno.Text = "Tarde";
+        //    else if (solicitacao.Agenda.Turno == "M")
+        //        lblTurno.Text = "Manhã";
+
+        //    //Pega o Nome do Profissional
+        //    string co_profissional = solicitacao.Agenda.ID_Profissional.CPF;
+        //    IViverMaisServiceFacade iProfissional = Factory.GetInstance<IViverMaisServiceFacade>();
+        //    ViverMais.Model.Profissional profissional = iProfissional.BuscarPorCodigo<ViverMais.Model.Profissional>(co_profissional);
+        //    lblProfissional.Text = profissional.Nome;
+
+        //    //Pega o Nome do Paciente
+        //    string co_paciente = solicitacao.ID_Paciente;
+        //    IPaciente iPaciente = Factory.GetInstance<IPaciente>();
+        //    ViverMais.Model.Paciente paciente = iPaciente.BuscarPorCodigo<ViverMais.Model.Paciente>(co_paciente);
+        //    lblPaciente.Text = paciente.Nome;
+
+        //    //Pega o Nome do Procedimento
+        //    ViverMais.Model.Procedimento procedimento = Factory.GetInstance<IViverMaisServiceFacade>().BuscarPorCodigo<ViverMais.Model.Procedimento>(solicitacao.Agenda.Procedimento.Codigo);
+
+        //    //Faço a busca para verificar se o procedimento é individualizado
+        //    IList<ProcedimentoRegistro> pr = Factory.GetInstance<IRegistro>().BuscarPorProcedimento<ProcedimentoRegistro>(solicitacao.Agenda.Procedimento.Codigo, Registro.BPA_INDIVIDUALIZADO);//02 - Codigo Individualizado
+        //    if (pr.Count != 0)
+        //    {
+        //        PanelExibeCID.Visible = true;
+        //        IList<ProcedimentoCid> procedimentoCid = Factory.GetInstance<ICid>().BuscarPorProcedimento<ProcedimentoCid>(procedimento.Codigo);
+        //        if (procedimentoCid.Count != 0)
+        //        {
+        //            PanelBuscaCID.Visible = false;
+        //            ddlCID.Items.Add(new ListItem("Selecione...", "-1"));
+        //            foreach (ProcedimentoCid procedCid in procedimentoCid)
+        //            {
+        //                ddlCID.Items.Add(new ListItem(procedCid.Cid.Codigo + " - " + procedCid.Cid.Nome, procedCid.Cid.Codigo));
+        //            }
+        //        }
+        //        else
+        //        {
+        //            PanelBuscaCID.Visible = true;
+        //        }
+        //    }
+        //    else
+        //        PanelExibeCID.Visible = false;
+
+        //    lblProcedimento.Text = procedimento.Codigo + "-" + procedimento.Nome;
+        //    // Verifico se o procedimento é APAC para mostrar o CNS e o Nome do Médico Autorizador
+        //    IList<ProcedimentoRegistro> procregistro = Factory.GetInstance<IRegistro>().BuscarPorProcedimento<ProcedimentoRegistro>(solicitacao.Agenda.Procedimento.Codigo, Registro.APAC_PROC_PRINCIPAL);
+        //    if (procregistro.Count != 0)
+        //    {
+        //        PanelExibeMedicoRegulador.Visible = true;
+        //        Usuario regulador = Factory.GetInstance<IUsuario>().BuscarPorCodigo<Usuario>(solicitacao.UsuarioRegulador.Codigo);
+        //        if (regulador != null)
+        //        {
+        //            lblMedicoAutorizador.Text = regulador.Nome.ToString();
+        //            lblCNSAutorizador.Text = regulador.CartaoSUS.ToString();
+        //            DateTime suaData = solicitacao.Agenda.Data.AddDays(60);
+        //            DateTime ultimoDiaMesAtual = DateTime.Now;
+        //            int mesAtual = suaData.Month;
+        //            for (int i = 1; i < 32; i++)
+        //            {
+
+        //                ultimoDiaMesAtual = suaData.AddDays(i);
+        //                if (mesAtual != ultimoDiaMesAtual.Month)
+        //                {
+        //                    ultimoDiaMesAtual = ultimoDiaMesAtual.AddDays(-1);
+        //                    break;
+        //                }
+        //            }
+        //            lblValidadeInicial.Text = solicitacao.Agenda.Data.ToShortDateString();
+        //            lblValidadeFinal.Text = ultimoDiaMesAtual.ToShortDateString();
+
+
+        //        }
+        //        else
+        //        {
+        //            lblMedicoAutorizador.Text = "-";
+        //            lblCNSAutorizador.Text = "-";
+        //        }
+
+        //     }
+
+
+    }
+}

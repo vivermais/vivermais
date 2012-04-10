@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Vida.Model">
+	<class name="Vida.Model.ItemCampanha" table="VCN_ITEM_CAMPANHA">
+		<id name="Codigo">
+			<column name="CO_ITEM_CAMPANHA" not-null="true"/>
+			<generator class="assigned" />
+		</id>
+		<many-to-one name="ItemVacina" class="Vida.Model.ItemVacina" column="CO_ITEMVACINA" />
+		<many-to-one name="Campanha" class="Vida.Model.Campanha" column="CO_CAMPANHA" />
+		<property name="Quantidade" column="QUANTIDADE" />
+	</class>
+</hibernate-mapping>

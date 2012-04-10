@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="ViverMais.Model">
+  <class name="ViverMais.Model.ParametrizacaoFPO" table="AGD_PARAMETRIZACAO_FPO">
+    <id name="Codigo">
+       <column name="CO_PARAMETRIZACAO" not-null="true"/>
+       <generator class="sequence">
+           <param name="sequence">AGD_PARAMETRIZACAO_SEQUENCE</param>
+       </generator>
+    </id>
+    <property name="ValorPrestador" column="valor_prestador" />
+    <property name="ValorSolicitante" column="VALOR_solicitante" />
+    <property name="TipoParametrizacao" column="TIPO_parametrizacao" />
+    <property name="Cnes" column="CNES" />
+    <property name="Id_Procedimento" column="CO_PROCEDIMENTO" />
+  </class>
+</hibernate-mapping>

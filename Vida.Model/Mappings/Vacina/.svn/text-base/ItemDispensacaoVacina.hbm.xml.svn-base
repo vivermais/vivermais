@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Vida.Model">
+	<class name="Vida.Model.ItemDispensacaoVacina" table="VCN_ITEM_DISPENSACAO">
+		<!--<id name="Codigo">
+			<column name="CO_ITEMDISPENSACAO" not-null="true"/>
+			<generator class="assigned" />
+		</id>-->
+    <id name="Codigo">
+      <column name="CO_ITEMDISPENSACAO" not-null="true"/>
+      <generator class="sequence">
+        <param name="sequence">vcn_itemdispensacao_sequence</param>
+      </generator>
+    </id>
+    
+    <many-to-one name="Dispensacao" class="Vida.Model.DispensacaoVacina" column="CO_DISPENSACAO" fetch="join"/>
+		<many-to-one name="Lote" class="Vida.Model.LoteVacina" column="CO_LOTE" />
+		<property name="AberturaAmpola" column="ABERTURAAMPOLA" />
+    <many-to-one name="Dose" class="Vida.Model.DoseVacina" column="CO_DOSE" />
+    <many-to-one name="Estrategia" class="Vida.Model.Estrategia" column="co_estrategia" />
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,43 @@
+﻿<%@ Page Language="C#" AutoEventWireup="True" CodeBehind="FormFabricante.aspx.cs" Inherits="Vida.View.Farmacia.FormFabricante" MasterPageFile="~/Farmacia/MasterFarmacia.Master" EnableEventValidation="false" %>
+
+<asp:Content ID="c_head" runat="server" ContentPlaceHolderID="head">
+</asp:Content>
+
+<asp:Content ID="c_body" runat="server" ContentPlaceHolderID="ContentPlaceHolder1">
+    <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+        <ContentTemplate>
+        <div id="top">
+            <h2>Formulário para Cadastro de Fabricante</h2>
+            <fieldset class="formulario">
+                <legend>Fabricante</legend>
+                <p>
+                    <span class="rotulo">Nome</span>
+                    <span>
+                        <asp:TextBox ID="TextBox_Fabricante" CssClass="campo" Width="300px" runat="server"></asp:TextBox>
+                    </span>
+                </p>
+                <br />
+                <div class="botoesroll" style="margin-top:20px" >
+                    <asp:LinkButton ID="Button_Salvar" runat="server" OnClick="OnClick_Salvar" ValidationGroup="ValidationGroup_Salvar">
+                     <img id="imgsalvar" runat="server" />
+                    </asp:LinkButton>
+                    </div>
+                    <div class="botoesroll" style="margin-top:20px">
+                    <asp:LinkButton ID="Button_Cancelar" runat="server" Text="Cancelar" PostBackUrl="~/Farmacia/Default.aspx">
+                     <img id="imgcancelar" alt="Cancelar" src="img/btn/cancelar1.png"
+                onmouseover="imgcancelar.src='img/btn/cancelar2.png';"
+                onmouseout="imgcancelar.src='img/btn/cancelar1.png';" />
+                    </asp:LinkButton>
+              </div>
+            </fieldset>
+            <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ErrorMessage="Nome é Obrigatório!" Display="None" ControlToValidate="TextBox_Fabricante" ValidationGroup="ValidationGroup_Salvar"></asp:RequiredFieldValidator>
+            <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ControlToValidate="TextBox_Fabricante"
+                        Display="None" ErrorMessage="Há caracters inválidos no Nome do Fabricante." Font-Size="XX-Small"
+                        ValidationExpression="^[0-9a-zA-Z\s]{1,}$" ValidationGroup="ValidationGroup_Salvar"></asp:RegularExpressionValidator>
+            <asp:ValidationSummary ID="ValidationSummary1" runat="server" ShowMessageBox="true" ShowSummary="false" ValidationGroup="ValidationGroup_Salvar"/>
+        </div>
+<%--        <div>--%>
+<%--        </div>--%>
+        </ContentTemplate>
+    </asp:UpdatePanel>
+</asp:Content>

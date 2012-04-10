@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DSRelatorioListaProcura" targetNamespace="http://tempuri.org/DSRelatorioListaProcura.xsd" xmlns:mstns="http://tempuri.org/DSRelatorioListaProcura.xsd" xmlns="http://tempuri.org/DSRelatorioListaProcura.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DSRelatorioListaProcura" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_UserDSName="DSRelatorioListaProcura" msprop:Generator_DataSetName="DSRelatorioListaProcura" msprop:EnableTableAdapterManager="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="RelatorioListaProcura" msprop:Generator_UserTableName="RelatorioListaProcura" msprop:Generator_RowDeletedName="RelatorioListaProcuraRowDeleted" msprop:Generator_RowChangedName="RelatorioListaProcuraRowChanged" msprop:Generator_RowClassName="RelatorioListaProcuraRow" msprop:Generator_RowChangingName="RelatorioListaProcuraRowChanging" msprop:Generator_RowEvArgName="RelatorioListaProcuraRowChangeEvent" msprop:Generator_RowEvHandlerName="RelatorioListaProcuraRowChangeEventHandler" msprop:Generator_TableClassName="RelatorioListaProcuraDataTable" msprop:Generator_TableVarName="tableRelatorioListaProcura" msprop:Generator_RowDeletingName="RelatorioListaProcuraRowDeleting" msprop:Generator_TablePropName="RelatorioListaProcura">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Nome_x0020_Paciente" msprop:Generator_UserColumnName="Nome Paciente" msprop:Generator_ColumnVarNameInTable="columnNome_Paciente" msprop:Generator_ColumnPropNameInRow="Nome_Paciente" msprop:Generator_ColumnPropNameInTable="Nome_PacienteColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Cartao_x0020_SUS" msprop:Generator_UserColumnName="Cartao SUS" msprop:Generator_ColumnVarNameInTable="columnCartao_SUS" msprop:Generator_ColumnPropNameInRow="Cartao_SUS" msprop:Generator_ColumnPropNameInTable="Cartao_SUSColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Municipio" msprop:Generator_UserColumnName="Municipio" msprop:Generator_ColumnVarNameInTable="columnMunicipio" msprop:Generator_ColumnPropNameInRow="Municipio" msprop:Generator_ColumnPropNameInTable="MunicipioColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Procedimento" msprop:Generator_UserColumnName="Procedimento" msprop:Generator_ColumnVarNameInTable="columnProcedimento" msprop:Generator_ColumnPropNameInRow="Procedimento" msprop:Generator_ColumnPropNameInTable="ProcedimentoColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Data_x0020_Primeira_x0020_Procura" msprop:Generator_UserColumnName="Data Primeira Procura" msprop:Generator_ColumnVarNameInTable="columnData_Primeira_Procura" msprop:Generator_ColumnPropNameInRow="Data_Primeira_Procura" msprop:Generator_ColumnPropNameInTable="Data_Primeira_ProcuraColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Data_x0020_Ultima_x0020_Procura" msprop:Generator_UserColumnName="Data Ultima Procura" msprop:Generator_ColumnVarNameInTable="columnData_Ultima_Procura" msprop:Generator_ColumnPropNameInRow="Data_Ultima_Procura" msprop:Generator_ColumnPropNameInTable="Data_Ultima_ProcuraColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Agendado" msprop:Generator_UserColumnName="Agendado" msprop:Generator_ColumnVarNameInTable="columnAgendado" msprop:Generator_ColumnPropNameInRow="Agendado" msprop:Generator_ColumnPropNameInTable="AgendadoColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Quantidade" msprop:Generator_UserColumnName="Quantidade" msprop:Generator_ColumnVarNameInTable="columnQuantidade" msprop:Generator_ColumnPropNameInRow="Quantidade" msprop:Generator_ColumnPropNameInTable="QuantidadeColumn" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

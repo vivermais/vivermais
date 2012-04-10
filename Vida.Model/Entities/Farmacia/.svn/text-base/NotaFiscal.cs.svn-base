@@ -1,0 +1,106 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace Vida.Model
+{
+    [Serializable]
+    public class NotaFiscal
+    {
+        public static readonly char ENCERRADA = 'E';
+        public static readonly char ABERTA = 'A';
+
+        int codigo;
+        public virtual int Codigo
+        {
+            get { return codigo; }
+            set { codigo = value; }
+        }
+
+        string numeroNota;
+        public virtual string NumeroNota
+        {
+            get { return numeroNota; }
+            set { numeroNota = value; }
+        }
+
+        DateTime dataRecebimento;
+        public virtual DateTime DataRecebimento
+        {
+            get { return dataRecebimento; }
+            set { dataRecebimento = value; }
+        }
+
+        DateTime dataatesto;
+        public virtual DateTime DataAtesto
+        {
+            get { return dataatesto; }
+            set { dataatesto = value; }
+        }
+
+        FornecedorMedicamento fornecedor;
+        public virtual FornecedorMedicamento Fornecedor
+        {
+            get { return fornecedor; }
+            set { fornecedor = value; }
+        }
+      
+        string processoorigem;
+        public virtual string ProcessoOrigem
+        {
+            get { return processoorigem; }
+            set { processoorigem = value; }
+        }
+
+        string empenho;
+        public virtual string Empenho
+        {
+            get { return empenho; }
+            set { empenho = value; }
+        }
+
+        ResponsavelAtesto responsavel;
+        public virtual ResponsavelAtesto Responsavel
+        {
+            get { return responsavel; }
+            set { responsavel = value; }
+        }
+
+        private Farmacia farmacia;
+        public virtual Farmacia Farmacia 
+        {
+            get { return farmacia; }
+            set { farmacia = value; }
+        }
+
+        string afm;
+        public virtual string Afm
+        {
+            get { return afm; }
+            set { afm = value; }
+        }
+
+        char status;
+        public virtual char Status
+        {
+            get { return status; }
+            set { status = value; }
+        }
+
+        public virtual string NomeFornecedor
+        {
+            get{ return this.Fornecedor.NomeFantasia; }
+        }
+
+        public virtual string NomeResponsavel
+        {
+            get { return this.Responsavel.Nome; }
+        }
+
+        public NotaFiscal()
+        {
+
+        }
+    }
+}

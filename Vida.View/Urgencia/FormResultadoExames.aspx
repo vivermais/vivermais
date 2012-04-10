@@ -1,0 +1,148 @@
+﻿<%@ Page Language="C#" MasterPageFile="~/Urgencia/MasterUrgencia.Master" AutoEventWireup="true"
+    CodeBehind="FormResultadoExames.aspx.cs" Inherits="ViverMais.View.Urgencia.FormResultadoExames"
+    Title="ViverMais - Resultado de Exames" EnableEventValidation="false" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <div id="top">
+        <h2>
+            Formulário de Registro de Resultado de Exames</h2>
+        <fieldset class="formulario">
+            <legend>Pesquisa de Exames</legend>
+            <p>
+                <span class="rotulo">Nº do Registro:</span> <span>
+                    <asp:TextBox ID="tbxNumero" CssClass="campo" runat="server" Height="16px" Width="90px"></asp:TextBox>
+                    <asp:RegularExpressionValidator ID="RegularExpressionValidator3" Font-Size="XX-Small"
+                        runat="server" ErrorMessage="Digite somente números no Número do Registro!" Display="None"
+                        ValidationGroup="Numero" ValidationExpression="^\d*$" ControlToValidate="tbxNumero"></asp:RegularExpressionValidator>
+                </span>
+            </p>
+            <p>
+                <span class="rotulo">Nº do Cartão SUS:</span> <span>
+                    <asp:TextBox ID="tbxCartaoSus" CssClass="campo" runat="server" Height="16px" Width="200px"></asp:TextBox>
+                    <asp:RegularExpressionValidator ID="RegularExpressionValidator1" Font-Size="XX-Small"
+                        runat="server" ErrorMessage="O número do cartão SUS deve conter 15 dígitos!"
+                        ValidationGroup="Numero" ValidationExpression="^\d{15}$" Display="None" ControlToValidate="tbxCartaoSus"></asp:RegularExpressionValidator>
+                </span>
+            </p>
+            <div class="botoesroll">
+                  <asp:LinkButton ID="btnPesquisar" runat="server" OnClick="BtnPesquisar_Click" ValidationGroup="Numero" >
+                <img id="imgbuscar" alt="Buscar" src="img/bts/btn_buscar1.png"
+                onmouseover="imgbuscar.src='img/bts/btn_buscar2.png';"
+                onmouseout="imgbuscar.src='img/bts/btn_buscar1.png';" /></asp:LinkButton>
+                        </div>
+
+            <div class="botoesroll">
+                        <asp:LinkButton ID="btnListarTodos" runat="server" OnClick="btnListarTodos_Click" CausesValidation="false" >
+                <img id="imglistar" alt="Listar Exames Pendentes" src="img/bts/btn-listarexamespend1.png"
+                onmouseover="imglistar.src='img/bts/btn-listarexamespend2.png';"
+                onmouseout="imglistar.src='img/bts/btn-listarexamespend1.png';" /></asp:LinkButton>
+                        </div>
+            <p align="center">
+                <span>
+                    <asp:ValidationSummary ID="ValidationSummary1" runat="server" ShowMessageBox="true"
+                        ShowSummary="false" ValidationGroup="Numero" />
+                    <asp:CustomValidator ID="CustomValidator_ValidaPesquisa" runat="server" ErrorMessage="CustomValidator"
+                        ValidationGroup="Numero" Display="None" OnServerValidate="OnServerValidate_ValidaPesquisa"></asp:CustomValidator>
+                </span>
+            </p>
+        </fieldset>
+        <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="true">
+            <Triggers>
+                <asp:AsyncPostBackTrigger ControlID="btnPesquisar" EventName="Click" />
+                <asp:AsyncPostBackTrigger ControlID="btnListarTodos" EventName="Click" />
+                <asp:AsyncPostBackTrigger ControlID="btnSalvar" EventName="Click" />
+                <asp:AsyncPostBackTrigger ControlID="btnCancelar" EventName="Click" />
+            </Triggers>
+            <ContentTemplate>
+                <fieldset class="formulario">
+                    <legend>Exames pendentes</legend>
+                    <p>
+                        <span style="color: Red; font-family: Verdana; font-size: 11px; margin-left: 10px">
+                            <asp:Label ID="lblResultado" runat="server"></asp:Label></span>
+                    </p>
+                    <p>
+                        <span>
+                            <asp:GridView ID="gridExamesProntuario" runat="server" Width="700px" AutoGenerateColumns="False"
+                                DataKeyNames="Codigo" AllowPaging="true" PageSize="15" PagerSettings-Mode="Numeric"
+                                OnPageIndexChanging="OnPageIndexChanging_Paginacao" OnSelectedIndexChanged="gridExamesProntuario_SelectedIndexChanged">
+                                <Columns>
+                                    <asp:BoundField DataField="Prontuario" HeaderText="Registro" ItemStyle-HorizontalAlign="Center">
+                                        <ItemStyle HorizontalAlign="Center" Width="60px"></ItemStyle>
+                                    </asp:BoundField>
+                                    <asp:BoundField DataField="NomePaciente" HeaderText="Paciente" ItemStyle-HorizontalAlign="Center">
+                                        <ItemStyle HorizontalAlign="Center" Width="300px"></ItemStyle>
+                                    </asp:BoundField>
+                                    <asp:BoundField DataField="Exame" HeaderText="Exame" ItemStyle-HorizontalAlign="Center">
+                                        <ItemStyle HorizontalAlign="Center" Width="500px"></ItemStyle>
+                                    </asp:BoundField>
+                                    <asp:BoundField DataField="Data" HeaderText="Data" ItemStyle-HorizontalAlign="Center">
+                                        <ItemStyle HorizontalAlign="Center" Width="60px"></ItemStyle>
+                                    </asp:BoundField>
+                                    <%--<asp:BoundField DataField="ResultadoToString" HeaderText="Resultado" ItemStyle-HorizontalAlign="Center">
+                                    <ItemStyle HorizontalAlign="Center" Width="300px"></ItemStyle>
+                                </asp:BoundField>
+                                <asp:BoundField DataField="DataResultadoToString" HeaderText="Data do Resultado">
+                                    <ItemStyle HorizontalAlign="Center" Width="150px"></ItemStyle>
+                                </asp:BoundField>--%>
+                                    <asp:CommandField SelectText="Selecionar" ShowSelectButton="True"></asp:CommandField>
+                                </Columns>
+                                <%--<EmptyDataTemplate>
+                                    <asp:Label ID="lbEmpty" runat="server" Text="Nenhum registro de exame encontrado"></asp:Label>
+                                </EmptyDataTemplate>--%>
+                                <HeaderStyle CssClass="tab" />
+                                <RowStyle CssClass="tabrow_left" />
+                            </asp:GridView>
+                        </span>
+                    </p>
+                </fieldset>
+            </ContentTemplate>
+        </asp:UpdatePanel>
+        <asp:UpdatePanel ID="Up" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="true">
+            <Triggers>
+                <asp:AsyncPostBackTrigger ControlID="gridExamesProntuario" EventName="SelectedIndexChanged" />
+                <asp:AsyncPostBackTrigger ControlID="btnListarTodos" EventName="Click" />
+                <asp:AsyncPostBackTrigger ControlID="btnPesquisar" EventName="Click" />
+            </Triggers>
+            <ContentTemplate>
+                <asp:Panel runat="server" ID="Panel_ResultadoExame" Visible="false">
+                    <fieldset class="formulario">
+                        <legend>Resultado de Exames</legend>
+                        <br />
+                        <p>
+                            <span class="rotulo">Exame:</span> <span style="margin-left: 5px;">
+                                <asp:Label ID="lblExame" runat="server" Text="-"></asp:Label>
+                            </span>
+                        </p>
+                        <p>
+                            <span class="rotulo">Data da Solicitação:</span> <span style="margin-left: 5px;">
+                                <asp:Label ID="lblDataSolicitacao" runat="server" Text="-"></asp:Label>
+                            </span>
+                        </p>
+                        <p>
+                            <span class="rotulo">Resultado:</span> <span>
+                                <asp:TextBox ID="tbxResultado" CssClass="campo" runat="server" Width="680px" Height="150px"
+                                    TextMode="MultiLine" Rows="20" Columns="8"></asp:TextBox>
+                                <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ErrorMessage="Resultado é Obrigatório."
+                                    ControlToValidate="tbxResultado" Display="None" ValidationGroup="ValidationGroup_ResultadoExame"></asp:RequiredFieldValidator>
+                            </span>
+                        </p>
+                        <p align="center">
+                            <span>
+                                <asp:ImageButton ID="btnSalvar" runat="server" OnClick="btnSalvar_Click" ImageUrl="~/Urgencia/img/bts/btn_salvar1.png" Width="134px" Height="38px"
+                                    OnClientClick="javascript:if (Page_ClientValidate('ValidationGroup_ResultadoExame')) return confirm('Tem certeza que deseja registrar o resultado para este exame ?');return false;"
+                                    ValidationGroup="ValidationGroup_ResultadoExame" CausesValidation="true" />
+                            </span><span>
+                                <asp:ImageButton ID="btnCancelar" runat="server" ImageUrl="~/Urgencia/img/bts/btn_cancelar1.png" Width="134px" Height="38px"
+                                    OnClick="btnCancelar_Click" CausesValidation="true" />
+                                <asp:ValidationSummary ID="ValidationSummary2" runat="server" ValidationGroup="ValidationGroup_ResultadoExame"
+                                    ShowMessageBox="true" ShowSummary="false" />
+                            </span>
+                        </p>
+                    </fieldset>
+                </asp:Panel>
+            </ContentTemplate>
+        </asp:UpdatePanel>
+    </div>
+</asp:Content>

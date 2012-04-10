@@ -1,0 +1,68 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Vida.Model;
+using Vida.DAOOracle;
+
+namespace Vida.BLL
+{
+    public class BairroBLL
+    {
+        public static List<Bairro> PesquisarPorMunicipio(Municipio municipio)
+        {
+            DistritoDAO distritoDAO = new DistritoDAO();
+            BairroDAO dao = new BairroDAO();
+            List<Distrito> distritos = distritoDAO.PesquisarPorMunicipio(municipio);
+            List<Bairro> bairros = new List<Bairro>();
+            foreach (Distrito distrito in distritos)
+            {
+                bairros.AddRange(dao.PesquisarPorDistrito(distrito));
+            }            
+            return bairros; 
+        }
+
+        public static Bairro Pesquisar(string codigo)
+        {
+            BairroDAO dao = new BairroDAO();
+            Bairro bairro = dao.Pesquisar(codigo);
+            return bairro;
+        }
+
+        public static Bairro PesquisarPorNomeNoDistrito(string nome, string nomeDistrito)
+        {
+            Distrito distrito = null;
+            Bairro bairro = null;
+            DistritoDAO distritoDAO = new DistritoDAO();
+            BairroDAO dao = new BairroDAO();
+            distrito = distritoDAO.PesquisarPorNome(nomeDistrito);
+            if (distrito != null)
+            {
+                List<Bairro> bairros = dao.PesquisarPorDistrito(distrito);
+                bairro = bairros.Find(x => x.Nome == nome);
+            }            
+            return bairro;
+        }
+
+        public static void CadastrarComDistrito(Bairro bairroVida)
+        {
+            
+            DistritoDAO distritoDAO = new DistritoDAO();
+            BairroDAO bairroDAO = new BairroDAO();            
+            distritoDAO.Inserir(bairroVida.Distrito);
+            bairroDAO.Inserir(bairroVida);            
+        }
+
+        public static void Cadastrar(Bairro bairroVida)
+        {            
+            BairroDAO bairroDAO = new BairroDAO();            
+            bairroDAO.Inserir(bairroVida);            
+        }
+
+        public static void Atualizar(Bairro bairroVida)
+        {
+            BairroDAO bairroDAO = new BairroDAO();
+            bairroDAO.Inserir(bairroVida);
+        }
+    }
+}

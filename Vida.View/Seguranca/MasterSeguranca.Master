@@ -1,0 +1,74 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" MasterPageFile="~/MasterMain.Master"
+    CodeBehind="MasterSeguranca.master.cs" Inherits="ViverMais.View.Seguranca.MasterSeguranca" %>
+
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <link rel="stylesheet" href="style_form_seguranca.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="style-barra-modulo.css" type="text/css" />
+    <asp:ContentPlaceHolder ID="ContentPlaceHolder2" runat="server">
+
+    </asp:ContentPlaceHolder>
+            <script type="text/javascript" language="javascript">
+                function showTooltip(obj) {
+                    if (obj.options[obj.selectedIndex].title == "") {
+                        obj.title = obj.options[obj.selectedIndex].text;
+                        obj.options[obj.selectedIndex].title = obj.options[obj.selectedIndex].text;
+                        for (i = 0; i < obj.options.length; i++) {
+                            obj.options[i].title = obj.options[i].text;
+                        }
+                    }
+                    else
+                        obj.title = obj.options[obj.selectedIndex].text;
+                }
+        </script>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+<%--    <div id="DivMenu" runat="server" visible="false">
+        <div style="margin-top: 8px; margin-left: 14px">
+            <ul class="menu2" id="menu">
+                <li><a href="#" class="menulink">Usuários</a>
+                    <ul>
+                        <li><a href="FormUsuario.aspx">Novo</a></li>
+                        <li><a href="ListaUsuarios.aspx">Editar</a></li>
+                    </ul>
+                </li>
+                <li><a href="#" class="menulink">Perfil</a>
+                    <ul>
+                        <li><a href="FormPerfil.aspx">Novo</a></li>
+                        <li><a href="FormBuscaPerfil.aspx">Editar</a></li>
+                    </ul>
+                </li>
+                <li><a href="#" class="menulink">Senha</a>
+                    <ul>
+                        <li><a href="AlterarSenha.aspx">Alterar</a></li>
+                    </ul>
+                </li>
+                <li><a href="#" class="menulink">Log de Eventos</a>
+                    <ul>
+                        <li><a href="VisualizarLog.aspx">Visualizar</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>--%>
+    <cc1:AlwaysVisibleControlExtender runat="server" ID="AlwaysVisibleControlExtender2"
+        TargetControlID="UpDateProgressSeguranca" VerticalSide="Middle" VerticalOffset="10"
+        HorizontalSide="Center" HorizontalOffset="10" ScrollEffectDuration=".1">
+    </cc1:AlwaysVisibleControlExtender>
+    <div>
+        <asp:UpdateProgress ID="UpDateProgressSeguranca" runat="server" DisplayAfter="1"
+            DynamicLayout="false">
+            <ProgressTemplate>
+                <div id="progressBackgroundFilter">
+                </div>
+                <div id="processMessage">
+                    <div id="bgloader">
+                        <img src="img/ajax-loadernn.gif" style="margin-left: 68px; margin-top: 45px;" alt="" />
+                    </div>
+                </div>
+            </ProgressTemplate>
+        </asp:UpdateProgress>
+    </div>
+    <asp:ContentPlaceHolder ID="ContentPlaceHolder3" runat="server">
+    </asp:ContentPlaceHolder>
+</asp:Content>

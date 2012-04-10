@@ -1,0 +1,10 @@
+C:\Users\Lucas\vivermais\Vida.DAOOracle\bin\Debug\Vida.DAOOracle.dll
+C:\Users\Lucas\vivermais\Vida.DAOOracle\bin\Debug\Vida.DAOOracle.pdb
+C:\Users\Lucas\vivermais\Vida.DAOOracle\bin\Debug\Oracle.DataAccess.dll
+C:\Users\Lucas\vivermais\Vida.DAOOracle\bin\Debug\Vida.DAL.dll
+C:\Users\Lucas\vivermais\Vida.DAOOracle\bin\Debug\Vida.Model.dll
+C:\Users\Lucas\vivermais\Vida.DAOOracle\bin\Debug\Vida.Model.pdb
+C:\Users\Lucas\vivermais\Vida.DAOOracle\bin\Debug\Vida.DAL.pdb
+C:\Users\Lucas\vivermais\Vida.DAOOracle\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Lucas\vivermais\Vida.DAOOracle\obj\Debug\Vida.DAOOracle.dll
+C:\Users\Lucas\vivermais\Vida.DAOOracle\obj\Debug\Vida.DAOOracle.pdb

@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="ViverMais.Model">
+  <class name="ViverMais.Model.SubElencoMedicamento" table="far_subelenco">
+    <id name="Codigo">
+      <column name="id_subelenco" not-null="true"/>
+      <generator class="sequence" >
+        <param name="sequence">FAR_SUBELENCO_SEQUENCE</param>
+      </generator>
+    </id>
+    <property name="Nome" column="subelenco" />
+    <bag name="Medicamentos" table="far_subelenco_medicamento">
+      <key column="id_subelenco"/>
+      <many-to-many column="id_medicamento" class="ViverMais.Model.Medicamento" />
+    </bag>
+  </class>
+</hibernate-mapping>

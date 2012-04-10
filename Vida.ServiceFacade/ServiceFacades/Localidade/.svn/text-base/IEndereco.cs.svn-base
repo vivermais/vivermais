@@ -1,0 +1,34 @@
+﻿ using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace Vida.ServiceFacade.ServiceFacades.Localidade
+{
+    public interface IEndereco : IServiceFacade
+    {
+        /// <summary>
+        /// Pesquisa o Endereço associado ao paciente especificado
+        /// </summary>
+        /// <typeparam name="T">Tipo da entidade Endereço</typeparam>
+        /// <param name="co_paciente">Identificador do Paciente</param>
+        /// <returns>Instância de Endereço</returns>
+        T BuscarPorPaciente<T>(string co_paciente);
+
+        /// <summary>
+        /// Insere um novo Endereço no sistema e o associa ao Paciente especificado
+        /// </summary>
+        /// <typeparam name="T">Tipo da entidade Endereço</typeparam>
+        /// <typeparam name="P">Tipo da entidade Paciente</typeparam>
+        /// <param name="endereco">Instância de Endereço</param>
+        /// <param name="paciente">Instância de Paciente</param>
+        void CadastrarEndereco<T, P>(T endereco, P paciente);
+
+        /// <summary>
+        /// Atualiza os dados do Endereço do Paciente
+        /// </summary>
+        /// <typeparam name="T">Tipo da entidade Endereço</typeparam>
+        /// <param name="endereco">Instância de Endereço</param>
+        void AtualizarEndereco<T>(T endereco);
+    }
+}

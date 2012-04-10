@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Vida.Model">
+  <class name="Vida.Model.MovimentoFatura" table="movimentofatura">
+    <id name="Codigo">
+      <column name="id_movimentofatura" not-null="true"/>
+      <generator class="identity" />
+    </id>
+	<many-to-one name="Fatura" class="Vida.Model.Fatura" column="id_fatura" />
+	<property name="ID_Procedimento" column="id_procedimento" />
+	<property name="Cns_Profissional" column="cns_profissional" />
+	<property name="Cod_Cbo" column="cod_cbo" />
+	<property name="Cns_Paciente" column="cns_paciente" />
+	<property name="Sexo" column="sexo" />
+	<property name="IBGE" column="ibge" />
+	<property name="CID" column="cid" />
+	<property name="Idade" column="idade" />
+	<property name="Qtd" column="qtd" />
+	<property name="Origem" column="origem" />
+	<property name="Nome_Paciente" column="nome_paciente" />
+    <property name="Data_Nascimento" column="data_nascimento" />
+	<property name="Data_Atendimento" column="data_atendimento" />
+	<property name="RacaCor" column="racacor" />
+	<property name="Autorizacao" column="autorizacao" />
+  </class>
+</hibernate-mapping>

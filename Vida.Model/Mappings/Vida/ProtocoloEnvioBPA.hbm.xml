@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="ViverMais.Model">
+  <class name="ViverMais.Model.ProtocoloEnvioBPA" table="tb_pms_protocoloenviobpa">
+    <id name="Codigo">
+      <column name="id_protocolo" not-null="true"/>
+      <generator class="assigned" />
+    </id>
+	  <many-to-one name="EstabelecimentoSaude" class="ViverMais.Model.EstabelecimentoSaude" column="id_unidade"/>
+	  <many-to-one name="Usuario" class="ViverMais.Model.Usuario" column="id_usuario"/>
+	  <property name="DataEnvio" column="dataenvio"/>
+	  <!--<property name="Competencia" column="competencia"/>-->
+	  <many-to-one name="Competencia" class="ViverMais.Model.CompetenciaBPA" column="id_competencia_bpa"/>
+	  <property name="Arquivo" column="arquivo"/>
+	  <property name="TamanhoArquivo" column="tamanhoarquivo"/>
+	  <property name="NumeroControle" column="numerocontrole"/>
+  </class>
+</hibernate-mapping>

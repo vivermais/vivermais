@@ -1,0 +1,73 @@
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Xml.Linq;
+using Vida.DAO;
+using Vida.ServiceFacade.ServiceFacades;
+using Vida.ServiceFacade.ServiceFacades.Seguranca;
+using Vida.Model;
+using Vida.ServiceFacade.ServiceFacades.AtendimentoMedico.Urgencia;
+
+namespace Vida.View.Urgencia
+{
+    public partial class FormHorarioUnidade : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!IsPostBack)
+            {
+                if (Factory.GetInstance<ISeguranca>().VerificarPermissao(((Usuario)Session["Usuario"]).Codigo, "ALTERAR_HORARIO_VIGENCIA_PRESCRICAO",Modulo.URGENCIA))
+                {
+                    Vida.Model.HorarioUnidade horariounidade = Factory.GetInstance<IUrgenciaServiceFacade>().BuscarPorCodigo<Vida.Model.HorarioUnidade>(((Vida.Model.Usuario)Session["Usuario"]).Unidade.CNES);
+                    Vida.Model.EstabelecimentoSaude unidade = Factory.GetInstance<IVidaServiceFacade>().BuscarPorCodigo<Vida.Model.EstabelecimentoSaude>(((Vida.Model.Usuario)Session["Usuario"]).Unidade.CNES);
+                    if (horariounidade != null)
+                        lblHorarioAtual.Text = horariounidade.Horario;
+                    else
+                        lblHorarioAtual.Text = "-";
+                    lblUnidade.Text = unidade.NomeFantasia;
+                    ViewState["co_unidade"] = unidade.CNES;
+                }else
+                    Response.Redirect("FormAcessoNegado.aspx?opcao=1");
+                    //ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Usuário, você não tem permissão para acessar esta página! Por favor, entre em contato com a administração.');location='Default.aspx';", true);
+            }
+        }
+
+        protected void btnSalvar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                DateTime.Parse(tbxHorario.Text + ":00");
+            }
+            catch (Exception ex) 
+            {
+                ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('O horário informado não corresponde a um horário válido!');", true);
+                return;
+            }
+
+            IUrgenciaServiceFacade iUrgencia = Factory.GetInstance<IUrgenciaServiceFacade>();
+            Vida.Model.HorarioUnidade horario = new Vida.Model.HorarioUnidade();
+
+            horario.CodigoUnidade = ViewState["co_unidade"].ToString();
+            horario.Horario = tbxHorario.Text;
+
+            if (lblHorarioAtual.Text == "-")//não existe horário cadastrado ainda
+                iUrgencia.Inserir(horario);
+            else
+                iUrgencia.Atualizar(horario);
+
+            iUrgencia.Inserir(new LogUrgencia(DateTime.Now, ((Usuario)Session["Usuario"]).Codigo, 28, "horario unidade:" + horario.CodigoUnidade));
+
+            ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Dados salvos com sucesso.');", true);
+            lblHorarioAtual.Text = horario.Horario;
+                
+        }
+    }
+}

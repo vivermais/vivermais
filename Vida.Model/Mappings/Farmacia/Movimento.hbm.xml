@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="ViverMais.Model">
+	<class name="ViverMais.Model.Movimento" table="far_movimento">
+		<id name="Codigo">
+			<column name="id_movimento" not-null="true"/>
+      <generator class="sequence" >
+        <param name="sequence">FAR_MOVIMENTO_SEQUENCE</param>
+      </generator>
+		</id>
+		<property name="Data" column="data" />
+		<many-to-one name="TipoMovimento" class="ViverMais.Model.TipoMovimento" column="id_tipomovimento" />
+		<many-to-one name="Motivo" class="ViverMais.Model.MotivoMovimento" column="id_motivo" />
+		<many-to-one name="Farmacia" class="ViverMais.Model.Farmacia" column="id_farmacia" />
+		<many-to-one name="Farmacia_Destino" class="ViverMais.Model.Farmacia" column="id_farmacia_destino" />
+		<many-to-one name="Setor_Destino" class="ViverMais.Model.Setor" column="id_setor_destino" />
+		<!--<many-to-one name="Unidade" class="Sisfarma3.Model.Unidade" column="id_unidade" />-->
+		<property name="CodigoUnidade" column="id_unidade" />
+		<many-to-one name="TipoOperacaoMovimento" class="ViverMais.Model.TipoOperacaoMovimento" column="id_tipooperacaomovimento" />
+		<property name="Responsavel_Envio" column="responsavel_envio" />
+		<property name="Responsavel_Recebimento" column="responsavel_recebimento" />
+    <property name="ResponsavelMovimento" column="responsavel_movimento" />
+		<property name="Data_Envio" column="data_envio" />
+		<property name="Data_Recebimento" column="data_recebimento" />
+		<property name="Observacao" column="observacao" />
+		<!--<property name="Status_Movimento" column="status_movimento" />-->
+	</class>
+</hibernate-mapping>

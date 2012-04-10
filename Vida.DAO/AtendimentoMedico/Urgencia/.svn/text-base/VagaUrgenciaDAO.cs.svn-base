@@ -1,0 +1,205 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Vida.ServiceFacade.ServiceFacades.AtendimentoMedico.Urgencia;
+using System.Data;
+using Vida.ServiceFacade.ServiceFacades;
+using Vida.Model;
+using NHibernate.Criterion;
+
+namespace Vida.DAO.AtendimentoMedico.Urgencia
+{
+    public class VagaUrgenciaDAO : UrgenciaServiceFacadeDAO, IVagaUrgencia
+    {
+        DataTable IVagaUrgencia.QuadroVagas(string co_unidade, bool formato_linha)
+        {
+            DataTable tabela = new DataTable();
+
+            tabela.Columns.Add(new DataColumn("Unidade", typeof(string)));
+            tabela.Columns.Add(new DataColumn("TipoVaga", typeof(string)));
+            tabela.Columns.Add(new DataColumn("Vaga", typeof(string)));
+            tabela.Columns.Add(new DataColumn("VagaOcupada", typeof(string)));
+            tabela.Columns.Add(new DataColumn("VagaLivre", typeof(string)));
+            tabela.Columns.Add(new DataColumn("VagaInfantil", typeof(string)));
+            tabela.Columns.Add(new DataColumn("VagaMasculina", typeof(string)));
+            tabela.Columns.Add(new DataColumn("VagaFeminina", typeof(string)));
+            tabela.Columns.Add(new DataColumn("VagaInfantilOcupada", typeof(string)));
+            tabela.Columns.Add(new DataColumn("VagaMasculinaOcupada", typeof(string)));
+            tabela.Columns.Add(new DataColumn("VagaFemininaOcupada", typeof(string)));
+
+            IList<Vida.Model.VagaUrgencia> vagas = Factory.GetInstance<IVagaUrgencia>().BuscarPorUnidade<VagaUrgencia>(co_unidade);
+
+            DataRow linha = tabela.NewRow();
+            linha["Unidade"] = co_unidade.ToString();
+
+            IList<Vida.Model.VagaUrgencia> vagasfeminina = vagas.Where(v => v.TipoVaga == VagaUrgencia.FEMININA).ToList();
+
+            if (formato_linha)
+            {
+                linha["TipoVaga"] = "Feminino";
+                linha["Vaga"] = vagasfeminina.Count().ToString();
+                linha["VagaOcupada"] = vagasfeminina.Where(p => p.Prontuario != null).Count().ToString();
+                linha["VagaLivre"] = int.Parse(linha["Vaga"].ToString()) - int.Parse(linha["VagaOcupada"].ToString());
+                tabela.Rows.Add(linha);
+                linha = tabela.NewRow();
+            }
+            else
+            {
+                linha["VagaFeminina"] = vagasfeminina.Count().ToString();
+                linha["VagaFemininaOcupada"] = vagasfeminina.Where(p => p.Prontuario != null).Count().ToString();
+            }
+
+
+            IList<Vida.Model.VagaUrgencia> vagasmasculina = vagas.Where(v => v.TipoVaga == VagaUrgencia.MASCULINA).ToList();
+
+            if (formato_linha)
+            {
+                linha["TipoVaga"] = "Masculino";
+                linha["Vaga"] = vagasmasculina.Count().ToString();
+                linha["VagaOcupada"] = vagasmasculina.Where(p => p.Prontuario != null).Count().ToString();
+                linha["VagaLivre"] = int.Parse(linha["Vaga"].ToString()) - int.Parse(linha["VagaOcupada"].ToString());
+                tabela.Rows.Add(linha);
+                linha = tabela.NewRow();
+            }
+            else
+            {
+                linha["VagaMasculina"] = vagasmasculina.Count().ToString();
+                linha["VagaMasculinaOcupada"] = vagasmasculina.Where(p => p.Prontuario != null).Count().ToString();
+            }
+
+
+            IList<Vida.Model.VagaUrgencia> vagasinfantis = vagas.Where(v => v.TipoVaga == VagaUrgencia.INFANTIL).ToList();
+
+            if (formato_linha)
+            {
+                linha["TipoVaga"] = "Infantil";
+                linha["Vaga"] = vagasinfantis.Count().ToString();
+                linha["VagaOcupada"] = vagasinfantis.Where(p => p.Prontuario != null).Count().ToString();
+                linha["VagaLivre"] = int.Parse(linha["Vaga"].ToString()) - int.Parse(linha["VagaOcupada"].ToString());
+                tabela.Rows.Add(linha);
+            }
+            else
+            {
+                linha["VagaInfantil"] = vagasinfantis.Count().ToString();
+                linha["VagaInfantilOcupada"] = vagasinfantis.Where(p => p.Prontuario != null).Count().ToString();
+            }
+
+            if (!formato_linha)
+                tabela.Rows.Add(linha);
+
+            return tabela;
+        }
+
+        IList<T> IVagaUrgencia.Vagas<T>(int qtd_feminina, int qtd_masculina, int qtd_infantil, string co_unidade)
+        {
+            IList<Vida.Model.VagaUrgencia> vagas = new List<Vida.Model.VagaUrgencia>();
+
+            for (int i = 0; i < qtd_feminina; i++)
+            {
+                Vida.Model.VagaUrgencia v = new Vida.Model.VagaUrgencia();
+                v.CodigoUnidade = co_unidade;
+                v.TipoVaga = VagaUrgencia.FEMININA;
+                vagas.Add(v);
+            }
+
+            for (int i = 0; i < qtd_infantil; i++)
+            {
+                Vida.Model.VagaUrgencia v = new Vida.Model.VagaUrgencia();
+                v.CodigoUnidade = co_unidade;
+                v.TipoVaga = VagaUrgencia.INFANTIL;
+                vagas.Add(v);
+            }
+
+            for (int i = 0; i < qtd_masculina; i++)
+            {
+                Vida.Model.VagaUrgencia v = new Vida.Model.VagaUrgencia();
+                v.CodigoUnidade = co_unidade;
+                v.TipoVaga = VagaUrgencia.MASCULINA;
+                vagas.Add(v);
+            }
+
+            return (IList<T>)(object)vagas;
+        }
+
+        void IVagaUrgencia.AtualizarVagas<T>(IList<T> _vagas, IList<T> _vagasatuais, string co_unidade)
+        {
+            IList<Vida.Model.VagaUrgencia> vagas = (IList<Vida.Model.VagaUrgencia>)(object)_vagas;
+            IList<Vida.Model.VagaUrgencia> vagasatuais = (IList<Vida.Model.VagaUrgencia>)(object)_vagasatuais;
+            IList<Vida.Model.VagaUrgencia> vagastemp = null;
+            int diff;
+
+            using (Session.BeginTransaction())
+            {
+                try
+                {
+                    char[] tipovaga = { VagaUrgencia.FEMININA, VagaUrgencia.MASCULINA, VagaUrgencia.INFANTIL };
+
+                    foreach (char vaga in tipovaga)
+                    {
+                        diff = vagas.Where(p => p.TipoVaga == vaga && p.CodigoUnidade == co_unidade).ToList().Count - vagasatuais.Where(p => p.TipoVaga == vaga && p.CodigoUnidade == co_unidade).ToList().Count;
+
+                        if (diff < 0)
+                        {
+                            vagastemp = vagasatuais.Where(p => p.TipoVaga == vaga && p.CodigoUnidade == co_unidade && p.Prontuario == null).ToList();
+
+                            diff = -(diff) > vagastemp.Count ? vagastemp.Count : -(diff);
+
+                            for (int i = 0; i < diff; i++)
+                                Session.Delete(vagastemp[i]);
+                        }
+                        else
+                        {
+                            if (diff > 0)
+                            {
+                                for (int i = 0; i < diff; i++)
+                                    Session.Save(new VagaUrgencia(co_unidade, vaga));
+                            }
+                        }
+                    }
+
+                    Session.Transaction.Commit();
+                }
+                catch (Exception f)
+                {
+                    Session.Transaction.Rollback();
+                    throw f;
+                }
+            }
+        }
+
+        T IVagaUrgencia.VerificaDisponibilidadeVaga<T>(char tipovaga, string co_unidade)
+        {
+            Vida.Model.VagaUrgencia vaga = Session.CreateQuery("FROM Vida.Model.VagaUrgencia v WHERE v.CodigoUnidade='" + co_unidade + "' AND v.TipoVaga='" + tipovaga + "' AND v.Prontuario is null").List<VagaUrgencia>().FirstOrDefault();
+            //Factory.GetInstance<IVagaUrgencia>().ListarTodos<Vida.Model.VagaUrgencia>().Where(p => p.CodigoUnidade == co_unidade && p.TipoVaga == tipovaga && p.Prontuario == null).FirstOrDefault();
+            return (T)(object)vaga;
+        }
+
+        T IVagaUrgencia.BuscarPorProntuario<T>(long co_prontuario)
+        {
+            string hql = string.Empty;
+            hql = "FROM Vida.Model.VagaUrgencia AS v WHERE v.Prontuario.Codigo = " + co_prontuario;
+            return Session.CreateQuery(hql).UniqueResult<T>();
+        }
+
+        IList<T> IVagaUrgencia.BuscarPorUnidade<T>(string co_unidade)
+        {
+            string hql = string.Empty;
+            hql = "FROM Vida.Model.VagaUrgencia AS v WHERE v.CodigoUnidade='" + co_unidade + "'";
+            return Session.CreateQuery(hql).List<T>();
+        }
+
+        IList<T> IVagaUrgencia.BuscarEspecialidadesAtendimento<T>(string co_unidade)
+        {
+            string hql = string.Empty;
+            hql = "FROM Vida.Model.EspecialidadeAtendimentoUrgence AS e WHERE e.Unidade.CNES='" + co_unidade + "' ORDER BY e.Especialidade.Nome";
+            return Session.CreateQuery(hql).List<T>();
+        }
+
+        T IVagaUrgencia.BuscarConfiguracaoPaPorUnidade<T>(string co_unidade)
+        {
+            return Session.CreateCriteria(typeof(ConfiguracaoPA)).Add(Restrictions.Eq("Estabelecimento.CNES", co_unidade))
+                .UniqueResult<T>();
+        }
+    }
+}

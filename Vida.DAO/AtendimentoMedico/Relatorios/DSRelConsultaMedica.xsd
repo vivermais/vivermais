@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DSRelConsultaMedica" targetNamespace="http://tempuri.org/DSRelConsultaMedica.xsd" xmlns:mstns="http://tempuri.org/DSRelConsultaMedica.xsd" xmlns="http://tempuri.org/DSRelConsultaMedica.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DSRelConsultaMedica" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_UserDSName="DSRelConsultaMedica" msprop:Generator_DataSetName="DSRelConsultaMedica" msprop:EnableTableAdapterManager="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="ConsultaMedica" msprop:Generator_UserTableName="ConsultaMedica" msprop:Generator_RowDeletedName="ConsultaMedicaRowDeleted" msprop:Generator_RowChangedName="ConsultaMedicaRowChanged" msprop:Generator_RowClassName="ConsultaMedicaRow" msprop:Generator_RowChangingName="ConsultaMedicaRowChanging" msprop:Generator_RowEvArgName="ConsultaMedicaRowChangeEvent" msprop:Generator_RowEvHandlerName="ConsultaMedicaRowChangeEventHandler" msprop:Generator_TableClassName="ConsultaMedicaDataTable" msprop:Generator_TableVarName="tableConsultaMedica" msprop:Generator_RowDeletingName="ConsultaMedicaRowDeleting" msprop:Generator_TablePropName="ConsultaMedica">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Anamnese" msprop:Generator_UserColumnName="Anamnese" msprop:Generator_ColumnPropNameInRow="Anamnese" msprop:Generator_ColumnVarNameInTable="columnAnamnese" msprop:Generator_ColumnPropNameInTable="AnamneseColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Link_Item" msprop:Generator_UserColumnName="Link_Item" msprop:Generator_ColumnVarNameInTable="columnLink_Item" msprop:Generator_ColumnPropNameInRow="Link_Item" msprop:Generator_ColumnPropNameInTable="Link_ItemColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Data" msprop:Generator_UserColumnName="Data" msprop:Generator_ColumnPropNameInRow="Data" msprop:Generator_ColumnVarNameInTable="columnData" msprop:Generator_ColumnPropNameInTable="DataColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="ClassificacaoRisco" msprop:Generator_UserColumnName="ClassificacaoRisco" msprop:Generator_ColumnPropNameInRow="ClassificacaoRisco" msprop:Generator_ColumnVarNameInTable="columnClassificacaoRisco" msprop:Generator_ColumnPropNameInTable="ClassificacaoRiscoColumn" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

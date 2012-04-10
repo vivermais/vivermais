@@ -1,0 +1,162 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using NHibernate;
+using NHibernate.Criterion;
+using ViverMais.ServiceFacade.ServiceFacades.Profissional.Misc;
+using ViverMais.Model;
+
+namespace ViverMais.DAO.Profissional.Misc
+{
+    public class VinculoDAO : ViverMaisServiceFacadeDAO, IVinculo
+    {
+        #region IVinculo
+
+        public VinculoDAO()
+        {
+        }
+
+        IList<T> IVinculo.BuscarPorProfissional<T>(string co_profissional)
+        {
+            string hql = string.Empty;
+            hql = "FROM ViverMais.Model.VinculoProfissional AS vp WHERE vp.Profissional.CPF = '" + co_profissional + "'";
+            return this.Session.CreateQuery(hql).List<T>();
+        }
+
+        IList<T> IVinculo.BuscarPorCNESCBO<T>(string cnes, string co_cbo) //Revisada
+        {
+            string hql = string.Empty;
+            hql = "FROM ViverMais.Model.VinculoProfissional AS vp WHERE vp.EstabelecimentoSaude.CNES = '" + cnes + "'";
+            hql += " and vp.CBO.Codigo = '" + co_cbo + "'";
+            //hql += " and vp.Status = '" + (char)VinculoProfissional.DescricaStatus.Ativo + "'";
+            hql += " order by vp.Profissional.Nome ";
+            return this.Session.CreateQuery(hql).List<T>();
+        }
+
+        IList<T> IVinculo.ListarProfissionaisPorUnidade<T>(string cnes)
+        {
+            string hql = string.Empty;
+            hql = "select distinct vp.Profissional from ViverMais.Model.VinculoProfissional as vp where vp.EstabelecimentoSaude.CNES = '" + cnes + "'";
+            hql += " and vp.Status = '" + Convert.ToChar(VinculoProfissional.DescricaStatus.Ativo).ToString() + "'";
+            hql += " order by vp.Profissional.Nome";
+            return Session.CreateQuery(hql).List<T>();
+        }
+
+        IList<T> IVinculo.BuscarPorCNESCBO<T>(string cnes, string co_cbo, char status)
+        {
+            string hql = string.Empty;
+            hql = "FROM ViverMais.Model.VinculoProfissional AS vp WHERE vp.EstabelecimentoSaude.CNES = '" + cnes + "'";
+            hql += " and vp.CBO.Codigo = '" + co_cbo + "'";
+            hql += " and vp.Status = '" + status + "'";
+            hql += " order by vp.Profissional.Nome ";
+            return this.Session.CreateQuery(hql).List<T>();
+        }
+
+        IList<T> IVinculo.BuscarPorVinculoProfissional<T>(string co_unidade, string co_profissional, string co_cbo) //Revisada
+        {
+            string hql = string.Empty;
+            hql = "FROM ViverMais.Model.VinculoProfissional AS vp WHERE vp.EstabelecimentoSaude.CNES = '" + co_unidade + "'";
+            hql += " AND vp.CBO.Codigo = '" + co_cbo + "'";
+            hql += " AND vp.Profissional.CPF ='" + co_profissional + "'";
+            return this.Session.CreateQuery(hql).List<T>();
+        }
+
+        IList<T> IVinculo.BuscarPorOcupacao<T>(string co_ocupacao)
+        {
+            string hql = string.Empty;
+            hql = "FROM ViverMais.Model.VinculoProfissional AS vp WHERE vp.CBO.Codigo = '" + co_ocupacao + "'";
+            return this.Session.CreateQuery(hql).List<T>();
+        }
+
+        IList<T> IVinculo.BuscarVinculoPorCNES<T>(string cnes)
+        {
+            string hql = string.Empty;
+            hql = "FROM ViverMais.Model.VinculoProfissional vp WHERE vp.EstabelecimentoSaude.CNES = '" + cnes + "'";
+            //hql += " order by vp.CBO.Nome ";
+            return this.Session.CreateQuery(hql).List<T>();
+        }
+
+        IList<T> IVinculo.BuscarCBOCnes<T>(string cnes)
+        {
+            string hql = string.Empty;
+            hql = "FROM ViverMais.Model.VinculoProfissional vp WHERE vp.EstabelecimentoSaude.CNES = '" + cnes + "'";
+            hql += " order by vp.CBO.Nome ";
+            return this.Session.CreateQuery(hql).List<T>();
+        }
+
+        IList<T> IVinculo.BuscarCbosDaUnidade<T>(string cnes)
+        {
+            string hql = "select vp.CBO from ViverMais.Model.VinculoProfissional vp WHERE vp.EstabelecimentoSaude.CNES = '" + cnes + "'";
+            //hql += " GROUP BY vp.CBO.Codigo, vp.CBO.Nome";
+            return this.Session.CreateQuery(hql).List<T>();
+        }
+
+        IList<T> IVinculo.BuscarVinculoProfissionalPorCnes<T>(string cnes, string registroconselho, string categoria)
+        {
+            string hql = string.Empty;
+            hql = "from ViverMais.Model.VinculoProfissional vp ";
+            hql += " where vp.EstabelecimentoSaude.CNES ='" + cnes + "'";
+            hql += " and vp.RegistroConselho = '" + registroconselho + "'";
+            //hql += " and vp.OrgaoEmissorRegistroConselho.Codigo = '71'";
+            hql += " and vp.OrgaoEmissorRegistroConselho.CategoriaOcupacao.Codigo = '" + categoria + "'";
+            //hql += " order by vp.Profissional.Nome ";
+            return Session.CreateQuery(hql).List<T>();
+        }
+
+        void IVinculo.AtualizaVinculo<T>(T vinculo)
+        {
+            ViverMais.Model.VinculoProfissional vinculoProfissional = (ViverMais.Model.VinculoProfissional)(object)vinculo;
+            string hql = "UPDATE PMS_CNES_LFCES021 SET STATUSMOV='" + vinculoProfissional.Status + "'";
+            hql += " where CPF_PROF ='" + vinculoProfissional.Profissional.CPF + "'";
+            hql += " and UNIDADE_ID='" + vinculoProfissional.EstabelecimentoSaude.CNES + "'";
+            hql += " and COD_CBO='" + vinculoProfissional.CBO.Codigo + "'";
+            hql += " and IND_VINC='" + vinculoProfissional.IdentificacaoVinculo + "'";
+            hql += " and TP_SUS_NAO_SUS='" + vinculoProfissional.VinculoSUS.ToString() + "'";
+            Session.CreateSQLQuery(hql).ExecuteUpdate();
+        }
+
+        object IVinculo.BuscarProfissionalPorNumeroConselho(string categoria, string numeroconselho, string nome)
+        {
+            string hql = "Select vp.Profissional ";
+            hql += "From ViverMais.Model.VinculoProfissional vp";
+            hql += " where vp.OrgaoEmissorRegistroConselho.CategoriaOcupacao.Codigo = '" + categoria + "'";
+            if (numeroconselho != "")
+                hql += " and vp.RegistroConselho = '" + numeroconselho + "'";
+            if (nome != "")
+                hql += " and vp.Profissional.nome like '" + nome + "%'";
+            IQuery query = Session.CreateQuery(hql);
+            object result = query.UniqueResult();
+            return result;
+        }
+
+        IList<T> IVinculo.BuscarProfissionalPorCPF<T>(string CPF)
+        {
+            string hql = "FROM ViverMais.Model.VinculoProfissional vp";
+            hql += " WHERE vp.Profissional.CPF = '" + CPF + "'";
+            return this.Session.CreateQuery(hql).List<T>();
+        }
+
+        IList<T> IVinculo.ListaVinculoProfissionaisPorUnidadeCBO<T>(string id_unidade, string id_cbo)
+        {
+            string hql = string.Empty;
+            hql += "from ViverMais.Model.VinculoProfissional vp";
+            hql += " where vp.EstabelecimentoSaude.CNES='" + id_unidade + "'";
+            hql += " and vp.CBO.Codigo='" + id_cbo + "'";
+            return Session.CreateQuery(hql).List<T>();
+        }
+
+        T IVinculo.BuscarVinculoPorChavePrimaria<T>(string id_estabelecimento, string id_profissional, string id_CBO, string indicacaoVinculo, string tipoSusNaoSus)
+        {
+            string hql = "from ViverMais.Model.VinculoProfissional vp";
+            hql += " where vp.Profissional.CPF ='" + id_profissional + "'";
+            hql += " and vp.EstabelecimentoSaude.CNES='" + id_estabelecimento + "'";
+            hql += " and vp.CBO.Codigo='" + id_CBO + "'";
+            hql += " and vp.IdentificacaoVinculo='" + indicacaoVinculo + "'";
+            hql += " and vp.VinculoSUS='" + tipoSusNaoSus + "'";
+            return Session.CreateQuery(hql).UniqueResult<T>();
+        }
+
+        #endregion
+    }
+}

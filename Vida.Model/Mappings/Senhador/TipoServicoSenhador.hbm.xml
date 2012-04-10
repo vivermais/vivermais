@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="ViverMais.Model">
+  <class name="ViverMais.Model.TipoServicoSenhador" table="senhr_tiposervico">
+    <id name="Codigo">
+      <column name="co_tipo" not-null="true"/>
+      <generator class="sequence">
+        <param name="sequence">senhr_tiposervico_sequence</param>
+      </generator>
+    </id>
+
+    <property name="Nome" column="no_tipo" />
+  </class>
+</hibernate-mapping>

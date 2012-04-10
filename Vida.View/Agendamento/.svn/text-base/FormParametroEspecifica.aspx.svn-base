@@ -1,0 +1,95 @@
+﻿<%@ Page Language="C#" MasterPageFile="~/Agendamento/MasterAgendamento.Master" AutoEventWireup="true" CodeBehind="FormParametroEspecifica.aspx.cs"
+    Inherits="Vida.View.Agendamento.FormParametroEspecifica" Title="Untitled Page" %>
+
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder2" runat="server">
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder3" runat="server">
+    <asp:UpdatePanel runat="server" ID="up2" UpdateMode="Always">
+        <Triggers>
+            <asp:PostBackTrigger ControlID="lknSalvar" />
+        </Triggers>
+        <ContentTemplate>
+        <div id="top">
+        <h2>Parâmetro</h2>
+        <fieldset class="formulario">
+                <legend>Parâmetros Agenda Ambulatorial - Unidades Específicas</legend>             
+                <p>
+                    <span class="rotulo">CNES:</span>
+                    <span><asp:TextBox ID="tbxCnes" CssClass="campo" runat="server" MaxLength="7"
+                     Width="50px"></asp:TextBox></span><span style="position:absolute;"><asp:Label ID="lblCnes" runat="server" Font-Bold="true"></asp:Label></span>
+                    
+                    
+                </p>
+                <p>
+                    <span class="rotulo">CNES Específica:</span>
+                    <span><asp:TextBox ID="tbxCnesEspecifica" CssClass="campo" runat="server" MaxLength="7"
+                     Width="50px" AutoPostBack="True" 
+                        ontextchanged="tbxCnesEspecifica_TextChanged"></asp:TextBox></span>
+                        <span style="position:absolute;"><asp:Label ID="lblCnesEspecifica" runat="server" Font-Bold="true"></asp:Label></span>
+                    
+                    
+                </p>
+                <p>&nbsp;</p>
+                <div class="botoesroll">
+                  <asp:LinkButton ID="lknSalvar" runat="server" OnClick="Salvar_Click" >
+                  <img id="imgsalvar" alt="Salvar" src="img/salvar_1.png"
+                  onmouseover="imgsalvar.src='img/salvar_2.png';"
+                  onmouseout="imgsalvar.src='img/salvar_1.png';" /></asp:LinkButton>
+                        </div>
+                    <div class="botoesroll">
+                  <asp:LinkButton ID="lknNovo" runat="server" CausesValidation="False" onclick="btnNovo_Click" >
+                  <img id="imgnovo" alt="Novo" src="img/btn-novo1.png"
+                  onmouseover="imgnovo.src='img/btn-novo2.png';"
+                  onmouseout="imgnovo.src='img/btn-novo1.png';" /></asp:LinkButton>
+                        </div>
+                    <div class="botoesroll">
+                  <asp:LinkButton ID="lknExcluir" runat="server" Enabled="False" onclick="btnExcluir_Click" >
+                  <img id="imgexcluir" alt="Excluir" src="img/btn-excluir1.png"
+                  onmouseover="imgexcluir.src='img/btn-excluir2.png';"
+                  onmouseout="imgexcluir.src='img/btn-excluir1.png';" />
+		            <cc1:ConfirmButtonExtender ID="cbe" runat="server"
+                            TargetControlID="lknExcluir"
+                            ConfirmText="Confirma a Exclusão ?" />    
+			</asp:LinkButton>
+                        </div>
+                    <div class="botoesroll">
+                  <asp:LinkButton ID="lknVoltar" runat="server" CausesValidation="False" onclick="btnVoltar_Click" >
+                  <img id="imgvoltar" alt="Voltar" src="img/voltar_1.png"
+                  onmouseover="imgvoltar.src='img/voltar_2.png';"
+                  onmouseout="imgvoltar.src='img/voltar_1.png';" /></asp:LinkButton>
+                        </div>         
+<%--                <p>
+                    <asp:Button ID="btnSalvar" runat="server" Text="Salvar" 
+                        Style="margin-left: 82px" onclick="Salvar_Click" />
+                    <asp:Button ID="btnNovo" runat="server" Text="Novo" 
+                        Style="margin-left: 82px" CausesValidation="False" 
+                        onclick="btnNovo_Click" />                   
+                    <asp:Button ID="btnExcluir" runat="server" Text="Excluir" 
+                        Style="margin-left: 82px" Enabled="False" onclick="btnExcluir_Click"  /> 
+                        <cc1:ConfirmButtonExtender ID="cbe" runat="server"
+                            TargetControlID="btnExcluir"
+                            ConfirmText="Confirma a Exclusão ?" />                                           
+                    <asp:Button ID="btnVoltar" runat="server" Text="Voltar" 
+                        Style="margin-left: 26px" 
+                        CausesValidation="False" onclick="btnVoltar_Click" />
+                </p> --%>
+            </fieldset> 
+                <p>
+                <asp:GridView ID="gridAgenda" runat="server" AutoGenerateColumns="False" 
+                    Width="449px">
+                    <Columns>
+                        <asp:HyperLinkField DataNavigateUrlFields="Codigo" 
+                            DataNavigateUrlFormatString="FormParametroEspecifica.aspx?id_parametroagendaespecifica={0}" 
+                            DataTextField="Distrito" HeaderText="Estabelecimento de Saúde" 
+                            Text="Estabelecimento de Saúde">
+                            <HeaderStyle HorizontalAlign="Left" />
+                            <ItemStyle HorizontalAlign="Left" Width="200px" />
+                        </asp:HyperLinkField>
+                    </Columns>
+                </asp:GridView>
+                </p>   </div>    
+                                                     
+        </ContentTemplate>
+    </asp:UpdatePanel>
+</asp:Content>

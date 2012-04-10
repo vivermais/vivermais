@@ -1,0 +1,86 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Vida.Model;
+using NHibernate;
+using NHibernate.Criterion;
+using NHibernate.Engine.Query;
+using Vida.ServiceFacade.ServiceFacades.EstabelecimentoSaude;
+using System.Collections;
+using Vida.ServiceFacade.ServiceFacades.Agendamento;
+using Vida.ServiceFacade.ServiceFacades.Agregado;
+
+namespace Vida.DAO.Agendamento
+{
+    public class PactoDAO : VidaServiceFacadeDAO, IPacto
+    {
+        #region IPacto Members
+
+        public PactoDAO()
+        {
+
+        }
+
+        T IPacto.BuscarPactoPorMunicipio<T>(string id_municipio)
+        {
+            string hql = String.Empty;
+            hql += "from Vida.Model.Pacto pacto";
+            hql += " where pacto.Municipio.Codigo=" + id_municipio;
+            return Session.CreateQuery(hql).UniqueResult<T>();
+        }
+
+        //void IPacto.SalvarPacto<T,U,V>(T pactoParameter, U pactoAgregadoProcedCBOParameter, IList<V> pactosReferenciaSaldoParameter)
+        //{
+        //    ISession sessao = NHibernateHttpHelper.GetCurrentSession("vida");
+        //    using (sessao.BeginTransaction())
+        //    {
+        //        try
+        //        {
+        //            #region Salva Pacto
+        //                //Session.BeginTransaction();
+        //                Pacto pacto = (Pacto)(object)pactoParameter;
+        //                pacto = (Pacto)sessao.SaveOrUpdateCopy(pacto);
+        //                //Session.Transaction.Commit();
+        //            #endregion
+
+        //            #region Salva PactoAgregado
+        //                //Session.BeginTransaction();
+        //                PactoAgregadoProcedCBO pactoAgregadoProcedCBO = (PactoAgregadoProcedCBO)(object)pactoAgregadoProcedCBOParameter;
+        //                if (pactoAgregadoProcedCBO != null)
+        //                {
+        //                    pactoAgregadoProcedCBO.Pacto = pacto;
+        //                    //pactoAgregadoProcedCBO.ValorMensal = 
+        //                    sessao.Save(pactoAgregadoProcedCBO);
+        //                }
+        //                //Session.Transaction.Commit();
+        //            #endregion
+
+        //            #region Salva PactoReferencia Saldo
+        //                //Session.BeginTransaction();
+        //                IList<PactoReferenciaSaldo> pactosReferenciaSaldo = (IList<PactoReferenciaSaldo>)(object)pactosReferenciaSaldoParameter;
+
+        //                if (pactosReferenciaSaldo.Count != 0)
+        //                {
+        //                    for (int i = 0; i < pactosReferenciaSaldo.Count; i++)
+        //                    {
+        //                        pactosReferenciaSaldo[i].PactoAgregadoProcedCBO = pactoAgregadoProcedCBO;
+        //                        pactosReferenciaSaldo[i].ValorMensal = pactosReferenciaSaldo[i].PactoAgregadoProcedCBO.ValorPactuado / 12;
+        //                        sessao.Save(pactosReferenciaSaldo[i]);
+        //                        //pactosReferenciaSaldo[i] = (PactoReferenciaSaldo)Session.SaveOrUpdateCopy(pactosReferenciaSaldo[i]);
+        //                    }
+        //                }
+        //                sessao.Transaction.Commit();
+        //            #endregion
+        //        }
+        //        catch (Exception e)
+        //        {
+        //            sessao.Transaction.Rollback();
+        //            throw e;
+        //        }
+        //    }
+        //}
+
+        #endregion
+    }
+}

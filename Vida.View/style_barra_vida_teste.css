@@ -1,0 +1,489 @@
+﻿/* CSS Document  - BARRA DE ESTILOS*/
+html, body
+{
+    height: 100%;
+}
+
+
+body
+{
+    background: url(  'img/bg_topo.png' ) repeat-x;
+    margin-top: 0px;
+}
+
+
+
+
+.separator
+{
+    width: 1px;
+    height: 61px;
+    float: left;
+    margin: 0px;
+    background: url(  'img/line-separator.png' ) repeat-x;
+}
+
+
+
+
+
+.botoes_vida a
+{
+    height: 61px;
+    width: 60px;
+    padding-left: 12px;
+    padding-right: 12px;
+    padding-top: 22px;
+    float: left;
+    background: url(  'img/bg1-menu.png' ) repeat-x;
+    color: #ffffff;
+    text-decoration: none;
+    font-family: Arial;
+    font-size: 9px;
+}
+
+
+
+
+.botoes_vida a:hover
+{
+    height: 61px;
+    width: 60px;
+    padding-left: 12px;
+    padding-right: 12px;
+    float: left;
+    background: url(  'img/bg2-menu.png' ) repeat-x;
+    color: White;
+    padding-top: 22px;
+    text-decoration: none;
+    font-family: Arial;
+    font-size: 9px;
+}
+
+
+
+.sombra_dir
+{
+    height: 61px;
+    width: 57px;
+    float: left;
+    background: url(  'img/dir.png' ) no-repeat;
+    vertical-align: middle;
+    text-decoration: none;
+}
+
+
+.sombra_esq
+{
+    height: 61px;
+    width: 89px;
+    float: left;
+    margin-left: -40px;
+    background: url(  'img/esq.png' ) no-repeat;
+    vertical-align: middle;
+    text-decoration: none;
+}
+
+
+#barra_infos
+{
+    height: 38px;
+    width: 900px;
+}
+
+
+
+#user
+{
+    background: url(  'img/ico-user.png' ) no-repeat;
+    background-position: left;
+    padding-left: 0px;
+    padding-top: 15px;
+    height: 28px;
+    font-family: Arial;
+    float: left;
+    text-align: left;
+    margin-left: 50px;
+    width: 35px;
+}
+
+#user-nome
+{
+    font-family: Arial;
+    height: 28px;
+    padding-left: 0px;
+    padding-top: 12px;
+    float: left;
+    text-align: left;
+    font-size: 11px;
+}
+
+#user-nome a
+{
+    text-decoration: none;
+    color: #000000;
+}
+
+#user-nome a:hover
+{
+    text-decoration: underline;
+    color: #000000;
+}
+
+
+#modulos
+{
+    background: url(  'img/ico-module.png' ) no-repeat;
+    background-position: left;
+    padding-left: 0px;
+    padding-top: 15px;
+    height: 28px;
+    font-family: Arial;
+    float: left;
+    text-align: left;
+    margin-left: 0px;
+    width: 35px;
+}
+
+
+
+
+#modulos-nome
+{
+    font-family: Arial;
+    height: 28px;
+    padding-left: 0px;
+    padding-top: 12px;
+    float: left;
+    width: 140px;
+    text-align: left;
+    font-size: 11px;
+    font-weight: bold;
+    margin-right: 20px;
+}
+
+
+a.nomedosmodulos
+{
+    text-decoration: none;
+    color: #333333;
+}
+
+
+a.nomedosmodulos:hover
+{
+    text-decoration: none;
+    color: #888888;
+}
+
+
+
+.menu-barra-module
+{
+    /*background: url( 'img/barra-emergencia.png' ) no-repeat;*/
+    background-position: left;
+    padding-left: 0px;
+    padding-top: 8px;
+    height: 32px;
+    font-family: Arial;
+    float: left;
+    text-align: left;
+    margin-left: 20px;
+    width: 465px;
+    z-index: 0;
+    position: relative;
+    margin-top: 10px;
+    
+}
+
+#topo_sistema
+{
+    height: 106px;
+    vertical-align: top;
+    margin: 0 auto;
+    width: 1000px;
+    margin-top: 7px;
+    
+}
+
+#barra_principal
+{
+    width: 100px;
+}
+
+
+
+
+#barra_superior
+{
+    height: 7px;
+    width: 100%;
+    background: url(  'img/linhas-topo.png' ) repeat-x;
+    
+}
+
+
+
+#barra
+{
+    width: 900px;
+    height: 61px;
+    position: relative;
+    z-index: 2;
+    font-family: Verdana, Geneva, sans-serif;
+    border-bottom: 0px;
+    text-align: center;
+    float: left;
+    z-index:0;
+}
+#barra_conteudo
+{
+    margin: auto;
+    float: left;
+    width: 950px;
+    height: 29px;
+
+}
+#barra_assinatura
+{
+    width: 85px;
+    height: 29px;
+    float: left;
+    margin: 0px 15px 0px 0px;
+ 
+}
+#barra_produtos
+{
+    width: 290px;
+    height: 29px;
+    float: left;
+    text-align: left;
+    margin: 0px 48px 0px 0px;
+  
+}
+#barra_trasparente
+{
+    width: 100%;
+    height: 0px;
+    position: absolute;
+    z-index: 3;
+    text-align: center;
+  
+}
+#barra_trasparente_conteudo
+{
+    margin: auto;
+    width: 950px;
+    height: 10px;
+    text-align: left;
+}
+
+/* huhuhuhuhuhu*/
+#barra_informativo
+{
+    width: 750px;
+    height: 61px; /*color:#FFFFFF;*/
+    font-size: xx-small;
+    margin: 0 0 0 64px;
+    float: left;
+    position: inherit;
+    top: 16px;
+    font-family: Arial;
+    display: inline;
+}
+
+#barra_informativo_ok
+{
+    width: auto;
+    height: 22px;
+    margin: 0px 0px 0px 0px;
+    padding: 7px 0px 0px 0px;
+    border: 0px;
+}
+#barra_informativo_texto
+{
+    width: auto;
+    height: 20px;
+    float: left;
+    font-size: 10px;
+    color: #ffffff;
+    margin: 0px 5px 0px 0px;
+    padding: 9px 0px 0px 0px;
+}
+
+#barra_informativo_campo
+{
+    width: 70px;
+    font-size: 10px;
+    color: #666666;
+    background-color: #FFFFFF;
+    border: none;
+    height: 18px;
+    float: left;
+    margin: 7px 5px 0px 0px;
+}
+
+
+
+
+/* ============================================== MENU ============================================= */
+
+
+
+
+
+
+
+
+
+
+.bold_italic
+{
+    font-weight: bold;
+    font-size: 15px;
+    font-family: none;
+}
+
+
+
+.italic
+{
+    font-style: italic;
+}
+
+
+/*
+a:link{text-decoration:none;color:#000000;}
+
+
+
+a:visited{text-decoration:none;color:#000000;}
+
+
+
+a:hover{text-decoration:none;color:#000000;}
+*/
+
+
+/*ul {display:inline; height:61px;}*/
+
+
+
+div.sc_menu
+{
+    /* Set it so we could calculate the offsetLeft */
+    position: relative;
+    height: 61px;
+    width: 670px;
+    float: left;
+    z-index: 10;
+}
+
+ul.sc_menu
+{
+    display: block;
+    height: 61px; /* max width here, for users without javascript */
+    width: 1500px;
+    padding: 0px 0 0 0px; /* removing default styling */
+    margin: 0;
+    list-style: none;
+}
+
+.sc_menu li
+{
+    display: block;
+    float: left;
+    padding: 0 0 0 0px;
+}
+
+.sc_menu a
+{
+    display: block;
+    text-decoration: none;
+}
+
+.sc_menu span
+{
+    display: none;
+    margin-top: 0px;
+    text-align: left;
+    font-size: 10px;
+    color: #fff;
+}
+
+.sc_menu a:hover span
+{
+    display: block;
+}
+
+.sc_menu img
+{
+    border: none;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+}
+
+
+
+/*
+
+ul	{
+
+		list-style-type: none;
+
+		list-style: none;
+
+	}
+
+*/
+
+
+
+#tudo
+{
+    width: 760px;
+    position: relative; /*Contexto de posicionamento */
+    background: #fff url(bg-auxiliar.gif) repeat-y right;
+    margin: 0 auto;
+    text-align: left;
+    border: dotted #999;
+    border-width: 0 1px;
+    padding-bottom: 30px;
+}
+
+
+#rodape
+{
+    top: 50px;
+    background: #b0f1b0;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    background: url(img/bg-rodape.png) repeat-x;
+    height: 78px;
+    margin: 0 auto;
+    z-index: -1;
+    clear: both; /*margin-top:-107px;*/
+}
+
+#rodapecenter
+{
+    width: 866px;
+    height: 57px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 0;
+}
+
+#geralmano
+{
+    min-height: 100%;
+    height: 100%;
+    position: relative;
+    margin-bottom: 0px;
+}
+
+.clear
+{
+    clear: both;
+}

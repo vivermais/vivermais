@@ -1,0 +1,69 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using ViverMais.DAO;
+using ViverMais.ServiceFacade.ServiceFacades;
+using ViverMais.ServiceFacade.ServiceFacades.Seguranca;
+using ViverMais.Model;
+using ViverMais.ServiceFacade.ServiceFacades.Farmacia.Misc;
+using ViverMais.ServiceFacade.ServiceFacades.Farmacia.Movimentacao;
+
+namespace ViverMais.View.Farmacia
+{
+    public partial class FormRequisicaoMedicamentos : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!IsPostBack)
+            {
+                Usuario usuario = (Usuario)Session["Usuario"];
+
+                if (Factory.GetInstance<ISeguranca>().VerificarPermissao(usuario.Codigo, "REGISTRAR_REQUISICAO_MEDICAMENTO", Modulo.FARMACIA))
+                {
+                    Label_DataAbertura.Text = DateTime.Today.ToString("dd/MM/yyyy");
+                    DropDownList_Farmacia.DataSource = Factory.GetInstance<IFarmacia>().BuscarPorUsuario<ViverMais.Model.Farmacia,Usuario>(usuario,true,true);
+                    DropDownList_Farmacia.DataBind();
+                }
+                else
+                    ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Usuário, você não tem permissão para acessar esta página! Por favor, entre em contato com a administração.');location='Default.aspx';", true);
+            }
+        }
+
+        /// <summary>
+        /// Abre a requisição de medicamentos da farmácia selecionada
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnClick_AbrirRequisicao(object sender, EventArgs e)
+        {
+            ViverMais.Model.Farmacia farmacia = Factory.GetInstance<IFarmacia>().BuscarPorCodigo<ViverMais.Model.Farmacia>(int.Parse(DropDownList_Farmacia.SelectedValue));
+            IRequisicaoMedicamento iRequisicao = Factory.GetInstance<IRequisicaoMedicamento>();
+
+            if (iRequisicao.BuscarPorFarmacia<RequisicaoMedicamento>(farmacia.Codigo, (int)RequisicaoMedicamento.StatusRequisicao.ABERTA).Count() > 0)
+                ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Não é possível cadastrar esta nova requisição, pois já existe uma com o status aberto.');", true);
+            else
+            {
+                try
+                {
+                    RequisicaoMedicamento requisicao = new RequisicaoMedicamento();
+                    requisicao.DataCriacao = DateTime.Now;
+                    requisicao.Farmacia = farmacia;
+                    requisicao.Cod_Status = (int)RequisicaoMedicamento.StatusRequisicao.ABERTA;
+
+                    iRequisicao.Salvar(requisicao);
+                    iRequisicao.Salvar(new LogFarmacia(DateTime.Now, ((Usuario)Session["Usuario"]).Codigo,
+                        EventoFarmacia.ABRIR_REQUISICAO_MEDICAMENTO, "id requisicao: " + requisicao.Codigo));
+
+                    ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Requisição aberta com sucesso. Número de solicitação: " + requisicao.Codigo + ".');location='FormItensRequisicaoMedicamentos.aspx?co_requisicao=" + requisicao.Codigo + "';", true);
+                }
+                catch (Exception ex)
+                {
+                    ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('" + ex.Message + "');", true);
+                }
+            }
+        }
+    }
+}

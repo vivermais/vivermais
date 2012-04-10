@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Vida.Model">
+  <class name="Vida.Model.ElencoMedicamento" table="far_elenco">
+    <id name="Codigo">
+      <column name="id_elenco" not-null="true"/>
+      <generator class="sequence" >
+        <param name="sequence">FAR_ELENCO_SEQUENCE</param>
+      </generator>
+    </id>
+    <property name="Nome" column="elenco" />
+    <bag name="Medicamentos" table="far_elencomedicamento">
+      <key column="id_elenco"/>
+      <many-to-many column="id_medicamento" class="Vida.Model.Medicamento" />
+    </bag>
+    <bag name="SubElencos" table="far_elenco_subelenco">
+      <key column="id_elenco"/>
+      <many-to-many column="id_subelenco" class="Vida.Model.SubElencoMedicamento" />
+    </bag>
+  </class>
+</hibernate-mapping>

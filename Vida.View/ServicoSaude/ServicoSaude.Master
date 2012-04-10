@@ -1,0 +1,40 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="ServicoSaude.master.cs" Inherits="ViverMais.View.ServicoSaude.ServicoSaude" MasterPageFile="~/MasterMain.Master" %>
+
+<asp:Content ContentPlaceHolderID="head" ID="contentHead" runat="server">
+    <link rel="stylesheet" href="style_form_agendamento.css" type="text/css" media="screen" />
+    <asp:ContentPlaceHolder ID="ContentPlaceHolder2" runat="server">
+    </asp:ContentPlaceHolder>
+</asp:Content>
+<asp:Content ContentPlaceHolderID="ContentPlaceHolder1" ID="contentBody" runat="server">
+    <div>
+        <div>
+            <h3>
+                <a href="Default.aspx">Módulo de Agendamento</a></h3>
+        </div>
+        <div id="top_menu">
+            <asp:Menu ID="MenuAgendamento" runat="server" Height="38px" Orientation="Horizontal"
+                Width="0px" Font-Size="11px" ForeColor="#FFFFFF" DynamicMenuItemStyle-BorderWidth="5px"
+                DynamicMenuItemStyle-Font-Underline="true" DynamicHoverStyle-BackColor="#cccccc"
+                DynamicMenuItemStyle-BackColor="#1a292f" DynamicMenuItemStyle-BorderColor="#8c1313">
+                <DynamicHoverStyle BackColor="#266495" ForeColor="#ffffff"></DynamicHoverStyle>
+                <StaticHoverStyle ForeColor="#b4d3ec" />
+                <DynamicMenuItemStyle BackColor="#a5c7e0" BorderColor="#a5c7e0" ForeColor="#404040"
+                    BorderWidth="1px" Font-Underline="False" HorizontalPadding="2px" VerticalPadding="2px">
+                </DynamicMenuItemStyle>
+                <Items>                    
+                    <asp:MenuItem Text="Cadastro" Value="Cadastro">
+                        <asp:MenuItem NavigateUrl="~/ServicoSaude/FormCadastrarServico.aspx" Text="Cadastrar Serviço" Value="Cadastrar Serviço">
+                        </asp:MenuItem>
+                         <asp:MenuItem NavigateUrl="~/ServicoSaude/FormVinculoServicoUnidade.aspx" Text="Vincular Serviços das Unidades" Value="Vincular Serviços das Unidades">
+                        </asp:MenuItem>
+                    </asp:MenuItem>                
+                </Items>
+            </asp:Menu>
+        </div>
+    </div>
+ 
+ 
+    <asp:ContentPlaceHolder ID="ContentPlaceHolder3" runat="server">
+    </asp:ContentPlaceHolder>
+</asp:Content>
+

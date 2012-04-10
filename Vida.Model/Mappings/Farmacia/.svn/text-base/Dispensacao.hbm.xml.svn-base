@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Vida.Model">
+	<class name="Vida.Model.Dispensacao" table="far_dispensacao">
+		<id name="Codigo">
+			<column name="id_dispensacao" not-null="true"/>
+      <generator class="sequence" >
+        <param name="sequence">FAR_DISPENSACAO_SEQUENCE</param>
+      </generator>      
+		</id>
+    <many-to-one name="Receita" class="Vida.Model.ReceitaDispensacao" column="id_receita" />
+    <many-to-one name="Farmacia" class="Vida.Model.Farmacia" column="id_farmacia" />
+		<property name="DataAtendimento" column="data_cadastro" />				
+	</class>
+</hibernate-mapping>

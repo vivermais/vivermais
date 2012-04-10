@@ -1,0 +1,15 @@
+L:\SISTEMAS\VIDA\Vida.Model\bin\Debug\Vida.Model.dll
+L:\SISTEMAS\VIDA\Vida.Model\bin\Debug\Vida.Model.pdb
+L:\SISTEMAS\VIDA\Vida.Model\obj\Debug\ResolveAssemblyReference.cache
+L:\SISTEMAS\VIDA\Vida.Model\obj\Debug\Vida.Model.dll
+L:\SISTEMAS\VIDA\Vida.Model\obj\Debug\Vida.Model.pdb
+L:\lucas01\SISTEMAS\VIDA\Vida.Model\bin\Debug\Vida.Model.dll
+L:\lucas01\SISTEMAS\VIDA\Vida.Model\bin\Debug\Vida.Model.pdb
+L:\lucas01\SISTEMAS\VIDA\Vida.Model\obj\Debug\ResolveAssemblyReference.cache
+L:\lucas01\SISTEMAS\VIDA\Vida.Model\obj\Debug\Vida.Model.dll
+L:\lucas01\SISTEMAS\VIDA\Vida.Model\obj\Debug\Vida.Model.pdb
+C:\Documents and Settings\lucassantos\vivermais\Vida.Model\bin\Debug\Vida.Model.dll
+C:\Documents and Settings\lucassantos\vivermais\Vida.Model\bin\Debug\Vida.Model.pdb
+C:\Documents and Settings\lucassantos\vivermais\Vida.Model\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\lucassantos\vivermais\Vida.Model\obj\Debug\Vida.Model.dll
+C:\Documents and Settings\lucassantos\vivermais\Vida.Model\obj\Debug\Vida.Model.pdb

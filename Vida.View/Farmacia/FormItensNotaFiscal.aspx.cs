@@ -1,0 +1,361 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using ViverMais.Model;
+using ViverMais.DAO;
+using ViverMais.ServiceFacade.ServiceFacades;
+using ViverMais.ServiceFacade.ServiceFacades.Farmacia.Medicamento;
+using ViverMais.ServiceFacade.ServiceFacades.Farmacia.NotaFiscal;
+using ViverMais.ServiceFacade.ServiceFacades.Farmacia.Movimentacao;
+using ViverMais.ServiceFacade.ServiceFacades.Farmacia.Misc;
+using ViverMais.ServiceFacade.ServiceFacades.Farmacia.Inventario;
+using ViverMais.ServiceFacade.ServiceFacades.Seguranca;
+
+namespace ViverMais.View.Farmacia
+{
+    public partial class FormItensNotaFiscal : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!IsPostBack)
+            {
+                //ViverMais.Model.Farmacia farm = Factory.GetInstance<IFarmacia>().BuscarPorUsuario<ViverMais.Model.Farmacia>(((Usuario)Session["Usuario"]).Codigo);
+
+                //if (farm == null || (farm != null && farm.Codigo != Convert.ToInt32(ViverMais.Model.Farmacia.QualFarmacia.Almoxarifado)))
+                //    ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Atenção usuário, você não tem permissão para acessar esta página.');location='Default.aspx';", true);
+
+                if (!Factory.GetInstance<ISeguranca>().VerificarPermissao(((Usuario)Session["Usuario"]).Codigo, "REGISTRAR_NOTA_FISCAL",Modulo.FARMACIA))
+                    ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Usuário, você não tem permissão para acessar esta página! Por favor, entre em contato com a administração.');location='Default.aspx';", true);
+                else
+                {
+                    IList<FabricanteMedicamento> lfm = Factory.GetInstance<IFarmaciaServiceFacade>().ListarTodos<FabricanteMedicamento>().OrderBy(p => p.Nome).ToList();
+                    foreach (FabricanteMedicamento fm in lfm)
+                        DropDownList_Fabricante.Items.Add(new ListItem(fm.Nome, fm.Codigo.ToString()));
+
+                    OnSelectedIndexChanged_CarregaInformacaoMedicamento(sender, e);
+
+                    int temp;
+                    if (Request["co_nota"] != null && int.TryParse(Request["co_nota"].ToString(), out temp))
+                    {
+                        try
+                        {
+                            NotaFiscal notaFiscal = Factory.GetInstance<INotaFiscal>().BuscarPorCodigo<NotaFiscal>(int.Parse(Request["co_nota"].ToString()));
+                            Label_NumeroNota.Text = notaFiscal.NumeroNota;
+                            Label_Fornecedor.Text = notaFiscal.Fornecedor.NomeFantasia;
+                            CarregaLotesMedicamentos(int.Parse(Request["co_nota"].ToString()));
+
+                            if (notaFiscal.Status == NotaFiscal.ENCERRADA)
+                            {
+                                Panel_ItensNotaFiscal.Visible = false;
+                                Button_EncerrarNotaFiscal.Visible = false;
+                            }
+                            else
+                            {
+                                Panel_ItensNotaFiscal.Visible = true;
+                                Button_EncerrarNotaFiscal.Visible = true;
+                            }
+
+                            ViewState["co_nota"] = Request["co_nota"].ToString();
+                        }
+                        catch (Exception f)
+                        {
+                            throw f;
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Carrega os lotes de medicamentos inclusos na nota fiscal corrente
+        /// </summary>
+        /// <param name="co_notafiscal">código da nota fiscal</param>
+        private void CarregaLotesMedicamentos(int co_notafiscal)
+        {
+            GridView_LotesMedicamentoNotaFiscal.DataSource = Factory.GetInstance<INotaFiscal>().ListarLotesMedicamento<ItemNotaFiscal>(co_notafiscal);
+            GridView_LotesMedicamentoNotaFiscal.DataBind();
+        }
+
+        /// <summary>
+        /// Carrega as informações sobre o medicamento escolhido
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnSelectedIndexChanged_CarregaInformacaoMedicamento(object sender, EventArgs e) 
+        {
+            IList<Medicamento> lm = new List<Medicamento>();
+
+            if (DropDownList_Medicamento.SelectedValue != "-1")
+                lm.Add(Factory.GetInstance<IMedicamento>().BuscarPorCodigo<Medicamento>(int.Parse(DropDownList_Medicamento.SelectedValue)));
+
+            DetailsView_Medicamento.DataSource = lm;
+            DetailsView_Medicamento.DataBind();
+        }
+
+        /// <summary>
+        /// Pesquisa o medicamento a partir do código informado
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnClick_PesquisaMedicamento(object sender, ImageClickEventArgs e) 
+        {
+            IList<Medicamento> lm = new List<Medicamento>();
+            Medicamento m = Factory.GetInstance<IMedicamento>().BuscarPorCodigoSIGM<Medicamento>(TextBox_CodigoMedicamento.Text);
+            DropDownList_Medicamento.Items.Clear();
+            DropDownList_Medicamento.Items.Add(new ListItem("Selecione...", "-1"));
+
+            if (m != null)
+            //{
+                DropDownList_Medicamento.Items.Add(new ListItem(m.Nome, m.Codigo.ToString()));
+                //DropDownList_Medicamento.SelectedValue = m.Codigo.ToString();
+            //}
+
+            DropDownList_Medicamento.Attributes.Add("onmouseover", "javascript:showTooltip(this);");
+        }
+
+        /// <summary>
+        /// Inclui o lote de medicamento para a nota fiscal corrente
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnClick_IncluirLoteMedicamento(object sender, EventArgs e)
+        {
+            INotaFiscal iNotaFiscal = Factory.GetInstance<INotaFiscal>();
+            IInventario iInventario = Factory.GetInstance<IInventario>();
+
+            //Verifica se existem inventarios abertos para o almoxarifado
+            IList<Inventario> inventariosAbertos = iInventario.BuscarPorSituacao<Inventario>('A', 118);
+            if (inventariosAbertos.Count > 0)
+            {
+                //ClientScript.RegisterClientScriptBlock(Page.GetType(), "mensagem", "<script language='javascript'>alert('Necessário fechar o inventário aberto em " + inventariosAbertos[0].DataInventario.ToString("dd/MM/yyyy") + " antes de realizar esta operação.');document.location.href='FormGerarReceitaDispensacao.aspx';</script>");
+                ScriptManager.RegisterClientScriptBlock(Button_IncluirLoteMedicamento, Page.GetType(), "mensagem", "<script language='javascript'>alert('Necessário fechar o inventário aberto em " + inventariosAbertos[0].DataInventario.ToString("dd/MM/yyyy") + " antes de realizar esta operação.');</script>", false);
+                return;
+            }
+            if (iNotaFiscal.ValidaCadastroItemNotaFiscal(TextBox_Lote.Text, DateTime.Parse(TextBox_Validade.Text), int.Parse(DropDownList_Medicamento.SelectedValue), int.Parse(DropDownList_Fabricante.SelectedValue), int.Parse(ViewState["co_nota"].ToString()), 0))
+            {
+                try
+                {
+                    if (iInventario.BuscarPorSituacao<Inventario>(Inventario.ABERTO, ViverMais.Model.Farmacia.ALMOXARIFADO) != null)
+                    {
+                        ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Não é possível incluir este item na nota fiscal corrente, pois existe um inventário ABERTO para o ALMOXARIFADO que deve ser encerrado.');", true);
+                        return;
+                    }
+
+                    int co_item = iNotaFiscal.SalvarItemNotaFiscal(TextBox_Lote.Text, DateTime.Parse(TextBox_Validade.Text), int.Parse(DropDownList_Medicamento.SelectedValue), int.Parse(DropDownList_Fabricante.SelectedValue), int.Parse(TextBox_Quantidade.Text), decimal.Parse(TextBox_ValorUnitario.Text), int.Parse(ViewState["co_nota"].ToString()));
+                    iNotaFiscal.Salvar(new LogFarmacia(DateTime.Now, ((Usuario)Session["Usuario"]).Codigo, EventoFarmacia.INSERIR_ITEM_NOTA_FISCAL,
+                        "id item nota fiscal: " + co_item));
+
+                    ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Medicamento registrado com sucesso.');", true);
+                    OnClick_CancelarLoteMedicamento(sender, e);
+                    CarregaLotesMedicamentos(int.Parse(ViewState["co_nota"].ToString()));
+                }
+                catch (Exception f)
+                {
+                    throw f;
+                }
+            }
+            else
+                ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('O lote de medicamento informado já se encontra cadastrado nesta nota fiscal! Por favor, informe outro lote de medicamento.');", true);
+        }
+
+        /// <summary>
+        /// Encerra a nota fiscal deixando-a com status 'E'
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnClick_EncerrarNotaFiscal(object sender, EventArgs e) 
+        {
+            try
+            {
+                INotaFiscal iNotaFiscal = Factory.GetInstance<INotaFiscal>();
+
+                NotaFiscal notaFiscal = iNotaFiscal.BuscarPorCodigo<NotaFiscal>(int.Parse(ViewState["co_nota"].ToString()));
+                notaFiscal.Status = NotaFiscal.ENCERRADA;
+                iNotaFiscal.Salvar(notaFiscal);
+                iNotaFiscal.Salvar(new LogFarmacia(DateTime.Now, ((Usuario)Session["Usuario"]).Codigo, EventoFarmacia.ENCERRAR_NOTA_FISCAL,
+                    "id nota fiscal: " + notaFiscal.Codigo));
+
+                ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Nota Fiscal encerrada com sucesso!');location='Default.aspx';", true);
+            }
+            catch (Exception f)
+            {
+                throw f;
+            }
+        }
+
+        /// <summary>
+        /// Lista todos os medicamentos cadastrados
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnClick_ListarMedicamentos(object sender, EventArgs e) 
+        {
+            CarregaMedicamentos();
+        }
+
+        /// <summary>
+        /// Carrega todos os medicamentos existentes
+        /// </summary>
+        private void CarregaMedicamentos()
+        {
+            DropDownList_Medicamento.Items.Clear();
+            DropDownList_Medicamento.Items.Add(new ListItem("Selecione...", "-1"));
+
+            IList<Medicamento> lm = Factory.GetInstance<IMedicamento>().ListarTodosMedicamentos<Medicamento>().OrderBy(p => p.Nome).ToList();
+            foreach (Medicamento m in lm)
+                DropDownList_Medicamento.Items.Add(new ListItem(m.Nome, m.Codigo.ToString()));
+
+            DropDownList_Medicamento.Attributes.Add("onmouseover", "javascript:showTooltip(this);");
+        }
+
+        /// <summary>
+        /// Cancela a inclusão do lote de medicamento para a nota fiscal
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnClick_CancelarLoteMedicamento(object sender, EventArgs e) 
+        {
+            DropDownList_Fabricante.SelectedValue = "-1";
+            TextBox_Lote.Text = "";
+            TextBox_Validade.Text = "";
+            TextBox_Quantidade.Text = "";
+            TextBox_ValorUnitario.Text = "";
+            DropDownList_Medicamento.Items.Clear();
+            DropDownList_Medicamento.Items.Add(new ListItem("Selecione...", "-1"));
+            OnSelectedIndexChanged_CarregaInformacaoMedicamento(sender, e);
+        }
+
+        /// <summary>
+        /// Cancela a edição do item da nota fiscal
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnRowCancelingEdit_CancelarEdicao(object sender, GridViewCancelEditEventArgs e) 
+        {
+            GridView_LotesMedicamentoNotaFiscal.EditIndex = -1;
+            CarregaLotesMedicamentos(int.Parse(ViewState["co_nota"].ToString()));
+        }
+
+        /// <summary>
+        /// Preenche os dados do item da nota fiscal para edição
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnRowEditing_EditarRegistro(object sender, GridViewEditEventArgs e) 
+        {
+            GridView_LotesMedicamentoNotaFiscal.EditIndex = e.NewEditIndex;
+            CarregaLotesMedicamentos(int.Parse(ViewState["co_nota"].ToString()));
+            
+            //ItemNotaFiscal inf = Factory.GetInstance<INotaFiscal>().BuscarItemNotaFiscal<ItemNotaFiscal>(int.Parse(GridView_LotesMedicamentoNotaFiscal.DataKeys[e.NewEditIndex]["Codigo"].ToString()));
+
+            //TextBox tbx_lote = (TextBox)GridView_LotesMedicamentoNotaFiscal.Rows[e.NewEditIndex].Cells[2].FindControl("TextBox_Lote");
+            //tbx_lote.Text = inf.LoteMedicamento.Lote;
+
+            //DropDownList ddl = (DropDownList)GridView_LotesMedicamentoNotaFiscal.Rows[e.NewEditIndex].Cells[3].FindControl("DropDownList_Fabricante");
+            //ddl.Items.Add(new ListItem("Selecione...", "-1"));
+            //IList<FabricanteMedicamento> lfm = Factory.GetInstance<IFarmaciaServiceFacade>().ListarTodos<FabricanteMedicamento>().OrderBy(p => p.Nome).ToList();
+            //foreach (FabricanteMedicamento fm in lfm)
+            //    ddl.Items.Add(new ListItem(fm.Nome, fm.Codigo.ToString()));
+            //ddl.SelectedValue = inf.FabricanteMedicamentoCodigo;
+
+            //TextBox tbx_validade = (TextBox)GridView_LotesMedicamentoNotaFiscal.Rows[e.NewEditIndex].Cells[4].FindControl("TextBox_Validade");
+            //tbx_validade.Text = inf.ValidadeMedicamento.ToString("dd/MM/yyyy");
+
+            //TextBox tbx_quantidade = (TextBox)GridView_LotesMedicamentoNotaFiscal.Rows[e.NewEditIndex].Cells[5].FindControl("TextBox_Quantidade");
+            //tbx_quantidade.Text = inf.Quantidade.ToString();
+
+            //TextBox tbx_valorunitario = (TextBox)GridView_LotesMedicamentoNotaFiscal.Rows[e.NewEditIndex].Cells[6].FindControl("TextBox_ValorUnitario");
+            //tbx_valorunitario.Text = inf.ValorUnitario.ToString();
+        }
+
+        /// <summary>
+        /// Altera os dados do item da nota fiscal
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnRowUpdating_AlterarRegistro(object sender, GridViewUpdateEventArgs e) 
+        {
+            if (Factory.GetInstance<IInventario>().BuscarPorSituacao<Inventario>(Inventario.ABERTO, ViverMais.Model.Farmacia.ALMOXARIFADO) != null)
+            {
+                ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Não é possível alterar a quantidade deste item na nota fiscal corrente, pois existe um inventário ABERTO para o ALMOXARIFADO que deve ser encerrado.');", true);
+                return;
+            }
+
+            INotaFiscal iNotaFiscal = Factory.GetInstance<INotaFiscal>();
+            ItemNotaFiscal itemNotaFiscal = iNotaFiscal.BuscarItemNotaFiscal<ItemNotaFiscal>(int.Parse(GridView_LotesMedicamentoNotaFiscal.DataKeys[e.RowIndex]["Codigo"].ToString()));
+            GridViewRow rowGrid = GridView_LotesMedicamentoNotaFiscal.Rows[e.RowIndex];
+
+            //if (Factory.GetInstance<INotaFiscal>().ValidaCadastroItemNotaFiscal(((TextBox)r.FindControl("TextBox_Lote")).Text, DateTime.Parse(((TextBox)r.FindControl("TextBox_Validade")).Text), inf.LoteMedicamento.Medicamento.Codigo, int.Parse(((DropDownList)r.FindControl("DropDownList_Fabricante")).SelectedValue), int.Parse(ViewState["co_nota"].ToString()), inf.Codigo))
+            //{
+                try
+                {
+                    iNotaFiscal.AtualizarItemNotaFiscal<ItemNotaFiscal>(itemNotaFiscal, int.Parse(((TextBox)rowGrid.FindControl("TextBox_Quantidade")).Text), decimal.Parse(((TextBox)rowGrid.FindControl("TextBox_ValorUnitario")).Text));
+                    Factory.GetInstance<IFarmaciaServiceFacade>().Salvar(new LogFarmacia(DateTime.Now, ((Usuario)Session["Usuario"]).Codigo, 
+                        EventoFarmacia.ALTERAR_ITEM_NOTA_FISCAL,
+                        "id item nota fiscal: " + itemNotaFiscal.Codigo));
+
+                    //Factory.GetInstance<INotaFiscal>().AtualizarItemNotaFiscal<ItemNotaFiscal>(inf, ((TextBox)r.FindControl("TextBox_Lote")).Text, int.Parse(((DropDownList)r.FindControl("DropDownList_Fabricante")).SelectedValue), DateTime.Parse(((TextBox)r.FindControl("TextBox_Validade")).Text), int.Parse(((TextBox)r.FindControl("TextBox_Quantidade")).Text), float.Parse(((TextBox)r.FindControl("TextBox_ValorUnitario")).Text));
+                    GridView_LotesMedicamentoNotaFiscal.EditIndex = -1;
+                    CarregaLotesMedicamentos(int.Parse(ViewState["co_nota"].ToString()));
+                }
+                catch (Exception f)
+                {
+                    throw f;
+                }
+            //}
+            //else
+            //    ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('O lote de medicamento informado já se encontra cadastrado nesta nota fiscal! Por favor, informe outro lote de medicamento.');", true);
+        }
+
+        /// <summary>
+        /// Verifica se a nota fiscal está com status 'E' => Encerrada e torna o componente de edição invisível
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnRowDataBound_FormataGridView(object sender, GridViewRowEventArgs e) 
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                LinkButton lb = (LinkButton)e.Row.Cells[8].Controls[0];
+                lb.OnClientClick = "javascript:return confirm('Tem certeza que deseja excluir este item ?');";
+
+                NotaFiscal notaFiscal = Factory.GetInstance<INotaFiscal>().BuscarPorCodigo<NotaFiscal>(int.Parse(Request["co_nota"].ToString()));
+
+                if (notaFiscal.Status == NotaFiscal.ENCERRADA)
+                {
+                    GridView_LotesMedicamentoNotaFiscal.Columns[7].Visible = false; //Editar
+                    GridView_LotesMedicamentoNotaFiscal.Columns[8].Visible = false; //Excluir
+                }
+            }
+        }
+
+        /// <summary>
+        /// Deleta o item da nota fiscal enquanto esta estiver com status aberto
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnRowCommand_VerificarAcao(object sender, GridViewCommandEventArgs e) 
+        {
+            if (e.CommandName == "CommandName_Excluir")
+            {
+                if (Factory.GetInstance<IInventario>().BuscarPorSituacao<Inventario>(Inventario.ABERTO, ViverMais.Model.Farmacia.ALMOXARIFADO) != null)
+                {
+                    ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Não é possível alterar a quantidade deste item na nota fiscal corrente, pois existe um inventário ABERTO para a farmácia desta nota que deve ser encerrado.');", true);
+                    return;
+                }
+
+                INotaFiscal iNotaFiscal = Factory.GetInstance<INotaFiscal>();
+
+                ItemNotaFiscal itemNotaFiscal = iNotaFiscal.BuscarItemNotaFiscal<ItemNotaFiscal>(int.Parse(GridView_LotesMedicamentoNotaFiscal.DataKeys[int.Parse(e.CommandArgument.ToString())]["Codigo"].ToString()));
+                iNotaFiscal.ExcluirItemNotaFiscal<ItemNotaFiscal>(itemNotaFiscal);
+                iNotaFiscal.Salvar(new LogFarmacia(DateTime.Now, ((Usuario)Session["Usuario"]).Codigo, EventoFarmacia.EXCLUIR_ITEM_NOTA_FISCAL,
+                    "id item nota fiscal: " + itemNotaFiscal.Codigo));
+
+                CarregaLotesMedicamentos(int.Parse(ViewState["co_nota"].ToString()));
+            }
+        }
+    }
+}

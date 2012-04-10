@@ -1,0 +1,39 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="FormResponsavelAtestoNotaFiscal.aspx.cs" Inherits="ViverMais.View.Farmacia.FormResponsavelAtestoNotaFiscal" MasterPageFile="~/Farmacia/MasterFarmacia.Master" EnableEventValidation="false"%>
+
+<asp:Content ID="c_head" runat="server" ContentPlaceHolderID="head">
+</asp:Content>
+
+<asp:Content ID="c_body" runat="server" ContentPlaceHolderID="ContentPlaceHolder1">
+<asp:UpdatePanel ID="UpdatePanel1" runat="server">
+    <ContentTemplate>
+        <div id="top">
+            <h2>Fomulário para Cadastro de Responsável</h2>
+            <fieldset class="formulario">
+                <legend>Responsável Atesto - Nota Fiscal</legend>
+                <p>
+                    <span class="rotulo">Nome</span>
+                    <span style="margin-left:5px;">
+                        <asp:TextBox ID="TextBox_Nome" runat="server"></asp:TextBox>
+                    </span>
+                </p>
+                <p>
+                    <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ErrorMessage="Nome é Obrigatório!" ValidationGroup="ValidationGroup_cadResponsavel" ControlToValidate="TextBox_Nome" Display="None"></asp:RequiredFieldValidator>
+                    
+                    <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ControlToValidate="TextBox_Nome"
+                            Display="None" ErrorMessage="Há caracters inválidos no Nome do Responsável." Font-Size="XX-Small"
+                            ValidationExpression="^[0-9a-zA-Z\s]{1,}$" ValidationGroup="ValidationGroup_cadResponsavel"></asp:RegularExpressionValidator>
+                     
+                    <asp:ValidationSummary ID="ValidationSummary1" runat="server" ShowMessageBox="true" ShowSummary="false" ValidationGroup="ValidationGroup_cadResponsavel"/>
+                </p>
+                <p>
+                    <span>
+                        <asp:Button ID="Button_Salvar" runat="server" Text="Salvar" OnClick="OnClick_Salvar" ValidationGroup="ValidationGroup_cadResponsavel"/>
+                        <asp:Button ID="Button_Cancelar" runat="server" Text="Cancelar" PostBackUrl="~/Farmacia/Default.aspx" />
+    <%--                    <asp:Button ID="Button_Cancelar" runat="server" Text="Cancelar" OnClientClick="javascript:parent.parent.GB_hide();"/>--%>
+                    </span>
+                </p>
+            </fieldset>
+        </div>
+    </ContentTemplate>
+</asp:UpdatePanel>
+</asp:Content>

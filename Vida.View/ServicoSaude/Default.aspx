@@ -1,0 +1,88 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="ViverMais.View.ServicoSaude.Default" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1" runat="server">
+    <link rel="stylesheet" href="style_form_servico2.css" type="text/css" media="screen" />
+    <title>Untitled Page</title>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <asp:ScriptManager ID="ScriptManager1" runat="server">
+    </asp:ScriptManager>
+    <%--<asp:UpdatePanel ID="UpdatePanel1" runat="server">
+        <ContentTemplate>--%>
+    <div id="top">
+        <fieldset class="formulario">
+            <legend>Formulário Pesquisa</legend>
+            <p>
+                <span class="rotulo">Serviço</span> <span>
+                    <asp:DropDownList ID="DropDownList_Servico" runat="server" CssClass="drop" DataTextField="Nome" Width="300px"
+                        DataValueField="Codigo" AutoPostBack="true" OnSelectedIndexChanged="OnSelectedIndexChanged_CarregaBairros">
+                    </asp:DropDownList>
+                </span>
+            </p>
+            <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Conditional">
+                <Triggers>
+                    <asp:AsyncPostBackTrigger ControlID="DropDownList_Servico" EventName="SelectedIndexChanged" />
+                </Triggers>
+                <ContentTemplate>
+                    <p>
+                        <span class="rotulo">Bairro</span> <span>
+                            <asp:DropDownList ID="DropDownList_Bairro" runat="server" CssClass="drop" DataTextField="Nome"
+                                DataValueField="Codigo" Width="250px">
+                                <asp:ListItem Text="Selecione..." Value="-1"></asp:ListItem>
+                            </asp:DropDownList>
+                        </span>
+                    </p>
+                </ContentTemplate>
+            </asp:UpdatePanel>
+            <asp:ImageButton ID="img_Button1" runat="server" OnClick="OnClick_Buscar" ValidationGroup="ValidationGroup_Pesquisa"
+                ImageUrl="~/ServicoSaude/img/btn-pesquisar.png" Width="121px" Height="39px" />
+            <asp:ValidationSummary ID="ValidationSummary1" runat="server" ValidationGroup="ValidationGroup_Pesquisa"
+                ShowMessageBox="true" ShowSummary="false" />
+            <asp:CompareValidator ID="CompareValidator1" runat="server" ErrorMessage="Selecione um Serviço."
+                ControlToValidate="DropDownList_Servico" ValueToCompare="-1" Operator="GreaterThan"
+                Display="None" ValidationGroup="ValidationGroup_Pesquisa"></asp:CompareValidator>
+            <asp:CompareValidator ID="CompareValidator2" runat="server" ErrorMessage="Selecione um Bairro."
+                ControlToValidate="DropDownList_Bairro" ValueToCompare="-1" Operator="GreaterThan"
+                Display="None" ValidationGroup="ValidationGroup_Pesquisa"></asp:CompareValidator>
+            <asp:UpdatePanel ID="UpdatePanel2" runat="server" UpdateMode="Conditional">
+                <Triggers>
+                    <asp:AsyncPostBackTrigger ControlID="img_Button1" EventName="Click" />
+                </Triggers>
+                <ContentTemplate>
+                    <asp:Panel ID="Panel_Unidade" runat="server" Visible="false">
+                        <p>
+                            <span>
+                                <asp:GridView ID="GridView_Unidades" runat="server" AutoGenerateColumns="False" Width="100%">
+                                    <Columns>
+                                        <asp:BoundField DataField="NomeFantasia" HeaderText="Unidade" />
+                                        <asp:BoundField DataField="Logradouro" HeaderText="Logradouro" />
+                                        <asp:BoundField DataField="CEP" HeaderText="CEP" />
+                                        <asp:BoundField DataField="NomeBairro" HeaderText="Bairro" />
+                                    </Columns>
+                                    <EmptyDataRowStyle HorizontalAlign="Center" />
+                                    <EmptyDataTemplate>
+                                        <asp:Label ID="Label1" runat="server" Text="Nenhum registro encontrado."></asp:Label>
+                                    </EmptyDataTemplate>
+                                    <HeaderStyle CssClass="tab" BackColor="#28718e" Font-Bold="True" ForeColor="#ffffff"
+                                        Height="16px" Font-Size="12px" />
+                                    <FooterStyle BackColor="#72b4cf" ForeColor="#ffffff" />
+                                    <RowStyle CssClass="tabrow" BackColor="#72b4cf" ForeColor="#ffffff" />
+                                    <EmptyDataRowStyle HorizontalAlign="Center" />
+                                    <PagerStyle BackColor="#72b4cf" ForeColor="#ffffff" HorizontalAlign="Right" />
+                                    <AlternatingRowStyle BackColor="#72b4cf" />
+                                </asp:GridView>
+                            </span>
+                        </p>
+                    </asp:Panel>
+                </ContentTemplate>
+            </asp:UpdatePanel>
+        </fieldset>
+    </div>
+    <%-- </ContentTemplate>
+    </asp:UpdatePanel>--%>
+    </form>
+</body>
+</html>

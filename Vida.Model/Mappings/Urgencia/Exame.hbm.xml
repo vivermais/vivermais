@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="ViverMais.Model">
+  <class name="ViverMais.Model.Exame" table="URG_EXAME">
+    <id name="Codigo">
+      <column name="CO_EXAME" not-null="true"/>
+      <generator class="sequence">
+        <param name="sequence">URG_EXAME_SEQUENCE</param>
+      </generator>
+    </id>
+    <property name="Descricao" column="descricao" />
+    <property name="Status" column="status" />
+  </class>
+</hibernate-mapping>

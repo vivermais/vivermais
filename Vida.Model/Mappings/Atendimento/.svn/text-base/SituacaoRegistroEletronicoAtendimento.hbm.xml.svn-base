@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Vida.Model">
+  <class name="Vida.Model.SituacaoRegistroEletronicoAtendimento" table="ATD_SIT_REG_ELETRO_ATEND">
+    <id name="Codigo">
+      <column name="CO_SIT_REG_ELETRO_ATEND" not-null="true"/>
+      <generator class="sequence">
+        <param name="sequence">ATD_SIT_REG_ELETRO_SEQUENCE</param>
+      </generator>
+    </id>
+    <property name="Nome" column="nome" />
+  </class>
+</hibernate-mapping>

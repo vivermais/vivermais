@@ -1,0 +1,191 @@
+/* CSS Document  - BARRA DE ESTILOS*/
+
+.separator                                      
+                                                {
+                                                    width:1px;
+                                                    height:61px;
+                                                    float:left;
+                                                }
+
+
+                                                
+.botoes_vida a 
+
+
+                                                {
+                                                    height:61px;
+                                                    background:#333;
+                                                    width:auto;
+                                                    padding-left:13px;
+                                                    padding-right:13px;
+                                                    float:left;
+                                                    background: url( 'img/bg1-menu.png' ) repeat-x;
+                                                    color:White;
+                                                    vertical-align:middle;
+                                                    padding-top:22px;
+                                                    text-decoration:none;
+                                                }
+                                                
+#sombra_dir 
+
+
+                                                {
+                                                    height:61px;
+                                                    width:89px;
+                                                    background:#333;
+                                                    float:left;
+                                                    background: url( 'img/dir.png' ) repeat-x;
+                                                    vertical-align:middle;
+                                                    text-decoration:none;
+                                                }
+                                                
+                                                
+.botoes_vida a:hover  
+
+
+                                                {
+                                                    height:61px;
+                                                    background:#333;
+                                                    width:auto;
+                                                    padding-left:13px;
+                                                    padding-right:13px;
+                                                    float:left;
+                                                    background: url( 'img/bg2-menu.png' ) repeat-x;
+                                                    color:White;
+                                                    vertical-align:middle;
+                                                    padding-top:22px;
+                                                    text-decoration:none;
+                                                }
+                                                
+
+#user                                           
+                                                {
+                                                    background: url( 'img/ico-user.png' ) no-repeat;
+                                                    background-position:left;
+                                                    padding-left:34px;
+                                                    padding-top:8px;
+                                                    height:28px;
+                                                }
+
+#topo_sistema
+                                                {
+                                                    background: url( 'img/bg_topo.png' ) repeat-x;
+                                                    height:106px;
+                                                    vertical-align:top;
+                                                }
+
+#barra_principal
+                                                {
+                                                    width:100px;
+                                                }
+
+#barra_infos                                     
+                                                {
+                                                    height:38px;
+                                                    background: url( 'img/bg-dados-topo.png' ) repeat-x;
+                                                        
+                                                }
+
+
+#barra_superior
+                                                {
+                                                    height:7px;
+                                                    width:100%;
+                                                    background: url( 'img/linhas-topo.png' ) repeat-x;
+                                                }
+
+
+
+#barra											{
+													width:920px;
+													height:61px;
+													position: relative;
+													z-index:2;
+													font-family:Verdana, Geneva, sans-serif;
+													border-bottom:0px;
+													text-align:center;
+													margin:0 auto;
+													
+											
+													
+													
+												}
+#barra_conteudo									{
+													margin:auto;
+													float:left;
+													width:974px;
+													height:29px;
+												}
+#barra_assinatura									{
+													width:85px;
+													height:29px;
+													float:left;
+													margin:0px 15px 0px 0px;
+												}
+#barra_produtos									{
+													width:290px;
+													height:29px;
+													float:left;
+													text-align:left;
+													margin:0px 48px 0px 0px;
+												}
+#barra_trasparente									{
+													width:100%;
+													height:0px;
+													position:absolute;
+													z-index:3;
+													text-align:center;
+												}
+#barra_trasparente_conteudo							{
+													margin:auto;
+													width:950px;
+													height:10px;
+													text-align:left;
+												}
+
+												
+#barra_informativo									{
+													width:800px;
+													height:61px;
+													/*color:#FFFFFF;*/
+												    font-size:xx-small;
+													margin:0 0 0 64px;
+													float:left;	
+													position: inherit;
+													top: 16px;
+													font-family:Arial;
+												}
+#barra_informativo_ok					{
+													width:20px;
+													height:16px;
+												}
+#barra_informativo_ok								{
+													width:auto;
+													height:22px;
+													
+													margin:0px 0px 0px 0px;
+													padding:7px 0px 0px 0px;
+													border:0px;
+												}
+#barra_informativo_texto								{
+													width:auto;
+													height:20px;
+													float:left;
+													font-size:10px;
+													color:#ffffff;
+													margin:0px 5px 0px 0px;
+													padding:9px 0px 0px 0px;
+												}
+#barra_informativo_campo								{
+													width:74px;
+													height:18px;
+													float:left;
+													margin:7px 5px 0px 0px;
+												}
+#barra_informativo_campo 						{
+													width:70px;
+													font-size:10px;
+													color:#666666;
+													background-color:#FFFFFF;
+													border:none;
+												}

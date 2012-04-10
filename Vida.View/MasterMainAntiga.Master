@@ -1,0 +1,85 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="MasterMainAntiga.Master.cs"
+    Inherits="ViverMais.View.MasterMain" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>ViverMais - Sistema Integrado de Saúde</title>
+    <%--<meta http-equiv="X-UA-Compatible" content="chrome=1" />--%>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1;ie=7" />
+    <%--<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7"/>--%>
+<link rel="stylesheet" href="/style_ViverMais.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="/style_barra_ViverMais.css" type="text/css" media="screen" />
+    <%--<link rel="stylesheet" href="/style_form_ViverMais.css" type="text/css" media="screen" />--%>
+    <%--    <link href="JavaScript/GreyBox/gb_styles.css" rel="stylesheet" type="text/css" />--%>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+
+    <script type="text/javascript">
+
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-20556264-11']);
+        _gaq.push(['_trackPageview']);
+
+        (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+ 
+    </script>
+
+    <form id="form1" runat="server">
+    <asp:ScriptManager ID="ScriptManager1" runat="server" EnableScriptGlobalization="true">
+    </asp:ScriptManager>
+    <%--    <% 
+        string url = Request.Url.ToString();
+        url = url.Substring(0, url.LastIndexOf(char.Parse("/")));
+        url = url.Substring(0, url.LastIndexOf(char.Parse("/")));
+    %>
+    
+    <script type="text/javascript">
+        var GB_ROOT_DIR = '<%=url %>GreyBox/';
+    </script>
+    <script type="text/javascript" src="JavaScript/GreyBox/AJS.js"></script>
+    <script type="text/javascript" src="JavaScript/GreyBox/AJS_fx.js"></script>
+    <script type="text/javascript" src="JavaScript/GreyBox/gb_scripts.js"></script>--%>
+    <div id="barra">
+        <%--<div class="homologa"></div>--%>
+        <div id="barra_conteudo">
+            <div id="barra_assinatura">
+                <asp:LinkButton ID="lnkHOME" runat="server" CausesValidation="false" PostBackUrl="~/Home.aspx">
+                <img id="img_ViverMaisassin" alt="" src="/img/ViverMais_barra_off.gif" 
+                onmouseover="img_ViverMaisassin.src='/img/ViverMais_barra.gif';" 
+                onmouseout="img_ViverMaisassin.src='/img/ViverMais_barra_off.gif';"  />
+                </asp:LinkButton>
+            </div>
+            <div id="barra_informativo">
+                <asp:Menu ID="MenuViverMais" runat="server" Orientation="Horizontal"
+                    ForeColor="White"
+                    Height="38px" OnMenuItemClick="MenuViverMais_MenuItemClick" DataSourceID="XmlDataSource_MenuViverMais">
+                    <StaticHoverStyle ForeColor="#b4d3ec" />
+                    <DataBindings>
+                        <asp:MenuItemBinding DataMember="Menu" NavigateUrlField="Url"
+                            SeparatorImageUrlField="Img"
+                            TextField="Text" />
+                    </DataBindings>
+                </asp:Menu>
+                <asp:XmlDataSource ID="XmlDataSource_MenuViverMais" runat="server" XPath="/Home/Menu" EnableCaching="false"></asp:XmlDataSource>
+            </div>
+            <div style="position: absolute; background: url( '../img/bg_nome_user.png' ) no-repeat left;
+                top: 31px; float: left; color: #2c2c2c; left: 260px; font-family: Verdana; font-size: 11px;
+                height: 33px; width: 194px; padding: 20px 0px 0px 29px; text-align: left;">
+                Olá,
+                <asp:LoginName ID="LoginName1" runat="server" Font-Bold="true" ForeColor="#2c2c2c"
+                    OnDataBinding="LoginName1_DataBinding" />
+            </div>
+        </div>
+    </div>
+    <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+    </asp:ContentPlaceHolder>
+    </form>
+</body>
+</html>

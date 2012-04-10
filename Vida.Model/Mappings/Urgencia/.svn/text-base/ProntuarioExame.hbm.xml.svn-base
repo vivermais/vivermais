@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Vida.Model">
+  <class name="Vida.Model.ProntuarioExame" table="URG_PRONTUARIOEXAME">
+    <id name="Codigo">
+      <column name="CO_PRONTUARIOEXAME" not-null="true"/>
+      <generator class="sequence">
+        <param name="sequence">URG_PRONTUARIOEXAME_SEQUENCE</param>
+      </generator>
+    </id>
+    <many-to-one name="Prontuario" class="Vida.Model.Prontuario" column="CO_PRONTUARIO" lazy="false"/>
+    <many-to-one name="Exame" class="Vida.Model.Exame" column="CO_EXAME" lazy="false"/>
+    <property name="Data" column="data"></property>
+    <property name="Profissional" column="CO_PROFISSIONAL"></property>
+    <property name="CBOProfissional" column="cbo_profissional"></property>
+    <!--<property name="ProfissionalResultado" column="id_profissionalresultado"></property>-->
+    <property name="Resultado" column="resultado" type="StringClob"></property>
+    <property name="DataResultado" column="dataresultado"></property>
+    <property name="DataConfirmacaoBaixa" column="dataconfirmacaobaixa"></property>
+    <property name="UsuarioConfirmacaoBaixa" column="co_usuario_confirmacaobaixa"></property>
+  </class>
+</hibernate-mapping>

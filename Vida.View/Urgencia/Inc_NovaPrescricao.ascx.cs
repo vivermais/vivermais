@@ -1,0 +1,243 @@
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using ViverMais.ServiceFacade.ServiceFacades;
+using ViverMais.DAO;
+using System.Collections.Generic;
+using ViverMais.Model;
+using ViverMais.ServiceFacade.ServiceFacades.AtendimentoMedico.Urgencia;
+using ViverMais.ServiceFacade.ServiceFacades.Procedimento;
+using ViverMais.ServiceFacade.ServiceFacades.Farmacia.Medicamento;
+using System.Drawing;
+
+namespace ViverMais.View.Urgencia
+{
+    public partial class Inc_NovaPrescricao : System.Web.UI.UserControl
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!IsPostBack)
+            {
+                long co_prontuario = long.Parse(Request["codigo"].ToString());
+                ViewState["co_prontuario"] = co_prontuario;
+                CarregaPrescricoes(co_prontuario);
+                CarregaCombos();
+            }
+        }
+
+        protected void CarregaCombos()
+        {
+            //Carrega os medicamentos do elenco do PA
+            ViverMais.Model.ElencoMedicamento elenco = Factory.GetInstance<IFarmaciaServiceFacade>().BuscarPorCodigo<ViverMais.Model.ElencoMedicamento>(15);
+            ddlMedicamentos.Items.Add(new ListItem("Selecione...", "0"));
+            foreach (ViverMais.Model.Medicamento m in elenco.Medicamentos)
+                ddlMedicamentos.Items.Add(new ListItem(m.Nome, m.Codigo.ToString()));
+        }
+
+        /// <summary>
+        /// Carrega as prescrições do prontuário
+        /// </summary>
+        /// <param name="co_prontuario"></param>
+        private void CarregaPrescricoes(long co_prontuario)
+        {
+            IList<Prescricao> lp = Factory.GetInstance<IPrescricao>().BuscarPorProntuario<Prescricao>(co_prontuario);
+            //Prescricao p = Factory.GetInstance<IPrescricao>().BuscarPorProntuario<Prescricao>(co_prontuario);
+
+            //if (p != null)
+            //    lp.Add(p);
+
+
+            //GridView_PrescricoesRegistradas.DataSource = lp;
+            //GridView_PrescricoesRegistradas.DataBind();
+        }
+
+        /// <summary>
+        /// Paginação do gridview
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnPageIndexChanging_PaginacaoPrescricao(object sender, GridViewPageEventArgs e)
+        {
+            //CarregaPrescricoes(long.Parse(ViewState["co_prontuario"].ToString()));
+            //GridView_PrescricoesRegistradas.PageIndex = e.NewPageIndex;
+            //GridView_PrescricoesRegistradas.DataBind();
+        }
+
+        /// <summary>
+        /// Formata o gridview de acordo com o padrão específicado
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        //protected void OnRowDataBound_FormataGridView(object sender, GridViewRowEventArgs e)
+        //{
+        //    if (e.Row.RowType == DataControlRowType.DataRow)
+        //    {
+        //        Prescricao p = Factory.GetInstance<IPrescricao>().BuscarPorCodigo<Prescricao>(long.Parse(GridView_PrescricoesRegistradas.DataKeys[e.Row.RowIndex]["Codigo"].ToString()));
+        //    }
+        //}
+
+        /// <summary>
+        /// Verifica se a prescrição foi selecionada para aprazar os medicamentos/kit/procedimentos
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnRowCommand_SelecionarPrescricao(object sender, GridViewCommandEventArgs e)
+        {
+            //if (e.CommandName == "CommandName_Selecionar")
+            //{
+            //    ViewState["co_prescricao"] = GridView_PrescricoesRegistradas.DataKeys[int.Parse(e.CommandArgument.ToString())]["Codigo"].ToString();
+            //    CarregaItens(long.Parse(ViewState["co_prescricao"].ToString()));
+
+            //}
+        }
+
+        /// <summary>
+        /// Carrega os itens da prescrição selecionada
+        /// </summary>
+        /// <param name="co_prescricao"></param>
+        private void CarregaItens(long co_prescricao)
+        {
+            Panel_Um.Visible = true;
+            Prescricao prescricao = Factory.GetInstance<IUrgenciaServiceFacade>().BuscarPorCodigo<Prescricao>(co_prescricao);
+            //se a prescrição está suspensa, impede o usuário de alterá-la
+            if (prescricao.Status == Convert.ToChar(Prescricao.StatusPrescricao.Suspensa))
+                ViewState["prescricaobloqueada"] = "sim";
+            else
+                ViewState["prescricaobloqueada"] = "nao";
+
+            IList<PrescricaoKitPA> lpk = Factory.GetInstance<IPrescricao>().BuscarKitsPA<PrescricaoKitPA>(co_prescricao);
+            gridKit.DataSource = lpk;
+            gridKit.DataBind();
+
+            IList<PrescricaoMedicamento> lpm = Factory.GetInstance<IPrescricao>().BuscarMedicamentos<PrescricaoMedicamento>(co_prescricao);
+            foreach (PrescricaoMedicamento pm in lpm)
+                pm.ObjetoMedicamento = Factory.GetInstance<IMedicamento>().BuscarPorCodigo<Medicamento>(pm.Medicamento);
+            gridMedicamentos.DataSource = lpm;
+            gridMedicamentos.DataBind();
+            Session["listamedicamentos"] = lpm;
+
+            IList<PrescricaoProcedimento> lpp = Factory.GetInstance<IPrescricao>().BuscarProcedimentos<PrescricaoProcedimento>(co_prescricao);
+            foreach (PrescricaoProcedimento pp in lpp)
+                pp.Procedimento = Factory.GetInstance<IProcedimento>().BuscarPorCodigo<Procedimento>(pp.CodigoProcedimento);
+            GridView_Procedimento.DataSource = lpp;
+            GridView_Procedimento.DataBind();
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnRowCommand_SuspenderMedicamento(object sender, GridViewCommandEventArgs e)
+        {
+
+            int co_medicamento = int.Parse(gridMedicamentos.DataKeys[int.Parse(e.CommandArgument.ToString())]["Medicamento"].ToString());
+            IList<PrescricaoMedicamento> lista = (IList<PrescricaoMedicamento>)Session["listamedicamentos"];
+
+            foreach (PrescricaoMedicamento pm in lista)
+            {
+                if (pm.Medicamento == co_medicamento)
+                {
+                    pm.Suspenso = !pm.Suspenso;
+                    if (pm.Suspenso)
+                    {
+                        gridMedicamentos.Rows[int.Parse(e.CommandArgument.ToString())].BackColor = Color.LightCoral;
+                        ((LinkButton)gridMedicamentos.Rows[int.Parse(e.CommandArgument.ToString())].Cells[5].Controls[0]).Text = "Ativar";
+                        Factory.GetInstance<IUrgenciaServiceFacade>().Atualizar(pm);
+                        //exclui os aprazamentos não executados deste item
+                        Factory.GetInstance<IPrescricao>().ExcluirAprazamentosNaoExecutados<AprazamentoMedicamento>(pm.Prescricao.Codigo, pm.Medicamento);
+                    }
+                    else
+                    {
+                        gridMedicamentos.Rows[int.Parse(e.CommandArgument.ToString())].BackColor = Color.White;
+                        ((LinkButton)gridMedicamentos.Rows[int.Parse(e.CommandArgument.ToString())].Cells[5].Controls[0]).Text = "Suspender";
+                        Factory.GetInstance<IUrgenciaServiceFacade>().Atualizar(pm);
+                    }
+                }
+            }
+
+            Session["listamedicamentos"] = lista;
+            gridMedicamentos.DataSource = lista;
+            gridMedicamentos.DataBind();
+
+            //ViverMais.Model.PrescricaoMedicamento pm = Factory.GetInstance<IUrgenciaServiceFacade>( gridMedicamentos.SelectedDataKey.ToString());
+        }
+
+
+        protected void btnAdicionarMedicamentoPrescricao_Click(object sender, EventArgs e)
+        {
+            IList<PrescricaoMedicamento> lista = Session["listamedicamentos"] != null ? (IList<PrescricaoMedicamento>)Session["listamedicamentos"] : new List<PrescricaoMedicamento>();
+            ViverMais.Model.Prescricao prescricao = Factory.GetInstance<IUrgenciaServiceFacade>().BuscarPorCodigo<ViverMais.Model.Prescricao>(long.Parse(ViewState["co_prescricao"].ToString()));
+            if (lista.Where(p => p.Medicamento.ToString() == ddlMedicamentos.SelectedValue).FirstOrDefault() == null)
+            {
+                PrescricaoMedicamento pm = new PrescricaoMedicamento();
+                pm.Prescricao = prescricao;
+                pm.ObjetoMedicamento = Factory.GetInstance<IMedicamento>().BuscarPorCodigo<Medicamento>(int.Parse(ddlMedicamentos.SelectedValue));
+                pm.Medicamento = pm.ObjetoMedicamento.Codigo;
+                pm.Intervalo = tbxIntervaloMedicamento.Text;
+                lista.Add(pm);
+                Factory.GetInstance<IUrgenciaServiceFacade>().Inserir(pm);
+            }
+
+            Session["listamedicamentos"] = lista;
+            gridMedicamentos.DataSource = lista;
+            gridMedicamentos.DataBind();
+        }
+
+        protected void gridMedicamentos_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                if (e.Row.Cells[4].Text == "Suspenso")
+                {
+                    e.Row.BackColor = Color.LightCoral;
+                    ((LinkButton)e.Row.Cells[5].Controls[0]).Text = "Ativar";
+                }
+                else
+                {
+                    e.Row.BackColor = Color.White;
+                    ((LinkButton)e.Row.Cells[5].Controls[0]).Text = "Suspender";
+                }
+                if (ViewState["prescricaobloqueada"].ToString() == "sim")
+                    gridMedicamentos.Columns[gridMedicamentos.Columns.Count - 1].Visible = false;
+                else
+                {
+                    gridMedicamentos.Columns[gridMedicamentos.Columns.Count - 1].Visible = true;
+                    ((LinkButton)e.Row.Cells[5].Controls[0]).OnClientClick = "Javascript:return confirm('Se você estiver suspendendo um medicamento, os próximos aprazamentos deste serão excluídos. Deseja Continuar?');";
+                }
+
+            }
+        }
+
+        protected void btnSalvarPrescricao_Click(object sender, EventArgs e)
+        {
+            //IList<PrescricaoMedicamento> listamedicamento = (IList<PrescricaoMedicamento>)Session["listamedicamentos"];
+            //ViverMais.Model.Prescricao prescricao = Factory.GetInstance<IUrgenciaServiceFacade>().BuscarPorCodigo<ViverMais.Model.Prescricao>(long.Parse(ViewState["co_prescricao"].ToString()));
+            //if (listamedicamento != null)
+            //{
+            //    foreach (ViverMais.Model.PrescricaoMedicamento pm in listamedicamento)
+            //    {
+            //        if (pm.Prescricao == null) //não existe no banco
+            //        {
+            //            pm.Prescricao = prescricao;
+            //            Factory.GetInstance<IUrgenciaServiceFacade>().Inserir(pm);
+            //        }
+            //        else
+            //            Factory.GetInstance<IUrgenciaServiceFacade>().Atualizar(pm);
+            //    }
+            //}
+
+        }
+    }
+}

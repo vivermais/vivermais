@@ -1,0 +1,96 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using ViverMais.DAO;
+using ViverMais.ServiceFacade.ServiceFacades.Farmacia.Medicamento.Misc;
+using ViverMais.Model;
+using ViverMais.ServiceFacade.ServiceFacades.Farmacia.Medicamento;
+using ViverMais.ServiceFacade.ServiceFacades;
+using ViverMais.ServiceFacade.ServiceFacades.Seguranca;
+
+namespace ViverMais.View.Farmacia
+{
+    public partial class FormExibeUnidadeMedicamento : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!IsPostBack)
+            {
+                if (!Factory.GetInstance<ISeguranca>().VerificarPermissao(((Usuario)Session["Usuario"]).Codigo, "MANTER_UNIDADE_MEDIDA",Modulo.FARMACIA))
+                    ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Usuário, você não tem permissão para acessar esta página! Por favor, entre em contato com a administração.');location='Default.aspx';", true);
+                else
+                    CarregaUnidadesMedida();
+            }
+        }
+
+        /// <summary>
+        /// Carrega as unidades de medida existentes
+        /// </summary>
+        private void CarregaUnidadesMedida()
+        {
+            GridView_UnidadeMedida.DataSource = Factory.GetInstance<IUnidadeMedidaMedicamento>().ListarTodos<UnidadeMedidaMedicamento>().OrderBy(p => p.Sigla).ToList();
+            GridView_UnidadeMedida.DataBind();
+        }
+
+        /// <summary>
+        /// Paginação do gridview
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnPageIndexChanging_Paginacao(object sender, GridViewPageEventArgs e) 
+        {
+            CarregaUnidadesMedida();
+            GridView_UnidadeMedida.PageIndex = e.NewPageIndex;
+            GridView_UnidadeMedida.DataBind();
+        }
+
+        /// <summary>
+        /// Verifica se o usuário está tentando editar uma unidade de medida
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnRowCommand_Acao(object sender, GridViewCommandEventArgs e) 
+        {
+            if (e.CommandName == "CommandName_Editar")
+                Response.Redirect("FormUnidadeMedidaMedicamento.aspx?co_unidademedida=" + GridView_UnidadeMedida.DataKeys[int.Parse(e.CommandArgument.ToString())]["Codigo"].ToString());
+        }
+
+        /// <summary>
+        /// Exclui a unidade de medida de medicamento
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnClick_ExcluirUnidadeMedida(object sender, EventArgs e) 
+        {
+            LinkButton lb = (LinkButton)sender;
+            IUnidadeMedidaMedicamento iUnidade = Factory.GetInstance<IUnidadeMedidaMedicamento>();
+            IList<Medicamento> medicamentos = Factory.GetInstance<IMedicamento>().BuscarMedicamentosPorUnidadeMedida<Medicamento>(int.Parse(lb.CommandArgument));
+
+            if (medicamentos != null && medicamentos.Count() > 0)
+                ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('O registro não pôde ser excluído, pois existe(m) medicamento(s) associado(s) a esta unidade de medida!');", true);
+            else
+            {
+                try
+                {
+                    UnidadeMedidaMedicamento unidade = iUnidade.BuscarPorCodigo<UnidadeMedidaMedicamento>(int.Parse(lb.CommandArgument));
+                    //un.Ativo = false;
+                    //iUnidade.Salvar(un);
+
+                    iUnidade.Deletar(iUnidade.BuscarPorCodigo<UnidadeMedidaMedicamento>(int.Parse(lb.CommandArgument)));
+                    Factory.GetInstance<IFarmaciaServiceFacade>().Salvar(new LogFarmacia(DateTime.Now, ((Usuario)Session["Usuario"]).Codigo,
+                        EventoFarmacia.EXCLUIR_UNIDADE_MEDIDA,
+                        "id unidade: " + unidade.Codigo + " - nome: " + unidade.Nome));
+
+                    ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Unidade de Medida excluída com sucesso!');", true);
+                    CarregaUnidadesMedida();
+                }catch(Exception ex)
+                {
+                    ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('" + ex.Message + "');", true);
+                }
+            }
+        }
+    }
+}

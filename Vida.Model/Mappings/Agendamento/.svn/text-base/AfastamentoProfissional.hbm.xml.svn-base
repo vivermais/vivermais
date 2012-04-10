@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Vida.Model">
+  <class name="Vida.Model.AfastamentoProfissional" table="AGD_AFASTAMENTOPROFISSIONAL">
+    <id name="Codigo">
+       <column name="CO_AFASTAMENTOPROFISSIONAL" not-null="true"/>
+       <generator class="sequence">
+            <param name="sequence">AGD_AFASTAMENTOPROF_SEQUENCE</param>
+       </generator>
+    </id>
+    <many-to-one name="Profissional" class="Vida.Model.Profissional" column="CPF_PROF" />
+    <many-to-one name="Unidade" class="Vida.Model.EstabelecimentoSaude" column="CNES" />
+	<!--<property name="ID_Profissional" column="CPF_PROF" />-->
+	<!--<property name="ID_Unidade" column="CNES" />-->	  
+    <property name="Data_Inicial" column="DATA_INICIAL" />
+	<property name="Data_Final" column="DATA_FINAL" />
+    <property name="Inativo" column="INATIVO" />
+    <property name="Motivo" column="MOTIVO" />
+    <property name="Data_Reativacao" column="DATA_REATIVACAO" />
+	<property name="Obs" column="OBS" />
+  </class>
+</hibernate-mapping>

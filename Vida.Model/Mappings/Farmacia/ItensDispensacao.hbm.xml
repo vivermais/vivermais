@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Vida.Model">
+	<class name="Vida.Model.ItensDispensacao" table="itensdispensacao">
+		<composite-id unsaved-value="any">
+			<key-many-to-one name="Dispensacao" class="Vida.Model.ReceitaDispensacao" column="id_dispensacao" />
+			<key-many-to-one name="LoteMedicamento" class="Vida.Model.LoteMedicamento" column="id_lotemedicamento" />
+			<key-property name="DataAtendimento" column="dataatendimento" />
+		</composite-id>
+		<many-to-one name="Farmacia" class="Vida.Model.Farmacia" column="id_farmacia" />
+		<property name="QtdPrescrita" column="qtdprescrita" />
+		<property name="QtdDispensada" column="qtddispensada" />
+		<property name="QtdDias" column="qtddias" />
+		<property name="Observacao" column="observacao" />
+	</class>
+</hibernate-mapping>

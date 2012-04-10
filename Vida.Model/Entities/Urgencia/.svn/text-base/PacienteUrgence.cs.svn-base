@@ -1,0 +1,65 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace Vida.Model
+{
+    [Serializable]
+    public class PacienteUrgence
+    {
+        private long codigo;
+
+        public virtual long Codigo
+        {
+            get { return codigo; }
+            set { codigo = value; }
+        }
+
+        private string nome;
+        public virtual string Nome
+        {
+            get { return nome; }
+            set { nome = value; }
+        }
+
+        private string descricao;
+        public virtual string Descricao 
+        {
+            get { return descricao; }
+            set { descricao = value; }
+        }
+
+        private string codigovida;
+        public virtual string CodigoVida
+        {
+            get { return codigovida; }
+            set { codigovida = value; }
+        }
+
+        private Paciente pacientevida;
+        public virtual Paciente PacienteVida
+        {
+            get { return pacientevida; }
+            set { pacientevida = value; }
+        }
+
+        private char sexo;
+        public virtual char Sexo
+        {
+            get { return sexo; }
+            set { sexo = value; }
+        }
+
+        private bool simplificado;
+        public virtual bool Simplificado
+        {
+            get { return simplificado; }
+            set { simplificado = value; }
+        }
+
+        public PacienteUrgence() 
+        {
+        }
+    }
+}

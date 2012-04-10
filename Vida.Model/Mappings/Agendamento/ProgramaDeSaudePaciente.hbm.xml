@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="ViverMais.Model">
+  <class name="ViverMais.Model.ProgramaDeSaudePaciente" table="AGD_PROGRAMA_PACIENTE">
+    <composite-id>
+      <key-many-to-one name="ProgramaDeSaude" class="ViverMais.Model.ProgramaDeSaude" column="co_programa"/>
+      <key-many-to-one name="Paciente" class="ViverMais.Model.Paciente" column="co_usuario"/>
+      <!--<key-property name="CodigoPaciente" column="co_usuario"/>-->
+      <!--<key-many-to-one name="TipoEndereco" class="ViverMais.Model.TipoEndereco" column="co_tipo_endereco"/>-->
+    </composite-id>
+    <property name="Ativo" column="ativo"/>
+  </class>
+</hibernate-mapping>

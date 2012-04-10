@@ -1,0 +1,49 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace ViverMais.Model
+{
+    [Serializable]
+    public class MotivoMovimento
+    {
+        //public static int LOTE_VENCIDO = 1;
+        //public static int EMBALAGEM_VIOLADA = 2;
+        //public static int DESVIO_QUALIDADE = 3;
+        //public static int DANIFICADO = 4;
+        //public static int VALIDADE = 5;
+        public static int SOLICITACAO = 2;
+        //public static int DEVOLUCAO = 7;
+        public static int ENVIO = 4;
+        //public static int PERDA = 9;
+
+        int codigo;
+
+        public virtual int Codigo
+        {
+            get { return codigo; }
+            set { codigo = value; }
+        }
+        
+        string nome;
+
+        public virtual string Nome
+        {
+            get { return nome; }
+            set { nome = value; }
+        }
+        
+        TipoMovimento tipomovimento;
+        public virtual TipoMovimento TipoMovimento
+        {
+            get { return tipomovimento; }
+            set { tipomovimento = value; }
+        }
+
+        public MotivoMovimento()
+        {
+
+        }
+    }
+}

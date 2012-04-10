@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Vida.Model">
+  <class name="Vida.Model.LogAgendamento" table="AGD_LOG">
+    <id name="Codigo">
+       <column name="CO_LOG" not-null="true"/>
+       <generator class="sequence">
+          <param name="sequence">AGD_LOG_SEQUENCE</param>
+       </generator>
+    </id>
+    <property name="CodigoUsuario" column="CO_USUARIO" />
+    <property name="Evento" column="CO_EVENTO" />
+    <property name="Valor" column="VALOR" />
+    <property name="Data" column="DATA" />
+  </class>
+</hibernate-mapping>

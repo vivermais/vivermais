@@ -1,0 +1,70 @@
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Xml.Linq;
+using Vida.ServiceFacade.ServiceFacades;
+using Vida.DAO;
+using Vida.Model;
+
+namespace Vida.View.Agendamento
+{
+    public partial class FormParametrosAgenda : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!IsPostBack)
+            {
+                int codigo = 1;
+                IAgendamentoServiceFacade iagendamento = Factory.GetInstance<IAgendamentoServiceFacade>();
+                Parametros parametros = iagendamento.BuscarPorCodigo<Parametros>(codigo);
+
+                if (parametros != null)
+                {
+                    tbxMax_Dias.Text = parametros.Max_Dias.ToString();
+                    tbxMin_Dias.Text = parametros.Min_Dias.ToString();
+                    tbxMin_Dias_Cancela.Text = parametros.Min_Dias_Cancela.ToString();
+                    tbxMin_Dias_Espera.Text = parametros.Min_Dias_Espera.ToString();
+                    tbxCompetencia.Text = parametros.Competencia.ToString();
+                    tbxPct_Vagas_Espera.Text = parametros.Pct_Vagas_Espera.ToString();
+                    tbxMin_Dias_Reaproveita.Text = parametros.Min_Dias_Reaproveita.ToString();
+                }
+                else
+                {
+                    tbxMax_Dias.Text = "0";
+                    tbxMin_Dias.Text = "0";
+                    tbxMin_Dias_Cancela.Text = "0";
+                    tbxMin_Dias_Espera.Text = "0";
+                    tbxCompetencia.Text = "";
+                    tbxPct_Vagas_Espera.Text = "0";
+                    tbxMin_Dias_Reaproveita.Text = "0";
+                }
+            }
+        }
+
+        protected void btnSalvar_Click(object sender, EventArgs e)
+        {
+            int codigo = 1;
+            IAgendamentoServiceFacade iagendamento = Factory.GetInstance<IAgendamentoServiceFacade>();
+            Parametros parametros = iagendamento.BuscarPorCodigo<Parametros>(codigo);
+            if (parametros == null)
+                parametros = new Parametros();
+            parametros.Max_Dias = int.Parse(tbxMax_Dias.Text);
+            parametros.Min_Dias = int.Parse(tbxMin_Dias.Text);
+            parametros.Min_Dias_Cancela = int.Parse(tbxMin_Dias_Cancela.Text);
+            parametros.Min_Dias_Espera = int.Parse(tbxMin_Dias_Espera.Text);
+            parametros.Min_Dias_Reaproveita = int.Parse(tbxMin_Dias_Reaproveita.Text);
+            parametros.Pct_Vagas_Espera = int.Parse(tbxPct_Vagas_Espera.Text);
+            parametros.Competencia = int.Parse(tbxCompetencia.Text);
+            iagendamento.Salvar(parametros);
+            ClientScript.RegisterClientScriptBlock(typeof(String), "ok", "<script type='text/javascript'>alert('Dados salvos com sucesso!')</script>");
+        }
+    }
+}

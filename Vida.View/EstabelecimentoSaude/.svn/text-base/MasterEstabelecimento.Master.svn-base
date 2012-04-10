@@ -1,0 +1,44 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="MasterEstabelecimento.master.cs"
+    Inherits="Vida.View.EstabelecimentoSaude.MasterEstabelecimento" MasterPageFile="~/MasterMain.Master" %>
+
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <link rel="stylesheet" href="style-barra-modulo.css" type="text/css" />
+    <link rel="stylesheet" href="style_form_estabelecimento.css" type="text/css" />
+    
+    <asp:ContentPlaceHolder ID="c_head" runat="server">
+    </asp:ContentPlaceHolder>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+
+<%--    <div id="DivMenu" runat="server" visible="false">
+        <div style="margin-top: 8px; margin-left: 14px">
+            <ul class="menu2" id="menu">
+                <li><a href="FormEstabelecimentoDeSaude.aspx" class="menulink">Estabelecimentos</a></li>
+                <li><a href="FormImportacoesRealizadas.aspx" class="menulink">Importações</a></li>
+            </ul>
+        </div>
+    </div>--%>
+        <cc1:AlwaysVisibleControlExtender runat="server" ID="AlwaysVisibleControlExtender2"
+        TargetControlID="UpDateProgressEstabelecimento" VerticalSide="Middle" VerticalOffset="10"
+        HorizontalSide="Center" HorizontalOffset="10" ScrollEffectDuration=".1">
+    </cc1:AlwaysVisibleControlExtender>
+    <div>
+        <asp:UpdateProgress ID="UpDateProgressEstabelecimento" runat="server" DisplayAfter="1"
+            DynamicLayout="false">
+            <ProgressTemplate>
+                <div id="progressBackgroundFilter">
+                </div>
+                <div id="processMessage">
+                    <div id="bgloader">
+                        <img src="img/ajax-loadernn.gif" style="margin-left: 68px; margin-top: 45px;" alt="" />
+                    </div>
+                </div>
+            </ProgressTemplate>
+        </asp:UpdateProgress>
+    </div>
+     <br />
+    <asp:ContentPlaceHolder ID="ContentPlaceHolder3" runat="server">
+    </asp:ContentPlaceHolder>
+</asp:Content>

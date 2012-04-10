@@ -1,0 +1,64 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using Vida.Model;
+using Vida.DAO;
+using Vida.ServiceFacade.ServiceFacades.Farmacia.Medicamento;
+using Vida.ServiceFacade.ServiceFacades;
+
+namespace Vida.View.Farmacia
+{
+    public partial class IncPesquisarLoteMedicamento : System.Web.UI.UserControl
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            IList<Medicamento> lm = Factory.GetInstance<IMedicamento>().ListarTodosMedicamentos<Medicamento>().OrderBy(p => p.Nome).ToList();
+            foreach (Medicamento m in lm)
+                DropDownList_Medicamento.Items.Add(new ListItem(m.Nome, m.Codigo.ToString()));
+            DropDownList_Medicamento.Attributes.Add("onmouseover", "javascript:showTooltip(this);");
+
+            IList<FabricanteMedicamento> lf = Factory.GetInstance<IFarmaciaServiceFacade>().ListarTodos<FabricanteMedicamento>().OrderBy(p => p.Nome).ToList();
+            foreach (FabricanteMedicamento f in lf)
+                DropDownList_Fabricante.Items.Add(new ListItem(f.Nome, f.Codigo.ToString()));
+        }
+
+        /// <summary>
+        /// Pesquisa os lotes de medicamentos cadastrados com a descrição enviada
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnClick_Pesquisar(object sender, EventArgs e) 
+        {
+            ViewState["lote"] = TextBox_Lote.Text;
+            ViewState["co_medicamento"] = DropDownList_Medicamento.SelectedValue;
+            ViewState["co_fabricante"] = DropDownList_Fabricante.SelectedValue;
+
+            CarregaLotes(int.Parse(DropDownList_Medicamento.SelectedValue), int.Parse(DropDownList_Fabricante.SelectedValue), TextBox_Lote.Text);
+            Panel_Resultado.Visible = true;
+        }
+
+        /// <summary>
+        /// Paginação do gridview
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnPageIndexChanging_Paginacao(object sender, GridViewPageEventArgs e) 
+        {
+            CarregaLotes(int.Parse(ViewState["co_medicamento"].ToString()), int.Parse(ViewState["co_fabricante"].ToString()), ViewState["lote"].ToString());
+            GridView_Lotes.PageIndex = e.NewPageIndex;
+            GridView_Lotes.DataBind();
+        }
+
+        /// <summary>
+        /// Carrega os lotes pesquisados
+        /// </summary>
+        private void CarregaLotes(int co_medicamento, int co_fabricante, string lote)
+        {
+            GridView_Lotes.DataSource = Factory.GetInstance<ILoteMedicamento>().BuscarPorDescricao<LoteMedicamento>(lote, DateTime.MinValue, co_medicamento, co_fabricante);
+            GridView_Lotes.DataBind();
+        }
+    }
+}

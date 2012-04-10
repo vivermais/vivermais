@@ -1,0 +1,21 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace ViverMais.ServiceFacade.ServiceFacades.Vacina.Misc
+{
+    public interface IDispensacao: IServiceFacade
+    {
+        IList<T> BuscarItensDispensacao<T>(object codigo);
+        IList<T> BuscarItensDispensacao<T>(DateTime data, string co_paciente);
+        IList<T> BuscarPorPaciente<T>(string co_paciente, string co_unidade);
+        IList<T> BuscarPorPaciente<T, S>(string co_paciente, IList<S> salas);
+
+        void SalvarDispensacao<T,I>(T dispensacao, I itens, int co_usuario);
+
+        string LiberarVacinasDispensacao<I, P, S>(I itensdispensacao, P pacientedispensacao, S salavacina, DateTime data, bool dispensacaofinalizada);
+        
+        int ExcluirItensDispensacao<T>(IList<T> _itensexclusao, int co_usuario);
+    }
+}

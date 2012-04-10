@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Vida.Model">
+  <class name="Vida.Model.EstoqueVacina" table="VCN_ESTOQUE">
+    <!--<composite-id unsaved-value="any">
+      <key-many-to-one name="Lote" class="Vida.Model.LoteVacina" column="CO_LOTEVACINA" lazy="false"/>
+      <key-many-to-one name="Sala" class="Vida.Model.SalaVacina" column="CO_SALAVACINA" lazy="false"/>
+    </composite-id>-->
+    
+    <!--<id name="Codigo">
+      <column name="CO_ESTOQUE" not-null="true"/>
+      <generator class="assigned" />
+    </id>-->
+
+    <id name="Codigo">
+      <column name="CO_ESTOQUE" not-null="true"/>
+      <generator class="sequence">
+        <param name="sequence">vcn_estoque_sequence</param>
+      </generator>
+    </id>
+    
+    <many-to-one name="Lote" class="Vida.Model.LoteVacina" column="CO_LOTEVACINA" />
+    <many-to-one name="Sala" class="Vida.Model.SalaVacina" column="CO_SALAVACINA" />
+    <property name="QuantidadeEstoque" column="QTDESTOQUE"></property>
+  </class>
+</hibernate-mapping>

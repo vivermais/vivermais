@@ -1,0 +1,167 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using ViverMais.ServiceFacade.ServiceFacades.Seguranca;
+using NHibernate;
+using NHibernate.Criterion;
+using ViverMais.ServiceFacade.ServiceFacades;
+using ViverMais.Model;
+using System.Collections;
+
+namespace ViverMais.DAO.Seguranca
+{
+    public class UsuarioDAO : ViverMaisServiceFacadeDAO, IUsuario
+    {
+        void IUsuario.SalvarUsuario<U>(U usuario, int co_usuario, int operacao)
+        {
+            Usuario u = (Usuario)(object)usuario;
+
+            using (Session.BeginTransaction())
+            {
+                try
+                {
+                    IViverMaisServiceFacade iViverMais = Factory.GetInstance<IViverMaisServiceFacade>();
+                    u = (Usuario)Session.SaveOrUpdateCopy(u);
+                    Session.Save((new LogViverMais(DateTime.Now, iViverMais.BuscarPorCodigo<ViverMais.Model.Usuario>(co_usuario), operacao, u.Nome)));
+                    Session.Transaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    Session.Transaction.Rollback();
+                    throw ex;
+                }
+            }
+        }
+        void IUsuario.AlterarUsuario<T>(T usuario)
+        {
+            ISession session = NHibernateHttpHelper.GetCurrentSession("ViverMais");
+            using (session.BeginTransaction())
+            {
+                Usuario usuario1 = (Usuario)(object)usuario;
+                try
+                {
+                    session.Update(usuario1);
+
+                    session.Transaction.Commit();
+                }
+                catch (Exception e)
+                {
+                    session.Transaction.Rollback();
+                    throw e;
+                }
+            }
+        }
+
+        IList<T> IUsuario.BuscarPorModulo<T>(int co_modulo)
+        {
+            string hql = string.Empty;
+            hql = "SELECT DISTINCT u FROM ViverMais.Model.Usuario AS u, ViverMais.Model.Perfil AS p WHERE p IN ELEMENTS (u.Perfis)";
+            hql += " AND p IN (FROM ViverMais.Model.Perfil AS p2 WHERE p2.Modulo.Codigo = " + co_modulo + ")";
+            hql += " ORDER BY u.Nome";
+            return Session.CreateQuery(hql).List<T>();
+        }
+        IList<T> IUsuario.BuscarPorModulo<T>(int co_modulo, string cnesunidade)
+        {
+            string hql = string.Empty;
+            hql = "SELECT DISTINCT u FROM ViverMais.Model.Usuario AS u, ViverMais.Model.Perfil AS p WHERE p IN ELEMENTS (u.Perfis)";
+            hql += " AND p IN (FROM ViverMais.Model.Perfil AS p2 WHERE p2.Modulo.Codigo = " + co_modulo + ") AND u.Unidade.CNES='" + cnesunidade + "'";
+            hql += " ORDER BY u.Nome";
+            return Session.CreateQuery(hql).List<T>();
+        }
+        IList<T> IUsuario.BuscarPorModulo<T, M>(IList<M> _modulos, string cnesunidade)
+        {
+            IList<Modulo> modulos = (IList<Modulo>)(object)_modulos;
+
+            if (modulos.Count() > 0)
+            {
+                string hql = string.Empty;
+                hql = "SELECT DISTINCT u FROM ViverMais.Model.Usuario AS u, ViverMais.Model.Perfil AS p WHERE p IN ELEMENTS (u.Perfis)";
+                hql += " AND p IN (FROM ViverMais.Model.Perfil AS p2 WHERE p2.Modulo.Codigo IN (" +
+                    string.Join(",", modulos.Select(p => p.Codigo.ToString()).ToArray())
+                    + ")) AND u.Unidade.CNES='" + cnesunidade + "'";
+                hql += " ORDER BY u.Nome";
+                return Session.CreateQuery(hql).List<T>();
+            }
+
+            return (IList<T>)(object)new List<T>();
+        }
+        IList<T> IUsuario.BuscarPorModulo<T, M>(IList<M> _modulos, string cnesunidade, string datanascimento, string nome, string cartaosus,
+            string co_municipio)
+        {
+            IList<Modulo> modulos = (IList<Modulo>)(object)_modulos;
+
+            if (modulos.Count() > 0)
+            {
+                string hql = string.Empty;
+                hql = "SELECT DISTINCT u FROM ViverMais.Model.Usuario AS u, ViverMais.Model.Perfil AS p WHERE p IN ELEMENTS (u.Perfis)";
+                hql += " AND p IN (FROM ViverMais.Model.Perfil AS p2 WHERE p2.Modulo.Codigo IN (" +
+                    string.Join(",", modulos.Select(p => p.Codigo.ToString()).ToArray())
+                    + "))";
+
+                if (!string.IsNullOrEmpty(cartaosus) && cartaosus.Length == 15)
+                    hql += " AND u.CartaoSUS = '" + cartaosus + "'";
+                else
+                {
+                    if (!string.IsNullOrEmpty(cnesunidade) && cnesunidade.Length == 7)
+                        hql += " AND u.Unidade.CNES='" + cnesunidade + "'";
+
+                    DateTime nascimento;
+                    if (!string.IsNullOrEmpty(datanascimento) && DateTime.TryParse(datanascimento, out nascimento))
+                        hql += " AND TO_CHAR(u.DataNascimento,'DD/MM/YYYY')='" + nascimento.ToString("dd/MM/yyyy") + "'";
+
+                    if (!string.IsNullOrEmpty(nome) && nome.Length >= 3)
+                        hql += " AND TRANSLATE(UPPER(u.Nome),'ÄÅÁÂÀÃäáâàãÉÊËÈéêëèÍÎÏÌíîïìÖÓÔÒÕöóôòõÜÚÛüúûùÇç','AAAAAAaaaaaEEEEeeeeIIIIiiiiOOOOOoooooUUUuuuuCc') " +
+                            "LIKE TRANSLATE(UPPER('" + nome + "%'),'ÄÅÁÂÀÃäáâàãÉÊËÈéêëèÍÎÏÌíîïìÖÓÔÒÕöóôòõÜÚÛüúûùÇç','AAAAAAaaaaaEEEEeeeeIIIIiiiiOOOOOoooooUUUuuuuCc')";
+
+                    if (!string.IsNullOrEmpty(co_municipio))
+                        hql += " AND u.Unidade.MunicipioGestor.Codigo='" + co_municipio + "'";
+                }
+
+                hql += " ORDER BY u.Nome";
+                return Session.CreateQuery(hql).List<T>();
+            }
+
+            return (IList<T>)(object)new List<T>();
+        }
+        IList<T> IUsuario.BuscarPorCartaoSUS<T>(string cartaoSUS)
+        {
+            //return Session.CreateSQLQuery("select * from tb_pms_usuario where co_numero_cartao='" + cartaoSUS + "' and st_ativo = 1").List<T>();
+            //return Session.CreateQuery("FROM ViverMais.Model.Usuario AS u WHERE u.CartaoSUS = '" + cartaoSUS + "' AND u.Ativo = 1 ORDER BY u.Nome").List<T>();
+            return
+                Session.CreateCriteria(typeof(T))
+                .Add(Expression.Eq("CartaoSUS", cartaoSUS))
+                .Add(Expression.Eq("Ativo", 1))
+                .AddOrder(Order.Asc("Nome")).List<T>();
+        }
+        IList<T> IUsuario.BuscarUsuariosPorCNES<T>(string cnes) 
+        {
+            return Session.CreateQuery("from ViverMais.Model.Usuario u where u.Unidade.CNES='" + cnes + "' order by u.Nome").List<T>();
+        }
+        IList<T> IUsuario.BuscarUsuarioPorNomeDataNascimento<T>(string nome, DateTime nascimento)
+        {
+            string hql = string.Empty;
+
+            hql = "FROM ViverMais.Model.Usuario AS u WHERE TO_CHAR(u.DataNascimento,'DD/MM/YYYY') = '" + nascimento.ToString("dd/MM/yyyy") + "'";
+            //hql += " AND u.Ativo = 1";
+            hql += " AND TRANSLATE(UPPER(u.Nome),'ÄÅÁÂÀÃäáâàãÉÊËÈéêëèÍÎÏÌíîïìÖÓÔÒÕöóôòõÜÚÛüúûùÇç','AAAAAAaaaaaEEEEeeeeIIIIiiiiOOOOOoooooUUUuuuuCc')";
+            hql += " LIKE TRANSLATE(UPPER('" + nome + "%'),'ÄÅÁÂÀÃäáâàãÉÊËÈéêëèÍÎÏÌíîïìÖÓÔÒÕöóôòõÜÚÛüúûùÇç','AAAAAAaaaaaEEEEeeeeIIIIiiiiOOOOOoooooUUUuuuuCc')";
+            hql += " ORDER BY u.Nome, u.Unidade.NomeFantasia";
+            return Session.CreateQuery(hql).List<T>();
+        }
+        IList<T> IUsuario.ListarPerfisUsuario<T>(int co_usuario)
+        {
+            string hql = string.Empty;
+            hql = "FROM ViverMais.Model.UsuarioPerfil AS up WHERE up.Usuario.Codigo = " + co_usuario;
+            return Session.CreateQuery(hql).List<T>();
+        }
+        IList<T> IUsuario.ListarUsuariosPorPerfil<T>(int id_perfil)
+        {
+            string hql = string.Empty;
+            hql = "SELECT DISTINCT u FROM ViverMais.Model.Usuario AS u, ViverMais.Model.Perfil AS p WHERE p IN ELEMENTS (u.Perfis)";
+            hql += " AND p IN (FROM ViverMais.Model.Perfil AS p2 WHERE p2.Codigo = " + id_perfil + ")";
+            hql += " ORDER BY u.Nome";
+            return Session.CreateQuery(hql).List<T>();
+        }
+    }
+}

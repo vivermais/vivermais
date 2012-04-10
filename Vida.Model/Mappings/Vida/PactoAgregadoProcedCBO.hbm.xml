@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="ViverMais.Model">
+  <class name="ViverMais.Model.PactoAgregadoProcedCBO" table="rl_pms_pacto_agregado">
+    <id name="Codigo">
+      <column name="id_pacto_agregado" not-null="true"/>
+      <generator class="sequence">
+        <param name="sequence">PACTOAGREGADO_SEQUENCE</param>
+      </generator>
+    </id>
+    <property name="Percentual" column="PERCENTUAL" />
+    <property name="ValorPactuado" column="valor_pactuado" />
+    <property name="ValorMensal" column="VALOR_MENSAL" />
+    <property name="BloqueiaCota" column="bloqueia_cota" />
+    <property name="TipoPacto" column="TIPOPACTO" />
+    <property name="DataPacto" column="DATAPACTO" />
+    <property name="DataUltimaOperacao" column="DATAOPERACAO" />
+    <property name="Ativo" column="ATIVO" />
+    <property name="Ano" column="ANO" />
+    <property name="PercentualUrgenciaEmergencia" column="percentualUrgenciaEmergencia" />
+    <many-to-one name="Usuario" column="co_usuario" class="ViverMais.Model.Usuario"/>
+    <many-to-one name="Agregado" column="id_agregado" class="ViverMais.Model.Agregado"/>
+    <many-to-one name="Pacto" column="id_pacto" class="ViverMais.Model.Pacto"/>
+    <many-to-one name="Procedimento" column="ID_procedimento" class="ViverMais.Model.Procedimento"/>
+    <bag name="Cbos" table="AGD_PPI_REF__CBO">
+      <key column="id_pacto_agregado"/>
+      <many-to-many column="ID_CBO" class="ViverMais.Model.CBO" />
+    </bag>
+  </class>
+</hibernate-mapping>

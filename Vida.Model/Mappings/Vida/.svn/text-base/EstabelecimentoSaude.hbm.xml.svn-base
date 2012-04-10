@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Vida.Model">
+  <class name="Vida.Model.EstabelecimentoSaude" table="pms_cnes_lfces004" >
+    <id name="CNES">
+      <column name="CNES" not-null="true"/>
+      <generator class="assigned" />
+    </id>
+    <!--<property name="Codigo" column="unidade_id"/>-->
+    <property name="RazaoSocial" column="r_social"/>
+    <property name="NomeFantasia" column="nome_fanta"/>
+    <property name="Logradouro" column="logradouro"/>
+    <many-to-one name="Bairro" class="Vida.Model.Bairro" column="co_bairro" />
+    <property name="CEP" column="cod_cep"/>
+    <property name="CNPJ" column="cnpj"/>
+    <property name="CNPJMantenedora" column="cnpj_mant"/>
+    <property name="SiglaEstabelecimento" column="sigla_estabelecimento"/>
+    <property name="Telefone" column="Telefone"/>
+    <many-to-one name="EsferaAdministrativa" class="Vida.Model.EsferaAdministrativa" column="cod_esfadm"/>
+    <many-to-one name="AtividadeEnsino" class="Vida.Model.AtividadeEnsino" column="cod_ativ"/>
+    <many-to-one name="NaturezaOrganizacao" class="Vida.Model.NaturezaOrganizacao" column="cod_natorg"/>
+    <many-to-one name="MunicipioGestor" class="Vida.Model.Municipio" column="codmungest"/>
+    <many-to-one name="TipoEstabelecimento" class="Vida.Model.TipoEstabelecimento" column="tp_unid_id"/>
+    <!--<many-to-one name="Distrito" class="Vida.Model.Distrito" column="co_distrito"/>-->
+    <!--<many-to-one name="DesativacaoEstabelecimento" class="Vida.Model.DesativacaoEstabelecimento" column="cd_motivo_desab"/>-->
+    <property name="StatusEstabelecimento" column="statusmov"/>
+    <property name="DataAtualizacao" column="data_atu"/>
+    <property name="UsuarioResponsavelAtualizacao" column="usuario"/>
+  </class>
+</hibernate-mapping>

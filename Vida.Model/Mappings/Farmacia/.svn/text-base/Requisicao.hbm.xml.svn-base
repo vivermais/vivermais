@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Vida.Model">
+  <class name="Vida.Model.Requisicao" table="requisicao">
+    <id name="Codigo">
+      <column name="id_requisicao" not-null="true"/>
+      <generator class="identity" />
+    </id>
+	  <many-to-one name="Farmacia" class="Vida.Model.Farmacia" column="id_farmacia" />
+	  <property name="DataRequisicao" column="datarequisicao" />
+	  <property name="DataAtendida" column="dataatendida" />
+	  <property name="Data_Status" column="data_status" />
+	  <property name="Data_Autorizacao" column="data_autorizacao" />
+	  <property name="Data_Fornecimento" column="data_fornecimento" />
+	  <property name="Obs" column="obs" />
+	  <property name="Cod_Status" column="cod_status" />
+  </class>
+</hibernate-mapping>

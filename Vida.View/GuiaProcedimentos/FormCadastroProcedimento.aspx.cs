@@ -1,0 +1,67 @@
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Xml.Linq;
+using ViverMais.Model;
+using ViverMais.Model;
+using ViverMais.DAO;
+using ViverMais.ServiceFacade.ServiceFacades.Procedimento;
+using ViverMais.ServiceFacade.ServiceFacades;
+
+namespace ViverMais.View.GuiaProcedimentos
+{
+    public partial class FormCadastroProcedimento : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void tbxCodigoProcedimento_TextChanged(object sender, EventArgs e)
+        {
+            string codigoProcedimento = tbxCodigoProcedimento.Text;
+            codigoProcedimento = codigoProcedimento.Replace(".", "").Replace("-", "");
+            Procedimento procedimento = Factory.GetInstance<IProcedimento>().BuscarPorCodigo<Procedimento>(codigoProcedimento);
+
+            if (procedimento == null)
+            {
+                ScriptManager.RegisterClientScriptBlock(this, typeof(String), "critica", "alert('Código do Procedimento não corresponde a um Procedimento')", true);
+                return;
+            }
+            tbxNomeProcedimento.Text = procedimento.Nome;
+        }
+
+        protected void btnCadastrar_Click(object sender, EventArgs e)
+        {
+            InfoProcedimento infoProcedimento = new InfoProcedimento();
+            
+            string codigoProcedimento = tbxCodigoProcedimento.Text;
+            codigoProcedimento = codigoProcedimento.Replace(".", "").Replace("-", "");
+            Procedimento procedimento = Factory.GetInstance<IProcedimento>().BuscarPorCodigo<Procedimento>(codigoProcedimento);
+
+            if (procedimento == null)
+            {
+                ScriptManager.RegisterClientScriptBlock(this, typeof(String), "critica", "alert('Código do Procedimento não corresponde a um Procedimento!')", true);
+                return;
+            }
+
+            infoProcedimento.Procedimento = procedimento;
+            infoProcedimento.Aplicacao = editorInformacaoAplicacao.Value;
+            infoProcedimento.Conceito = tbxConceito.Text;
+            infoProcedimento.Dicas = tbxDicas.Text;
+            infoProcedimento.Observacao = tbxObservacao.Text;
+            infoProcedimento.Preparo = tbxPreparo.Text;
+
+            Factory.GetInstance<IViverMaisServiceFacade>().Salvar(infoProcedimento);
+            ScriptManager.RegisterClientScriptBlock(this, typeof(String), "critica", "alert('Dados Salvos com Sucesso!');", true);
+        }
+    }
+}

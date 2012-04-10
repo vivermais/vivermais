@@ -1,0 +1,133 @@
+9
+
+dir
+2351
+file://vulcano/SVN/Vida/Sistema/Vida.View/Urgencia/TinyMCE/plugins
+file://vulcano/SVN/Vida/Sistema
+
+
+
+2010-03-17T22:06:41.213530Z
+598
+danisiosilva
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+2bdc14de-2377-c84e-958f-75920af82d3a
+
+media
+dir
+
+pagebreak
+dir
+
+insertdatetime
+dir
+
+noneditable
+dir
+
+inlinepopups
+dir
+
+autoresize
+dir
+
+example
+dir
+
+emotions
+dir
+
+iespell
+dir
+
+save
+dir
+
+advhr
+dir
+
+tabfocus
+dir
+
+advlist
+dir
+
+layer
+dir
+
+advimage
+dir
+
+preview
+dir
+
+directionality
+dir
+
+visualchars
+dir
+
+wordcount
+dir
+
+legacyoutput
+dir
+
+table
+dir
+
+autosave
+dir
+
+advlink
+dir
+
+print
+dir
+
+nonbreaking
+dir
+
+fullpage
+dir
+
+style
+dir
+
+searchreplace
+dir
+
+fullscreen
+dir
+
+spellchecker
+dir
+
+contextmenu
+dir
+
+template
+dir
+
+paste
+dir
+
+bbcode
+dir
+
+xhtmlxtras
+dir
+

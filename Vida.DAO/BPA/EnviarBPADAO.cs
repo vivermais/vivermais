@@ -1,0 +1,468 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using ViverMais.ServiceFacade.ServiceFacades.BPA;
+using NHibernate;
+using NHibernate.Criterion;
+using System.IO;
+using ViverMais.Model.Entities.ViverMais;
+using ViverMais.ServiceFacade.ServiceFacades.EstabelecimentoSaude;
+using ViverMais.Model;
+using System.Data;
+using System.Collections;
+
+namespace ViverMais.DAO.BPA
+{
+    public class EnviarBPADAO : ViverMaisServiceFacadeDAO, IEnviarBPA
+    {
+
+        #region IEnviarBPA Members
+
+        T IEnviarBPA.BuscarProtocoloEnvio<T>(object usuario, object estabelecimento, DateTime data)
+        {
+            ICriteria criteria = Session.CreateCriteria(typeof(T));
+            criteria.Add(Expression.Eq("Usuario", usuario))
+                .Add(Expression.Eq("EstabelecimentoSaude", estabelecimento))
+                .Add(Expression.Eq("DataEnvio", data));
+            return criteria.UniqueResult<T>();
+        }
+
+        IList<T> IEnviarBPA.ListarProtocolos<T>(object estabelecimento, DateTime data)
+        {
+            ICriteria criteria = Session.CreateCriteria(typeof(T));
+            criteria.Add(Expression.Eq("EstabelecimentoSaude", estabelecimento))
+                .Add(Expression.Eq("DataEnvio", data));
+            return criteria.List<T>();
+        }
+
+        IList<T> IEnviarBPA.ListarProtocolosPorCompetencia<T>(object competencia)
+        {
+            ICriteria criteria = Session.CreateCriteria(typeof(T));
+            criteria.Add(Expression.Eq("Competencia", competencia));
+            return criteria.List<T>();
+        }
+
+        IList<T> IEnviarBPA.ListarProtocolosPorEstabelecimento<T>(object estabelecimento)
+        {
+            ICriteria criteria = Session.CreateCriteria(typeof(T));
+            criteria.Add(Expression.Eq("EstabelecimentoSaude", estabelecimento)).AddOrder(Order.Desc("Competencia"));
+            return criteria.List<T>();
+        }
+
+        IList<T> IEnviarBPA.ListarProtocolos<T>(object estabelecimento, int ano)
+        {
+            return Session.CreateCriteria(typeof(T))
+                .CreateAlias("Competencia", "competencia")
+                .Add(Expression.Eq("EstabelecimentoSaude", estabelecimento))
+                .Add(Expression.Eq("competencia.Ano", ano))
+                .List<T>();
+        }
+
+        IList<T> IEnviarBPA.ListarCompetencias<T>(bool aberta)
+        {
+            ICriteria criteria = Session.CreateCriteria(typeof(T));
+            if (aberta)
+            {
+                criteria.Add(Expression.Le("DataInicial", DateTime.Now))
+                    .Add(Expression.Ge("DataFinal", DateTime.Now));
+            }
+            return criteria.List<T>();
+        }
+
+        T IEnviarBPA.BuscarCompetencia<T>(int ano, int mes)
+        {
+            ICriteria criteria = Session.CreateCriteria(typeof(T));
+            criteria.Add(Expression.Eq("Ano", ano))
+                .Add(Expression.Eq("Mes", mes));
+            return criteria.UniqueResult<T>();
+        }
+
+        MemoryStream IEnviarBPA.GerarArquivoBPAAPAC<T>(T _arquivoAPAC)
+        {
+            ArquivoAPAC arquivoAPAC = (ArquivoAPAC)(object)_arquivoAPAC;
+            MemoryStream memoryStream = new MemoryStream();
+
+            string[] result = new string[arquivoAPAC.NumeroLinhas()];
+            //Prenche o Cabeçalho do arquivo
+            result[0] = "#APAC" + arquivoAPAC.Competencia + arquivoAPAC.NumeroLinhas().ToString("000000") + arquivoAPAC.NumeroControle;
+            result[0] = result[0] + arquivoAPAC.NomeUnidade() + "SMS   " + (!string.IsNullOrEmpty(arquivoAPAC.Unidade.CNPJ) ? arquivoAPAC.Unidade.CNPJ : arquivoAPAC.Unidade.CNPJMantenedora) + "SECRETARIA MUNICIPAL DA SAUDE DO SALVADO";
+            result[0] = result[0] + "M" + DateTime.Now.ToString("yyyyMMdd") + "ViverMais 1.0        \r\n";
+
+            int i = 1;
+
+            foreach (APAC apac in arquivoAPAC.Apacs)
+            {
+                result[i] = apac.Uf.Codigo + apac.UnidadePrestadora.CNES + apac.NumeroAPAC + apac.DataProcessamentoAPAC.ToString("yyyyMMdd");
+                result[i] += apac.DataValidadeInicial.ToString("yyyyMMdd") + apac.DataValidadeFinal.ToString("yyyyMMdd") + apac.TipoAtendimento + apac.TipoAPAC.ToString();
+                result[i] += apac.NomePaciente();
+                result[i] += "  " + apac.NomeMaePaciente();
+                result[i] += apac.LogradouroPaciente();
+                result[i] += apac.NumeroRuaPaciente();
+                result[i] += apac.ComplementoEnderecoPaciente() + apac.EnderecoPaciente.CEP + apac.CodigoDoMunicipio() + apac.Paciente.DataNascimento.ToString("yyyyMMdd");
+                result[i] += apac.Paciente.Sexo.ToString();
+                if (apac.ParteVariavelProcedimento != null)
+                {
+                    if (apac.ParteVariavelProcedimento is NefrologiaAPAC)
+                    {
+                        NefrologiaAPAC nefro = (NefrologiaAPAC)apac.ParteVariavelProcedimento;
+                        result[i] += nefro.Identificador.ToString() + nefro.DataPrimeiraDialise.ToString("yyyyMMdd") + nefro.AlturaPaciente.ToString("000");
+                        result[i] += nefro.PesoPaciente.ToString("000") + nefro.Diurese.ToString("0000") + nefro.Glicose.ToString("0000") + nefro.AcessoVascular.ToString() + nefro.UltraSonografiaAbdominal.ToString();
+                        result[i] += nefro.Tru.ToString("0000") + nefro.QtdIntervencaoFistola.ToString("00") + nefro.InscritoListaCNCDO.ToString() + nefro.Albumina.ToString("00");
+                        result[i] += nefro.IndicaPresencaAntiCorposDeHCV.ToString() + nefro.IndicaHBsAg.ToString() + nefro.IndicaPresencaAntiCorposDeHIV.ToString();
+                        result[i] += nefro.Hb.ToString("00") + ParteVariavelProcedimento.RetornaCidFormatado(nefro.CidPrincipal) + ParteVariavelProcedimento.RetornaCidFormatado(nefro.CidSecundario);
+                        result[i] += ParteVariavelProcedimento.RetornaEspacoVazio(94);
+                    }
+                    else if (apac.ParteVariavelProcedimento is QuimioterapiaAPAC)
+                    {
+                        QuimioterapiaAPAC quimio = (QuimioterapiaAPAC)apac.ParteVariavelProcedimento;
+                        result[i] += quimio.Identificador.ToString() + ParteVariavelProcedimento.RetornaCidFormatado(quimio.CidTopografia) + quimio.LinfonodosRegionaisInvadidos.ToString();
+                        result[i] += quimio.EstadioUICC.ToString("0") + quimio.GrauHistopatologico.ToString("00") + quimio.DataIdentificacaoPatologica.ToString("yyyyMMdd");
+                        result[i] += quimio.TratamentosAnteriores.ToString() + ParteVariavelProcedimento.RetornaCidFormatado(quimio.CidPrimeiroTratamentoAnterior);
+                        result[i] += quimio.DataInicioPrimeiroTratamentoAnterior.ToString("yyyyMMdd") + ParteVariavelProcedimento.RetornaCidFormatado(quimio.CidSegundoTratamentoAnterior);
+                        result[i] += quimio.DataInicioSegundoTratamentoAnterior.ToString("yyyyMMdd") + ParteVariavelProcedimento.RetornaCidFormatado(quimio.CidTerceiroTratamentoAnterior);
+                        result[i] += quimio.DataInicioTerceiroTratamentoAnterior.ToString("yyyyMMdd") + quimio.ContinuidadeTratamento.ToString() + quimio.DataSolicitacaoTratamento.ToString("yyyyMMdd");
+                        result[i] += quimio.Esquema.Remove(5) + quimio.TotalMesesPlanejados.ToString("000") + quimio.TotalMesesAutorizados.ToString("000");
+                        result[i] += ParteVariavelProcedimento.RetornaCidFormatado(quimio.CidPrincipal) + ParteVariavelProcedimento.RetornaCidFormatado(quimio.CidSecundario);
+                        result[i] += quimio.Esquema.Remove(10) + ParteVariavelProcedimento.RetornaEspacoVazio(49);
+                    }
+                    else if (apac.ParteVariavelProcedimento is RadioTerapiaAPAC)
+                    {
+                        RadioTerapiaAPAC radio = (RadioTerapiaAPAC)apac.ParteVariavelProcedimento;
+                        result[i] += radio.Identificador.ToString() + ParteVariavelProcedimento.RetornaCidFormatado(radio.CidTopografia) + radio.LinfonodosRegionaisInvadidos.ToString();
+                        result[i] += radio.EstadioUICC.ToString("0") + radio.GrauHistopatologico.ToString("00") + radio.DataIdentificacaoPatologica.ToString("yyyyMMdd");
+                        result[i] += radio.TratamentosAnteriores.ToString() + ParteVariavelProcedimento.RetornaCidFormatado(radio.CidPrimeiroTratamentoAnterior);
+                        result[i] += radio.DataInicioPrimeiroTratamentoAnterior.ToString("yyyyMMdd") + ParteVariavelProcedimento.RetornaCidFormatado(radio.CidSegundoTratamentoAnterior);
+                        result[i] += radio.DataInicioSegundoTratamentoAnterior.ToString("yyyyMMdd") + ParteVariavelProcedimento.RetornaCidFormatado(radio.CidTerceiroTratamentoAnterior);
+                        result[i] += radio.DataInicioTerceiroTratamentoAnterior.ToString("yyyyMMdd") + radio.ContinuidadeTratamento.ToString() + radio.DataSolicitacaoTratamento.ToString("yyyyMMdd");
+                        result[i] += radio.FinalidadeTratamento.ToString() + ParteVariavelProcedimento.RetornaCidFormatado(radio.PrimeiroCidTopografico);
+                        result[i] += ParteVariavelProcedimento.RetornaCidFormatado(radio.SegundoCidTopografico) + ParteVariavelProcedimento.RetornaCidFormatado(radio.TerceiroCidTopografico);
+                        result[i] += radio.NumeroPrimeiraIncercoes.ToString("000") + ParteVariavelProcedimento.RetornaDataFormadata(radio.PrimeiraDataInicio);
+                        result[i] += ParteVariavelProcedimento.RetornaDataFormadata(radio.SegundaDataInicio) + ParteVariavelProcedimento.RetornaDataFormadata(radio.TerceiraDataInicio);
+                        result[i] += ParteVariavelProcedimento.RetornaDataFormadata(radio.PrimeiraDataFim) + ParteVariavelProcedimento.RetornaDataFormadata(radio.SegundaDataFim);
+                        result[i] += ParteVariavelProcedimento.RetornaDataFormadata(radio.TerceiraDataFim) + ParteVariavelProcedimento.RetornaCidFormatado(radio.CidPrincipal);
+                        result[i] += ParteVariavelProcedimento.RetornaCidFormatado(radio.CidSecundario) + radio.NumeroSegundaIncercao.ToString("000") + radio.NumeroTerceiraIncercao.ToString("000");
+                    }
+                }
+                else
+                    result[i] += ParteVariavelProcedimento.RetornaEspacoVazio(141);
+
+                result[i] += apac.CpfProfissionalExecutante + apac.RetornaNomeFormatado(apac.NomeProfissionalExecutante, 30);
+                for (int j = 0; j < apac.DescritivoProcedimentosRealizados.Count; j++)
+                {
+                    DescritivoProcedimentosRealizados descritivo = apac.DescritivoProcedimentosRealizados[j];
+                    if (descritivo != null)
+                        result[i] += descritivo.Procedimento.Codigo + descritivo.Cbo.Codigo + descritivo.Quantidade.ToString();
+                    else
+                        result[i] += ParteVariavelProcedimento.RetornaZeros(23);
+                }
+                int qtdRestante;
+                if (apac.DescritivoProcedimentosRealizados.Count < 10)
+                {
+                    qtdRestante = 10 - apac.DescritivoProcedimentosRealizados.Count;
+                    for (int j = 0; j < qtdRestante; j++)
+                        result[i] += ParteVariavelProcedimento.RetornaZeros(23);
+                }
+
+                result[i] += apac.MotivoSaida.ToString() + apac.DataAltaOuObito.ToString("yyMMdd");
+                result[i] += apac.CpfProfissionalAutorizador + apac.RetornaNomeFormatado(apac.NomeProfissionalAutorizador, 30);
+                result[i] += apac.IndicativoContinuacaoAPAC.ToString();
+                result[i] += ParteVariavelProcedimento.RetornaEspacoVazio(200);//Referente ao CNPJ no caso de cessão de crédito
+                result[i] += apac.CartaoSUSPaciente.Numero + apac.CnsMedicoResponsavel + apac.CnsAutorizadorResponsavel;
+
+                for (int j = 0; j < apac.DescritivoProcedimentosRealizados.Count; j++)
+                {
+                    DescritivoProcedimentosRealizados descritivo = apac.DescritivoProcedimentosRealizados[j];
+                    if (descritivo != null)
+                    {
+                        if (descritivo.CidPrincipal != null)
+                            result[i] += ParteVariavelProcedimento.RetornaCidFormatado(descritivo.CidPrincipal);
+                        else
+                            result[i] += "    ";
+
+                        if (descritivo.CidSecundario != null)
+                            result[i] += ParteVariavelProcedimento.RetornaCidFormatado(descritivo.CidPrincipal);
+                        else
+                            result[i] += "    ";
+                    }
+                    else
+                        result[i] += "        ";
+                }
+
+                if (apac.DescritivoProcedimentosRealizados.Count < 10) //Verifica se Completou
+                {
+                    qtdRestante = 10 - apac.DescritivoProcedimentosRealizados.Count;
+                    for (int j = 0; j < qtdRestante; j++)
+                        result[i] += ParteVariavelProcedimento.RetornaEspacoVazio(8); //8, pois é a quantidade dos códigos do CID Primário e Secundário
+                }
+
+                result[i] += (apac.CidCausasAssociadas != null ? ParteVariavelProcedimento.RetornaCidFormatado(apac.CidCausasAssociadas) : "    ") + apac.NumeroProntuario;
+                result[i] += apac.CnesUnidadeSolicitante + ParteVariavelProcedimento.RetornaDataFormadata(apac.DataSolicitacao);
+                result[i] += ParteVariavelProcedimento.RetornaDataFormadata(apac.DataAutorizacao) + apac.CodigoDoEmissor;
+                result[i] += apac.CaraterAtendimento + apac.NumeroApacAnterior;
+                if (apac.Paciente.RacaCor.Codigo == "9" || apac.Paciente.RacaCor.Codigo.ToUpper() == "X")
+                    result[i] += "99";
+                else
+                    result[i] += int.Parse(apac.Paciente.RacaCor.Codigo).ToString("00");
+                result[i] += apac.RetornaNomeFormatado(apac.NomeResponsavel, 30) + apac.Paciente.Pais.Codigo + "\r\n";
+                i++;
+            }
+
+            for (int k = 0; k < result.Length; k++)
+            {
+                Byte[] arrayArquivo = Encoding.UTF8.GetBytes(result[k]);
+                memoryStream.Write(arrayArquivo, 0, arrayArquivo.Length);
+            }
+            return memoryStream;
+        }
+
+        MemoryStream IEnviarBPA.GerarArquivoBPAI<T>(T _arquivoBPA)
+        {
+            ArquivoBPA arquivoBPA = (ArquivoBPA)(object)_arquivoBPA;
+            MemoryStream memo = new MemoryStream();
+
+            string[] result = new string[arquivoBPA.NumeroLinhas()];
+
+            //Prenche o Cabeçalho do arquivo
+            result[0] = "#BPA#" + arquivoBPA.Competencia + arquivoBPA.NumeroLinhas().ToString("000000") + arquivoBPA.NumeroFolhas().ToString("000000") + arquivoBPA.NumeroControle;
+            result[0] = result[0] + arquivoBPA.NomeUnidade() + "SMS   " + (!string.IsNullOrEmpty(arquivoBPA.Unidade.CNPJ) ? arquivoBPA.Unidade.CNPJ : arquivoBPA.Unidade.CNPJMantenedora) + "SECRETARIA MUNICIPAL DA SAUDE DO SALVADO";
+            result[0] = result[0] + "M" + "ViverMais1.0   \r\n";
+
+            int i = 1, pos_linha = 1, pos_folha = 800;
+
+            foreach (BpaIndividualizado individualizado in arquivoBPA.Bpas)
+            {
+                result[i] = arquivoBPA.Unidade.CNES + arquivoBPA.Competencia.ToString("000000") + individualizado.CnsMedico;
+                result[i] += individualizado.Cbo.Codigo + individualizado.DataAtendimento.ToString("yyyyMMdd");
+                result[i] += pos_folha.ToString("000") + pos_linha.ToString("00") + individualizado.Procedimento.Codigo;
+                result[i] += individualizado.CnsPaciente + individualizado.Paciente.Sexo + individualizado.CodigoMunicipioResidencia;
+                result[i] += individualizado.Cid == String.Empty ? "    " : individualizado.CidFormatado;
+                result[i] += individualizado.IdadePaciente().ToString("000") + individualizado.Quantidade.ToString("000000") + "  " + individualizado.NumeroAutorizacaoFormatado() + "BPA" + individualizado.NomePaciente();
+                result[i] += individualizado.Paciente.DataNascimento.ToString("yyyyMMdd") + "I";
+                if (individualizado.Paciente.RacaCor.Codigo == "9" || individualizado.Paciente.RacaCor.Codigo.ToUpper() == "X")
+                    result[i] += "99" + "\r\n";
+                else
+                    result[i] += int.Parse(individualizado.Paciente.RacaCor.Codigo).ToString("00") + "\r\n";
+
+                pos_linha += 1;
+                if (pos_linha > ArquivoBPA.TamanhoFolha)
+                {
+                    pos_linha = 1;
+                    pos_folha++;
+                }
+
+                i++;
+            }
+
+            for (int k = 0; k < result.Length; k++)
+            {
+                Byte[] arrayArquivo = Encoding.UTF8.GetBytes(result[k]);
+                memo.Write(arrayArquivo, 0, arrayArquivo.Length);
+            }
+
+            return memo;
+        }
+
+        MemoryStream IEnviarBPA.GerarArquivoBPAC<T>(T _arquivoBPA)
+        {
+            ArquivoBPA arquivoBPA = (ArquivoBPA)(object)_arquivoBPA;
+            MemoryStream memo = new MemoryStream();
+
+            string[] result = new string[arquivoBPA.NumeroLinhas()];
+
+            //Prenche o Cabeçalho do arquivo
+            result[0] = "#BPA#" + arquivoBPA.Competencia + arquivoBPA.NumeroLinhas().ToString("000000") + arquivoBPA.NumeroFolhas().ToString("000000") + arquivoBPA.NumeroControle;
+            result[0] = result[0] + arquivoBPA.NomeUnidade() + "SMS   " + (!string.IsNullOrEmpty(arquivoBPA.Unidade.CNPJ) ? arquivoBPA.Unidade.CNPJ : arquivoBPA.Unidade.CNPJMantenedora) + "SECRETARIA MUNICIPAL DA SAUDE DO SALVADO";
+            result[0] = result[0] + "M" + "ViverMais1.0   \r\n";
+
+            int i = 1, pos_linha = 1, pos_folha = 800;
+
+            foreach (BpaConsolidado consolidado in arquivoBPA.Bpas)
+            {
+                result[i] = arquivoBPA.Unidade.CNES + arquivoBPA.Competencia.ToString("000000");
+                result[i] += "               ";
+                result[i] += consolidado.Cbo.Codigo;
+                result[i] += "        ";
+                result[i] += pos_folha.ToString("000") + pos_linha.ToString("00") + consolidado.Procedimento.Codigo;
+                result[i] += "                          ";
+                result[i] += consolidado.IdadePaciente().ToString("000") + consolidado.Quantidade.ToString("000000");
+                result[i] += "               BPA                                      C" + "\r\n";
+
+                pos_linha += 1;
+                if (pos_linha > ArquivoBPA.TamanhoFolha)
+                {
+                    pos_linha = 1;
+                    pos_folha++;
+                }
+
+                i++;
+            }
+
+            for (int k = 0; k < result.Length; k++)
+            {
+                Byte[] arrayArquivo = Encoding.UTF8.GetBytes(result[k]);
+                memo.Write(arrayArquivo, 0, arrayArquivo.Length);
+            }
+
+            return memo;
+        }
+
+        DataTable IEnviarBPA.RetornaRelatorioRemessa<T>(T _arquivoBPA)
+        {
+            DataTable remessa = new DataTable();
+            ArquivoBPA arquivoBPA = (ArquivoBPA)(object)_arquivoBPA;
+
+            remessa.Columns.Add("competencia", typeof(string));
+            remessa.Columns.Add("unidaderesponsavel", typeof(string));
+            remessa.Columns.Add("unidadesigla", typeof(string));
+            remessa.Columns.Add("unidadecgccpf", typeof(string));
+            remessa.Columns.Add("arquivogerado", typeof(string));
+            remessa.Columns.Add("numeroregistro", typeof(string));
+            remessa.Columns.Add("numerofolha", typeof(string));
+            remessa.Columns.Add("campocontrole", typeof(string));
+
+            DataRow row = remessa.NewRow();
+            row["competencia"] = arquivoBPA.ExtensaoDocumento().Replace(".", "") + "/" + arquivoBPA.AnoCompetencia();
+            row["unidaderesponsavel"] = arquivoBPA.Unidade.NomeFantasia;
+            row["unidadesigla"] = arquivoBPA.Unidade.SiglaEstabelecimento;
+            row["unidadecgccpf"] = string.IsNullOrEmpty(arquivoBPA.Unidade.CNPJ) ? arquivoBPA.Unidade.CNPJMantenedora : arquivoBPA.Unidade.CNPJ;
+            row["arquivogerado"] = arquivoBPA.NomeDoArquivo();
+            row["numeroregistro"] = arquivoBPA.NumeroLinhas().ToString("000000");
+            row["numerofolha"] = arquivoBPA.NumeroFolhas().ToString("000000");
+            row["campocontrole"] = arquivoBPA.NumeroControle.ToString();
+
+            remessa.Rows.Add(row);
+            return remessa;
+        }
+
+        Hashtable IEnviarBPA.RetornaRelatorioPrevia<T>(T _arquivoBPA)
+        {
+            Hashtable previa = new Hashtable();
+            ArquivoBPA arquivoBPA = (ArquivoBPA)(object)_arquivoBPA;
+
+            DataTable cabecalho = new DataTable();
+            cabecalho.Columns.Add("competencia", typeof(string));
+            cabecalho.Columns.Add("unidade", typeof(string));
+            cabecalho.Columns.Add("unidadecnes", typeof(string));
+            cabecalho.Columns.Add("codigo", typeof(string));
+            cabecalho.Columns.Add("tipo", typeof(string));
+
+            DataTable corpo = new DataTable();
+            corpo.Columns.Add("codigo", typeof(string));
+            corpo.Columns.Add("sequenciaprocedimento", typeof(string));
+            corpo.Columns.Add("procedimento", typeof(string));
+            corpo.Columns.Add("idade", typeof(string));
+            corpo.Columns.Add("cbo", typeof(string));
+            corpo.Columns.Add("quantidade", typeof(string));
+
+            DataRow rowcabecalho = cabecalho.NewRow();
+            rowcabecalho["competencia"] = arquivoBPA.ExtensaoDocumento().Replace(".", "") + "/" + arquivoBPA.AnoCompetencia();
+            rowcabecalho["unidade"] = arquivoBPA.Unidade.NomeFantasia;
+            rowcabecalho["unidadecnes"] = arquivoBPA.Unidade.CNES;
+            rowcabecalho["codigo"] = "1";
+
+            int i = 1;
+
+            if (arquivoBPA.Tipo == ViverMais.Model.BPA.CONSOLIDADO)
+                rowcabecalho["tipo"] = " (Consolidado) ";
+            else if (arquivoBPA.Tipo == ViverMais.Model.BPA.INDIVIDUALIZADO)
+                rowcabecalho["tipo"] = " (Individualizado) ";
+
+            cabecalho.Rows.Add(rowcabecalho);
+
+            if (arquivoBPA.Bpas.Count > 0)
+            {
+                foreach (ViverMais.Model.BPA bpa in arquivoBPA.Bpas)
+                {
+                    DataRow rowcorpo = corpo.NewRow();
+                    rowcorpo["codigo"] = "1";
+                    rowcorpo["sequenciaprocedimento"] = i.ToString("00");
+                    rowcorpo["procedimento"] = bpa.Procedimento.Codigo;
+                    rowcorpo["idade"] = bpa.IdadePaciente().ToString("000");
+                    rowcorpo["cbo"] = bpa.Cbo.Codigo;
+                    rowcorpo["quantidade"] = bpa.Quantidade.ToString("000000");
+                    corpo.Rows.Add(rowcorpo);
+
+                    i++;
+                    if (i > ArquivoBPA.TamanhoFolha)
+                        i = 1;
+                }
+            }
+            else
+                corpo.Rows.Add(this.LinhaVaziaPreviaBPA(corpo));
+
+            //if (arquivoBPA.Tipo == ViverMais.Model.BPA.CONSOLIDADO)
+            //{
+            //    rowcabecalho["tipo"] = " (Consolidado) ";
+            //    cabecalho.Rows.Add(rowcabecalho);
+
+            //    if (arquivoBPA.Consolidados.Count > 0)
+            //    {
+            //        foreach (BpaConsolidado consolidado in arquivoBPA.Consolidados)
+            //        {
+            //            DataRow rowcorpo = corpo.NewRow();
+            //            rowcorpo["codigo"] = "1";
+            //            rowcorpo["sequenciaprocedimento"] = i.ToString("00");
+            //            rowcorpo["procedimento"] = consolidado.Procedimento.Codigo;
+            //            rowcorpo["idade"] = consolidado.IdadePaciente().ToString("000");
+            //            rowcorpo["cbo"] = consolidado.Cbo.Codigo;
+            //            rowcorpo["quantidade"] = consolidado.Quantidade.ToString("000000");
+            //            corpo.Rows.Add(rowcorpo);
+
+            //            i++;
+            //            if (i > ArquivoBPA.TamanhoFolha)
+            //                i = 1;
+            //        }
+            //    }
+            //    else
+            //        corpo.Rows.Add(this.LinhaVaziaPreviaBPA(corpo));
+            //}
+            //else if (arquivoBPA.Tipo == ViverMais.Model.BPA.INDIVIDUALIZADO)
+            //{
+            //    rowcabecalho["tipo"] = " (Individualizado) ";
+            //    cabecalho.Rows.Add(rowcabecalho);
+
+            //    if (arquivoBPA.Individualizados.Count > 0)
+            //    {
+            //        foreach (BpaIndividualizado individualizado in arquivoBPA.Individualizados)
+            //        {
+            //            DataRow rowcorpo = corpo.NewRow();
+            //            rowcorpo["codigo"] = "1";
+            //            rowcorpo["sequenciaprocedimento"] = i.ToString("00");
+            //            rowcorpo["procedimento"] = individualizado.Procedimento.Codigo;
+            //            rowcorpo["idade"] = individualizado.IdadePaciente().ToString("000");
+            //            rowcorpo["cbo"] = individualizado.Cbo.Codigo;
+            //            rowcorpo["quantidade"] = individualizado.Quantidade.ToString("000000");
+            //            corpo.Rows.Add(rowcorpo);
+
+            //            i++;
+            //            if (i > ArquivoBPA.TamanhoFolha)
+            //                i = 1;
+            //        }
+            //    }
+            //    else
+            //        corpo.Rows.Add(this.LinhaVaziaPreviaBPA(corpo));
+            //}
+
+            previa.Add("cabecalho", cabecalho);
+            previa.Add("corpo", corpo);
+
+            return previa;
+        }
+
+        private DataRow LinhaVaziaPreviaBPA(DataTable corpo)
+        {
+            DataRow rowcorpo = corpo.NewRow();
+            rowcorpo["codigo"] = "1";
+            rowcorpo["sequenciaprocedimento"] = "###";
+            rowcorpo["procedimento"] = "###";
+            rowcorpo["idade"] = "###";
+            rowcorpo["cbo"] = "###";
+            rowcorpo["quantidade"] = "###";
+
+            return rowcorpo;
+        }
+
+        #endregion
+    }
+}

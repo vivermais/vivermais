@@ -1,0 +1,86 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Vida.Model.Entities;
+
+namespace Vida.Model
+{
+    [Serializable]
+    [RelatorioAttribute(true, true)]
+    public class LogVida:AModel
+    {
+        DateTime data;
+        
+        [RelatorioAttribute(true, true)]
+        public virtual DateTime Data
+        {
+            get { return data; }
+            set { data = value; }
+        }
+
+        Usuario usuario;
+
+        [RelatorioAttribute(false, true)]
+        public virtual Usuario Usuario
+        {
+            get { return usuario; }
+            set { usuario = value; }
+        }
+
+        int evento;
+
+        public virtual int Evento
+        {
+            get { return evento; }
+            set { evento = value; }
+        }
+
+        //EventoVida evento;
+
+        //public virtual EventoVida Evento
+        //{
+        //    get { return evento; }
+        //    set { evento = value; }
+        //}
+
+        string valor;
+
+        public virtual string Valor
+        {
+            get { return valor; }
+            set { valor = value; }
+        }
+
+        public LogVida()
+        {
+
+        }
+
+        public LogVida(DateTime data, Usuario usuario, int evento, string valor)
+        {
+            this.Data = data;
+            this.Usuario = usuario;
+            this.Evento = evento;
+            this.Valor = valor;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return
+                this.Data.Equals(((LogVida)obj).Data) &&
+                this.Usuario.Codigo.Equals(((LogVida)obj).Usuario.Codigo) &&
+                this.Evento.Equals(((LogVida)obj).Evento);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode() * 43;
+        }
+
+        public override bool Persistido()
+        {
+            throw new NotImplementedException();
+        }
+    }
+}

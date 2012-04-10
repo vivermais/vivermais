@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DSCabecalhoInventarioVacina" targetNamespace="http://tempuri.org/DSCabecalhoInventarioVacina.xsd" xmlns:mstns="http://tempuri.org/DSCabecalhoInventarioVacina.xsd" xmlns="http://tempuri.org/DSCabecalhoInventarioVacina.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DSCabecalhoInventarioVacina" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_DataSetName="DSCabecalhoInventarioVacina" msprop:Generator_UserDSName="DSCabecalhoInventarioVacina" msprop:EnableTableAdapterManager="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="Tabela" msprop:Generator_UserTableName="Tabela" msprop:Generator_RowDeletedName="TabelaRowDeleted" msprop:Generator_TableClassName="TabelaDataTable" msprop:Generator_RowChangedName="TabelaRowChanged" msprop:Generator_RowClassName="TabelaRow" msprop:Generator_RowChangingName="TabelaRowChanging" msprop:Generator_RowEvArgName="TabelaRowChangeEvent" msprop:Generator_RowEvHandlerName="TabelaRowChangeEventHandler" msprop:Generator_TablePropName="Tabela" msprop:Generator_TableVarName="tableTabela" msprop:Generator_RowDeletingName="TabelaRowDeleting">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="unidade" msprop:Generator_UserColumnName="unidade" msprop:Generator_ColumnPropNameInRow="unidade" msprop:Generator_ColumnVarNameInTable="columnunidade" msprop:Generator_ColumnPropNameInTable="unidadeColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="sala" msprop:Generator_UserColumnName="sala" msprop:Generator_ColumnPropNameInRow="sala" msprop:Generator_ColumnVarNameInTable="columnsala" msprop:Generator_ColumnPropNameInTable="salaColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="dataabertura" msprop:Generator_UserColumnName="dataabertura" msprop:Generator_ColumnPropNameInRow="dataabertura" msprop:Generator_ColumnVarNameInTable="columndataabertura" msprop:Generator_ColumnPropNameInTable="dataaberturaColumn" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

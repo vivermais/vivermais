@@ -1,0 +1,166 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using ViverMais.DAO;
+using ViverMais.ServiceFacade.ServiceFacades.Seguranca;
+using ViverMais.Model;
+using ViverMais.ServiceFacade.ServiceFacades;
+using ViverMais.ServiceFacade.ServiceFacades.Vacina.Movimentacao;
+using CrystalDecisions.CrystalReports.Engine;
+using System.Collections;
+using ViverMais.ServiceFacade.ServiceFacades.Vacina;
+using System.Data;
+
+namespace ViverMais.View.Vacina
+{
+    public partial class FormDadosInventario : PageViverMais
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!IsPostBack)
+            {
+                if (!Factory.GetInstance<ISeguranca>().VerificarPermissao(((Usuario)Session["Usuario"]).Codigo, "CONSULTAR_INVENTARIO_VACINA",Modulo.VACINA))
+                    Response.Redirect("FormAcessoNegado.aspx?opcao=1");
+                    //ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Usuário, você não tem permissão para acessar esta página! Por favor, entre em contato com a administração.');location='Default.aspx';", true);
+                else
+                {
+                    int temp;
+
+                    if (Request["co_inventario"] != null && int.TryParse(Request["co_inventario"].ToString(), out temp))
+                    {
+                        ViewState["co_inventario"] = Request["co_inventario"].ToString();
+                        CarregaDadosInventario(int.Parse(Request["co_inventario"].ToString()));
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Carrega os dados do inventário
+        /// </summary>
+        /// <param name="inventario">Código do inventário</param>
+        private void CarregaDadosInventario(int co_inventario)
+        {
+            ViverMais.Model.InventarioVacina inventario = Factory.GetInstance<IVacinaServiceFacade>().BuscarPorCodigo<ViverMais.Model.InventarioVacina>(co_inventario);
+
+            Label_SalaVacina.Text = inventario.Sala.Nome;
+            Label_Unidade.Text = inventario.Sala.EstabelecimentoSaude.NomeFantasia;
+            Label_DataAbertura.Text = inventario.DataInventario.ToString("dd/MM/yyyy");
+
+            if (inventario.Situacao == Convert.ToChar(InventarioVacina.DescricaoSituacao.Fechado))
+            {
+                TextBox_DataFechamento.Visible = false;
+                Label_DataFechamento.Visible = true;
+                Label_DataFechamento.Text = inventario.DataFechamento.Value.ToString("dd/MM/yyyy");
+                Label_Situacao.Text = "FECHADO";
+                Panel_FecharInventario.Visible = false;
+                Panel_VacinasInventario.Visible = false;
+            }
+            else
+                Label_Situacao.Text = "ABERTO";
+        }
+
+        /// <summary>
+        /// Função que fecha o inventário e atualiza o estoque da sala de vacina
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnClick_FecharInventario(object sender, EventArgs e)
+        {
+            if (!Factory.GetInstance<ISeguranca>().VerificarPermissao(((Usuario)Session["Usuario"]).Codigo, "REALIZAR_ABERTURA_ENCERRAMENTO_INVENTARIO_VACINA",Modulo.VACINA))
+            {
+                ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Usuário, você não tem permissão para encerrar o inventário! Por favor entre em contato com a administração.');", true);
+                return;
+            }
+
+            ViverMais.Model.InventarioVacina inventario = Factory.GetInstance<IVacinaServiceFacade>().BuscarPorCodigo<ViverMais.Model.InventarioVacina>(int.Parse(ViewState["co_inventario"].ToString()));
+
+            if (Factory.GetInstance<IInventarioVacina>().ListarItensInventario<ItemInventarioVacina>(inventario.Codigo).Count() <= 0)
+            {
+                ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Usuário, para fechar este inventário é preciso incluir pelo menos uma vacina.');", true);
+                return;
+            }
+
+            if (DateTime.Parse(TextBox_DataFechamento.Text).CompareTo(DateTime.Parse(Label_DataAbertura.Text)) >= 0)
+            {
+                inventario.DataFechamento = DateTime.Parse(TextBox_DataFechamento.Text);
+                inventario.Situacao = Convert.ToChar(InventarioVacina.DescricaoSituacao.Fechado);
+
+                try
+                {
+                    Factory.GetInstance<IInventarioVacina>().EncerrarInventario<InventarioVacina>(inventario);
+                    //Factory.GetInstance<IFarmaciaServiceFacade>().Inserir(new LogFarmacia(DateTime.Now, ((Usuario)Session["Usuario"]).Codigo, 11, "id inventario: " + iv.Codigo));
+
+                    Factory.GetInstance<IVacinaServiceFacade>().Inserir(new LogVacina(DateTime.Now, ((Usuario)Session["Usuario"]).Codigo, 12, "id inventario: " + inventario.Codigo));
+                    ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Inventário encerrado com sucesso! Estoque atualizado.');location='Default.aspx';", true);
+                }
+                catch (Exception f)
+                {
+                    throw f;
+                }
+            }
+            else
+                ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('A Data de Fechamento deve ser igual ou maior que a Data de Abertura.');", true);
+        }
+
+        /// <summary>
+        /// Redireciona o usuário para a página de medicamentos do inventário
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnClick_ItensInventario(object sender, EventArgs e)
+        {
+            Response.Redirect("FormItensInventario.aspx?co_inventario=" + ViewState["co_inventario"].ToString());
+        }
+
+        /// <summary>
+        /// Gera o relatório escolhido para o inventário corrente
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnClick_GerarRelatorio(object sender, EventArgs e)
+        {
+            ReportDocument doc = new ReportDocument();
+            //Hashtable hash = null;
+            int co_inventario = int.Parse(ViewState["co_inventario"].ToString());
+
+            if (RadioButton_Conferencia.Checked)
+            {
+                doc = Factory.GetInstance<IRelatorioVacina>().ObterRelatorioConferenciaInventario(co_inventario);
+                //hash = Factory.GetInstance<IRelatorioVacina>().ObterRelatorioConferenciaInventario(co_inventario);
+                //doc.Load(Server.MapPath("RelatoriosCrystal/RelInventarioConferenciaVacina.rpt"));
+
+                //DSCabecalhoInventarioVacina dscabecalho = new DSCabecalhoInventarioVacina();
+                //dscabecalho.Tables.Add((DataTable)hash["cabecalho"]);
+
+                //DSRelInventarioConferenciaVacina dscorpo = new DSRelInventarioConferenciaVacina();
+                //dscorpo.Tables.Add((DataTable)hash["corpo"]);
+
+                //doc.SetDataSource(dscorpo.Tables[1]);
+                //doc.Subreports[0].SetDataSource(dscabecalho.Tables[1]);
+            }
+            else
+            {
+                doc = Factory.GetInstance<IRelatorioVacina>().ObterRelatorioFinalInventario(co_inventario);
+                //hash = Factory.GetInstance<IRelatorioVacina>().ObterRelatorioFinalInventario(co_inventario);
+                //doc.Load(Server.MapPath("RelatoriosCrystal/RelInventarioFinalVacina.rpt"));
+
+                //DSCabecalhoInventarioVacina dscabecalho = new DSCabecalhoInventarioVacina();
+                //dscabecalho.Tables.Add((DataTable)hash["cabecalho"]);
+
+                //DSRelInventarioFinal dscorpo = new DSRelInventarioFinal();
+                //dscorpo.Tables.Add((DataTable)hash["corpo"]);
+
+                //doc.SetDataSource(dscorpo.Tables[1]);
+                //doc.Subreports[0].SetDataSource(dscabecalho.Tables[1]);
+            }
+
+            Session["documentoImpressaoVacina"] = doc;
+            Response.Redirect("FormMostrarRelatorioCrystalImpressao.aspx?nome_arquivo=inventario.pdf");
+            //ScriptManager.RegisterStartupScript(Page, typeof(Page), "open", "window.open('FormMostrarRelatorioCrystalImpressao.aspx','_self');", true);
+        }
+    }
+}

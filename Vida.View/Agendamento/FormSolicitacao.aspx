@@ -1,0 +1,385 @@
+﻿<%@ Page Language="C#" MasterPageFile="~/Agendamento/MasterAgendamento.Master" AutoEventWireup="True"
+    CodeBehind="FormSolicitacao.aspx.cs" Inherits="ViverMais.View.Agendamento.FormSolicitacao"
+    Title="Módulo Regulação - Formulário de Solicitação" EnableEventValidation="false" %>
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
+<%@ Register Src="../Profissional/WUCPesquisarProfissionalSolicitante.ascx" TagName="WUCPesquisarProfissionalSolicitante"
+    TagPrefix="uc1" %>
+<%@ Register Src="../Paciente/WUCPesquisarPaciente.ascx" TagName="WUCPesquisarPaciente"
+    TagPrefix="uc2" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder2" runat="server">
+
+    <script src="js/jquery-1.2.6.js" type="text/javascript"></script>
+
+    <script src="js/jquery.MultiFile.js" type="text/javascript"></script>
+
+    <script type="text/javascript" language="javascript">
+     function validatelimit(obj, maxchar)
+     {
+   
+        if(this.id) obj = this;
+       
+        var remaningChar = maxchar - obj.value.length;
+        document.getElementById('<%= lblCaracter.ClientID %>').innerHTML = remaningChar+' caracteres restantes ';
+
+            if( remaningChar <= 0)
+            {
+               obj.value = obj.value.substring(0,maxchar);
+               alert('Só é Permitida a Digitação de 300 caracteres!');
+               return false;
+
+            }
+            else
+            {return true;}
+     }
+    </script>
+
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder3" runat="server">
+    <div id="top">
+        <h2>
+            Formulário de Solicitação</h2>
+        <fieldset class="formulario2">
+            <legend>Solicitação</legend>
+            <asp:Panel ID="Panel1" runat="server">
+                <asp:Wizard ID="Wizard1" DisplaySideBar="False" runat="server" ActiveStepIndex="0"
+                    Font-Names="Verdana" Font-Size="11px" FinishCompleteButtonText="Finalizar" StartNextButtonStyle-Height="25px"
+                    NavigationButtonStyle-Height="25px" NavigationButtonStyle-Width="70px" FinishCompleteButtonStyle-Height="25px"
+                    FinishCompleteButtonStyle-Width="70px" StartNextButtonStyle-StartNextButtonStyle-Width="70px"
+                    FinishPreviousButtonText="Anterior" StartNextButtonText="Próximo" StepNextButtonText="Próximo"
+                    StepPreviousButtonText="Anterior" Width="100%" OnFinishButtonClick="Wizard1_FinishButtonClick"
+                    OnNextButtonClick="Wizard1_NextButtonClick" OnActiveStepChanged="Wizard1_ActiveStepChanged">
+                    <StepStyle Font-Size="11px" ForeColor="#333333" />
+                    <WizardSteps>
+                        <asp:WizardStep runat="server" Title="Dados Paciente" ID="Paciente">
+                            <uc2:WUCPesquisarPaciente ID="WUCPesquisarPaciente1" runat="server" />
+                            <asp:UpdatePanel ID="UpdatePanel1" runat="server" ChildrenAsTriggers="false" UpdateMode="Conditional">
+                                <ContentTemplate>
+                                    <asp:Panel ID="PanelExibePaciente" runat="server" Visible="false">
+                                        <fieldset class="formulario">
+                                            <legend>Dados do Paciente</legend>
+                                            <p>
+                                                <span class="rotulo">Nome:</span>
+                                                <asp:Label ID="lblNome" runat="server" Font-Bold="true" Font-Size="13px" Font-Names="Verdana">-</asp:Label>
+                                            </p>
+                                            <p>
+                                                <span class="rotulo">Mãe:</span>
+                                                <asp:Label ID="lblNomeMae" runat="server" Font-Bold="true" Font-Size="13px" Font-Names="Verdana">-</asp:Label>
+                                            </p>
+                                            <p>
+                                                <span class="rotulo">Sexo:</span>
+                                                <asp:Label ID="lblSexo" runat="server" Font-Bold="true" Font-Size="13px" Font-Names="Verdana">-</asp:Label>
+                                                <span class="rotulomin" style="margin-left: 23px;">Raça/Cor:</span>
+                                                <asp:Label ID="lblRacaCor" runat="server" Font-Bold="true" Font-Size="13px" Font-Names="Verdana">-</asp:Label>
+                                            </p>
+                                            <p>
+                                                <span class="rotulo">Data de Nascimento:</span>
+                                                <asp:Label ID="lblDataNascimento" runat="server" Font-Bold="true" Font-Size="13px"
+                                                    Font-Names="Verdana">-</asp:Label>
+                                                <span class="rotulomin">Telefone:</span>
+                                                <asp:Label ID="lblTelefone" runat="server" Font-Bold="true" Font-Size="13px" Font-Names="Verdana">-</asp:Label>
+                                            </p>
+                                            <p>
+                                                <span class="rotulo">Município:</span>
+                                                <asp:Label ID="lblMunicipio" runat="server" Font-Bold="true" Font-Size="13px" Font-Names="Verdana">-</asp:Label>
+                                            </p>
+                                            <p>
+                                                <span class="rotulo">E-mail:</span>
+                                                <asp:Label ID="lblEmail" runat="server" Font-Bold="true" Font-Size="13px" Font-Names="Verdana">-</asp:Label>
+                                            </p>
+                                        </fieldset>
+                                    </asp:Panel>
+                                </ContentTemplate>
+                            </asp:UpdatePanel>
+                            <br />
+                        </asp:WizardStep>
+                        <asp:WizardStep runat="server" Title="Especialidade" ID="Especialidade">
+                            <fieldset class="formulario">
+                                <legend>Dados do Paciente</legend>
+                                <p>
+                                    <span class="rotulo">Paciente:</span>
+                                    <asp:Label ID="lblPaciente" runat="server" Font-Bold="true" Font-Names="Verdana"
+                                        Font-Size="13px" Style="display: block;"></asp:Label>
+                                </p>
+                                <p>
+                                    <span class="rotulo">Data Nascimento:</span>
+                                    <asp:Label ID="lblDataNascimentoPaciente" runat="server" Font-Bold="true" Font-Names="Verdana"
+                                        Font-Size="13px"></asp:Label>
+                                </p>
+                                <asp:Panel ID="PanelTelefoneContato" runat="server" Visible="false">
+                                    <p>
+                                        <span class="rotulo">Telefone Contato:</span> <span>
+                                            <asp:TextBox ID="tbxDDD" CssClass="campo" runat="server" MaxLength="2" Width="25px"></asp:TextBox><asp:TextBox
+                                                ID="tbxTelefoneContato" runat="server" CssClass="campo" OnTextChanged="tbxTelefoneContato_OnTextChanged"
+                                                AutoPostBack="true"></asp:TextBox>
+                                            <cc1:MaskedEditExtender ID="mskEditTelefoneContato" runat="server" ClearMaskOnLostFocus="false"
+                                                InputDirection="LeftToRight" Mask="79" MaskType="Number" AutoComplete="false"
+                                                TargetControlID="tbxDDD">
+                                            </cc1:MaskedEditExtender>
+                                            <cc1:MaskedEditExtender ID="MaskedEditExtender3" runat="server" ClearMaskOnLostFocus="true"
+                                                AutoComplete="false" InputDirection="LeftToRight" Mask="99999999" MaskType="Number"
+                                                TargetControlID="tbxTelefoneContato">
+                                            </cc1:MaskedEditExtender>
+                                        </span>
+                                    </p>
+                                    <p>
+                                        <span class="rotulo">Email</span> <span>
+                                            <asp:TextBox ID="tbxEmail" runat="server" CssClass="campo" MaxLength="100" Width="300px"
+                                                TabIndex="15"></asp:TextBox>
+                                            <asp:RegularExpressionValidator ID="RegularExpressionValidator7" runat="server" ControlToValidate="tbxEmail"
+                                                Display="Dynamic" ErrorMessage="O Email não parece ser válido" Font-Size="XX-Small"
+                                                ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*"></asp:RegularExpressionValidator>
+                                        </span>
+                                    </p>
+                                    <p>
+                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator6" Font-Size="XX-Small" runat="server"
+                                            ControlToValidate="tbxDDD" Display="Dynamic" ErrorMessage="Informe o DDD" Text="* Informe o DDD"
+                                            InitialValue="7_"></asp:RequiredFieldValidator>
+                                    </p>
+                                    <p>
+                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator5" Font-Size="XX-Small" runat="server"
+                                            ControlToValidate="tbxTelefoneContato" Display="Dynamic" ErrorMessage="Informe o Telefone para Contato"
+                                            Text="* Informe o Telefone para Contato"></asp:RequiredFieldValidator>
+                                    </p>
+                                </asp:Panel>
+                                <asp:ValidationSummary ID="ValidationSummary1" Font-Size="XX-Small" runat="server"
+                                    ShowMessageBox="true" ShowSummary="false" />
+                            </fieldset>
+                            <asp:UpdatePanel ID="UpdatePanel3" runat="server">
+                                <ContentTemplate>
+                                    <fieldset class="formulario">
+                                        <legend>Tipos de Procedimento</legend>
+                                        <p>
+                                            <asp:RadioButtonList ID="rbtnTipoProcedimento" runat="server" AutoPostBack="True"
+                                                OnSelectedIndexChanged="RadioButtonList1_SelectedIndexChanged" RepeatDirection="Vertical"
+                                                CssClass="radio1" TextAlign="Right">
+                                                <asp:ListItem Value="1" Enabled="false">Regulado</asp:ListItem>
+                                                <asp:ListItem Value="2" Enabled="false">Autorizado</asp:ListItem>
+                                                <asp:ListItem Value="3" Enabled="false">Agendado</asp:ListItem>
+                                                <asp:ListItem Value="4" Enabled="false">Atendimento Básico</asp:ListItem>
+                                            </asp:RadioButtonList>
+                                        </p>
+                                        <p>
+                                            <asp:RequiredFieldValidator ID="RequiredFieldValidator3" Font-Size="XX-Small" runat="server"
+                                                ControlToValidate="rbtnTipoProcedimento" Display="Dynamic" ErrorMessage="Selecione o Tipo de Procedimento"
+                                                Text="* Selecione o Tipo de Procedimento"></asp:RequiredFieldValidator>
+                                        </p>
+                                    </fieldset>
+                                    <asp:Panel ID="PanelSelecaoProfissional" runat="server" Visible="false">
+                                        <uc1:WUCPesquisarProfissionalSolicitante ID="WUCPesquisarProfissionalSolicitante1"
+                                            runat="server" />
+                                    </asp:Panel>
+                                    <p>
+                                        &nbsp;</p>
+                                    <p>
+                                        &nbsp;</p>
+                                    <asp:Panel ID="PanelCID" runat="server" Visible="false">
+                                        <fieldset class="formulario3">
+                                            <legend>Informe o CID</legend>
+                                            <asp:UpdatePanel ID="UpdatePanel2" runat="server">
+                                                <ContentTemplate>
+                                                    <p>
+                                                        <span class="rotulo">Código CID:</span> <span>
+                                                            <asp:TextBox ID="tbxCID" CssClass="campo" runat="server"></asp:TextBox></span>
+                                                        <asp:ImageButton ID="Button_BuscaCID" runat="server" ImageUrl="~/Agendamento/img/procurar.png"
+                                                            Width="16px" Height="16px" Style="position: absolute; margin-top: 3px;" CausesValidation="true"
+                                                            ValidationGroup="ValidationGroup_BuscaCID" OnClick="OnClick_BuscarCID" />
+                                                    </p>
+                                                    <p>
+                                                        <span class="rotulo">Grupo CID:</span> <span>
+                                                            <asp:DropDownList ID="ddlGrupoCID" CssClass="drop" runat="server" AutoPostBack="True"
+                                                                OnSelectedIndexChanged="OnSelectedIndexChanged_BuscarCids">
+                                                            </asp:DropDownList>
+                                                        </span>
+                                                    </p>
+                                                    <p>
+                                                        <span class="rotulo">CID:</span> <span>
+                                                            <asp:DropDownList ID="ddlCID" CssClass="drop" CausesValidation="true" runat="server"
+                                                                DataTextField="Nome" DataValueField="Codigo" Width="395px" ValidationGroup="CID">
+                                                                <asp:ListItem Text="Selecione..." Value="0"></asp:ListItem>
+                                                            </asp:DropDownList>
+                                                        </span>
+                                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator4" Font-Size="XX-Small" runat="server"
+                                                            ErrorMessage="Selecione o CID" Text="* Selecione o CID" ControlToValidate="ddlCID"
+                                                            InitialValue="0" Display="Dynamic">
+                                                        </asp:RequiredFieldValidator>
+                                                    </p>
+                                                    <div>
+                                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator7" Font-Size="XX-Small" runat="server"
+                                                            ErrorMessage="Código CID é Obrigatório!" Text="* Código CID é Obrigatório!" ControlToValidate="tbxCID"
+                                                            Display="None" ValidationGroup="ValidationGroup_BuscaCID"></asp:RequiredFieldValidator>
+                                                        <asp:ValidationSummary ID="ValidationSummary2" Font-Size="XX-Small" runat="server"
+                                                            ShowMessageBox="true" ShowSummary="false" ValidationGroup="ValidationGroup_BuscaCID" />
+                                                    </div>
+                                                </ContentTemplate>
+                                            </asp:UpdatePanel>
+                                        </fieldset>
+                                    </asp:Panel>
+                                    <fieldset class="formulario3">
+                                        <legend>Seleção de Procedimento </legend>
+                                        <p>
+                                            <span class="rotulo">Procedimento</span> <span>
+                                                <%--<cc1:ListSearchExtender ID="ddlProcedimento_ListSearchExtender" runat="server" Enabled="True"
+                                                    PromptText="Digite para buscar o tipo do procedimento" TargetControlID="ddlProcedimento">
+                                                </cc1:ListSearchExtender>--%>
+                                                <asp:DropDownList ID="ddlProcedimento" CssClass="drop" runat="server" AutoPostBack="True"
+                                                    OnSelectedIndexChanged="ddlProcedimento_SelectedIndexChanged">
+                                                    <asp:ListItem Text="Selecione..." Value="0"></asp:ListItem>
+                                                </asp:DropDownList>
+                                                <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="ddlProcedimento"
+                                                    Display="Dynamic" ErrorMessage="Selecione o Procedimento" Font-Size="XX-Small"
+                                                    Text="* Selecione o Procedimento" InitialValue="0"></asp:RequiredFieldValidator>
+                                            </span>
+                                        </p>
+                                    </fieldset>
+                                    <asp:Panel ID="PanelEspecialidade" runat="server" Visible="false">
+                                        <fieldset class="formulario3">
+                                            <legend>Especialidades</legend>
+                                            <p>
+                                                <asp:RadioButtonList ID="rbtnEspecialidade" runat="server" CssClass="camporadio_list"
+                                                    AutoPostBack="True" RepeatColumns="3" ForeColor="#8B0402" OnSelectedIndexChanged="rbtnEspecialidade_SelectedIndexChanged">
+                                                </asp:RadioButtonList>
+                                            </p>
+                                            <p>
+                                                <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="rbtnEspecialidade"
+                                                    Display="Dynamic" ErrorMessage="Selecione uma Especialidade" Text="* Selecione uma Especialidade"
+                                                    Font-Size="XX-Small" Enabled="false">
+                                                </asp:RequiredFieldValidator>
+                                            </p>
+                                        </fieldset>
+                                        <br />
+                                        <br />
+                                        <fieldset class=" formulario3">
+                                            <legend>Sub-Grupo (Opcional)</legend>
+                                            <p>
+                                                <asp:DropDownList ID="ddlSubGrupo" runat="server" CssClass="drop">
+                                                    <asp:ListItem Text="Selecione..." Value="0"></asp:ListItem>
+                                                </asp:DropDownList>
+                                                <%--<asp:RadioButtonList ID="rbtnSubGrupo" runat="server" CssClass="camporadio_list" AutoPostBack="true" RepeatColumns="2" ForeColor="#8B0402"
+                                                    OnSelectedIndexChanged="rbtnSubGrupo_SelectedIndexChanged"></asp:RadioButtonList>--%>
+                                            </p>
+                                        </fieldset>
+                                    </asp:Panel>
+                                </ContentTemplate>
+                            </asp:UpdatePanel>
+                        </asp:WizardStep>
+                        <asp:WizardStep runat="server" Title="Encaminhamento" ID="Encaminhamento" StepType="Finish"
+                            AllowReturn="true">
+                            <asp:UpdatePanel ID="UpdatePanel4" runat="server">
+                                <ContentTemplate>
+                                    <asp:GridView ID="GridViewAgenda" runat="server" AutoGenerateColumns="False" DataKeyNames="Codigo"
+                                        BackColor="White" BorderColor="#477ba5" BorderStyle="None" BorderWidth="1px"
+                                        CellPadding="3" GridLines="Vertical" Width="100%" OnRowCommand="GridViewAgenda_OnRowCommand"
+                                        OnPageIndexChanging="GridViewAgenda_PageIndexChanging" AllowPaging="true" PagerStyle-Font-Size="Medium"
+                                        PagerStyle-BorderWidth="10px" PagerStyle-BorderColor="Transparent">
+                                        <FooterStyle BackColor="#CCCCCC" ForeColor="Black" />
+                                        <RowStyle BackColor="#EEEEEE" ForeColor="Black" Font-Size="11px" />
+                                        <Columns>
+                                            <%--<asp:ButtonField ButtonType="Image" ImageUrl="~/Agendamento/img/agendar.png" />--%>
+                                            <asp:TemplateField>
+                                                <ItemTemplate>
+                                                    <asp:LinkButton ID="btnSelecionar" runat="server" CommandName="Selecionar" CommandArgument='<%# Eval("Codigo") %>'>
+                                                        <asp:Image ID="imgSelecionar" AlternateText="Selecionar" ImageUrl="~/Agendamento/img/agendar.png"
+                                                            runat="server" />
+                                                    </asp:LinkButton>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <%--<asp:CommandField ShowSelectButton="True" HeaderText="Agendar" ItemStyle-HorizontalAlign="Center">
+                                            
+                                            </asp:CommandField>--%>
+                                            <asp:BoundField HeaderText="Unidade" DataField="Estabelecimento" />
+                                            <asp:BoundField HeaderText="Profissional" DataField="NomeProfissional" ItemStyle-HorizontalAlign="Center" />
+                                            <asp:BoundField HeaderText="Bairro" DataField="Bairro" ItemStyle-HorizontalAlign="Center" />
+                                            <asp:BoundField HeaderText="Procedimento" DataField="Procedimento" ItemStyle-HorizontalAlign="Center" />
+                                            <asp:BoundField HeaderText="Data" DataField="DataAgendaFormatada" ItemStyle-HorizontalAlign="Center" />
+                                            <asp:BoundField HeaderText="Turno" DataField="Turno" ItemStyle-HorizontalAlign="Center" />
+                                            <asp:BoundField HeaderText="Qtd" DataField="Quantidade">
+                                                <HeaderStyle CssClass="colunaEscondida" />
+                                                <ItemStyle CssClass="colunaEscondida" />
+                                            </asp:BoundField>
+                                            <asp:BoundField HeaderText="Horário" DataField="Horario" ItemStyle-HorizontalAlign="Center" />
+                                            <asp:BoundField HeaderText="Dia" DataField="Dia" ItemStyle-HorizontalAlign="Center" />
+                                            <asp:BoundField DataField="Codigo" HeaderText="Codigo">
+                                                <HeaderStyle CssClass="colunaEscondida" />
+                                                <ItemStyle CssClass="colunaEscondida" />
+                                            </asp:BoundField>
+                                        </Columns>
+                                        <EmptyDataTemplate>
+                                            <asp:Label ID="lblMensagem" runat="server" Font-Bold="True" Font-Names="Arial" Font-Size="Medium"
+                                                ForeColor="Red" Text="Não existe agenda para esse procedimento!"></asp:Label>
+                                        </EmptyDataTemplate>
+                                        <PagerStyle BackColor="#999999" ForeColor="Black" HorizontalAlign="Center" />
+                                        <SelectedRowStyle BackColor="#008A8C" Font-Bold="True" ForeColor="White" />
+                                        <HeaderStyle BackColor="#477ba5" Font-Bold="True" ForeColor="White" Font-Names="Verdana"
+                                            Font-Size="11px" Height="22px" />
+                                        <AlternatingRowStyle BackColor="#DCDCDC" />
+                                    </asp:GridView>
+                                </ContentTemplate>
+                            </asp:UpdatePanel>
+                            <p>
+                            </p>
+                        </asp:WizardStep>
+                        <asp:WizardStep ID="Autorizacao" runat="server" Title="Autorização">
+                            <p>
+                                <span class="rotulo">Observações</span> <span>
+                                    <asp:TextBox ID="tbxObservacao" runat="server" Font-Underline="False" TextMode="MultiLine"
+                                        MaxLength="300" Columns="55" Rows="5" CssClass="" onkeyup="validatelimit(this,300)"> </asp:TextBox></span>
+                            </p>
+                            <div class="contatdor-caracteres">
+                                <asp:Label ID="lblCaracter" runat="server" Text="300 caracteres restantes"></asp:Label></div>
+                            <p>
+                                <span class="rotulo">Arquivos de Laudo </span>
+                                <%--<asp:FileUpload ID="FileUpload1" runat="server" CssClass="mul" />
+                                <span>Clique
+                                    <asp:LinkButton ID="LinkButton2" runat="server" OnClick="LinkButton2_Click" Text="aqui" />
+                                    para anexar os Laudos </span>--%>
+                            </p>
+                            <asp:FileUpload ID="FileUpload1" runat="server" class="multi" Height="21px" Width="315px"
+                                BackColor="White" BorderColor="Silver" BorderStyle="Solid" BorderWidth="1px"
+                                ForeColor="#243D81" Font-Size="11px" Font-Names="Arial" />
+                            <%--<asp:ImageButton ID="img_btnAddLaudo" runat="server" OnClick="btnAddLaudo_Click"
+                                        Width="19px" Height="19px" ImageUrl="~/Agendamento/img/add.png" />
+                                    <p>
+                                        <asp:ListBox ID="listBoxArquivos" runat="server" Rows="10" Width="300px"></asp:ListBox>
+                                    </p>
+                                    <asp:LinkButton ID="btnRemoverArquivo" runat="server" Text="Remover" OnClick="btnRemoverArquivo_OnClick">
+                                        <img alt="Remover Laudo" src="img/btn-excluir1.png" />
+                                    </asp:LinkButton>--%>
+                        </asp:WizardStep>
+                    </WizardSteps>
+                    <SideBarButtonStyle BackColor="#507CD1" Font-Names="Verdana" ForeColor="White" />
+                    <NavigationButtonStyle BackColor="White" BorderColor="#507CD1" BorderStyle="Solid"
+                        BorderWidth="1px" Font-Names="Verdana" Font-Size="0.8em" ForeColor="#284E98" />
+                    <SideBarStyle BackColor="#507CD1" Font-Size="0.9em" VerticalAlign="Top" />
+                    <HeaderStyle BackColor="#284E98" BorderColor="#EFF3FB" BorderStyle="Solid" BorderWidth="2px"
+                        Font-Bold="True" Font-Size="0.9em" ForeColor="White" HorizontalAlign="Center" />
+                </asp:Wizard>
+            </asp:Panel>
+        </fieldset>
+    </div>
+    <asp:Panel ID="PanelConfirmaNovaSolicitacao" runat="server" Visible="false">
+        <div id="cinza" class="backgroundMensagem" visible="false">
+        </div>
+        <div id="mensagem" visible="false" class="divMensagem300" style="padding-top:20px; position:absolute; top:50% !important; margin-top:-40px;">
+            <%--<p>
+                <span style="float: right;">
+                    <asp:LinkButton ID="btnFechar" runat="server" CausesValidation="false" OnClick="btnFechar_Click">
+                                <img src="img/fechar-agendamento.png" id="imgInforme" alt=""/>
+                    </asp:LinkButton>
+                </span>
+            </p>--%>
+            <div style="clear: right;">
+                Deseja realizar outra solicitação para este paciente?
+            </div>
+            <div class="botoesroll">
+                <asp:LinkButton ID="btnSim" runat="server" OnClick="btnSim_Click">
+                            <img id="img1" alt="Sim" src="img/btn-sim.png" />
+                </asp:LinkButton>
+            </div>
+            <div class="botoesroll">
+                <asp:LinkButton ID="btnNao" runat="server" OnClick="btnNao_Click">
+                            <img id="img2" alt="Sim" src="img/btn-nao.png" />
+                </asp:LinkButton>
+            </div>
+        </div>
+    </asp:Panel>
+</asp:Content>

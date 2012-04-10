@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="ViverMais.Model">
+  <class name="ViverMais.Model.ProfissionalSolicitante" table="tb_pms_profissional_solicitant">
+    <id name="Codigo">
+      <column name="id_profissional" not-null="true"/>
+      <generator class="assigned" />
+    </id>
+    <many-to-one name="UfProfssional" class="ViverMais.Model.UF" column="uf_prof"/>
+    <many-to-one name="OrgaoEmissorRegistro" class="ViverMais.Model.OrgaoEmissor" column="conselhoid"/>
+    <property name="Nome" column="nome"/>
+    <property name="NumeroRegistro" column="numero_registro"/>
+    <property name="Status" column="status"/>
+  </class>
+</hibernate-mapping>

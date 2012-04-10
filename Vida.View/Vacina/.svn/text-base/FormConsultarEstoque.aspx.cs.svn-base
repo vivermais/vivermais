@@ -1,0 +1,77 @@
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Xml.Linq;
+using System.Collections.Generic;
+using Vida.DAO;
+using Vida.ServiceFacade.ServiceFacades;
+using Vida.ServiceFacade.ServiceFacades.EstabelecimentoSaude;
+using Vida.ServiceFacade.ServiceFacades.Vacina.Misc;
+using Vida.ServiceFacade.ServiceFacades.Seguranca;
+using Vida.Model;
+
+namespace Vida.View.Vacina
+{
+    public partial class FormConsultarEstoque : PageVida
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!IsPostBack)
+            {
+                Usuario usuario = (Usuario)Session["Usuario"];
+                Session.Remove("estoquevacinapesquisado");
+
+                if (!Factory.GetInstance<ISeguranca>().VerificarPermissao(usuario.Codigo, "CONSULTAR_ESTOQUE_VACINA",Modulo.VACINA))
+                    Response.Redirect("FormAcessoNegado.aspx?opcao=1");
+                    //ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Usuário, você não tem permissão para acessar esta página! Por favor, entre em contato com a administração.');location='Default.aspx';", true);
+                else
+                {
+                    ddlSalaVacina.DataSource = Factory.GetInstance<ISalaVacina>().BuscarPorUsuario<SalaVacina,Usuario>(usuario,true,true);
+                    ddlSalaVacina.DataBind();
+
+                    var fabricantes = Factory.GetInstance<IVacinaServiceFacade>().ListarTodos<Vida.Model.FabricanteVacina>("Nome", true);
+                    ddlFabricante.DataSource = fabricantes;
+                    ddlFabricante.DataBind();
+                    ddlFabricante.Items.Insert(0, new ListItem("TODOS", "-1"));
+
+                    var vacinas = Factory.GetInstance<IVacinaServiceFacade>().ListarTodos<Vida.Model.Vacina>("Nome", true);
+                    ddlVacina.DataSource = vacinas;
+                    ddlVacina.DataBind();
+                    ddlVacina.Items.Insert(0, new ListItem("TODAS", "-1"));
+                }
+            }
+        }
+
+        protected void lnkConsultar_Click(object sender, EventArgs e)
+        {
+            this.CarregaEstoque(int.Parse(ddlSalaVacina.SelectedValue), int.Parse(ddlVacina.SelectedValue), int.Parse(ddlFabricante.SelectedValue), string.IsNullOrEmpty(TextBox_QtdAplicacao.Text) ? -1 : int.Parse(TextBox_QtdAplicacao.Text));
+            Panel_estoque.Visible = true;
+        }
+
+        private void CarregaEstoque(int co_sala, int co_vacina, int co_fabricante, int qtdaplicacao)
+        {
+            IList<Vida.Model.EstoqueVacina> estoques = Factory.GetInstance<IEstoque>().BuscarItensEstoque<Vida.Model.EstoqueVacina>(co_sala, co_vacina, co_fabricante, qtdaplicacao);
+
+            Session["estoquevacinapesquisado"] = estoques;
+            GridViewEstoque.DataSource = estoques;
+            GridViewEstoque.DataBind();
+        }
+
+        protected void OnPageIndexChanging_Estoque(object sender, GridViewPageEventArgs e)
+        {
+            GridViewEstoque.DataSource = (IList<EstoqueVacina>)Session["estoquevacinapesquisado"];
+            GridViewEstoque.DataBind();
+
+            GridViewEstoque.PageIndex = e.NewPageIndex;
+            GridViewEstoque.DataBind();
+        }
+    }
+}

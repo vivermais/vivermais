@@ -1,0 +1,27 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Collections;
+using System.Linq;
+using System.Text;
+using NHibernate;
+using NHibernate.Criterion;
+using Vida.ServiceFacade.ServiceFacades.Procedimento.Misc;
+
+namespace Vida.DAO.Procedimento.Misc
+{
+    public class SubGrupoDAO: VidaServiceFacadeDAO, ISubGrupo
+    {
+        #region ISubGrupo
+            IList<T> ISubGrupo.BuscarPorGrupo<T>(string co_grupo) 
+            {
+                string hql = string.Empty;
+                hql = "FROM Vida.Model.SubGrupoProcedimento AS sg WHERE sg.GrupoProcedimento.Codigo = '" + co_grupo + "'";
+                return Session.CreateQuery(hql).List<T>();
+            }
+        #endregion
+
+        public SubGrupoDAO() 
+        {
+        }
+    }
+}

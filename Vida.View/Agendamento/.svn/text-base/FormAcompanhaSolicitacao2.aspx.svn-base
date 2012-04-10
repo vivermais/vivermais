@@ -1,0 +1,118 @@
+﻿<%@ Page Language="C#"  AutoEventWireup="true"
+    CodeBehind="FormAcompanhaSolicitacao2.aspx.cs" Inherits="Vida.View.Agendamento.FormAcompanhaSolicitacao2"
+    Title="Untitled Page" %>
+
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder2" runat="server">
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder3" runat="server">
+    <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+        <Triggers>
+            <asp:PostBackTrigger ControlID="btnPesquisarSolicitacao" />
+        </Triggers>
+        <ContentTemplate>
+            <div id="top">
+                <h2>
+                    Formulário de Acompanhamento para Solicitação de Procedimento</h2>
+                <fieldset class="formulario">
+                    <legend>Formulário</legend>
+                    <p>
+                        <asp:Label ID="lblCNS" runat="server" Text="Cartão SUS" CssClass="rotulo"></asp:Label>
+                        <span>
+                            <asp:TextBox ID="tbxCNES" runat="server" CssClass="campo" MaxLength="15"></asp:TextBox>
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidator1" Font-Size="XX-Small" runat="server"
+                                ErrorMessage="Campo Obrigatório" ControlToValidate="tbxCNES" Display="Dynamic"></asp:RequiredFieldValidator>
+                            <cc1:MaskedEditExtender ID="MKEditExtender1" MaskType="Number" Mask="999999999999999"
+                                AutoComplete="false" TargetControlID="tbxCNES" ClearMaskOnLostFocus="true" runat="server">
+                            </cc1:MaskedEditExtender>
+                        </span>
+                    </p>
+                    <p>
+                        <asp:Label ID="lblProtocolo" runat="server" Text="Nº Protocolo" CssClass="rotulo"></asp:Label>
+                        <span>
+                            <asp:TextBox ID="tbxNumProtocolo" runat="server" CssClass="campo" MaxLength="13"></asp:TextBox>
+                            <%--<cc1:MaskedEditExtender ID="MaskedEditExtender1" MaskType="Number" Mask="9999999999999" AutoComplete="false" TargetControlID="tbxNumProtocolo" ClearMaskOnLostFocus="true" runat="server"></cc1:MaskedEditExtender>--%>
+                        </span>
+                    </p>
+                    <div class="botoesroll">
+                        <asp:LinkButton ID="btnPesquisarSolicitacao" runat="server" OnClick="btnPesquisarSolicitacao_Click">
+                <img id="imgpesquisar" alt="Buscar Solicitação" src="img/pesquisar_1.png"
+                onmouseover="imgpesquisar.src='img/pesquisar_2.png';"
+                onmouseout="imgpesquisar.src='img/pesquisar_1.png';" />
+                        </asp:LinkButton></div>
+                    <asp:Panel ID="PanelDadosPaciente" runat="server">
+                        <p>
+                            &nbsp
+                        </p>
+                        <p>
+                            &nbsp
+                        </p>
+                        <p>
+                            <asp:Label runat="server" CssClass="rotulo" Text="Nome Paciente"></asp:Label>
+                            <span><asp:Label ID="lblNomePaciente" runat="server" Font-Bold="true"></asp:Label></span>
+                            
+                        </p>
+                        <p>
+                            <asp:Label runat="server" CssClass="rotulo" Text="Nome Mãe"></asp:Label>
+                            <span><asp:Label ID="lblNomeMae" runat="server" Font-Bold="true"></asp:Label></span>
+                            
+                        </p>
+                        <p>
+                            <asp:Label runat="server" CssClass="rotulo" Text="Data Nascimento"></asp:Label>
+                            <span><asp:Label ID="lblDataNascimento" runat="server" Font-Bold="true"></asp:Label></span>
+                            
+                        </p>
+                        <p>
+                            &nbsp
+                        </p>
+                        <p style="font-family: Verdana; font-size: 11px;">
+                            <b>Lista das Solicitações</b>
+                        </p>
+                        <p>
+                            <asp:Label ID="lblSemRegistros" runat="server" Text="Não Existem Solicitações para o Paciente Informado."
+                                Font-Bold="true" ForeColor="Red"></asp:Label>
+                        </p>
+                        <asp:Panel ID="PanelExibeSolicitacoes" runat="server">
+                            <p>
+                                <asp:GridView ID="GridViewSolicitacosConfirmadas" runat="server" AllowPaging="True"
+                                    AutoGenerateColumns="False" EnableSortingAndPagingCallbacks="True" OnRowCommand="GridViewSolicitacosConfirmadas_RowCommand">
+                                    <Columns>
+                                        <asp:BoundField DataField="Codigo">
+                                            <HeaderStyle CssClass="colunaEscondida" />
+                                            <ItemStyle CssClass="colunaEscondida" />
+                                        </asp:BoundField>
+                                        <asp:BoundField DataField="NomePaciente" HeaderText="Paciente" />
+                                        <asp:BoundField DataField="Procedimento" HeaderText="Procedimento" />
+                                        <asp:BoundField DataField="DataSolicitacao" HeaderText="Data Solicitação" ItemStyle-HorizontalAlign="Center" />
+                                        <asp:BoundField DataField="Status" HeaderText="Status" ItemStyle-HorizontalAlign="Center" />
+                                        <asp:BoundField DataField="Unidade" HeaderText="Unidade de Saúde" />
+                                        <asp:TemplateField HeaderText="Imprimir">
+                                            <ItemTemplate>
+                                                <asp:LinkButton ID="cmdImprimeLaudo" runat="server" CommandArgument='<%# Eval("Codigo") %>'
+                                                    CommandName="ImprimeLaudo" OnClientClick="javascript : return confirm('Confirma a Impressão do Laudo?');">
+                                                    <asp:Image ID="Imprime_laudo" runat="server" ImageUrl="~/Agendamento/img/btn-laudo.png" />
+                                                </asp:LinkButton>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+                                        <asp:TemplateField HeaderText="Imprimir">
+                                            <ItemTemplate>
+                                                <asp:LinkButton ID="cmdImprimeSolicitacao" runat="server" CommandArgument='<%# Eval("Codigo") %>'
+                                                    CommandName="ImprimeSolicitacao" OnClientClick="javascript : return confirm('Confirma a Impressão da Autorização?');">
+                                                    <asp:Image ID="Autoriza" runat="server" ImageUrl="~/Agendamento/img/btn-autoriza.png" />
+                                                </asp:LinkButton>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+                                        <asp:CommandField ShowSelectButton="true" ButtonType="Image" HeaderText="Imprimir"
+                                             SelectImageUrl="~/Agendamento/img/btn-rel.png"></asp:CommandField>
+                                    </Columns>
+                                    <HeaderStyle CssClass="tab" />
+                                    <RowStyle CssClass="tabrow_left" />
+                                </asp:GridView>
+                            </p>
+                        </asp:Panel>
+                    </asp:Panel>
+                </fieldset>
+            </div>
+        </ContentTemplate>
+    </asp:UpdatePanel>
+</asp:Content>

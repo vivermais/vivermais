@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="ViverMais.Model">
+  <class name="ViverMais.Model.ProcedimentoExigeIdade" table="rl_pms_proced_exigeidade">
+    <id name="Codigo">
+      <column name="co_exige_idade" not-null="true"/>
+      <generator class="assigned" />
+    </id>
+    <many-to-one name="Procedimento" class="ViverMais.Model.Procedimento" column="co_procedimento" />
+  </class>
+</hibernate-mapping>

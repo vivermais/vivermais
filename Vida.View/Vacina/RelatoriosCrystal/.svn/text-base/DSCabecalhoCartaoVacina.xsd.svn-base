@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DSCabecalhoCartaoVacina" targetNamespace="http://tempuri.org/DSCabecalhoCartaoVacina.xsd" xmlns:mstns="http://tempuri.org/DSCabecalhoCartaoVacina.xsd" xmlns="http://tempuri.org/DSCabecalhoCartaoVacina.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DSCabecalhoCartaoVacina" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_DataSetName="DSCabecalhoCartaoVacina" msprop:Generator_UserDSName="DSCabecalhoCartaoVacina" msprop:EnableTableAdapterManager="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="DataTable1" msprop:Generator_UserTableName="DataTable1" msprop:Generator_RowDeletedName="DataTable1RowDeleted" msprop:Generator_TableClassName="DataTable1DataTable" msprop:Generator_RowChangedName="DataTable1RowChanged" msprop:Generator_RowClassName="DataTable1Row" msprop:Generator_RowChangingName="DataTable1RowChanging" msprop:Generator_RowEvArgName="DataTable1RowChangeEvent" msprop:Generator_RowEvHandlerName="DataTable1RowChangeEventHandler" msprop:Generator_TablePropName="DataTable1" msprop:Generator_TableVarName="tableDataTable1" msprop:Generator_RowDeletingName="DataTable1RowDeleting">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="ImagemTopo" msprop:Generator_UserColumnName="ImagemTopo" msprop:Generator_ColumnPropNameInRow="ImagemTopo" msprop:Generator_ColumnVarNameInTable="columnImagemTopo" msprop:Generator_ColumnPropNameInTable="ImagemTopoColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="ImagemNome" msprop:Generator_UserColumnName="ImagemNome" msprop:Generator_ColumnPropNameInRow="ImagemNome" msprop:Generator_ColumnVarNameInTable="columnImagemNome" msprop:Generator_ColumnPropNameInTable="ImagemNomeColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="ImagemHeader" msprop:Generator_UserColumnName="ImagemHeader" msprop:Generator_ColumnPropNameInRow="ImagemHeader" msprop:Generator_ColumnVarNameInTable="columnImagemHeader" msprop:Generator_ColumnPropNameInTable="ImagemHeaderColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Nome" msprop:Generator_UserColumnName="Nome" msprop:Generator_ColumnPropNameInRow="Nome" msprop:Generator_ColumnVarNameInTable="columnNome" msprop:Generator_ColumnPropNameInTable="NomeColumn" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

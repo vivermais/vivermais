@@ -1,0 +1,1671 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{19C647F9-874E-4DDA-9B2F-A8E3DB4E1BAC}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Vida.DAO</RootNamespace>
+    <AssemblyName>Vida.DAO</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Castle.Core, Version=1.0.3.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL" />
+    <Reference Include="Castle.DynamicProxy2, Version=2.0.3.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.Enterprise.Framework, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" />
+    <Reference Include="CrystalDecisions.Enterprise.InfoStore, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" />
+    <Reference Include="CrystalDecisions.ReportSource, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" />
+    <Reference Include="CrystalDecisions.Shared, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" />
+    <Reference Include="DevExpress.Data.v10.2, Version=10.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Web.v10.2, Version=10.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="FusionCharts, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\Vida.View\Urgencia\FusionCharts\FusionCharts.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.85.5.452, Culture=neutral, PublicKeyToken=028265cbccdfa80d, processorArchitecture=MSIL" />
+    <Reference Include="Iesi.Collections, Version=1.0.0.3, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL" />
+    <Reference Include="itextsharp, Version=4.1.6.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca" />
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=12.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" />
+    <Reference Include="NHibernate, Version=2.0.1.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL" />
+    <Reference Include="NHibernate.Caches.SysCache, Version=2.0.0.1001, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Documents and Settings\danisiosilva\Desktop\NHibernate.Caches-2.0.0.GA\NHibernate.Caches-2.0.0.GA\NHibernate.Caches.SysCache\NHibernate.Caches.SysCache.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI, Version=1.2.1.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL" />
+    <Reference Include="NPOI.DDF, Version=1.2.1.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL" />
+    <Reference Include="NPOI.HPSF, Version=1.2.1.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL" />
+    <Reference Include="NPOI.HSSF, Version=1.2.1.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL" />
+    <Reference Include="NPOI.POIFS, Version=1.2.1.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL" />
+    <Reference Include="NPOI.Util, Version=1.2.1.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL" />
+    <Reference Include="Oracle.DataAccess, Version=2.111.7.10, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\app\rogeriojesus\product\11.1.0\client_1\ODP.NET\bin\2.x\Oracle.DataAccess.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.OracleClient" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AgendamentoServiceFacadeDAO.cs" />
+    <Compile Include="Agendamento\AfastamentoProfissionalDAO.cs" />
+    <Compile Include="Agendamento\Agenda\AmbulatorialDAO.cs" />
+    <Compile Include="Agendamento\AfastamentoEasDAO.cs" />
+    <Compile Include="Agendamento\FaixaUtilizadaDAO.cs" />
+    <Compile Include="Agendamento\GrupoAbrangenciaMunicipioDAO.cs" />
+    <Compile Include="Agendamento\FaixaDAO.cs" />
+    <Compile Include="Agendamento\PactoAbrangenciaAgregadoDAO.cs" />
+    <Compile Include="Agendamento\PactoAbrangenciaDAO.cs" />
+    <Compile Include="Agendamento\FaixaProcedimentoDAO.cs" />
+    <Compile Include="Agendamento\GrupoAbrangenciaDAO.cs" />
+    <Compile Include="Agendamento\PactoReferenciaSaldoDAO.cs" />
+    <Compile Include="Agendamento\ParametrizacaoFPODAO.cs" />
+    <Compile Include="Agendamento\ProgramaDeSaudeDAO.cs" />
+    <Compile Include="Agendamento\ProgramaDeSaudeProcedimentoCBODAO.cs" />
+    <Compile Include="Agendamento\QuantidadeSolicitacaoRedeDAO.cs" />
+    <Compile Include="Agendamento\RelatorioAgendamentoDAO.cs" />
+    <Compile Include="Agendamento\SubGrupoProcedimentoCboDAO.cs" />
+    <Compile Include="Agendamento\UnidadeDAO.cs" />
+    <Compile Include="Agendamento\ListaProcuraDAO.cs" />
+    <Compile Include="Agendamento\PactoAgregadoProcedCboDAO.cs" />
+    <Compile Include="Agendamento\LaudoDAO.cs" />
+    <Compile Include="Agendamento\ProcedimentoAgregadoDAO.cs" />
+    <Compile Include="Agendamento\PactoDAO.cs" />
+    <Compile Include="Agendamento\ProgramaDeSaudeUnidadeDAO.cs" />
+    <Compile Include="Agregado\AgregadoDAO.cs" />
+    <Compile Include="Agendamento\TipoSolicitacaoEstabelecimentoDAO.cs" />
+    <Compile Include="Agendamento\SubTipoVinculacaoDAO.cs" />
+    <Compile Include="Agendamento\TipoVinculacaoDAO.cs" />
+    <Compile Include="Agendamento\PreparoDAO.cs" />
+    <Compile Include="Agendamento\TipoProcedimentoDAO.cs" />
+    <Compile Include="Agendamento\SolicitacaoDAO.cs" />
+    <Compile Include="Agendamento\FaturaDAO.cs" />
+    <Compile Include="Agendamento\ParametroAgendaEspecificaDAO.cs" />
+    <Compile Include="Agendamento\ParametroAgendaDistritalDAO.cs" />
+    <Compile Include="Agendamento\ParametroAgendaDAO.cs" />
+    <Compile Include="Agendamento\FPODAO.cs" />
+    <Compile Include="Agendamento\FeriadoDAO.cs" />
+    <Compile Include="Agregado\Misc\GrupoAgregadoDAO.cs" />
+    <Compile Include="Agregado\Misc\SubGrupoAgregadoDAO.cs" />
+    <Compile Include="AtendimentoMedico\Misc\CameraIPDAO.cs" />
+    <Compile Include="AtendimentoMedico\Misc\ControleExameUrgenceDAO.cs" />
+    <Compile Include="AtendimentoMedico\Misc\ControlePrescricaoUrgenceDAO.cs" />
+    <Compile Include="AtendimentoMedico\Misc\FaixaEtariaDAO.cs" />
+    <Compile Include="AtendimentoMedico\Misc\LogUrgenciaDAO.cs" />
+    <Compile Include="AtendimentoMedico\Relatorios\DSAtendimentoCID1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DSAtendimentoCID.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="AtendimentoMedico\Relatorios\DSAtendimentoFaixa1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DSAtendimentoFaixa.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="AtendimentoMedico\Relatorios\DSCabecalho.cs">
+      <DependentUpon>DSCabecalho.xsd</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="AtendimentoMedico\Relatorios\DSCabecalho1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DSCabecalho.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="AtendimentoMedico\Relatorios\DSCabecalhoAtendimentoCID1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DSCabecalhoAtendimentoCID.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="AtendimentoMedico\Relatorios\DSCabecalhoAtendimentoFaixa1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DSCabecalhoAtendimentoFaixa.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="AtendimentoMedico\Relatorios\DSCabecalhoEvasao1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DSCabecalhoEvasao.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="AtendimentoMedico\Relatorios\DSCabecalhoFPO1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DSCabecalhoFPO.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="AtendimentoMedico\Relatorios\DSCabecalhoLeitosFaixa1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DSCabecalhoLeitosFaixa.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="AtendimentoMedico\Relatorios\DSCabecalhoProcedencia1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DSCabecalhoProcedencia.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="AtendimentoMedico\Relatorios\DSCabecalhoRelSituacao1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DSCabecalhoRelSituacao.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="AtendimentoMedico\Relatorios\DSCabecalhoTempoPermanencia1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DSCabecalhoTempoPermanencia.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="AtendimentoMedico\Relatorios\DSCids1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DSCids.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="AtendimentoMedico\Relatorios\DSClassificacoesRelatorioGeral1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DSClassificacoesRelatorioGeral.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="AtendimentoMedico\Relatorios\DSCorpoProcedencia1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DSCorpoProcedencia.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="AtendimentoMedico\Relatorios\DSCorpoTempoPermanencia1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DSCorpoTempoPermanencia.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="AtendimentoMedico\Relatorios\DSEvolucaoEnfermagem1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DSEvolucaoEnfermagem.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="AtendimentoMedico\Relatorios\DSEvolucaoMedica1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DSEvolucaoMedica.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="AtendimentoMedico\Relatorios\DSEvolucaoMedicaRelatorioGeral1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DSEvolucaoMedicaRelatorioGeral.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="AtendimentoMedico\Relatorios\DSExames1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DSExames.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="AtendimentoMedico\Relatorios\DSFichaAtendimentoProntuario1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DSFichaAtendimentoProntuario.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="AtendimentoMedico\Relatorios\DSLeitosFaixa1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DSLeitosFaixa.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="AtendimentoMedico\Relatorios\DSMedicamentosAprazados.cs">
+      <DependentUpon>DSMedicamentosAprazados.xsd</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="AtendimentoMedico\Relatorios\DSMedicamentosAprazados1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DSMedicamentosAprazados.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="AtendimentoMedico\Relatorios\DSPrescricao1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DSPrescricao.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="AtendimentoMedico\Relatorios\DSPrescricaoMedicamento1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DSPrescricaoMedicamento.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="AtendimentoMedico\Relatorios\DSPrescricaoProcedimento1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DSPrescricaoProcedimento.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="AtendimentoMedico\Relatorios\DSPrescricaoProcedimentoNaoFaturavel1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DSPrescricaoProcedimentoNaoFaturavel.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="AtendimentoMedico\Relatorios\DSProcedimentosAprazados1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DSProcedimentosAprazados.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="AtendimentoMedico\Relatorios\DSProcedimentosFPO1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DSProcedimentosFPO.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="AtendimentoMedico\Relatorios\DSProcedimentosNaoFaturaveisAprazados.cs">
+      <DependentUpon>DSProcedimentosNaoFaturaveisAprazados.xsd</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="AtendimentoMedico\Relatorios\DSProcedimentosNaoFaturaveisAprazados1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DSProcedimentosNaoFaturaveisAprazados.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="AtendimentoMedico\Relatorios\DSProcedimentosNaoFaturaveisFPO1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DSProcedimentosNaoFaturaveisFPO.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="AtendimentoMedico\Relatorios\DSRelAcolhimentoProntuario1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DSRelAcolhimentoProntuario.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="AtendimentoMedico\Relatorios\DSRelAtestadoReceitaProntuario1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DSRelAtestadoReceitaProntuario.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="AtendimentoMedico\Relatorios\DSRelatorioSituacao1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DSRelatorioSituacao.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="AtendimentoMedico\Relatorios\DSRelEvasa1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DSRelEvasa.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="AtendimentoMedico\Relatorios\DSResponsavelAprazamento1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DSResponsavelAprazamento.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="AtendimentoMedico\Relatorios\DSTabelaConfirmarAprazamentos1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DSTabelaConfirmarAprazamentos.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="AtendimentoMedico\Relatorios\Inc_MedicamentosAprazados1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Inc_MedicamentosAprazados.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="AtendimentoMedico\Relatorios\Inc_ProcedimentosAprazados1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Inc_ProcedimentosAprazados.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="AtendimentoMedico\Relatorios\Inc_ProcedimentosNaoFaturaveisAprazados1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Inc_ProcedimentosNaoFaturaveisAprazados.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="AtendimentoMedico\Relatorios\RelAcolhimentoProntuario1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RelAcolhimentoProntuario.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="AtendimentoMedico\Relatorios\RelAtendimentoCID1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RelAtendimentoCID.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="AtendimentoMedico\Relatorios\RelAtendimentoFaixa1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RelAtendimentoFaixa.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="AtendimentoMedico\Relatorios\RelCabecalho1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RelCabecalho.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="AtendimentoMedico\Relatorios\RelCabecalhoAtendimentoCID1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RelCabecalhoAtendimentoCID.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="AtendimentoMedico\Relatorios\RelCabecalhoAtendimentoFaixa1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RelCabecalhoAtendimentoFaixa.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="AtendimentoMedico\Relatorios\RelcabecalhoEvasao1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RelcabecalhoEvasao.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="AtendimentoMedico\Relatorios\RelCabecalhoLeitosFaixa1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RelCabecalhoLeitosFaixa.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="AtendimentoMedico\Relatorios\RelCabecalhoSituacao1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RelCabecalhoSituacao.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="AtendimentoMedico\Relatorios\RelCids1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RelCids.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="AtendimentoMedico\Relatorios\RelClassificacoesRisco1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RelClassificacoesRisco.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="AtendimentoMedico\Relatorios\RelConsultaMedicaProntuario1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RelConsultaMedicaProntuario.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="AtendimentoMedico\Relatorios\RelConsultaMedicaRelatorioGeral1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RelConsultaMedicaRelatorioGeral.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="AtendimentoMedico\Relatorios\RelEvasao1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RelEvasao.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="AtendimentoMedico\Relatorios\RelEvolucaoMedicaRelatorioGeral1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RelEvolucaoMedicaRelatorioGeral.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="AtendimentoMedico\Relatorios\RelEvolucoesEnfermagem1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RelEvolucoesEnfermagem.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="AtendimentoMedico\Relatorios\RelEvolucoesMedica1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RelEvolucoesMedica.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="AtendimentoMedico\Relatorios\RelExamesProntuario1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RelExamesProntuario.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="AtendimentoMedico\Relatorios\RelFichaAtendimentoProntuario1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RelFichaAtendimentoProntuario.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="AtendimentoMedico\Relatorios\RelItensAprazadosPrescricao1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RelItensAprazadosPrescricao.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="AtendimentoMedico\Relatorios\RelLeitosFaixa1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RelLeitosFaixa.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="AtendimentoMedico\Relatorios\RelMedicamentosAprazados1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RelMedicamentosAprazados.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="AtendimentoMedico\Relatorios\RelPrescricaoMedicamento1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RelPrescricaoMedicamento.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="AtendimentoMedico\Relatorios\RelPrescricaoProcedimento1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RelPrescricaoProcedimento.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="AtendimentoMedico\Relatorios\RelPrescricaoProcedimentoNaoFaturavel1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RelPrescricaoProcedimentoNaoFaturavel.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="AtendimentoMedico\Relatorios\RelPrescricoesProntuario1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RelPrescricoesProntuario.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="AtendimentoMedico\Relatorios\RelProcedenciaCID1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RelProcedenciaCID.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="AtendimentoMedico\Relatorios\RelProcedimentosFPO1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RelProcedimentosFPO.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="AtendimentoMedico\Relatorios\RelRelatorioGeralProntuario1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RelRelatorioGeralProntuario.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="AtendimentoMedico\Relatorios\RelResponsaveisAprazamento1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RelResponsaveisAprazamento.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="AtendimentoMedico\Relatorios\RelSituacao1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RelSituacao.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="AtendimentoMedico\Relatorios\RelSubProcedenciaCID1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RelSubProcedenciaCID.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="AtendimentoMedico\Relatorios\RelSubProcedimentosFPO1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RelSubProcedimentosFPO.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="AtendimentoMedico\Relatorios\RelSubProcedimentosNaoFaturaveisFPO1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RelSubProcedimentosNaoFaturaveisFPO.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="AtendimentoMedico\Relatorios\RelSubTempoPermanencia1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RelSubTempoPermanencia.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="AtendimentoMedico\Relatorios\RelTabelaAprazados1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RelTabelaAprazados.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="AtendimentoMedico\Relatorios\RelTempoPermanencia1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RelTempoPermanencia.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="AtendimentoMedico\Urgencia\AprazamentoDAO.cs" />
+    <Compile Include="AtendimentoMedico\Urgencia\ExameDAO.cs" />
+    <Compile Include="AtendimentoMedico\Urgencia\FaturaBPAUrgenciaDAO.cs" />
+    <Compile Include="AtendimentoMedico\Urgencia\PrescricaoDAO.cs" />
+    <Compile Include="AtendimentoMedico\Urgencia\EvolucaoMedicaDAO.cs" />
+    <Compile Include="AtendimentoMedico\Urgencia\ItemPADAO.cs" />
+    <Compile Include="AtendimentoMedico\Urgencia\KitPADAO.cs" />
+    <Compile Include="AtendimentoMedico\Urgencia\ProcedimentoNaoFaturavelDAO.cs" />
+    <Compile Include="AtendimentoMedico\Urgencia\RelatorioUrgenciaDAO.cs" />
+    <Compile Include="AtendimentoMedico\Urgencia\PacienteUrgenceDAO.cs" />
+    <Compile Include="AtendimentoMedico\Urgencia\UsuarioProfissionalUrgenceDAO.cs" />
+    <Compile Include="AtendimentoMedico\Urgencia\VagaUrgenciaDAO.cs" />
+    <Compile Include="Atendimento\Misc\AtendimentoDAO.cs" />
+    <Compile Include="Atendimento\Misc\RegistroEletronicoAtendimentoDAO.cs" />
+    <Compile Include="BPA\EnviarBPADAO.cs" />
+    <Compile Include="FarmaciaServiceFacadeDAO.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Farmacia\Dispensacao\ReceitaDispensacaoDAO.cs" />
+    <Compile Include="FormatoDataBanco\FormatoData.cs" />
+    <Compile Include="GuiaProcedimentos\InfoProcedimentoDAO.cs" />
+    <Compile Include="Helpers\HelperRandomGenerator.cs" />
+    <Compile Include="LaboratorioServiceFacadeDAO.cs" />
+    <Compile Include="Laboratorio\ExameLaboratorioDAO.cs" />
+    <Compile Include="Laboratorio\PacienteLaboratorioDAO.cs" />
+    <Compile Include="Laboratorio\SolicitanteExameLaboratorioDAO.cs" />
+    <Compile Include="Misc\ServicoSaudeDAO.cs" />
+    <Compile Include="Paciente\PacienteDAO.cs" />
+    <Compile Include="Procedimento\Misc\CBODAO.cs" />
+    <Compile Include="Procedimento\Misc\GrupoCBODAO.cs" />
+    <Compile Include="Profissional\ProfissionalSolicitanteDAO.cs" />
+    <Compile Include="Profissional\Misc\OrgaoEmissorDAO.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Relatorio\RelatorioCNSDAO.cs" />
+    <Compile Include="SenhadorDAO.cs" />
+    <Compile Include="Senhador\SenhaSenhadorDAO.cs" />
+    <Compile Include="Senhador\ServicoSenhadorDAO.cs" />
+    <Compile Include="SiteVida\NewsLetterDAO.cs" />
+    <Compile Include="VacinaServiceFacadeDAO.cs" />
+    <Compile Include="EstabelecimentoSaude\DesativacaoEstabelecimentoDAO.cs" />
+    <Compile Include="EstabelecimentoSaude\EstabelecimentoSaudeDAO.cs" />
+    <Compile Include="EstabelecimentoSaude\TipoEstabelecimentoSaudeDAO.cs" />
+    <Compile Include="Factory.cs" />
+    <Compile Include="Farmacia\Dispensacao\DispensacaoDAO.cs" />
+    <Compile Include="Farmacia\Misc\UsuarioDistritoFarmaciaDAO.cs" />
+    <Compile Include="Farmacia\Misc\FarmaciaDAO.cs" />
+    <Compile Include="Farmacia\Movimentacao\MovimentacaoDAO.cs" />
+    <Compile Include="Farmacia\Movimentacao\RequisicaoMedicamentoDAO.cs" />
+    <Compile Include="Farmacia\Movimentacao\EstoqueDAO.cs" />
+    <Compile Include="Farmacia\Inventario\InventarioDAO.cs" />
+    <Compile Include="Farmacia\Medicamento\FornecedorMedicamentoDAO.cs" />
+    <Compile Include="Farmacia\Medicamento\LoteMedicamentoDAO.cs" />
+    <Compile Include="Farmacia\Medicamento\MedicamentoDAO.cs" />
+    <Compile Include="Farmacia\Medicamento\Misc\SubElencoMedicamentoDAO.cs" />
+    <Compile Include="Farmacia\Medicamento\Misc\ElencoMedicamentoDAO.cs" />
+    <Compile Include="Farmacia\Medicamento\Misc\UnidadeMedidaMedicamentoDAO.cs" />
+    <Compile Include="Farmacia\Misc\SetorDAO.cs" />
+    <Compile Include="Farmacia\NotaFiscal\NotaFiscalDAO.cs" />
+    <Compile Include="Farmacia\RelatorioFarmaciaDAO.cs" />
+    <Compile Include="Localidade\BairroDAO.cs" />
+    <Compile Include="Localidade\DistritoDAO.cs" />
+    <Compile Include="Localidade\EnderecoDAO.cs" />
+    <Compile Include="Localidade\LogradouroDAO.cs" />
+    <Compile Include="Localidade\MunicipioDAO.cs" />
+    <Compile Include="Misc\LogEventosDAO.cs" />
+    <Compile Include="NHibernate\NHibernateDAO.cs" />
+    <Compile Include="NHibernate\NHibernateHttpHelper.cs" />
+    <Compile Include="Procedimento\Misc\CidDAO.cs" />
+    <Compile Include="Procedimento\Misc\FormaDAO.cs" />
+    <Compile Include="Procedimento\Misc\RegistroDAO.cs" />
+    <Compile Include="Procedimento\Misc\SubGrupoDAO.cs" />
+    <Compile Include="Procedimento\ProcedimentoDAO.cs" />
+    <Compile Include="Profissional\Misc\AreaDAO.cs" />
+    <Compile Include="Profissional\Misc\EquipeDAO.cs" />
+    <Compile Include="Profissional\Misc\VinculoDAO.cs" />
+    <Compile Include="Profissional\ProfissionalDAO.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Relatorio\RelatorioGenericoDAO.cs" />
+    <Compile Include="Seguranca\PerfilDAO.cs" />
+    <Compile Include="Seguranca\SegurancaDAO.cs" />
+    <Compile Include="AtendimentoMedico\Urgencia\EvolucaoEnfermagemDAO.cs" />
+    <Compile Include="AtendimentoMedico\Urgencia\ProntuarioDAO.cs" />
+    <Compile Include="Seguranca\UsuarioDAO.cs" />
+    <Compile Include="UrgenciaServiceFacadeDAO.cs" />
+    <Compile Include="Vacina\Misc\CampanhaVacinacaoDAO.cs" />
+    <Compile Include="Vacina\Misc\CartaoVacinaDAO.cs" />
+    <Compile Include="Vacina\Misc\DoencaVacinaDAO.cs" />
+    <Compile Include="Vacina\Misc\EstrategiaImunobiologicoDAO.cs" />
+    <Compile Include="Vacina\Misc\ItemVacinaDAO.cs" />
+    <Compile Include="Vacina\Misc\ItemDoseVacinaDAO.cs" />
+    <Compile Include="Vacina\Misc\EstoqueDAO.cs" />
+    <Compile Include="Vacina\Misc\ItemInventarioVacinaDAO.cs" />
+    <Compile Include="Vacina\Misc\DispensacaoDAO.cs" />
+    <Compile Include="Vacina\Misc\DoseVacinaDAO.cs" />
+    <Compile Include="Vacina\Misc\LoteVacinaDAO.cs" />
+    <Compile Include="Vacina\Misc\MotivoMovimentoVacinaDAO.cs" />
+    <Compile Include="Vacina\Misc\ParametrizacaoVacinaDAO.cs" />
+    <Compile Include="Vacina\Misc\FabricanteVacinaDAO.cs" />
+    <Compile Include="Vacina\Misc\SalaVacinaDAO.cs" />
+    <Compile Include="Vacina\Misc\VacinaDAO.cs" />
+    <Compile Include="Vacina\Movimentacao\EstoqueVacinaDAO.cs" />
+    <Compile Include="Vacina\Movimentacao\InventarioVacinaDAO.cs" />
+    <Compile Include="Vacina\Movimentacao\MovimentoVacinaDAO.cs" />
+    <Compile Include="Vacina\Relatorios\CrystalReport_cabecalho_vert1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CrystalReport_cabecalho_vert.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Vacina\Relatorios\CrystalReport_rodape1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CrystalReport_rodape.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Vacina\Relatorios\DSCabecalhoDispensacaoVacina1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DSCabecalhoDispensacaoVacina.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Vacina\Relatorios\DSCabecalhoInventarioVacina1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DSCabecalhoInventarioVacina.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Vacina\Relatorios\DSCorpoDispensacaoVacina1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DSCorpoDispensacaoVacina.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Vacina\Relatorios\DSHistoricoItemMovimentacao1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DSHistoricoItemMovimentacao.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Vacina\Relatorios\DSImpressaoCartaoVacina1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DSImpressaoCartaoVacina.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Vacina\Relatorios\DSMovimentoVacina1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DSMovimentoVacina.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Vacina\Relatorios\DSRelInventarioConferenciaVacina1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DSRelInventarioConferenciaVacina.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Vacina\Relatorios\DSRelInventarioFinalVacina1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DSRelInventarioFinalVacina.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Vacina\Relatorios\RelCabecalhoInventarioVacina1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RelCabecalhoInventarioVacina.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Vacina\Relatorios\RelCorpoDispensacaoVacina1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RelCorpoDispensacaoVacina.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Vacina\Relatorios\RelDispensacaoVacina1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RelDispensacaoVacina.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Vacina\Relatorios\RelHistoricoItemMovimentacao1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RelHistoricoItemMovimentacao.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Vacina\Relatorios\RelImpressaoCartaoVacina1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RelImpressaoCartaoVacina.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Vacina\Relatorios\RelInventarioConferenciaVacina1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RelInventarioConferenciaVacina.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Vacina\Relatorios\RelInventarioFinalVacina1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RelInventarioFinalVacina.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Vacina\Relatorios\RelMovimento1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RelMovimento.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Vacina\RelatorioVacinaDAO.cs" />
+    <Compile Include="VidaServiceFacadeDAO.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="lib\Castle.Core.dll" />
+    <Content Include="lib\Castle.DynamicProxy2.dll" />
+    <Content Include="lib\DevExpress.Data.v10.2.dll" />
+    <Content Include="lib\DevExpress.Web.v10.2.dll" />
+    <Content Include="lib\FusionCharts.dll" />
+    <Content Include="lib\ICSharpCode.SharpZipLib.dll" />
+    <Content Include="lib\Iesi.Collections.dll" />
+    <Content Include="lib\Ionic.Zip.dll" />
+    <Content Include="lib\log4net.dll" />
+    <Content Include="lib\NHibernate.Caches.SysCache.dll" />
+    <Content Include="lib\NHibernate.dll" />
+    <Content Include="lib\NPOI.DDF.dll" />
+    <Content Include="lib\NPOI.DDF.xml" />
+    <Content Include="lib\NPOI.dll" />
+    <Content Include="lib\NPOI.HPSF.dll" />
+    <Content Include="lib\NPOI.HPSF.xml" />
+    <Content Include="lib\NPOI.HSSF.dll" />
+    <Content Include="lib\NPOI.HSSF.XML" />
+    <Content Include="lib\NPOI.POIFS.dll" />
+    <Content Include="lib\NPOI.POIFS.xml" />
+    <Content Include="lib\NPOI.Util.dll" />
+    <Content Include="lib\NPOI.Util.xml" />
+    <Content Include="lib\NPOI.xml" />
+    <Content Include="lib\Oracle.DataAccess.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="Resources\CBOsTecnicosAuxiliarEnfermagem.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Vida.BLL\Vida.BLL.csproj">
+      <Project>{A6D6D83A-F6B2-4F0C-9C1E-736031BEB9A3}</Project>
+      <Name>Vida.BLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Vida.DAL\Vida.DAL.csproj">
+      <Project>{D7C36D7C-56AA-48C2-B624-83F3EC7B5FD1}</Project>
+      <Name>Vida.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Vida.Model\Vida.Model.csproj">
+      <Project>{1CEFE776-6047-4318-AF42-D45E67CC0B26}</Project>
+      <Name>Vida.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Vida.ServiceFacade\Vida.ServiceFacade.csproj">
+      <Project>{E0DB8510-1A5F-44BD-B865-88AA26B02C3E}</Project>
+      <Name>Vida.ServiceFacade</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="AtendimentoMedico\Relatorios\DSAtendimentoCID.xsc">
+      <DependentUpon>DSAtendimentoCID.xsd</DependentUpon>
+    </None>
+    <Content Include="AtendimentoMedico\Relatorios\DSAtendimentoCID.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DSAtendimentoCID1.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="AtendimentoMedico\Relatorios\DSAtendimentoCID.xss">
+      <DependentUpon>DSAtendimentoCID.xsd</DependentUpon>
+    </None>
+    <None Include="AtendimentoMedico\Relatorios\DSAtendimentoFaixa.xsc">
+      <DependentUpon>DSAtendimentoFaixa.xsd</DependentUpon>
+    </None>
+    <Content Include="AtendimentoMedico\Relatorios\DSAtendimentoFaixa.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DSAtendimentoFaixa1.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="AtendimentoMedico\Relatorios\DSAtendimentoFaixa.xss">
+      <DependentUpon>DSAtendimentoFaixa.xsd</DependentUpon>
+    </None>
+    <None Include="AtendimentoMedico\Relatorios\DSCabecalho.xsc">
+      <DependentUpon>DSCabecalho.xsd</DependentUpon>
+    </None>
+    <Content Include="AtendimentoMedico\Relatorios\DSCabecalho.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DSCabecalho1.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="AtendimentoMedico\Relatorios\DSCabecalho.xss">
+      <DependentUpon>DSCabecalho.xsd</DependentUpon>
+    </None>
+    <None Include="AtendimentoMedico\Relatorios\DSCabecalhoAtendimentoCID.xsc">
+      <DependentUpon>DSCabecalhoAtendimentoCID.xsd</DependentUpon>
+    </None>
+    <Content Include="AtendimentoMedico\Relatorios\DSCabecalhoAtendimentoCID.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DSCabecalhoAtendimentoCID1.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="AtendimentoMedico\Relatorios\DSCabecalhoAtendimentoCID.xss">
+      <DependentUpon>DSCabecalhoAtendimentoCID.xsd</DependentUpon>
+    </None>
+    <None Include="AtendimentoMedico\Relatorios\DSCabecalhoAtendimentoFaixa.xsc">
+      <DependentUpon>DSCabecalhoAtendimentoFaixa.xsd</DependentUpon>
+    </None>
+    <Content Include="AtendimentoMedico\Relatorios\DSCabecalhoAtendimentoFaixa.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DSCabecalhoAtendimentoFaixa1.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="AtendimentoMedico\Relatorios\DSCabecalhoAtendimentoFaixa.xss">
+      <DependentUpon>DSCabecalhoAtendimentoFaixa.xsd</DependentUpon>
+    </None>
+    <None Include="AtendimentoMedico\Relatorios\DSCabecalhoEvasao.xsc">
+      <DependentUpon>DSCabecalhoEvasao.xsd</DependentUpon>
+    </None>
+    <Content Include="AtendimentoMedico\Relatorios\DSCabecalhoEvasao.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DSCabecalhoEvasao1.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="AtendimentoMedico\Relatorios\DSCabecalhoEvasao.xss">
+      <DependentUpon>DSCabecalhoEvasao.xsd</DependentUpon>
+    </None>
+    <None Include="AtendimentoMedico\Relatorios\DSCabecalhoFPO.xsc">
+      <DependentUpon>DSCabecalhoFPO.xsd</DependentUpon>
+    </None>
+    <Content Include="AtendimentoMedico\Relatorios\DSCabecalhoFPO.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DSCabecalhoFPO1.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="AtendimentoMedico\Relatorios\DSCabecalhoFPO.xss">
+      <DependentUpon>DSCabecalhoFPO.xsd</DependentUpon>
+    </None>
+    <None Include="AtendimentoMedico\Relatorios\DSCabecalhoLeitosFaixa.xsc">
+      <DependentUpon>DSCabecalhoLeitosFaixa.xsd</DependentUpon>
+    </None>
+    <Content Include="AtendimentoMedico\Relatorios\DSCabecalhoLeitosFaixa.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DSCabecalhoLeitosFaixa1.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="AtendimentoMedico\Relatorios\DSCabecalhoLeitosFaixa.xss">
+      <DependentUpon>DSCabecalhoLeitosFaixa.xsd</DependentUpon>
+    </None>
+    <None Include="AtendimentoMedico\Relatorios\DSCabecalhoProcedencia.xsc">
+      <DependentUpon>DSCabecalhoProcedencia.xsd</DependentUpon>
+    </None>
+    <Content Include="AtendimentoMedico\Relatorios\DSCabecalhoProcedencia.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DSCabecalhoProcedencia1.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="AtendimentoMedico\Relatorios\DSCabecalhoProcedencia.xss">
+      <DependentUpon>DSCabecalhoProcedencia.xsd</DependentUpon>
+    </None>
+    <None Include="AtendimentoMedico\Relatorios\DSCabecalhoRelSituacao.xsc">
+      <DependentUpon>DSCabecalhoRelSituacao.xsd</DependentUpon>
+    </None>
+    <Content Include="AtendimentoMedico\Relatorios\DSCabecalhoRelSituacao.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DSCabecalhoRelSituacao1.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="AtendimentoMedico\Relatorios\DSCabecalhoRelSituacao.xss">
+      <DependentUpon>DSCabecalhoRelSituacao.xsd</DependentUpon>
+    </None>
+    <None Include="AtendimentoMedico\Relatorios\DSCabecalhoTempoPermanencia.xsc">
+      <DependentUpon>DSCabecalhoTempoPermanencia.xsd</DependentUpon>
+    </None>
+    <Content Include="AtendimentoMedico\Relatorios\DSCabecalhoTempoPermanencia.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DSCabecalhoTempoPermanencia1.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="AtendimentoMedico\Relatorios\DSCabecalhoTempoPermanencia.xss">
+      <DependentUpon>DSCabecalhoTempoPermanencia.xsd</DependentUpon>
+    </None>
+    <None Include="AtendimentoMedico\Relatorios\DSCids.xsc">
+      <DependentUpon>DSCids.xsd</DependentUpon>
+    </None>
+    <Content Include="AtendimentoMedico\Relatorios\DSCids.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DSCids1.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="AtendimentoMedico\Relatorios\DSCids.xss">
+      <DependentUpon>DSCids.xsd</DependentUpon>
+    </None>
+    <None Include="AtendimentoMedico\Relatorios\DSClassificacoesRelatorioGeral.xsc">
+      <DependentUpon>DSClassificacoesRelatorioGeral.xsd</DependentUpon>
+    </None>
+    <Content Include="AtendimentoMedico\Relatorios\DSClassificacoesRelatorioGeral.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DSClassificacoesRelatorioGeral1.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="AtendimentoMedico\Relatorios\DSClassificacoesRelatorioGeral.xss">
+      <DependentUpon>DSClassificacoesRelatorioGeral.xsd</DependentUpon>
+    </None>
+    <None Include="AtendimentoMedico\Relatorios\DSCorpoProcedencia.xsc">
+      <DependentUpon>DSCorpoProcedencia.xsd</DependentUpon>
+    </None>
+    <Content Include="AtendimentoMedico\Relatorios\DSCorpoProcedencia.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DSCorpoProcedencia1.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="AtendimentoMedico\Relatorios\DSCorpoProcedencia.xss">
+      <DependentUpon>DSCorpoProcedencia.xsd</DependentUpon>
+    </None>
+    <None Include="AtendimentoMedico\Relatorios\DSCorpoTempoPermanencia.xsc">
+      <DependentUpon>DSCorpoTempoPermanencia.xsd</DependentUpon>
+    </None>
+    <Content Include="AtendimentoMedico\Relatorios\DSCorpoTempoPermanencia.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DSCorpoTempoPermanencia1.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="AtendimentoMedico\Relatorios\DSCorpoTempoPermanencia.xss">
+      <DependentUpon>DSCorpoTempoPermanencia.xsd</DependentUpon>
+    </None>
+    <None Include="AtendimentoMedico\Relatorios\DSEvolucaoEnfermagem.xsc">
+      <DependentUpon>DSEvolucaoEnfermagem.xsd</DependentUpon>
+    </None>
+    <Content Include="AtendimentoMedico\Relatorios\DSEvolucaoEnfermagem.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DSEvolucaoEnfermagem1.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="AtendimentoMedico\Relatorios\DSEvolucaoEnfermagem.xss">
+      <DependentUpon>DSEvolucaoEnfermagem.xsd</DependentUpon>
+    </None>
+    <None Include="AtendimentoMedico\Relatorios\DSEvolucaoMedica.xsc">
+      <DependentUpon>DSEvolucaoMedica.xsd</DependentUpon>
+    </None>
+    <Content Include="AtendimentoMedico\Relatorios\DSEvolucaoMedica.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DSEvolucaoMedica1.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="AtendimentoMedico\Relatorios\DSEvolucaoMedica.xss">
+      <DependentUpon>DSEvolucaoMedica.xsd</DependentUpon>
+    </None>
+    <None Include="AtendimentoMedico\Relatorios\DSEvolucaoMedicaRelatorioGeral.xsc">
+      <DependentUpon>DSEvolucaoMedicaRelatorioGeral.xsd</DependentUpon>
+    </None>
+    <Content Include="AtendimentoMedico\Relatorios\DSEvolucaoMedicaRelatorioGeral.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DSEvolucaoMedicaRelatorioGeral1.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="AtendimentoMedico\Relatorios\DSEvolucaoMedicaRelatorioGeral.xss">
+      <DependentUpon>DSEvolucaoMedicaRelatorioGeral.xsd</DependentUpon>
+    </None>
+    <None Include="AtendimentoMedico\Relatorios\DSExames.xsc">
+      <DependentUpon>DSExames.xsd</DependentUpon>
+    </None>
+    <Content Include="AtendimentoMedico\Relatorios\DSExames.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DSExames1.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="AtendimentoMedico\Relatorios\DSExames.xss">
+      <DependentUpon>DSExames.xsd</DependentUpon>
+    </None>
+    <None Include="AtendimentoMedico\Relatorios\DSFichaAtendimentoProntuario.xsc">
+      <DependentUpon>DSFichaAtendimentoProntuario.xsd</DependentUpon>
+    </None>
+    <Content Include="AtendimentoMedico\Relatorios\DSFichaAtendimentoProntuario.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DSFichaAtendimentoProntuario1.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="AtendimentoMedico\Relatorios\DSFichaAtendimentoProntuario.xss">
+      <DependentUpon>DSFichaAtendimentoProntuario.xsd</DependentUpon>
+    </None>
+    <None Include="AtendimentoMedico\Relatorios\DSLeitosFaixa.xsc">
+      <DependentUpon>DSLeitosFaixa.xsd</DependentUpon>
+    </None>
+    <Content Include="AtendimentoMedico\Relatorios\DSLeitosFaixa.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DSLeitosFaixa1.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="AtendimentoMedico\Relatorios\DSLeitosFaixa.xss">
+      <DependentUpon>DSLeitosFaixa.xsd</DependentUpon>
+    </None>
+    <None Include="AtendimentoMedico\Relatorios\DSMedicamentosAprazados.xsc">
+      <DependentUpon>DSMedicamentosAprazados.xsd</DependentUpon>
+    </None>
+    <Content Include="AtendimentoMedico\Relatorios\DSMedicamentosAprazados.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DSMedicamentosAprazados1.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="AtendimentoMedico\Relatorios\DSMedicamentosAprazados.xss">
+      <DependentUpon>DSMedicamentosAprazados.xsd</DependentUpon>
+    </None>
+    <None Include="AtendimentoMedico\Relatorios\DSPrescricao.xsc">
+      <DependentUpon>DSPrescricao.xsd</DependentUpon>
+    </None>
+    <Content Include="AtendimentoMedico\Relatorios\DSPrescricao.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DSPrescricao1.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="AtendimentoMedico\Relatorios\DSPrescricao.xss">
+      <DependentUpon>DSPrescricao.xsd</DependentUpon>
+    </None>
+    <None Include="AtendimentoMedico\Relatorios\DSPrescricaoMedicamento.xsc">
+      <DependentUpon>DSPrescricaoMedicamento.xsd</DependentUpon>
+    </None>
+    <Content Include="AtendimentoMedico\Relatorios\DSPrescricaoMedicamento.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DSPrescricaoMedicamento1.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="AtendimentoMedico\Relatorios\DSPrescricaoMedicamento.xss">
+      <DependentUpon>DSPrescricaoMedicamento.xsd</DependentUpon>
+    </None>
+    <None Include="AtendimentoMedico\Relatorios\DSPrescricaoProcedimento.xsc">
+      <DependentUpon>DSPrescricaoProcedimento.xsd</DependentUpon>
+    </None>
+    <Content Include="AtendimentoMedico\Relatorios\DSPrescricaoProcedimento.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DSPrescricaoProcedimento1.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="AtendimentoMedico\Relatorios\DSPrescricaoProcedimento.xss">
+      <DependentUpon>DSPrescricaoProcedimento.xsd</DependentUpon>
+    </None>
+    <None Include="AtendimentoMedico\Relatorios\DSPrescricaoProcedimentoNaoFaturavel.xsc">
+      <DependentUpon>DSPrescricaoProcedimentoNaoFaturavel.xsd</DependentUpon>
+    </None>
+    <Content Include="AtendimentoMedico\Relatorios\DSPrescricaoProcedimentoNaoFaturavel.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DSPrescricaoProcedimentoNaoFaturavel1.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="AtendimentoMedico\Relatorios\DSPrescricaoProcedimentoNaoFaturavel.xss">
+      <DependentUpon>DSPrescricaoProcedimentoNaoFaturavel.xsd</DependentUpon>
+    </None>
+    <None Include="AtendimentoMedico\Relatorios\DSProcedimentosAprazados.xsc">
+      <DependentUpon>DSProcedimentosAprazados.xsd</DependentUpon>
+    </None>
+    <Content Include="AtendimentoMedico\Relatorios\DSProcedimentosAprazados.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DSProcedimentosAprazados1.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="AtendimentoMedico\Relatorios\DSProcedimentosAprazados.xss">
+      <DependentUpon>DSProcedimentosAprazados.xsd</DependentUpon>
+    </None>
+    <None Include="AtendimentoMedico\Relatorios\DSProcedimentosFPO.xsc">
+      <DependentUpon>DSProcedimentosFPO.xsd</DependentUpon>
+    </None>
+    <Content Include="AtendimentoMedico\Relatorios\DSProcedimentosFPO.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DSProcedimentosFPO1.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="AtendimentoMedico\Relatorios\DSProcedimentosFPO.xss">
+      <DependentUpon>DSProcedimentosFPO.xsd</DependentUpon>
+    </None>
+    <None Include="AtendimentoMedico\Relatorios\DSProcedimentosNaoFaturaveisAprazados.xsc">
+      <DependentUpon>DSProcedimentosNaoFaturaveisAprazados.xsd</DependentUpon>
+    </None>
+    <Content Include="AtendimentoMedico\Relatorios\DSProcedimentosNaoFaturaveisAprazados.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DSProcedimentosNaoFaturaveisAprazados1.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="AtendimentoMedico\Relatorios\DSProcedimentosNaoFaturaveisAprazados.xss">
+      <DependentUpon>DSProcedimentosNaoFaturaveisAprazados.xsd</DependentUpon>
+    </None>
+    <None Include="AtendimentoMedico\Relatorios\DSProcedimentosNaoFaturaveisFPO.xsc">
+      <DependentUpon>DSProcedimentosNaoFaturaveisFPO.xsd</DependentUpon>
+    </None>
+    <Content Include="AtendimentoMedico\Relatorios\DSProcedimentosNaoFaturaveisFPO.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DSProcedimentosNaoFaturaveisFPO1.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="AtendimentoMedico\Relatorios\DSProcedimentosNaoFaturaveisFPO.xss">
+      <DependentUpon>DSProcedimentosNaoFaturaveisFPO.xsd</DependentUpon>
+    </None>
+    <None Include="AtendimentoMedico\Relatorios\DSRelAcolhimentoProntuario.xsc">
+      <DependentUpon>DSRelAcolhimentoProntuario.xsd</DependentUpon>
+    </None>
+    <Content Include="AtendimentoMedico\Relatorios\DSRelAcolhimentoProntuario.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DSRelAcolhimentoProntuario1.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="AtendimentoMedico\Relatorios\DSRelAcolhimentoProntuario.xss">
+      <DependentUpon>DSRelAcolhimentoProntuario.xsd</DependentUpon>
+    </None>
+    <None Include="AtendimentoMedico\Relatorios\DSRelAtestadoReceitaProntuario.xsc">
+      <DependentUpon>DSRelAtestadoReceitaProntuario.xsd</DependentUpon>
+    </None>
+    <Content Include="AtendimentoMedico\Relatorios\DSRelAtestadoReceitaProntuario.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DSRelAtestadoReceitaProntuario1.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="AtendimentoMedico\Relatorios\DSRelAtestadoReceitaProntuario.xss">
+      <DependentUpon>DSRelAtestadoReceitaProntuario.xsd</DependentUpon>
+    </None>
+    <None Include="AtendimentoMedico\Relatorios\DSRelatorioSituacao.xsc">
+      <DependentUpon>DSRelatorioSituacao.xsd</DependentUpon>
+    </None>
+    <Content Include="AtendimentoMedico\Relatorios\DSRelatorioSituacao.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DSRelatorioSituacao1.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="AtendimentoMedico\Relatorios\DSRelatorioSituacao.xss">
+      <DependentUpon>DSRelatorioSituacao.xsd</DependentUpon>
+    </None>
+    <None Include="AtendimentoMedico\Relatorios\DSRelEvasa.xsc">
+      <DependentUpon>DSRelEvasa.xsd</DependentUpon>
+    </None>
+    <Content Include="AtendimentoMedico\Relatorios\DSRelEvasa.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DSRelEvasa1.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="AtendimentoMedico\Relatorios\DSRelEvasa.xss">
+      <DependentUpon>DSRelEvasa.xsd</DependentUpon>
+    </None>
+    <None Include="AtendimentoMedico\Relatorios\DSResponsavelAprazamento.xsc">
+      <DependentUpon>DSResponsavelAprazamento.xsd</DependentUpon>
+    </None>
+    <Content Include="AtendimentoMedico\Relatorios\DSResponsavelAprazamento.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DSResponsavelAprazamento1.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="AtendimentoMedico\Relatorios\DSResponsavelAprazamento.xss">
+      <DependentUpon>DSResponsavelAprazamento.xsd</DependentUpon>
+    </None>
+    <None Include="AtendimentoMedico\Relatorios\DSTabelaConfirmarAprazamentos.xsc">
+      <DependentUpon>DSTabelaConfirmarAprazamentos.xsd</DependentUpon>
+    </None>
+    <Content Include="AtendimentoMedico\Relatorios\DSTabelaConfirmarAprazamentos.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DSTabelaConfirmarAprazamentos1.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="AtendimentoMedico\Relatorios\DSTabelaConfirmarAprazamentos.xss">
+      <DependentUpon>DSTabelaConfirmarAprazamentos.xsd</DependentUpon>
+    </None>
+    <None Include="Paciente\.svn\entries" />
+    <None Include="Paciente\.svn\format" />
+    <None Include="Paciente\.svn\text-base\PacienteDAO.cs.svn-base" />
+    <None Include="Procedimento\Misc\.svn\entries" />
+    <None Include="Procedimento\Misc\.svn\format" />
+    <None Include="Procedimento\Misc\.svn\text-base\CidDAO.cs.svn-base" />
+    <None Include="Procedimento\Misc\.svn\text-base\FormaDAO.cs.svn-base" />
+    <None Include="Procedimento\Misc\.svn\text-base\RegistroDAO.cs.svn-base" />
+    <None Include="Procedimento\Misc\.svn\text-base\SubGrupoDAO.cs.svn-base" />
+    <None Include="Vacina\Misc\.svn\entries" />
+    <None Include="Vacina\Misc\.svn\format" />
+    <None Include="Vacina\Misc\.svn\text-base\CampanhaVacinacaoDAO.cs.svn-base" />
+    <None Include="Vacina\Misc\.svn\text-base\CartaoVacinaDAO.cs.svn-base" />
+    <None Include="Vacina\Misc\.svn\text-base\DispensacaoDAO.cs.svn-base" />
+    <None Include="Vacina\Misc\.svn\text-base\DoencaVacinaDAO.cs.svn-base" />
+    <None Include="Vacina\Misc\.svn\text-base\DoseVacinaDAO.cs.svn-base" />
+    <None Include="Vacina\Misc\.svn\text-base\EstoqueDAO.cs.svn-base" />
+    <None Include="Vacina\Misc\.svn\text-base\EstrategiaImunobiologicoDAO.cs.svn-base" />
+    <None Include="Vacina\Misc\.svn\text-base\FabricanteVacinaDAO.cs.svn-base" />
+    <None Include="Vacina\Misc\.svn\text-base\ItemDoseVacinaDAO.cs.svn-base" />
+    <None Include="Vacina\Misc\.svn\text-base\ItemInventarioVacinaDAO.cs.svn-base" />
+    <None Include="Vacina\Misc\.svn\text-base\ItemVacinaDAO.cs.svn-base" />
+    <None Include="Vacina\Misc\.svn\text-base\LoteVacinaDAO.cs.svn-base" />
+    <None Include="Vacina\Misc\.svn\text-base\ParametrizacaoVacinaDAO.cs.svn-base" />
+    <None Include="Vacina\Misc\.svn\text-base\SalaVacinaDAO.cs.svn-base" />
+    <None Include="Vacina\Misc\.svn\text-base\VacinaDAO.cs.svn-base" />
+    <None Include="Vacina\Misc\.svn\tmp\tempfile.tmp" />
+    <None Include="Vacina\Movimentacao\.svn\entries" />
+    <None Include="Vacina\Movimentacao\.svn\format" />
+    <None Include="Vacina\Movimentacao\.svn\text-base\EstoqueVacinaDAO.cs.svn-base" />
+    <None Include="Vacina\Movimentacao\.svn\text-base\InventarioVacinaDAO.cs.svn-base" />
+    <None Include="Vacina\Relatorios\DSCabecalhoDispensacaoVacina.xsc">
+      <DependentUpon>DSCabecalhoDispensacaoVacina.xsd</DependentUpon>
+    </None>
+    <Content Include="Vacina\Relatorios\DSCabecalhoDispensacaoVacina.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DSCabecalhoDispensacaoVacina1.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="Vacina\Relatorios\DSCabecalhoDispensacaoVacina.xss">
+      <DependentUpon>DSCabecalhoDispensacaoVacina.xsd</DependentUpon>
+    </None>
+    <None Include="Vacina\Relatorios\DSCabecalhoInventarioVacina.xsc">
+      <DependentUpon>DSCabecalhoInventarioVacina.xsd</DependentUpon>
+    </None>
+    <Content Include="Vacina\Relatorios\DSCabecalhoInventarioVacina.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DSCabecalhoInventarioVacina1.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="Vacina\Relatorios\DSCabecalhoInventarioVacina.xss">
+      <DependentUpon>DSCabecalhoInventarioVacina.xsd</DependentUpon>
+    </None>
+    <None Include="Vacina\Relatorios\DSCorpoDispensacaoVacina.xsc">
+      <DependentUpon>DSCorpoDispensacaoVacina.xsd</DependentUpon>
+    </None>
+    <Content Include="Vacina\Relatorios\DSCorpoDispensacaoVacina.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DSCorpoDispensacaoVacina1.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="Vacina\Relatorios\DSCorpoDispensacaoVacina.xss">
+      <DependentUpon>DSCorpoDispensacaoVacina.xsd</DependentUpon>
+    </None>
+    <None Include="Vacina\Relatorios\DSHistoricoItemMovimentacao.xsc">
+      <DependentUpon>DSHistoricoItemMovimentacao.xsd</DependentUpon>
+    </None>
+    <Content Include="Vacina\Relatorios\DSHistoricoItemMovimentacao.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DSHistoricoItemMovimentacao1.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="Vacina\Relatorios\DSHistoricoItemMovimentacao.xss">
+      <DependentUpon>DSHistoricoItemMovimentacao.xsd</DependentUpon>
+    </None>
+    <None Include="Vacina\Relatorios\DSImpressaoCartaoVacina.xsc">
+      <DependentUpon>DSImpressaoCartaoVacina.xsd</DependentUpon>
+    </None>
+    <Content Include="Vacina\Relatorios\DSImpressaoCartaoVacina.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DSImpressaoCartaoVacina1.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="Vacina\Relatorios\DSImpressaoCartaoVacina.xss">
+      <DependentUpon>DSImpressaoCartaoVacina.xsd</DependentUpon>
+    </None>
+    <None Include="Vacina\Relatorios\DSMovimentoVacina.xsc">
+      <DependentUpon>DSMovimentoVacina.xsd</DependentUpon>
+    </None>
+    <Content Include="Vacina\Relatorios\DSMovimentoVacina.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DSMovimentoVacina1.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="Vacina\Relatorios\DSMovimentoVacina.xss">
+      <DependentUpon>DSMovimentoVacina.xsd</DependentUpon>
+    </None>
+    <None Include="Vacina\Relatorios\DSRelInventarioConferenciaVacina.xsc">
+      <DependentUpon>DSRelInventarioConferenciaVacina.xsd</DependentUpon>
+    </None>
+    <Content Include="Vacina\Relatorios\DSRelInventarioConferenciaVacina.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DSRelInventarioConferenciaVacina1.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="Vacina\Relatorios\DSRelInventarioConferenciaVacina.xss">
+      <DependentUpon>DSRelInventarioConferenciaVacina.xsd</DependentUpon>
+    </None>
+    <None Include="Vacina\Relatorios\DSRelInventarioFinalVacina.xsc">
+      <DependentUpon>DSRelInventarioFinalVacina.xsd</DependentUpon>
+    </None>
+    <Content Include="Vacina\Relatorios\DSRelInventarioFinalVacina.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DSRelInventarioFinalVacina1.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="Vacina\Relatorios\DSRelInventarioFinalVacina.xss">
+      <DependentUpon>DSRelInventarioFinalVacina.xsd</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="AtendimentoMedico\Relatorios\Inc_MedicamentosAprazados.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>Inc_MedicamentosAprazados1.cs</LastGenOutput>
+    </Content>
+    <Content Include="AtendimentoMedico\Relatorios\Inc_ProcedimentosAprazados.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>Inc_ProcedimentosAprazados1.cs</LastGenOutput>
+    </Content>
+    <Content Include="AtendimentoMedico\Relatorios\Inc_ProcedimentosNaoFaturaveisAprazados.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>Inc_ProcedimentosNaoFaturaveisAprazados1.cs</LastGenOutput>
+    </Content>
+    <Content Include="AtendimentoMedico\Relatorios\RelAcolhimentoProntuario.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelAcolhimentoProntuario1.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="AtendimentoMedico\Relatorios\RelAtendimentoCID.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelAtendimentoCID1.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="AtendimentoMedico\Relatorios\RelAtendimentoFaixa.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelAtendimentoFaixa1.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="AtendimentoMedico\Relatorios\RelCabecalho.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelCabecalho1.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="AtendimentoMedico\Relatorios\RelCabecalhoAtendimentoCID.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelCabecalhoAtendimentoCID1.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="AtendimentoMedico\Relatorios\RelCabecalhoAtendimentoFaixa.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelCabecalhoAtendimentoFaixa1.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="AtendimentoMedico\Relatorios\RelcabecalhoEvasao.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelcabecalhoEvasao1.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="AtendimentoMedico\Relatorios\RelCabecalhoLeitosFaixa.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelCabecalhoLeitosFaixa1.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="AtendimentoMedico\Relatorios\RelCabecalhoSituacao.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelCabecalhoSituacao1.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="AtendimentoMedico\Relatorios\RelCids.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelCids1.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="AtendimentoMedico\Relatorios\RelClassificacoesRisco.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelClassificacoesRisco1.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="AtendimentoMedico\Relatorios\RelConsultaMedicaProntuario.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelConsultaMedicaProntuario1.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="AtendimentoMedico\Relatorios\RelConsultaMedicaRelatorioGeral.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelConsultaMedicaRelatorioGeral1.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="AtendimentoMedico\Relatorios\RelEvasao.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelEvasao1.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="AtendimentoMedico\Relatorios\RelEvolucaoMedicaRelatorioGeral.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelEvolucaoMedicaRelatorioGeral1.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="AtendimentoMedico\Relatorios\RelEvolucoesEnfermagem.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelEvolucoesEnfermagem1.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="AtendimentoMedico\Relatorios\RelEvolucoesMedica.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelEvolucoesMedica1.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="AtendimentoMedico\Relatorios\RelExamesProntuario.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelExamesProntuario1.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="AtendimentoMedico\Relatorios\RelFichaAtendimentoProntuario.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelFichaAtendimentoProntuario1.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="AtendimentoMedico\Relatorios\RelItensAprazadosPrescricao.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelItensAprazadosPrescricao1.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="AtendimentoMedico\Relatorios\RelLeitosFaixa.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelLeitosFaixa1.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="AtendimentoMedico\Relatorios\RelMedicamentosAprazados.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelMedicamentosAprazados1.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="AtendimentoMedico\Relatorios\RelPrescricaoMedicamento.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelPrescricaoMedicamento1.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="AtendimentoMedico\Relatorios\RelPrescricaoProcedimento.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelPrescricaoProcedimento1.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="AtendimentoMedico\Relatorios\RelPrescricaoProcedimentoNaoFaturavel.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelPrescricaoProcedimentoNaoFaturavel1.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="AtendimentoMedico\Relatorios\RelPrescricoesProntuario.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelPrescricoesProntuario1.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="AtendimentoMedico\Relatorios\RelProcedenciaCID.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelProcedenciaCID1.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="AtendimentoMedico\Relatorios\RelProcedimentosFPO.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelProcedimentosFPO1.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="AtendimentoMedico\Relatorios\RelRelatorioGeralProntuario.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelRelatorioGeralProntuario1.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="AtendimentoMedico\Relatorios\RelResponsaveisAprazamento.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelResponsaveisAprazamento1.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="AtendimentoMedico\Relatorios\RelSituacao.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelSituacao1.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="AtendimentoMedico\Relatorios\RelSubProcedenciaCID.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelSubProcedenciaCID1.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="AtendimentoMedico\Relatorios\RelSubProcedimentosFPO.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelSubProcedimentosFPO1.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="AtendimentoMedico\Relatorios\RelSubProcedimentosNaoFaturaveisFPO.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelSubProcedimentosNaoFaturaveisFPO1.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="AtendimentoMedico\Relatorios\RelSubTempoPermanencia.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelSubTempoPermanencia1.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="AtendimentoMedico\Relatorios\RelTabelaAprazados.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelTabelaAprazados1.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="AtendimentoMedico\Relatorios\RelTempoPermanencia.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelTempoPermanencia1.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\itextsharp.dll" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Content Include="Vacina\Relatorios\CrystalReport_cabecalho_vert.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CrystalReport_cabecalho_vert1.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Vacina\Relatorios\CrystalReport_rodape.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CrystalReport_rodape1.cs</LastGenOutput>
+    </Content>
+    <Content Include="Vacina\Relatorios\img\top_cabecalho_relatorio1.jpg" />
+    <Content Include="Vacina\Relatorios\img\top_rodape_relatorio1.jpg" />
+    <Content Include="Vacina\Relatorios\RelCabecalhoInventarioVacina.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelCabecalhoInventarioVacina1.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Vacina\Relatorios\RelCorpoDispensacaoVacina.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelCorpoDispensacaoVacina1.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Vacina\Relatorios\RelDispensacaoVacina.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelDispensacaoVacina1.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Vacina\Relatorios\RelHistoricoItemMovimentacao.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelHistoricoItemMovimentacao1.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Vacina\Relatorios\RelImpressaoCartaoVacina.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelImpressaoCartaoVacina1.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Vacina\Relatorios\RelInventarioConferenciaVacina.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelInventarioConferenciaVacina1.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Vacina\Relatorios\RelInventarioFinalVacina.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelInventarioFinalVacina1.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Vacina\Relatorios\RelMovimento.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelMovimento1.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{967B4E0D-AD0C-4609-AB67-0FA40C0206D8}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Paciente\.svn\prop-base\" />
+    <Folder Include="Paciente\.svn\props\" />
+    <Folder Include="Paciente\.svn\tmp\prop-base\" />
+    <Folder Include="Paciente\.svn\tmp\props\" />
+    <Folder Include="Paciente\.svn\tmp\text-base\" />
+    <Folder Include="Procedimento\Misc\.svn\prop-base\" />
+    <Folder Include="Procedimento\Misc\.svn\props\" />
+    <Folder Include="Procedimento\Misc\.svn\tmp\prop-base\" />
+    <Folder Include="Procedimento\Misc\.svn\tmp\props\" />
+    <Folder Include="Procedimento\Misc\.svn\tmp\text-base\" />
+    <Folder Include="Vacina\Misc\.svn\prop-base\" />
+    <Folder Include="Vacina\Misc\.svn\props\" />
+    <Folder Include="Vacina\Misc\.svn\tmp\prop-base\" />
+    <Folder Include="Vacina\Misc\.svn\tmp\props\" />
+    <Folder Include="Vacina\Misc\.svn\tmp\text-base\" />
+    <Folder Include="Vacina\Movimentacao\.svn\prop-base\" />
+    <Folder Include="Vacina\Movimentacao\.svn\props\" />
+    <Folder Include="Vacina\Movimentacao\.svn\tmp\prop-base\" />
+    <Folder Include="Vacina\Movimentacao\.svn\tmp\props\" />
+    <Folder Include="Vacina\Movimentacao\.svn\tmp\text-base\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

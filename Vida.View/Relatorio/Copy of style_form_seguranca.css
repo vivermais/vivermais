@@ -1,0 +1,552 @@
+/* Estilos do formulário - MODULO AGENDAMENTO */
+
+body
+{
+	background-color: #ffffff;
+}
+
+.botoesroll
+{
+	float: left;
+	width: auto;
+	padding: 0px 20px 0 0;
+	text-decoration: none;
+	border: none;
+}
+
+#divbotoesposition
+{
+	padding: 15px 0 0 0;
+}
+
+#geral
+{
+	width: 950px;
+	height: auto; 
+	/*z-index: -1;*/
+	float: inherit;
+	padding-top: 50px;
+	margin-left: 50px; /*background-color:#ebf0f5;*/
+}
+
+a img
+{
+	border: none;
+	text-decoration: none;
+}
+
+#bgseguranca
+{
+	background-color: #ffffff;
+	width: 100%;
+	height: 65px;
+}
+
+.backgroundgreen
+{
+	background-color: #ffffff;
+}
+
+
+#top
+{
+	width: 813px;
+	height: auto;
+	float: inherit;
+	margin-left: 50px;
+	z-index: auto;
+	background-color: #ffffff;
+}
+
+h2
+{
+	border-bottom: 1px dotted #cccccc;
+	font-family: "Trebuchet MS" , Arial, Helvetica, sans-serif;
+	margin: 0px 0px 0px 0px;
+	padding: 0px 0px 0px 0px;
+}
+
+h4
+{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 9px;
+}
+
+/*label {
+float: left;
+width: 50px;
+}
+
+.label_form {
+float: left;
+width: 70px;
+}
+
+input, textarea{
+width: 120px;
+margin-bottom: 5px;
+font-size:11px;
+font-family:Verdana, Arial, Helvetica, sans-serif;
+}
+
+textarea{
+width: 250px;
+height: 150px;
+}
+*/
+br
+{
+	clear: left;
+}
+
+legend
+{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	letter-spacing: 0px;
+	font-weight: bold;
+	line-height: 1.2;
+	color: #ffffff;
+	padding: 3px 12px;
+	background: #303030;
+	padding-bottom: 10px;
+	margin-top: 30px;
+}
+
+fieldset
+{
+	border: 1px dashed #303030;
+	padding: 10px;
+	margin-bottom: 20px;
+}
+
+.formulario
+{
+	width: 700px;
+	height: auto; /*margin-left: 117px;*/
+	margin-right: 0;
+	padding: 10px 10px 20px 10px;
+}
+
+.rotulo
+{
+	float: left;
+	height: 17px;
+	font-size: 10px;
+	background-color: #5b5b5b;
+	border: 1px solid #5b5b5b;
+	color: #ffffff;
+	padding-bottom: 2px;
+	padding-left: 8px;
+	width: 156px;
+	line-height: 25px;
+	margin-top: 0px; /*display:block;*/
+	margin-right: 5px;
+}
+
+.check_grid
+{
+	font-size: 9px;
+	font-weight: bold;
+}
+.rotulomin
+{
+	line-height: 17px; /*height: 17px;*/
+	font-size: 10px;
+	background-color: #c2c2c2;
+	margin-left: 5px;
+	border: 1px solid #BFCEDB; /* padding-bottom:2px; */
+	padding-right: 25px;
+	padding-top: 6px;
+	padding-left: 8px;
+	margin-bottom: 6px;
+}
+
+.colunaEscondida
+{
+	display: none;
+}
+
+.campo
+{
+	font-family: Arial;
+	font-size: 11px;
+	border: 1px solid #5b5b5b;
+	line-height: 17px;
+	height: 17px;
+	margin-top: 0px; /*display: list-item;*/
+	background: #f1f1f1;
+	color: #000000;
+	display: inherit;
+	margin-right: 5px;
+	padding-left: 5px;
+}
+
+
+.drop
+{
+	font-family: Arial;
+	font-size: 11px;
+	border: 1px solid #5b5b5b;
+	line-height: 17px;
+	height: 21px;
+	margin-top: 0px; /*display: list-item;*/
+	background: #f1f1f1;
+	color: #000000;
+	display: inherit;
+	margin-right: 5px;
+	padding-left: 5px;
+}
+
+.camporadio
+{
+	font-family: Arial;
+	font-size: 10px;
+	margin-top: 0px;
+	background: #ffffff;
+	color: #3a6461;
+	padding-right: 0px;
+	margin-bottom: 0px; /*Alinhamento do texto dentro da linha*/
+	vertical-align: middle;
+}
+
+.camporadio_end
+{
+	font-family: Arial;
+	font-size: 11px;
+	height: 23px;
+	margin-top: 0px;
+	background: #f6f6f6;
+	padding-right: 40px;
+	margin-bottom: 0px; /*Alinhamento do texto dentro da linha*/
+	vertical-align: middle;
+}
+
+.radio
+{
+	font-family: Arial;
+	font-size: 10px;
+	border: 1px solid #AAA;
+}
+
+/*Classe HEADER das tabelas*/
+.tab
+{
+	font-family: Verdana;
+	font-size: x-small;
+	border: 1px solid #CCC;
+	height: 22px;
+	background-color: #e7e7e7;
+	font-weight: bold;
+}
+
+/*Classe ROW das tabelas*/
+.tabrow
+{
+	font-family: arial;
+	font-size: 8pt;
+	border: 1px solid #CCC;
+	height: 18px;
+	text-align: center;
+}
+
+.tabrow_left
+{
+	font-family: arial;
+	font-size: 8pt;
+	border: 1px solid #CCC;
+	height: 18px;
+}
+
+.form
+{
+	margin: 0;
+	padding: 0;
+}
+
+.buttons
+{
+	background: #e3e3db;
+	font-size: 12px;
+	color: #333333;
+	padding: 6px 10px;
+	border-width: 2px;
+	border-style: solid;
+	border-color: #fff #d8d8d0 #d8d8d0 #fff;
+	text-decoration: none;
+	text-transform: uppercase;
+	font-weight: bold;
+}
+
+div, select
+{
+	font-family: Arial, Verdana, Helvetica, sans-serif;
+	text-decoration: none;
+}
+
+.sis_fonte_small
+{
+	font-size: 11px;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+/* Estilo do Accordeon*/
+.accordionHeader
+{
+	border: 1px solid #142126;
+	color: #142126;
+	background-color: #eee; /*font-weight: bold;*/
+	padding: 5px;
+	margin-top: 5px;
+	cursor: pointer;
+	width: 500px;
+}
+
+.accordionHeaderSelected
+{
+	border: 1px solid #142126;
+	color: white;
+	background-color: #142126; /*font-weight: bold;*/
+	padding: 5px;
+	margin-top: 5px;
+	cursor: pointer;
+	width: 500px;
+}
+
+.accordionContent
+{
+	background-color: #fff;
+	border: 1px solid #142126;
+	border-top: none;
+	padding: 5px;
+	padding-top: 10px;
+	width: 500px;
+}
+.mine
+{
+}
+
+/*MENU---------------------------------------------------------*/
+
+/* #top_menu1
+    {
+	     float:left;
+	      padding:0;
+	        margin:0;
+    }*/
+
+.top_menu
+{
+	font-family: Arial, Verdana, Sans-Serif;
+	background: url( 'img/aba_menu_seguranca.png' ) no-repeat left;
+	height: 45px;
+	margin: 0 0px 0 0px;
+	padding: 0 3px 0 55px;
+	line-height: 27px;
+	width: 471px;
+	position: relative;
+	top: -33px;
+	left: 457px;
+	float: left;
+	z-index: 2;
+}
+
+#container_menu
+{
+	width: 776px;
+	height: 99px;
+	margin-left: -500px;
+	margin-top: -300px;
+	position: absolute;
+	left: 56%;
+	top: 131%;
+	vertical-align: top;
+}
+
+.divrow_menu
+{
+	display: block;
+	vertical-align: top;
+}
+.divcell_menu
+{
+	display: inline;
+	position: relative;
+	width: 172px;
+	height: 39px;
+	float: right;
+	overflow: hidden;
+	margin-bottom: 0px;
+	top: 0px;
+	left: 0px;
+}
+
+.divlogin
+{
+	display: inline;
+	position: relative;
+	float: left;
+	width: 1001px;
+	height: 143px;
+	overflow: hidden;
+	margin-bottom: 0px;
+	top: 0px;
+	left: 0px;
+}
+.divfoot
+{
+	display: inline;
+	position: relative;
+	width: 1001px;
+	height: 29px;
+	float: left;
+	overflow: hidden;
+	margin-bottom: 0px;
+	background: #000 url( 'img/bgfoot.jpg' );
+}
+
+.logon
+{
+	width: 310px;
+	float: left;
+	font-size: 10px;
+	color: #FFFFFF;
+	padding: 0px 0px 0px 0px;
+	position: absolute;
+	top: 5px;
+	left: 25px;
+	margin-left: 640px;
+	height: 117px;
+}
+
+blockquote
+{
+	border-left: 5px solid #ccc;
+	margin-left: 1.5em;
+	padding-left: 5px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/*estilos criados pelos wordpress---------------------------------------------------------------*/
+#top
+{
+	width: 813px;
+	height: auto;
+	float: inherit;
+	margin-left: 50px;
+	margin-top: 50px;
+	z-index: auto;
+}
+
+
+.rotulolog
+{
+	float: left;
+	height: 17px;
+	font-size: 10px;
+	padding-bottom: 0px;
+	padding-left: 2px;
+	width: 90px;
+	line-height: 17px;
+	margin-top: 3px;
+	display: block;
+	text-align: right;
+}
+
+.campolog
+{
+	font-family: Arial;
+	font-size: 11px;
+	border: 1px solid #bad3e1;
+	line-height: 20px;
+	height: 17px;
+	margin-top: 0px; /*display: list-item; */
+	background: #0f2d3f;
+	color: #ffffff;
+	width: 145px;
+	display: inherit;
+	margin-right: 5px;
+}
+
+.drop
+{
+	border: 1px solid #bad3e1;
+}
+
+.botoes
+{
+}
+
+a img
+{
+	border: none;
+	text-decoration: none;
+}
+
+.radio
+{
+	font-family: Arial;
+	font-size: 10px;
+	border: 1px solid #AAA;
+}
+
+
+blockquote
+{
+	border-left: 5px solid #ccc;
+	margin-left: 1.5em;
+	padding-left: 5px;
+}
+cite
+{
+	font-size: 90%;
+	font-style: normal;
+}
+
+
+
+p
+{
+	margin: 2px 0 8px;
+	width: auto;
+}
+
+.defaultForce
+{
+	background-color: White;
+}
+.weak
+{
+	background-color: #FF5353;
+}
+.strong
+{
+	background-color: #FAD054;
+}
+.stronger
+{
+	background-color: #93C9F4;
+}
+.strongest
+{
+	background-color: #B6FF6C;
+}
+
+#complexity{
+	width: 250px;
+	padding: 3px 0;
+	height: 15px;
+	color: #000;
+	font-size: 14px;
+	text-align: center;
+}

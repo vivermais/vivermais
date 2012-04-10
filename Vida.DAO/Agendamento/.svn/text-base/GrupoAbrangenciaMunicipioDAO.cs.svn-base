@@ -1,0 +1,24 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Vida.ServiceFacade.ServiceFacades.Agendamento;
+
+namespace Vida.DAO.Agendamento
+{
+    public class GrupoAbrangenciaMunicipioDAO : VidaServiceFacadeDAO, IGrupoAbrangenciaMunicipio
+    {
+        public GrupoAbrangenciaMunicipioDAO()
+        {
+
+        }
+
+        T IGrupoAbrangenciaMunicipio.BuscarPelaChavePrimaria<T>(string id_grupoAbrangencia, string id_municipio)
+        {
+            string hql = "from Vida.Model.GrupoAbrangenciaMunicipio grupo";
+            hql += " where grupo.Grupo.Codigo = '"+ id_grupoAbrangencia+"'";
+            hql += " and grupo.Municipio.Codigo = '" + id_municipio + "'";
+            return Session.CreateQuery(hql).UniqueResult<T>();
+        }
+    }
+}

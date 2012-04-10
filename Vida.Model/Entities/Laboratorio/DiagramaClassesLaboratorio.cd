@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="ViverMais.Model.AtendimentoLaboratorio">
+    <Position X="4.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAARECAAFRAAQAAAAAAAAAAEAQgCQAQIAiAEIABkADA=</HashCode>
+      <FileName>Entities\Laboratorio\AtendimentoLaboratorio.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Paciente" />
+      <Property Name="MedicoSolicitante" />
+      <Property Name="UnidadeOrigem" />
+      <Property Name="UnidadeEntrega" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Exames" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="ViverMais.Model.ExameLaboratorio">
+    <Position X="7.75" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAQAAgAAAAYAAAAEAAAQIAAAEAAAAAAAAAAA=</HashCode>
+      <FileName>Entities\Laboratorio\ExameLaboratorio.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ViverMais.Model.UnidadeLaboratorio">
+    <Position X="1.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQABAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>Entities\Laboratorio\UnidadeLaboratorio.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ViverMais.Model.PacienteLaboratorio">
+    <Position X="7.75" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQABEAAAAQAAAAAAAgAAAgIAAAIAAAIAAAACAAEAAAA=</HashCode>
+      <FileName>Entities\Laboratorio\PacienteLaboratorio.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ViverMais.Model.SolicitanteExameLaboratorio">
+    <Position X="1.75" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQABgAAAAQAAAAAAAAAAgAAAAAIAAAAAAAAAAAEAAAI=</HashCode>
+      <FileName>Entities\Laboratorio\SolicitanteExameLaboratorio.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Tahoma" Size="8.25" />
+</ClassDiagram>

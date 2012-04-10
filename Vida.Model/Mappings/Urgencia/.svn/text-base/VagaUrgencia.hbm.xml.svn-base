@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Vida.Model">
+  <class name="Vida.Model.VagaUrgencia" table="URG_VAGAS">
+    <id name="Codigo">
+      <column name="CO_VAGA" not-null="true"/>
+      <generator class="sequence">
+        <param name="sequence">URG_VAGAS_SEQUENCE</param>
+      </generator>
+    </id>
+    <many-to-one name="Prontuario" class="Vida.Model.Prontuario" column="CO_PRONTUARIO" />
+    <property name="CodigoUnidade" column="CO_ESTABELECIMENTO" />
+    <property name="TipoVaga" column="tipovaga" />
+  </class>
+</hibernate-mapping>

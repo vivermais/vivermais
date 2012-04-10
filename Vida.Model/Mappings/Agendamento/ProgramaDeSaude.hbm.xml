@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="ViverMais.Model">
+	<class name="ViverMais.Model.ProgramaDeSaude" table="AGD_PROGRAMADESAUDE" >
+        <id name="Codigo">
+            <column name="CO_PROGRAMA" not-null="true"/>
+            <generator class="sequence">
+                <param name="sequence">AGD_PROGRAMASAUDE_SEQUENCE</param>
+            </generator>
+        </id>		
+		<property name="Nome" column="NOME"/>
+    <property name="MultiDisciplinar" column="MULTIDISCIPLINAR" />
+    <property name="Ativo" column="ATIVO" />
+  </class>
+</hibernate-mapping>

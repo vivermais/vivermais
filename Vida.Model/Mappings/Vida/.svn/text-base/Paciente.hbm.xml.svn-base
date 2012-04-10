@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Vida.Model">
+	<class name="Vida.Model.Paciente" table="tb_ms_usuario">
+		<id name="Codigo">
+			<column name="co_usuario" not-null="true"/>
+			<generator class="assigned" />
+		</id>
+		<property name="Nome" column="no_usuario"/>
+		<property name="NomeMae" column="no_mae"/>
+		<property name="NomePai" column="no_pai"/>
+		<property name="DataNascimento" column="dt_nascimento"/>
+		<property name="Sexo" column="co_sexo"/>
+		<many-to-one name="RacaCor" class="Vida.Model.RacaCor" column="co_raca"/>
+    <many-to-one name="Etnia" class="Vida.Model.Etnia" column="cod_etnia"/>
+		<property name="FrequentaEscola" column="st_frequenta_escola"/>
+		<many-to-one name="Pais" class="Vida.Model.Pais" column="co_pais"/>
+		<many-to-one name="MunicipioNascimento" class="Vida.Model.Municipio" column="co_municipio_nasc"/>
+    <many-to-one name="EstadoCivil" class="Vida.Model.EstadoCivil" column="CO_ESTADO_CIVIL"/>
+		<property name="Vivo" column="st_vivo"/>
+		<property name="Email" column="ds_email"/>
+    <property name="ST_PROFISSIONAL" column="ST_PROFISSIONAL"/>
+    <property name="DataInclusaoRegistro" column="DT_INCLUSAO"/>
+    <property name="DataPreenchimentoFormulario" column="DT_PREENCHIMENTO_FORM"/>
+    <many-to-one name="MunicipioResidencia" class="Vida.Model.Municipio" column="CO_MUNICIPIO_RESIDENCIA"/>
+    <property name="SemDocumento" column="ST_SEM_DOCUMENTO"/>
+  </class>
+</hibernate-mapping>

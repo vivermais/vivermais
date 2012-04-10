@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="ViverMais.Model">
+  <class name="ViverMais.Model.AfastamentoEAS" table="AGD_AFASTAMENTOEAS">
+    <id name="Codigo">
+       <column name="CO_AFASTAMENTOEAS" not-null="true"/>
+       <generator class="sequence">
+          <param name="sequence">AGD_AFASTAMENTOEAS_SEQUENCE</param>
+       </generator>
+    </id>
+    <property name="ID_Unidade" column="CNES" />
+    <property name="Data_Inicial" column="DATA_INICIAL" />
+    <property name="Motivo" column="MOTIVO" />
+    <property name="Data_Reativacao" column="DATA_REATIVACAO" />
+	<property name="Obs" column="OBS" />
+  </class>
+</hibernate-mapping>

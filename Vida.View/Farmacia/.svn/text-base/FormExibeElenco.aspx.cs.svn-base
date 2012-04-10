@@ -1,0 +1,103 @@
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Xml.Linq;
+using Vida.DAO;
+using Vida.ServiceFacade.ServiceFacades;
+using System.Collections.Generic;
+using Vida.ServiceFacade.ServiceFacades.Seguranca;
+using Vida.Model;
+using Vida.ServiceFacade.ServiceFacades.Farmacia.Medicamento.Misc;
+using Vida.ServiceFacade.ServiceFacades.Farmacia.Medicamento;
+
+namespace Vida.View.Farmacia
+{
+    public partial class FormExibeElenco : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!IsPostBack)
+            {
+                if (!Factory.GetInstance<ISeguranca>().VerificarPermissao(((Usuario)Session["Usuario"]).Codigo, "MANTER_ELENCO_MEDICAMENTO", Modulo.FARMACIA))
+                    ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Usuário, você não tem permissão para acessar esta página! Por favor, entre em contato com a administração.');location='Default.aspx';", true);
+                else
+                    OnClick_ListarTodos(new object(), new EventArgs());
+            }
+        }
+
+        /// <summary>
+        /// Carrega os elencos de acordo com o tipo de pesquisa
+        /// </summary>
+        /// <param name="nome"></param>
+        private void CarregaElenco(string nome)
+        {
+            GridView_Elenco.DataSource = Factory.GetInstance<IElencoMedicamento>().BuscarPorDescricao<ElencoMedicamento>(nome);
+            GridView_Elenco.DataBind();
+        }
+
+        /// <summary>
+        /// Pesquisa os elencos de acordo com o nome informado
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnClick_Pesquisa(object sender, EventArgs e)
+        {
+            ViewState["nomeelenco"] = TextBox_NomeElenco.Text;
+            this.CarregaElenco(ViewState["nomeelenco"].ToString());
+        }
+
+        /// <summary>
+        /// Lista todos elencos cadastrados
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnClick_ListarTodos(object sender, EventArgs e)
+        {
+            ViewState["nomeelenco"] = string.Empty;
+            this.CarregaElenco(ViewState["nomeelenco"].ToString());
+        }
+
+
+        /// <summary>
+        /// Paginação para o gridview de elencos
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnPageIndexChanging_Elenco(object sender, GridViewPageEventArgs e)
+        {
+            this.CarregaElenco(ViewState["nomeelenco"].ToString());
+            GridView_Elenco.PageIndex = e.NewPageIndex;
+            GridView_Elenco.DataBind();
+        }
+
+        /// <summary>
+        /// Deleta o elenco selecionado
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnRowDeleting_Elenco(object sender, GridViewDeleteEventArgs e)
+        {
+            int co_elenco;
+            if (int.TryParse(GridView_Elenco.DataKeys[e.RowIndex]["Codigo"].ToString(), out co_elenco))
+            {
+                string retorno = Factory.GetInstance<IElencoMedicamento>().ExcluirElencoMedicamento(co_elenco);
+
+                if (retorno.Equals("ok"))
+                {
+                    ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Elenco excluído com sucesso.');", true);
+                    this.CarregaElenco(ViewState["nomeelenco"].ToString());
+                }
+                else
+                    ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('" + retorno + "');", true);
+            }
+        }
+    }
+}

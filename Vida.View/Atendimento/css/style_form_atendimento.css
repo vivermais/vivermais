@@ -1,0 +1,611 @@
+/* Estilos do formulário - MODULO AGENDAMENTO */
+
+body
+{
+	background-color: #ffffff;
+}
+
+
+.botoesroll
+{
+	float: left;
+	width: auto;
+	padding: 0px 20px 0 0;
+	text-decoration: none;
+	margin-top: 10px;
+	border: none;
+}
+
+
+
+
+#divbotoesposition
+{
+	padding: 15px 0 0 0;
+}
+
+#bgvacina
+{
+	background-color: #ffffff;
+	width: 100%;
+	height: 65px;
+}
+
+.backgroundyelow
+{
+	background-color: #ffffff;
+}
+.teste21
+{
+	background: #ffffff;
+}
+
+#top
+{
+	width: 813px;
+	height: auto;
+	float: inherit;
+	margin: 0 auto;
+	z-index: auto;
+	padding-right:60px;
+	
+}
+
+h2
+{
+	font-family:arial;
+    margin: 14px 0px 0px 0px;
+    padding:22px 0px 0px 50px;
+    Background: url( '../img/h2.png' ) no-repeat left;
+    color: #333333;
+    height:48px;
+    width:810px;
+    font-size:24px;
+    font-weight:normal;
+
+	
+}
+
+h4
+{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 9px;
+}
+
+
+h6
+{
+	font-family:arial;
+    margin: 0px 0px 0px 0px;
+    padding:22px 0px 0px 50px;
+    Background: url( 'img/h6.png' ) no-repeat left;
+    color: #333333;
+    height:48px;
+    width:499px;
+    font-size:24px;
+    font-weight:normal;
+
+	
+}
+
+br
+{
+	clear: left;
+}
+
+legend
+{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	letter-spacing: 0px;
+	font-weight: bold;
+	line-height: 1.2;
+	color: #ffffff;
+	padding: 3px 12px;
+	background: #b85f00;
+	padding-bottom: 10px;
+	margin-top: 10px;
+	margin-bottom: 30px;
+}
+
+fieldset
+{
+	border: 1px dashed #b85f00;
+	padding: 10px;
+	margin-bottom: 20px;
+}
+
+.fieldset-dao
+{
+	border: 1px dashed #b85f00;
+	padding: 10px;
+	margin-bottom: 5px;
+}
+
+.legend-dao
+{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	letter-spacing: 0px;
+	font-weight: bold;
+	line-height: 1.2;
+	color: #ffffff;
+	padding: 3px 5px;
+	background: #b85f00;
+	padding-bottom: 0px;
+	margin-top: 5px;
+}
+
+
+.formulario
+{
+	width: 700px;
+	height: auto; /*margin-left: 117px;*/
+	margin-right: 0;
+	padding: 10px 10px 20px 10px;
+}
+
+.formulariomenor
+{
+	width: 650px;
+	height: auto; /*margin-left: 117px;*/
+	margin-right: 0;
+	padding: 10px 10px 20px 10px;
+}
+
+.rotulo
+{
+	float: left;
+	height: 17px;
+	font-size: 10px;
+	color: #ffffff;
+	background-color: #ea8e2d;
+	border: 1px solid #ea8e2d;
+	padding-bottom: 2px;
+	padding-left: 8px;
+	width: 156px;
+	line-height: 25px;
+	margin-top: 0px;
+	margin-left: 1px; /*display:block;*/
+	margin-right: 5px;
+	clear:both;
+}
+
+.rotulomin
+{
+	line-height: 17px; /*height: 17px;*/
+	font-size: 10px;
+	background-color: #8fb2cc;
+	margin-left: 5px;
+	border: 1px solid #8fb2cc; /* padding-bottom:2px; */
+	padding-right: 25px;
+	padding-top: 6px;
+	padding-left: 8px;
+	margin-bottom: 6px;
+	color: #ffffff;
+}
+
+.literalgrid
+{
+	text-align: right;
+	font-family: Verdana;
+	font-size: 12px;
+}
+
+
+.literalgrid2
+{
+	text-align: right;
+	font-family: Verdana;
+	font-size: 12px;
+	font-weight: bold;
+}
+
+.label_itens
+{
+	text-align: left;
+	font-family: Verdana;
+	font-size: 13px;
+	font-weight: bold;
+}
+
+.colunaEscondida
+{
+	display: none;
+}
+
+.campo
+{
+	font-family: Arial;
+	font-size: 11px;
+	border: 1px solid #ea8e2d;
+	line-height: 17px;
+	height: 17px;
+	margin-top: 0px; /*display: list-item;*/
+	background: #fffcf5;
+	color: #243d81;
+	display: inherit;
+	margin-right: 5px;
+}
+
+.drop
+{
+	font-family: Arial;
+	font-size: 11px;
+	border: 1px solid #ecc759;
+	line-height: 17px;
+	height: 21px;
+	margin-top: 0px; /*display: list-item;*/
+	background: #fffcf5;
+	color: #243d81;
+	display: inherit;
+	margin-right: 5px;
+	padding-left: 5px;
+}
+
+.radio1
+{
+	font-weight: bold;
+	font-size: 11px;
+	font-family: Arial;
+}
+
+
+.camporadio
+{
+	font-family: Arial;
+	font-size: 10px; /*height: 23px; 	margin-top: 0px;*/
+	background: #f6f6f6; /*padding-right:50px; 	margin-bottom:0px; 	Alinhamento do texto dentro da linha*/
+	margin-left: 5px;
+}
+
+.camporadio_end
+{
+	font-family: Arial;
+	font-size: 11px;
+	height: 23px;
+	margin-top: 0px;
+	background: #f6f6f6;
+	padding-right: 40px;
+	margin-bottom: 0px; /*Alinhamento do texto dentro da linha*/
+	vertical-align: middle;
+}
+
+.radio
+{
+	font-family: Arial;
+	font-size: 10px;
+	border: 1px solid #AAA;
+}
+
+/*Classe HEADER das tabelas*/
+.tab
+{
+	font-family: Verdana;
+	font-size: x-small;
+	border: 1px solid #CCC;
+	height: 18px;
+	background-color: #e7e7e7;
+	font-weight: bold;
+	word-wrap: break-word;
+}
+
+/*Classe ROW das tabelas*/
+.tabrow
+{
+	font-family: arial;
+	font-size: 8pt;
+	border: 1px solid #CCC;
+	height: 18px;
+	text-align: center;
+	word-wrap: break-word;	 
+}
+
+.tabrow_left
+{
+	font-family: arial;
+	font-size: 8pt;
+	border: 1px solid #CCC;
+	height: 18px;
+	word-wrap: break-word;	 
+}
+
+
+.buttons
+{
+	background: #e3e3db;
+	font-size: 12px;
+	color: #333333;
+	padding: 6px 10px;
+	border-width: 2px;
+	border-style: solid;
+	border-color: #fff #d8d8d0 #d8d8d0 #fff;
+	text-decoration: none;
+	text-transform: uppercase;
+	font-weight: bold;
+}
+
+div, select
+{
+	font-family: Arial, Verdana, Helvetica, sans-serif;
+	text-decoration: none;
+}
+
+.sis_fonte_small
+{
+	font-size: 11px;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+/* Estilo do Accordeon*/
+.accordionHeader
+{
+	border: 1px solid #d86f00;
+	color: #142126;
+	background-color: #d86f00; /*font-weight: bold;*/
+	padding: 5px;
+	margin-top: 5px;
+	cursor: pointer;
+	width: 520px;
+	font-weight: bold;
+}
+
+.accordionHeaderSelected
+{
+	border: 1px solid #c46500;
+	color: white;
+	background-color: #c46500; /*font-weight: bold;*/
+	padding: 5px;
+	margin-top: 5px;
+	cursor: pointer;
+	width: 520px;
+	font-weight: bold;
+}
+
+.accordionContent
+{
+	background-color: #fff;
+	border: 1px solid #c6a033;
+	border-top: none;
+	padding: 5px;
+	padding-top: 10px;
+	width: 520px;
+}
+
+/*MENU---------------------------------------------------------*/
+
+/* #top_menu1
+    {
+	     float:left;
+	      padding:0;
+	        margin:0;
+    }*/
+
+.top_menu
+{
+	font-family: Arial, Verdana, Sans-Serif;
+	background: url( 'img/aba_menu_vacina.png' ) no-repeat left;
+	height: 45px;
+	margin: 0 0px 0 0px;
+	padding: 0 3px 0 15px;
+	line-height: 27px;
+	width: 471px;
+	position: relative;
+	top: -33px;
+	left: 457px;
+	float: left;
+	z-index: 2;
+}
+
+#container_menu
+{
+	width: 776px;
+	height: 99px;
+	margin-left: -500px;
+	margin-top: -300px;
+	position: absolute;
+	left: 56%;
+	top: 131%;
+	vertical-align: top;
+}
+
+.divrow_menu
+{
+	display: block;
+	vertical-align: top;
+}
+.divcell_menu
+{
+	display: inline;
+	position: relative;
+	width: 172px;
+	height: 39px;
+	float: right;
+	overflow: hidden;
+	margin-bottom: 0px;
+	top: 0px;
+	left: 0px;
+}
+
+.divlogin
+{
+	display: inline;
+	position: relative;
+	float: left;
+	width: 1001px;
+	height: 143px;
+	overflow: hidden;
+	margin-bottom: 0px;
+	top: 0px;
+	left: 0px;
+}
+.divfoot
+{
+	display: inline;
+	position: relative;
+	width: 1001px;
+	height: 29px;
+	float: left;
+	overflow: hidden;
+	margin-bottom: 0px;
+	background: #000 url( 'img/bgfoot.jpg' );
+}
+
+
+
+#bgloader
+{
+	background: url(img/bg-loader.png) no-repeat center;
+	width: 205px;
+	height: 195px;
+	margin-left: -35px;
+}
+
+#progressBackgroundFilter
+{
+	position: fixed;
+	top: 0px;
+	bottom: 0px;
+	left: 0px;
+	right: 0px;
+	overflow: hidden;
+	padding: 0;
+	margin: 0;
+	background-color: #000;
+	filter: alpha(opacity=75);
+	opacity: 0.5;
+	z-index: 1000;
+}
+#processMessage
+{
+	position: fixed;
+	top: 30%;
+	left: 43%;
+	padding: 10px;
+	width: 14%;
+	z-index: 1001; /*background-color: #fff;*/ /*border: solid 1px #000;*/
+}
+
+
+/* TOPOS DO CARTÃO */
+
+.alegria
+{
+	background: url(img/CartaoVacina/Temas/Alegria/imagem_principal.jpg) no-repeat top;
+}
+
+
+.serenidade
+{
+}
+
+
+
+.moderno
+{
+}
+
+
+.padrao
+{
+}
+
+.bahia
+{
+}
+
+.vitoria
+{
+}
+
+.brasil
+{
+}
+
+
+
+
+/* LINKS 
+
+
+ded.a {
+	font-family: verdana;
+	font-size: 11px;
+	color: #7d5200;
+}
+a:link {
+	text-decoration: none;
+	color: #7d5200;
+}
+a:visited {
+	text-decoration: none;
+	color: #7d5200;
+}
+a:hover {
+	text-decoration: underline;
+	color: #4a3100;
+}
+a:active {
+	text-decoration: none;
+	color: #7d5200;
+}*/
+
+/* ================================ CARTAO DE VACINA ================================== */
+
+#layouts
+{
+	background-color: #fdf7d8;
+	width: 644px;
+	padding: 40px;
+	margin-left:60px;
+	border: solid 5px #fdcd56;
+	z-index: 102;
+	position:absolute;
+}
+
+
+.thumbscard
+{
+	float: left;
+	margin: 0px 13px 15px 0px;
+}
+
+.titulothumbs
+{
+	font-family: Verdana;
+	font-size: 28px;
+	color: #333333;
+	background: url(img/thumbs/tititulothumb.png) no-repeat center;
+	padding-bottom: 16px;
+	width: 642px;
+	height: 54;
+}
+
+#view
+{
+	width: 514px;
+	height: 177px;
+	background: url(img/thumbs/bglayout.png) no-repeat center;
+	margin-left: 75px;
+}
+
+
+h8
+{
+	background: url(img/thumbs/tititulothumb.png) no-repeat center;
+}
+
+
+.ImagemPrincipalCartaoVacina
+{
+	padding-left: 16px;
+	padding-top: 16px;
+}
+
+.atencao
+{
+    color:Red;
+    font-weight:bold;
+    font-family:Arial;
+    font-size:13px;
+}

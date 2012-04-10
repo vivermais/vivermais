@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="ViverMais.Model">
+  <class name="ViverMais.Model.PactoAbrangencia" table="tb_pms_pacto_abrangencia">
+    <id name="Codigo">
+      <column name="id_pacto_abrangencia" not-null="true"/>
+      <generator class="sequence">
+        <param name="sequence">pacto_abrang_agreg_sequence</param>
+      </generator>    </id>
+    <many-to-one name="Grupo" class="ViverMais.Model.GrupoAbrangencia" column="co_grupo_abrangencia" />
+    <bag name="PactoAbrangenciaAgregado" table="rl_pms_pacto_abrang_agregado">
+      <key column="ID_PACTO_ABRANGENCIA"/>
+      <many-to-many column="ID_PACTO_ABRANG_AGREGADO" class="ViverMais.Model.PactoAbrangenciaAgregado" />
+    </bag>
+  </class>
+</hibernate-mapping> 

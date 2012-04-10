@@ -1,0 +1,212 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Vida.Model;
+using Oracle.DataAccess.Client;
+using System.Data;
+using Vida.DAL;
+
+namespace Vida.DAOOracle
+{
+    public class CartaoSUSDAO:ADAO<CartaoSUS>
+    {
+
+        protected override CartaoSUS Cadastrar(CartaoSUS cartao)
+        {            
+            GerarQueryCadastro();
+            GerarParametrosCadastro(cartao);
+
+            DALOracle.ExecuteNonQuery(CommandType.Text, sqlText.ToString(), parametros.ToArray());
+
+            sqlText.Remove(0, sqlText.Length);
+            parametros.Clear();
+
+            return cartao;
+        }
+
+        protected override CartaoSUS Cadastrar(CartaoSUS cartao,ref OracleTransaction trans)
+        {
+            GerarQueryCadastro();
+            GerarParametrosCadastro(cartao);
+
+            DALOracle.ExecuteNonQuery(ref trans, CommandType.Text, sqlText.ToString(), parametros.ToArray());
+
+            sqlText.Remove(0, sqlText.Length);
+            parametros.Clear();
+
+            return cartao;
+        }
+
+
+        protected override void GerarQueryPesquisaTodos()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void GerarQueryCadastro()
+        {
+            sqlText.Append("insert into tb_ms_usuario_cns_elos ");
+            sqlText.Append("(co_numero_cartao, tp_cartao, dt_atribuicao, co_usuario, st_excluido)  ");
+            sqlText.Append("values ");
+            sqlText.Append("(:NumeroCartao, :TipoCartao, :DataAtribuicao, :CodigoUsuario, :Excluido)");
+
+        }
+
+        protected override void GerarParametrosCadastro(CartaoSUS objeto)
+        {
+            parametros.Add(new OracleParameter("NumeroCartao", OracleDbType.Varchar2));
+            parametros.Add(new OracleParameter("TipoCartao", OracleDbType.Char));
+            parametros.Add(new OracleParameter("DataAtribuicao", OracleDbType.Date));
+            parametros.Add(new OracleParameter("CodigoUsuario", OracleDbType.Varchar2));
+            parametros.Add(new OracleParameter("Excluido", OracleDbType.Char));
+
+            parametros[0].Value = objeto.Numero;
+            parametros[1].Value = objeto.Tipo;
+            parametros[2].Value = objeto.DataAtribuicao;
+            parametros[3].Value = objeto.Paciente.Codigo;
+            parametros[4].Value = objeto.Excluido;
+        }
+
+        protected override void GerarQueryAtualizacao()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void GerarParametrosAtualizacao(CartaoSUS objeto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void GerarQueryRemocao()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void GerarQueryBuscarID()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void GerarQueryPesquisaPorCodigo()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void GeraParametrosPesquisaPorCodigo(CartaoSUS objeto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void MontarObjeto(OracleDataReader dataReader, CartaoSUS objeto)
+        {
+            try
+            {
+                objeto.Controle = Convert.ToChar(dataReader["ST_CONTROLE"]);
+            }
+            catch (InvalidCastException)
+            {
+                objeto.Controle = char.MinValue;
+            }
+            objeto.DataAtribuicao = Convert.ToDateTime(dataReader["dt_atribuicao"]);
+            try
+            {
+                objeto.DataOperacao = Convert.ToDateTime(dataReader["DT_OPERACAO"]);
+            }
+            catch (InvalidCastException)
+            {
+                objeto.DataOperacao = DateTime.MinValue;
+            }
+
+            try
+            {
+                objeto.Excluido = Convert.ToChar(dataReader["ST_EXCLUIDO"]);
+            }
+            catch (InvalidCastException)
+            {
+                objeto.Excluido = char.MinValue;
+            }
+            objeto.Numero = Convert.ToString(dataReader["co_numero_cartao"]);
+            objeto.Tipo = Convert.ToChar(dataReader["tp_cartao"]);
+            if (objeto.Paciente == null)
+            {
+                objeto.Paciente = new Paciente();
+                objeto.Paciente.Codigo = Convert.ToString(dataReader["co_usuario"]);
+            }
+        }
+
+        protected override void SetarCodigoObjeto(OracleDataReader dataReader, CartaoSUS objeto)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<CartaoSUS> PesquisarPorPaciente(Paciente paciente)
+        {
+            sqlText.Append("select * from tb_ms_usuario_cns_elos ");
+            sqlText.Append("where co_usuario = :CodigoPaciente and st_excluido = 0");
+
+            parametros.Add(new OracleParameter("CodigoPaciente", OracleDbType.Varchar2));
+            parametros[0].Value = paciente.Codigo;
+
+            List<CartaoSUS> cartoes = new List<CartaoSUS>();
+            CartaoSUS cartao = null;
+
+            DataSet dataReader = DALOracle.ExecuteReaderDs(CommandType.Text, sqlText.ToString(), parametros.ToArray());
+
+            sqlText.Remove(0, sqlText.Length);
+            parametros.Clear();
+
+            foreach (DataRow dr in dataReader.Tables[0].Rows)
+            {
+                cartao = new CartaoSUS();
+                cartao.Paciente = paciente;
+                MontarObjeto(dr, cartao);
+                cartoes.Add(cartao);
+            }
+
+            return cartoes;
+        }
+
+        protected override void MontarObjeto(DataRow drc, CartaoSUS objeto)
+        {
+            try
+            {
+                objeto.Controle = Convert.ToChar(drc["ST_CONTROLE"]);
+            }
+            catch (InvalidCastException)
+            {
+                objeto.Controle = char.MinValue;
+            }
+            objeto.DataAtribuicao = Convert.ToDateTime(drc["dt_atribuicao"]);
+            try
+            {
+                objeto.DataOperacao = Convert.ToDateTime(drc["DT_OPERACAO"]);
+            }
+            catch (InvalidCastException)
+            {
+                objeto.DataOperacao = DateTime.MinValue;
+            }
+
+            try
+            {
+                objeto.Excluido = Convert.ToChar(drc["ST_EXCLUIDO"]);
+            }
+            catch (InvalidCastException)
+            {
+                objeto.Excluido = char.MinValue;
+            }
+            objeto.Numero = Convert.ToString(drc["co_numero_cartao"]);
+            objeto.Tipo = Convert.ToChar(drc["tp_cartao"]);
+            if (objeto.Paciente == null)
+            {
+                objeto.Paciente = new Paciente();
+                objeto.Paciente.Codigo = Convert.ToString(drc["co_usuario"]);
+            }
+        }
+
+        protected override void SetarCodigoObjeto(DataRow dataRow, CartaoSUS objeto)
+        {
+            throw new NotImplementedException();
+        }
+    }
+}

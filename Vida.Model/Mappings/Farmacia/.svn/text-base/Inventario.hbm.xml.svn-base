@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Vida.Model">
+  <class name="Vida.Model.Inventario" table="far_inventario">
+    <id name="Codigo">
+      <column name="id_inventario" not-null="true"/>
+      <generator class="sequence" >
+        <param name="sequence">FAR_INVENTARIO_SEQUENCE</param>
+      </generator>
+    </id>
+    <property name="DataInventario" column="datainventario" />
+    <property name="DataFechamento" column="datafechamento" />
+	  <property name="Situacao" column="situacao" />
+    <many-to-one name="Farmacia" class="Vida.Model.Farmacia" column="id_farmacia" />
+  </class>
+</hibernate-mapping>

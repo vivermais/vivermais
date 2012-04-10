@@ -1,0 +1,6 @@
+C:\Users\Lucas\vivermais\Vida.DAL\bin\Debug\Vida.DAL.dll
+C:\Users\Lucas\vivermais\Vida.DAL\bin\Debug\Vida.DAL.pdb
+C:\Users\Lucas\vivermais\Vida.DAL\bin\Debug\Oracle.DataAccess.dll
+C:\Users\Lucas\vivermais\Vida.DAL\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Lucas\vivermais\Vida.DAL\obj\Debug\Vida.DAL.dll
+C:\Users\Lucas\vivermais\Vida.DAL\obj\Debug\Vida.DAL.pdb

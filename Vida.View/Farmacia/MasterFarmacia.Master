@@ -1,0 +1,224 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" MasterPageFile="~/MasterMain.Master"
+    CodeBehind="MasterFarmacia.master.cs" Inherits="ViverMais.View.Farmacia.MasterFarmacia" %>
+
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <link rel="stylesheet" href="style_form_farmacia.css" type="text/css" media="screen" />
+    <link href="GreyBox/gb_styles.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="style-barra-modulo.css" type="text/css" media="screen" />
+    
+    <script type="text/javascript" src="../JavaScript/MascarasGerais.js"></script>
+
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Cache-Control" content="no-cache" />
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+
+    <script type="text/javascript" language="javascript">
+        function showTooltip(obj) {
+            if (obj.options[obj.selectedIndex].title == "") {
+                obj.title = obj.options[obj.selectedIndex].text;
+                obj.options[obj.selectedIndex].title = obj.options[obj.selectedIndex].text;
+                for (i = 0; i < obj.options.length; i++) {
+                    obj.options[i].title = obj.options[i].text;
+                }
+            }
+            else
+                obj.title = obj.options[obj.selectedIndex].text;
+        }
+    </script>
+
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <%--    <div>
+        <asp:UpdateProgress runat="server" ID="updateProgress1">
+            <ProgressTemplate>
+                <asp:Panel ID="Carregando" runat="server" BackColor="#FFFFFF"  BorderColor="#CCCCCC" BorderWidth="1px" BorderStyle="Solid">
+                    <img alt="" style="float:left; vertical-align:middle;" src="img/progress_farmacia.gif" /></asp:Panel>
+                <cc1:AlwaysVisibleControlExtender ID="AlwaysVisibleControlExtender1" runat="server"
+                    TargetControlID="Carregando" HorizontalSide="Right"
+                    HorizontalOffset="20" VerticalSide="Bottom" ScrollEffectDuration=".1" VerticalOffset="20">
+                </cc1:AlwaysVisibleControlExtender>
+            </ProgressTemplate>
+        </asp:UpdateProgress>
+    </div>--%>
+    <% 
+        string url = Request.Url.ToString();
+        url = url.Substring(0, url.LastIndexOf(char.Parse("/")));
+    %>
+
+    <script type="text/javascript">
+        var GB_ROOT_DIR = '<%=url %>/GreyBox/';
+    </script>
+
+    <script type="text/javascript" src="GreyBox/AJS.js"></script>
+
+    <script type="text/javascript" src="GreyBox/AJS_fx.js"></script>
+
+    <script type="text/javascript" src="GreyBox/gb_scripts.js"></script>
+
+    <%--<div id="bgfarmacia">--%>
+        <%--<div id="DivMenu" runat="server" visible="false">
+            <div style="margin-top: 8px; margin-left: 14px">
+                <ul class="menu2" id="menu">
+                    <li><a href="#" class="menulink">Admnistração</a>
+                        <ul>
+                            <li><a href="FormExibeElenco.aspx">Elenco de Medicamentos</a></li>
+                            <li><a href="FormExibeFabricante.aspx">Fabricante</a></li>
+                            <li><a href="FormExibeFarmacia.aspx">Farmácia</a></li>
+                            <li><a href="FormBuscaMedicamento.aspx">Medicamento</a></li>
+                            <li><a href="FormBuscaSetor.aspx">Setor</a></li>
+                            <li><a href="FormExibeSubElencoMedicamento.aspx">Sub-Elenco de Medicamentos</a></li>
+                            <li><a href="FormExibeUnidadeMedicamento.aspx">Forma Farmacêutica</a></li>
+                            <li><a href="FormUnidadeRecebimentoRM.aspx">Unidades Responsáveis - RM</a></li>
+                            <li><a href="VincularUsuarioFarmacia.aspx">Vincular Usuário a Farmácia</a></li>
+                            <li><a href="FormVincularElencoFarmacia.aspx">Vincular Elenco a Farmácia</a></li>
+                            <li><a href="FormVincularUsuarioDistrito.aspx">Vincular Usuário a Distrito</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#" class="menulink">Movimento</a>
+                        <ul>
+                            <li><a href="#" class="sub">Dispensação</a>
+                                <ul>
+                                    <li class="topline"><a href="FormBuscaDispensacao.aspx">Pesquisar Receita</a></li>
+                                    <li><a href="FormGerarReceitaDispensacao.aspx">Registrar Nova Receita</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="FormPesquisaEstoque.aspx">Consultar Estoque</a></li>
+                            <li><a href="FormInventario.aspx">Inventário</a></li>
+                            <li><a href="#" class="sub">Movimentação</a>
+                                <ul>
+                                    <li class="topline"><a href="FormEscolheDadosMovimentacao.aspx">Nova</a></li>
+                                    <li><a href="FormBuscarMovimento.aspx">Pesquisar</a></li>
+                                    <li><a href="#" class="sub">Remanejamento</a>
+                                        <ul>
+                                            <li class="topline"><a href="FormPesquisarRemanejamento.aspx">Pesquisar</a></li>
+                                            <li><a href="FormReceberRemanejamento.aspx">Receber</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li><a href="FormBuscaRM.aspx">Requisição de Medicamentos</a></li>
+                            <li><a href="FormExibeLoteMedicamento.aspx">Lotes de Medicamento</a></li>
+                            <li><a href="#">Recebimento do Almoxarifado</a></li>
+                            <li><a href="#">Autorização RM (Distrito)</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#" class="menulink">Almoxarifado</a>
+                        <ul>
+                            <li><a href="FormBuscaNotaFiscal.aspx">Nosta Fiscal</a></li>
+                            <li><a href="#">Requisição</a></li>
+                            <li><a href="FormExibeFornecedor.aspx">Fornecedores</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="RelatoriosFarmacia.aspx" class="menulink">Relatórios</a></li>
+                </ul>
+            </div>
+        </div>--%>
+        <%--
+        <div>
+            <h3 class="backgroundgreen2">
+                <a href="Default.aspx">Módulo de Farmácia</a></h3>
+        </div>
+        <div class="top_menu">
+            <asp:Menu ID="MenuFarmacia" runat="server" Height="38px" Orientation="Horizontal"
+                Width="400px" Font-Size="11px" ForeColor="#FFFFFF" DynamicMenuItemStyle-BorderWidth="5px"
+                DynamicMenuItemStyle-Font-Underline="true" DynamicHoverStyle-BackColor="#cccccc"
+                DynamicMenuItemStyle-BackColor="#1a292f" DynamicMenuItemStyle-BorderColor="#8c1313">
+                <DynamicHoverStyle BackColor="#4c6355" ForeColor="#ffffff"></DynamicHoverStyle>
+                <StaticHoverStyle ForeColor="#91da9d" />
+                <DynamicMenuItemStyle BackColor="#c2ddcd" BorderColor="#c2ddcd" ForeColor="#03370b"
+                    BorderWidth="1px" Font-Underline="False" HorizontalPadding="2px" VerticalPadding="2px">
+                </DynamicMenuItemStyle>
+                <Items>
+                    <asp:MenuItem Text="Administração" Value="Administração">
+                        <asp:MenuItem NavigateUrl="~/Farmacia/FormExibeElenco.aspx" Text="Elenco de Medicamentos"
+                            Value="Elenco de Medicamentos"></asp:MenuItem>
+                        <asp:MenuItem Text="Fabricante" Value="Fabricante" NavigateUrl="~/Farmacia/FormExibeFabricante.aspx">
+                        </asp:MenuItem>
+                        <asp:MenuItem Text="Farmácia" Value="Farmácia" NavigateUrl="~/Farmacia/FormExibeFarmacia.aspx">
+                        </asp:MenuItem>
+                        <asp:MenuItem Text="Medicamento" Value="Medicamento" NavigateUrl="~/Farmacia/FormBuscaMedicamento.aspx">
+                        </asp:MenuItem>
+                        <asp:MenuItem Text="Setor" Value="Setor" NavigateUrl="~/Farmacia/FormBuscaSetor.aspx">
+                        </asp:MenuItem>
+                        <asp:MenuItem Text="Sub-Elenco de Medicamentos" Value="Grupo de Medicamentos" NavigateUrl="~/Farmacia/FormExibeSubElencoMedicamento.aspx">
+                        </asp:MenuItem>
+                        <asp:MenuItem Text="Forma Farmacêutica" Value="Unidade de medida" NavigateUrl="~/Farmacia/FormExibeUnidadeMedicamento.aspx">
+                        </asp:MenuItem>
+                        <asp:MenuItem NavigateUrl="~/Farmacia/FormUnidadeRecebimentoRM.aspx" Text="Unidades Responsáveis - RM"
+                            Value="Unidades_Responsaveis_RM"></asp:MenuItem>
+                        <asp:MenuItem NavigateUrl="~/Farmacia/VincularUsuarioFarmacia.aspx" Text="Vincular Usuário a Farmácia"
+                            Value="Vincular Usuário a Farmácia"></asp:MenuItem>
+                        <asp:MenuItem NavigateUrl="~/Farmacia/FormVincularElencoFarmacia.aspx" Text="Vincular Elenco a Farmácia"
+                            Value="Vincular Elenco a Farmácia"></asp:MenuItem>
+                        <asp:MenuItem NavigateUrl="~/Farmacia/FormVincularUsuarioDistrito.aspx" Text="Vincular Usuário a Distrito"
+                            Value="Vincular Usuário a Distrito"></asp:MenuItem>
+                    </asp:MenuItem>
+                    <asp:MenuItem Text="Movimento" Value="Movimento">
+                        <asp:MenuItem Text="Dispensação" Value="Dispensação">
+                            <asp:MenuItem Text="Pesquisar Receita" Value="Pesquisar_Receita" NavigateUrl="~/Farmacia/FormBuscaDispensacao.aspx">
+                            </asp:MenuItem>
+                            <asp:MenuItem Text="Registrar Nova Receita" Value="Registrar_Receita" NavigateUrl="~/Farmacia/FormGerarReceitaDispensacao.aspx">
+                            </asp:MenuItem>
+                        </asp:MenuItem>
+                        <asp:MenuItem Text="Consultar estoque" Value="Consultar estoque" NavigateUrl="~/Farmacia/FormPesquisaEstoque.aspx">
+                        </asp:MenuItem>
+                        <asp:MenuItem Text="Inventário" Value="Inventário" NavigateUrl="~/Farmacia/FormInventario.aspx">
+                        </asp:MenuItem>
+                        <asp:MenuItem Text="Movimentação de Materiais" Value="Movimentacao_Farmacia">
+                            <asp:MenuItem Text="Nova" Value="NovaMovimentacao" NavigateUrl="~/Farmacia/FormEscolheDadosMovimentacao.aspx">
+                            </asp:MenuItem>
+                            <asp:MenuItem Text="Pesquisar" Value="PesquisarMovimento" NavigateUrl="~/Farmacia/FormBuscarMovimento.aspx">
+                            </asp:MenuItem>
+                            <asp:MenuItem Text="Remanejamento" Value="MRemanejamento">
+                                <asp:MenuItem Text="Pesquisar" Value="MPesquisarRemanejamento" NavigateUrl="~/Farmacia/FormPesquisarRemanejamento.aspx">
+                                </asp:MenuItem>
+                                <asp:MenuItem Text="Receber" Value="MReceberRemanejamento" NavigateUrl="~/Farmacia/FormReceberRemanejamento.aspx">
+                                </asp:MenuItem>
+                            </asp:MenuItem>
+                        </asp:MenuItem>
+                        <asp:MenuItem Text="Requisição de medicamentos" Value="Requisição de materiais" NavigateUrl="~/Farmacia/FormBuscaRM.aspx">
+                        </asp:MenuItem>
+                        <asp:MenuItem Text="Lotes de medicamentos" Value="Lotes de medicamentos" NavigateUrl="~/Farmacia/FormExibeLoteMedicamento.aspx">
+                        </asp:MenuItem>
+                        <asp:MenuItem Text="Recebimento do Almoxarifado" Value="Recebimento_Almoxarifado"
+                            NavigateUrl="#"></asp:MenuItem>
+                        <asp:MenuItem Text="Autorização RM (Distrito)" Value="RM_Distrito" NavigateUrl="#">
+                        </asp:MenuItem>
+                    </asp:MenuItem>
+                    <asp:MenuItem Text="Almoxarifado" Value="Almoxarifado">
+                        <asp:MenuItem Text="Nota Fiscal" Value="Nota Fiscal" NavigateUrl="~/Farmacia/FormBuscaNotaFiscal.aspx">
+                        </asp:MenuItem>
+                        <asp:MenuItem Text="Requisição" Value="Requisicao" NavigateUrl="#"></asp:MenuItem>
+                        <asp:MenuItem Text="Fornecedores" Value="Fornecedores" NavigateUrl="~/Farmacia/FormExibeFornecedor.aspx">
+                        </asp:MenuItem>
+                    </asp:MenuItem>
+                    <asp:MenuItem Text="Relatórios" Value="Relatórios" NavigateUrl="~/Farmacia/RelatoriosFarmacia.aspx">
+                    </asp:MenuItem>
+                </Items>
+            </asp:Menu>
+        </div>
+        --%>
+    <%--</div>--%>
+    <cc1:AlwaysVisibleControlExtender runat="server" ID="AlwaysVisibleControlExtender2"
+        TargetControlID="UpDateProgressFarmacia" VerticalSide="Middle" VerticalOffset="10"
+        HorizontalSide="Center" HorizontalOffset="10" ScrollEffectDuration=".1">
+    </cc1:AlwaysVisibleControlExtender>
+    <br />
+    <div>
+        <asp:UpdateProgress ID="UpDateProgressFarmacia" runat="server" DisplayAfter="1" DynamicLayout="false">
+            <ProgressTemplate>
+                <div id="progressBackgroundFilter">
+                </div>
+                <div id="processMessage">
+                    <div id="bgloader">
+                        <img src="img/ajax-loadernn.gif" style="margin-left: 68px; margin-top: 45px;" alt="" />
+                    </div>
+                </div>
+            </ProgressTemplate>
+        </asp:UpdateProgress>
+    </div>
+    <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+    </asp:ContentPlaceHolder>
+</asp:Content>

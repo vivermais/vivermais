@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="ViverMais.Model">
+  <class name="ViverMais.Model.AtestadoReceitaUrgence" table="URG_ATESTADORECEITA">
+    <id name="Codigo">
+      <column name="CO_ATESTADORECEITA" not-null="true"/>
+      <generator class="sequence">
+        <param name="sequence">URG_ATESTADORECEITA_SEQUENCE</param>
+      </generator>
+    </id>
+    <many-to-one class="ViverMais.Model.Prontuario" name="Prontuario" column="CO_PRONTUARIO" lazy="false"></many-to-one>
+    <property name="Data" column="data" />
+    <property name="Conteudo" column="conteudo" type="StringClob"/>
+    <property name="CodigoProfissional" column="CO_PROFISSIONAL" />
+    <property name="CBOProfissional" column="cbo_profissional" />
+    <many-to-one class="ViverMais.Model.TipoAtestadoReceita" name="TipoAtestadoReceita" column="CO_TIPOATESTADORECEITA" lazy="false"></many-to-one>
+    <!--<property name="TipoDocumento" column="tipodocumento" />-->
+    <!--<many-to-one class="ViverMais.Model.TipoSolicitacao" name="" column="id_prontuario"></many-to-one>-->
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,14 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace ViverMais.ServiceFacade.ServiceFacades.Farmacia.Misc
+{
+    public interface ISetor : IServiceFacade
+    {
+        IList<T> BuscarPorDescricao<T>(string nome);
+        IList<T> BuscarPorEstabelecimento<T>(string co_unidade);
+        void AssociarSetorUnidade<S>(IList<S> setoresatuais, IList<S> setoresnovos);
+    }
+}

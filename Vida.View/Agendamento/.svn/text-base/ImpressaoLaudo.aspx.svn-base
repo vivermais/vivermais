@@ -1,0 +1,29 @@
+﻿<%@ Page Language="C#" MasterPageFile="~/Agendamento/MasterAgendamento.Master" AutoEventWireup="true"
+    CodeBehind="ImpressaoLaudo.aspx.cs" Inherits="Vida.View.Agendamento.ImpressaoLaudo"
+    Title="Untitled Page" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder2" runat="server">
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder3" runat="server">
+    <asp:UpdatePanel runat="server" ID="up2" UpdateMode="Always">
+        <Triggers>
+            <%--<asp:PostBackTrigger ControlID="btnSalvar" />--%>
+        </Triggers>
+        <ContentTemplate>
+            <div id="top">
+                <fieldset class="formulario">
+                    <legend>Laudos da Solicitação</legend>
+                    <p>
+                        <asp:Image ID="Image1" runat="server" />
+                    </p>    
+                    <p>
+                        <asp:Button ID="btnAnterior" runat="server" Text="Anterior" Style="margin-left: 82px"
+                            CausesValidation="False" OnClick="btnAnterior_Click" />
+                        <asp:Button ID="btnProximo" runat="server" Text="Próximo" Style="margin-left: 26px"
+                            CausesValidation="False" OnClick="btnProximo_Click" />
+                    </p>
+                </fieldset>
+            </div>
+        </ContentTemplate>
+    </asp:UpdatePanel>
+</asp:Content>

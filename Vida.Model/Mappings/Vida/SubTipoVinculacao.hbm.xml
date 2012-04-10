@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="ViverMais.Model">
+	<class name="ViverMais.Model.SubTipoVinculacao" table="pms_cnes_nfces058">
+		<id name="Codigo">
+			<column name="tp_subvinculo" not-null="true"/>
+			<generator class="assigned" />
+		</id>
+    <many-to-one name="Vinculacao" class="ViverMais.Model.Vinculacao" column="cd_vinculacao"/>
+    <many-to-one name="TipoVinculacao" class="ViverMais.Model.TipoVinculacao" column="tp_vinculo"/>
+		<property name="DescricaoSubVinculo" column="ds_subvinculo"/>
+	</class>
+</hibernate-mapping>

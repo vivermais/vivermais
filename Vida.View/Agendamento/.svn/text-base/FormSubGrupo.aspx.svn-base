@@ -1,0 +1,87 @@
+﻿<%@ Page Language="C#" MasterPageFile="~/Agendamento/MasterAgendamento.Master" AutoEventWireup="true"
+    CodeBehind="FormSubGrupo.aspx.cs" Inherits="Vida.View.Agendamento.FormSubGrupo"
+    Title="Untitled Page" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder2" runat="server">
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder3" runat="server">
+    <div id="top">
+        <h2>
+            Cadastro de Sub-Grupo</h2>
+        <fieldset class="formulario">
+            <legend>Cadastro de Sub-Grupo</legend>
+            <asp:UpdatePanel ID="UpdatePanelCadastro" runat="server" UpdateMode="Always">
+                <Triggers>
+                    <asp:AsyncPostBackTrigger ControlID="GridViewLista" EventName="RowCommand" />
+                </Triggers>
+                <ContentTemplate>
+                    <p>
+                        <span class="rotulo">Nome do Sub-Grupo</span>
+                        <asp:TextBox ID="tbxNomeSubGrupo" runat="server" CssClass="campoMaiusculo" Width="150px" MaxLength="40"></asp:TextBox>
+                    </p>
+                    <asp:RequiredFieldValidator ID="RequiredFieldValidatorNome" Font-Size="XX-Small"
+                        runat="server" ControlToValidate="tbxNomeSubGrupo" Display="Dynamic" ErrorMessage="* Informe o Nome"
+                        ValidationGroup="NovoSubGrupo">
+                    </asp:RequiredFieldValidator>
+                </ContentTemplate>
+            </asp:UpdatePanel>
+            <div class="botoesroll">
+                <asp:LinkButton ID="btnCadastrar" runat="server" OnClick="btnCadastrar_Click" ValidationGroup="NovoSubGrupo"
+                    CausesValidation="true">
+                <img id="imgsalvar" alt="Salvar" src="img/salvar_1.png"
+                onmouseover="imgsalvar.src='img/salvar_2.png';"
+                onmouseout="imgsalvar.src='img/salvar_1.png';" />
+                </asp:LinkButton>
+            </div>
+            <div class="botoesroll">
+            <asp:LinkButton ID="btnVoltar" runat="server" PostBackUrl="~/Agendamento/Default.aspx"
+                CausesValidation="false">
+                <img id="img_voltar" alt="" src="img/voltar_1.png"
+                onmouseover="img_voltar.src='img/voltar_2.png';"
+                onmouseout="img_voltar.src='img/voltar_1.png';" />
+            </asp:LinkButton></div>
+        </fieldset>
+        <br />
+        <br />
+        <fieldset class="formulario">
+            <legend>Sub-Grupos Cadastrados</legend>
+            <asp:UpdatePanel ID="UpdatePanelSubGrupo" runat="server" UpdateMode="Always">
+                <Triggers>
+                    <asp:AsyncPostBackTrigger ControlID="btnCadastrar" EventName="Click" />
+                </Triggers>
+                <ContentTemplate>
+                    <p>
+                        <asp:GridView ID="GridViewLista" runat="server" AllowPaging="true" PageSize="10"
+                            HorizontalAlign="Center" AutoGenerateColumns="false" BackColor="White" BorderColor="#477ba5"
+                            BorderStyle="None" BorderWidth="1px" CellPadding="3" GridLines="Vertical" Width="100%"
+                            OnPageIndexChanging="GridViewLista_PageIndexChanging" OnRowCommand="GridViewLista_OnRowCommand">
+                            <Columns>
+                                <asp:BoundField DataField="Codigo">
+                                    <HeaderStyle CssClass="colunaEscondida" />
+                                    <ItemStyle CssClass="colunaEscondida" />
+                                </asp:BoundField>
+                                <asp:BoundField DataField="NomeSubGrupo" HeaderText="Sub-Grupo"></asp:BoundField>
+                                <asp:TemplateField HeaderText="Editar" ItemStyle-HorizontalAlign="Center">
+                                    <ItemTemplate>
+                                        <asp:LinkButton ID="cmdSelecionar" runat="server" CommandArgument='<%# Eval("Codigo") %>'
+                                            CommandName="Selecionar">
+                                            <asp:Image ID="Selecionar" runat="server" ImageUrl="~/Agendamento/img/bt_edit.png" />
+                                        </asp:LinkButton>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                            </Columns>
+                            <EmptyDataTemplate>
+                                <asp:Label ID="Label1" runat="server" Text="Nenhum Registro Encontrado!" Font-Size="X-Small"></asp:Label>
+                            </EmptyDataTemplate>
+                            <PagerStyle BackColor="#999999" ForeColor="Black" HorizontalAlign="Center" />
+                            <SelectedRowStyle BackColor="#008A8C" Font-Bold="True" ForeColor="White" />
+                            <HeaderStyle BackColor="#477ba5" Font-Bold="True" ForeColor="White" Font-Names="Verdana"
+                                Font-Size="11px" Height="22px" />
+                            <AlternatingRowStyle BackColor="#c2dcf2" />
+                        </asp:GridView>
+                    </p>
+                </ContentTemplate>
+            </asp:UpdatePanel>
+        </fieldset>
+    </div>
+</asp:Content>

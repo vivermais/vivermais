@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="ViverMais.Model">
+  <class name="ViverMais.Model.LogViverMais" table="tb_pms_log_eventos">
+
+    <composite-id>
+	  <key-property name="Data" column="data" />
+	  <key-many-to-one name="Usuario" class="ViverMais.Model.Usuario" column="co_usuario" />
+      <key-property name="Evento" column="co_evento" />
+    </composite-id>    
+    <property name="Valor" column="valor"/>
+  </class>
+</hibernate-mapping>

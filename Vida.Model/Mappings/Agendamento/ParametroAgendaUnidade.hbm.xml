@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="ViverMais.Model">
+  <class name="ViverMais.Model.ParametroAgendaUnidade" table="AGD_PARAMETROAGENDAUNIDADE">
+    <id name="Codigo">
+      <column name="CODIGO" not-null="true"/>
+      <generator class="sequence">
+        <param name="sequence">AGD_PARAMETROAGENDAUNIDAD_SEQ</param>
+      </generator>
+    </id>
+    <many-to-one name="Estabelecimento" class="ViverMais.Model.EstabelecimentoSaude" column="CNES" fetch="join"/>
+    <property name="SolicitaOutrasUnidades" column="SOLICITA_OUTRAS_UNIDADES" />
+    <!--<property name="TipoConfiguracao" column="tipo_configuracao" />
+    <property name="TipoAgenda" column="CO_TIPOAGENDA" />
+    <property name="Percentual" column="PERCENTUAL" />
+    <many-to-one name="Procedimento" class="ViverMais.Model.Procedimento" column="co_procedimento" />
+    <many-to-one name="Cbo" class="ViverMais.Model.CBO" column="co_ocupacao" />
+    <many-to-one name="SubGrupo" class="ViverMais.Model.SubGrupo" column="co_subgrupo" />-->
+    <!--<property name="ID_Procedimento" column="CO_PROCEDIMENTO" />
+    <property name="ID_Programa" column="CO_PROGRAMA" />-->
+  </class>
+</hibernate-mapping>

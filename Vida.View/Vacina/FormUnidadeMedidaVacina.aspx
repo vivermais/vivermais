@@ -1,0 +1,49 @@
+﻿<%@ Page Language="C#" MasterPageFile="~/Vacina/MasterVacina.Master" AutoEventWireup="true"
+    CodeBehind="FormUnidadeMedidaVacina.aspx.cs" Inherits="ViverMais.View.Vacina.FormUnidadeMedidaVacina"
+    Title="Untitled Page" EnableEventValidation="false" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <asp:UpdatePanel ID="UpdatePanel" runat="server">
+        <ContentTemplate>
+            <div id="top">
+                <h2>
+                    Formulário para Cadastro de Unidade de Medida de Vacina</h2>
+                <fieldset>
+                    <legend>Unidade de Medida</legend>
+                    <p>
+                        <span class="rotulo">Nome</span> <span>
+                            <asp:TextBox ID="TextBox_Nome" CssClass="campo" runat="server" Width="300px" MaxLength="50"></asp:TextBox>
+                        </span>
+                    </p>
+                    <p>
+                        <span class="rotulo">Sigla</span> <span>
+                            <asp:TextBox ID="TextBox_Sigla" CssClass="campo" runat="server" Width="100px" MaxLength="4"></asp:TextBox>
+                        </span>
+                    </p>
+                    <div class="botoesroll">
+                        <asp:LinkButton ID="Lnk_Salvar" runat="server" OnClick="OnClick_Salvar" OnClientClick="javascript:if (Page_ClientValidate('ValidationGroup_cadUnidadeMedida')) return confirm('Todos os dados da unidade de medida estão corretos ?'); return false;">
+                  <img id="imgSalvar" alt="Salvar" src="img/btn_salvar1.png"
+                  onmouseover="imgSalvar.src='img/btn_salvar2.png';"
+                  onmouseout="imgSalvar.src='img/btn_salvar1.png';" /></asp:LinkButton>
+                    </div>
+                    <div class="botoesroll">
+                        <asp:LinkButton ID="Lnk_Cancelar" runat="server" PostBackUrl="~/Vacina/FormExibeUnidadeMedidaVacina.aspx">
+                  <img id="imgcancelar" alt="Cancelar" src="img/btn_cancelar1.png"
+                  onmouseover="imgcancelar.src='img/btn_cancelar2.png';"
+                  onmouseout="imgcancelar.src='img/btn_cancelar1.png';" /></asp:LinkButton>
+                    </div>
+                    <p>
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ErrorMessage="Nome é obrigatório!"
+                            Display="None" ControlToValidate="TextBox_Nome" ValidationGroup="ValidationGroup_cadUnidadeMedida"></asp:RequiredFieldValidator>
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ErrorMessage="Sigla é obrigatório!"
+                            Display="None" ControlToValidate="TextBox_Sigla" ValidationGroup="ValidationGroup_cadUnidadeMedida"></asp:RequiredFieldValidator>
+                        <asp:ValidationSummary ID="ValidationSummary1" ShowMessageBox="true" ShowSummary="false"
+                            ValidationGroup="ValidationGroup_cadUnidadeMedida" runat="server" />
+                    </p>
+                </fieldset>
+            </div>
+        </ContentTemplate>
+    </asp:UpdatePanel>
+</asp:Content>

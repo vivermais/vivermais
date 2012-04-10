@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Vida.Model">
+  <class name="Vida.Model.FaturaBPAUrgencia" table="urg_faturabpa">
+    <id name="Codigo">
+      <column name="co_fatura" not-null="true"/>
+      <generator class="sequence" >
+        <param name="sequence">urg_faturabpa_sequence</param>
+      </generator>
+    </id>
+    <many-to-one name="Unidade" class="Vida.Model.EstabelecimentoSaude" column="co_unidade" />
+    <property name="Competencia" column="competencia" />
+    <property name="Tipo" column="tipo" />
+    <property name="Data" column="data" />
+    <many-to-one name="Usuario" class="Vida.Model.Usuario" column="co_usuario" />
+  </class>
+</hibernate-mapping>

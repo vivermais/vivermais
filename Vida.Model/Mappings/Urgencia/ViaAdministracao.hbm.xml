@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="ViverMais.Model">
+  <class name="ViverMais.Model.ViaAdministracao" table="URG_VIAADMINISTRACAO">
+    <id name="Codigo">
+      <column name="CO_VIA" not-null="true"/>
+      <generator class="assigned" />
+    </id>
+    <property name="Nome" column="nome" />
+
+    <!--<bag name="FormasAdministracao" table="via_formaadministracao">
+      <key column="id_via"/>
+      <many-to-many column="id_forma" class="ViverMais.Model.FormaAdministracao" />
+    </bag>-->
+    
+  </class>
+</hibernate-mapping>

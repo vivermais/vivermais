@@ -1,0 +1,314 @@
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Collections.Generic;
+using ViverMais.DAO;
+using ViverMais.ServiceFacade.ServiceFacades.Paciente;
+using ViverMais.ServiceFacade.ServiceFacades.Seguranca;
+using ViverMais.Model;
+using ViverMais.ServiceFacade.ServiceFacades.AtendimentoMedico.Urgencia;
+using System.Text;
+using ViverMais.ServiceFacade.ServiceFacades.Agendamento.Agenda;
+using ViverMais.ServiceFacade.ServiceFacades.Agendamento;
+using ViverMais.ServiceFacade.ServiceFacades.Atendimento;
+using ViverMais.ServiceFacade.ServiceFacades;
+using ViverMais.ServiceFacade.ServiceFacades.Profissional;
+using ViverMais.ServiceFacade.ServiceFacades.Profissional.Misc;
+
+namespace ViverMais.View.Atendimento
+{
+    public partial class FormRecepcaoPaciente : PageViverMais
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            ImageButton botaopesquisar = this.WUC_PesquisarPaciente.WUC_BotaoPesquisar;
+            botaopesquisar.Click += new ImageClickEventHandler(OnClick_BuscarPaciente);
+
+            AsyncPostBackTrigger trigger = new AsyncPostBackTrigger();
+            trigger.ControlID = botaopesquisar.UniqueID;
+            trigger.EventName = "Click";
+            this.UpdatePanel_PacienteSUS.Triggers.Add(trigger);
+
+            if (!IsPostBack)
+            {
+                try
+                {
+                    if (Factory.GetInstance<ISeguranca>().VerificarPermissao(((Usuario)Session["Usuario"]).Codigo, "ATENDIMENTO", Modulo.ATENDIMENTO))
+                    {
+                        this.WUC_PesquisarPaciente.WUC_BotaoPesquisar.ImageUrl = "~/Atendimento/img/pesquisarcartao1.png";
+                        this.WUC_PesquisarPaciente.WUC_BotaoPesquisar.Attributes.Add("onmouseover", "this.src='img/pesquisarcartao2.png';");
+                        this.WUC_PesquisarPaciente.WUC_BotaoPesquisar.Attributes.Add("onmouseout", "this.src='img/pesquisarcartao1.png';");
+
+                        LinkButton botaobiometria = this.WUC_PesquisarPaciente.WUC_BotaoBiometria;
+                        botaobiometria.PostBackUrl = "~/Atendimento/FormAtendimentoBiometriaPaciente.aspx";
+
+                        this.WUC_PesquisarPaciente.WUC_ImagemBiometria.Src = "~/Urgencia/img/bts/id_biometrica1.png";
+                        this.WUC_PesquisarPaciente.WUC_ImagemBiometria.Attributes.Add("onmouseover", "this.src='img/bts/id_biometrica2.png';");
+                        this.WUC_PesquisarPaciente.WUC_ImagemBiometria.Attributes.Add("onmouseout", "this.src='img/bts/id_biometrica1.png';");
+
+                        if (Request["co_paciente"] != null)
+                        {
+                            string codigo = Request["co_paciente"].ToString();
+                            ViverMais.Model.Paciente paciente = Factory.GetInstance<IPaciente>().BuscarPorCodigo<ViverMais.Model.Paciente>(codigo);
+
+                            IList<ViverMais.Model.Paciente> pacientes = new List<ViverMais.Model.Paciente>();
+
+                            pacientes.Add(paciente);
+                            this.PacientesPesquisados = pacientes;
+                            this.CarregaPacientesSUSPesquisados();
+                        }
+                    }
+                }
+                catch (Exception f)
+                {
+                    throw f;
+                }
+            }
+        }
+
+        private ViverMais.Model.Paciente PacienteSelecionado
+        {
+            get { return (ViverMais.Model.Paciente)ViewState["pacienteAtendimento"]; }
+            set { ViewState["pacienteAtendimento"] = value; }
+        }
+
+        private IList<ViverMais.Model.Paciente> PacientesPesquisados
+        {
+            get { return (IList<ViverMais.Model.Paciente>)ViewState["pacientesPesquisados"]; }
+            set { ViewState["pacientesPesquisados"] = value; }
+        }
+
+        private IList<ViverMais.Model.Solicitacao> Solicitacoes
+        {
+            get { return (IList<ViverMais.Model.Solicitacao>)ViewState["solicitacoes"]; }
+            set { ViewState["solicitacoes"] = value; }
+        }
+
+        /// <summary>
+        /// Inicia o atendimento para o paciente
+        /// </summary>
+        /// <param name="sender">Objeto de envio</param>
+        /// <param name="e">Argumento de inicialização</param>
+        protected void OnClick_IniciarAtendimento(object sender, EventArgs e)
+        {
+            Usuario usuario = (ViverMais.Model.Usuario)Session["Usuario"];
+            IRegistroEletronicoAtendimento iRegistroEletronicoAtendimento = Factory.GetInstance<IRegistroEletronicoAtendimento>();
+
+            string numeroatendimento = iRegistroEletronicoAtendimento.IniciarAtendimento<Usuario>(usuario, this.PacienteSelecionado.Codigo);
+            RegistroEletronicoAtendimento registroAtendimento = iRegistroEletronicoAtendimento.BuscarPorNumeroRegistroAtendimento<RegistroEletronicoAtendimento>(long.Parse(numeroatendimento));
+
+            ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Registro eletrônico de atendimento número: " + registroAtendimento.Numero.ToString() + ".');window.open('FormImprimirSenhaRecepcao.aspx?co_registro_eletronico=" + registroAtendimento.Codigo.ToString() + "&co_servico=" + ddlServicoSenhador.SelectedValue + "','Impressão','height = 270, width = 250');", true);
+
+            this.Panel_AcoesPosAtendimento.Visible = true;
+            this.Panel_LinkButtonIniciarAtendimento.Visible = false;
+
+            this.LinkButton_ReimprimirSenha.CommandArgument = registroAtendimento.Codigo.ToString();
+        }
+
+        protected void OnClick_ReimprimirSenha(object sender, EventArgs e)
+        {
+            long co_prontuario = long.Parse(((LinkButton)sender).CommandArgument.ToString());
+            ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "window.open('FormImprimirSenhaAcolhimentoAtendimento.aspx?co_prontuario=" + co_prontuario.ToString() + "&tipo_impressao=acolhimento','Impressão','height = 270, width = 250');", true);
+        }
+
+        /// <summary>
+        /// Cria os botões para validar os prontuários que estejam abertos para cada um dos pacientes
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnRowDataBound_CriandoGridView(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.EmptyDataRow)
+            {
+                HyperLink linkNovoPaciente = (HyperLink)e.Row.FindControl("HyperLink_NovoPaciente");
+                linkNovoPaciente.NavigateUrl = HelperRedirector.URLRelativaAplicacao() +
+                    "Paciente/FormPaciente.aspx?url_retorno=" +
+                    HelperRedirector.EncodeURL(this.Request.Url.ToString() + "&co_paciente=");
+
+                linkNovoPaciente.DataBind();
+            }
+        }
+
+        protected void OnSelectedIndexChanging_Atendimento(object sender, GridViewSelectEventArgs e)
+        {
+            Usuario usuario = ((ViverMais.Model.Usuario)Session["Usuario"]);
+
+            IPaciente iPaciente = Factory.GetInstance<IPaciente>();
+
+            this.PacienteSelecionado = iPaciente.BuscarPorCodigo<ViverMais.Model.Paciente>(
+                this.GridView_ResultadoPesquisa.DataKeys[e.NewSelectedIndex]["Codigo"].ToString());
+
+            this.Panel_Atendimento.Visible = true;
+            this.Label_NomePacienteNormal.Text = this.PacienteSelecionado.Nome;
+            this.Label_DataNascimentoPacienteNormal.Text = this.PacienteSelecionado.DataNascimento.ToString("dd/MM/yyyy");
+            this.Label_MaePacienteNormal.Text = this.PacienteSelecionado.NomeMae;
+
+            IList<ServicoSenhador> servicos = Factory.GetInstance<ISenhador>().ListarTodos<ServicoSenhador>();
+            ddlServicoSenhador.Items.Add(new ListItem("Selecione...", "0"));
+            foreach (ServicoSenhador servico in servicos)
+            {
+                ddlServicoSenhador.Items.Add(new ListItem(servico.Nome, servico.Codigo.ToString()));
+            }
+        }
+
+        /// <summary>
+        /// Pesquisa o paciente que possua cartão SUS
+        /// </summary>
+        /// <param name="sender">Objeto de envio</param>
+        /// <param name="e">Argumento de Inicialização</param>
+        protected void OnClick_BuscarPaciente(object sender, ImageClickEventArgs e)
+        {
+            if (this.WUC_PesquisarPaciente.Page.IsValid)
+            {
+                this.WUC_PesquisarPaciente.GridView.Visible = false;
+                this.WUC_PesquisarPaciente.WUC_UpdatePanel_ResultadoPesquisa.Update();
+
+                string cartaosus = this.WUC_PesquisarPaciente.WUC_CartaoSUSPesquisado;
+                string datanascimento = this.WUC_PesquisarPaciente.WUC_DataNascimentoPesquisado;
+                string nomepaciente = this.WUC_PesquisarPaciente.WUC_PacientePesquisado;
+                string nomemae = this.WUC_PesquisarPaciente.WUC_MaePesquisado;
+
+                IList<ViverMais.Model.Paciente> pacientes = new List<ViverMais.Model.Paciente>();
+
+                if (!string.IsNullOrEmpty(cartaosus))
+                {
+                    //Regex validaCartaoSUS = new Regex(@"^\d{15}$");
+
+                    //if (validaCartaoSUS.IsMatch(cartaosus))
+                    //{                        
+                    ViverMais.Model.Paciente paciente = Factory.GetInstance<IPaciente>().PesquisarPacientePorCNS<ViverMais.Model.Paciente>(cartaosus);
+
+                    if (paciente != null)
+                        pacientes.Add(paciente);
+
+                    this.PacientesPesquisados = pacientes;
+                    this.CarregaPacientesSUSPesquisados();
+                    //}
+                    //else
+                    //    ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('O cartão SUS deve conter 15 dígitos!');", true);
+                }
+                else
+                {
+                    pacientes = Factory.GetInstance<IPaciente>().PesquisarPaciente<ViverMais.Model.Paciente>(nomepaciente, !string.IsNullOrEmpty(nomemae) ? nomemae : "", !string.IsNullOrEmpty(datanascimento) ? DateTime.Parse(datanascimento) : DateTime.MinValue);
+
+                    this.PacientesPesquisados = pacientes;
+                    this.CarregaPacientesSUSPesquisados();
+                }
+            }
+        }
+
+        public void CarregaPacientesSUSPesquisados()
+        {
+            this.GridView_ResultadoPesquisa.DataSource = this.PacientesPesquisados;
+            this.GridView_ResultadoPesquisa.DataBind();
+
+            this.Panel_PacientesPesquisados.Visible = true;
+            this.Panel_AcoesPosAtendimento.Visible = false;
+            this.Panel_Atendimento.Visible = false;
+
+            this.UpdatePanel_PacienteSUS.Update();
+        }
+
+        /// <summary>
+        /// Paginação do GridView
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnPageIndexChanging_Paginacao(object sender, GridViewPageEventArgs e)
+        {
+            this.CarregaPacientesSUSPesquisados();
+
+            this.GridView_ResultadoPesquisa.PageIndex = e.NewPageIndex;
+            this.GridView_ResultadoPesquisa.DataBind();
+        }
+
+        protected bool VerificarAtendimentoAberto(string codigoPaciente, ViverMais.Model.EstabelecimentoSaude unidade)
+        {
+            ViverMais.Model.Paciente paciente = null;
+            bool atendimentoAberto = false;
+
+            if (codigoPaciente != null)
+            {
+                paciente = Factory.GetInstance<IPaciente>().BuscarPorCodigo<ViverMais.Model.Paciente>(codigoPaciente);
+                ViverMais.Model.RegistroEletronicoAtendimento registroAtendimentoAberto = Factory.GetInstance<IRegistroEletronicoAtendimento>().BuscarRegistroAtendimentoAberto<ViverMais.Model.EstabelecimentoSaude, ViverMais.Model.RegistroEletronicoAtendimento>(paciente.Codigo, unidade);
+                if (registroAtendimentoAberto != null)
+                    atendimentoAberto = true;
+            }
+            return atendimentoAberto;
+        }
+
+        protected void ddlServicoSenhador_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //Define falso já que sera verdadeiro caso o serivdo seja do tipo agendado
+            PanelSolicitacoes.Visible = false;
+
+            int codigoServicoSenhador = int.Parse(ddlServicoSenhador.SelectedValue);
+            Usuario usuario = ((ViverMais.Model.Usuario)Session["Usuario"]);
+            ServicoSenhador servicoSenhador = Factory.GetInstance<IAtendimentoServiceFacade>().BuscarPorCodigo<ServicoSenhador>(codigoServicoSenhador);
+
+            bool servicoDoTipoAgendado = true;
+            
+            //É necessário ligar o serviço ao procedimento do agendamento senão será puxada uma lista
+            //de solicitações para todos os serviços do tipo agendado
+            if (servicoDoTipoAgendado)
+            {
+                IList<Solicitacao> solicitacoes = Factory.GetInstance<ISolicitacao>().ListarSolicitacoesPorPacientePorCnes<Solicitacao>(PacienteSelecionado.Codigo, usuario.Unidade.CNES, DateTime.Now);
+                if (solicitacoes.Count == 0)
+                {
+                    ScriptManager.RegisterClientScriptBlock(this, typeof(String), "critica", "alert('Nenhuma consulta marcada nesta unidade para a data de hoje.')", true);
+                    return;
+                }
+
+                this.Solicitacoes = solicitacoes;
+                PanelSolicitacoes.Visible = true;
+                GridViewSolicitacoes.DataSource = solicitacoes;
+                GridViewSolicitacoes.DataBind();
+            }
+
+            bool registroEletronicoAberto = this.VerificarAtendimentoAberto(this.PacienteSelecionado.Codigo, usuario.Unidade);
+            if (registroEletronicoAberto == true)
+            {
+                this.LinkButton_IniciarAtendimento.OnClientClick = "javascript:return confirm('Atenção usuário, o paciente escolhido " +
+                    " está em atendimento na unidade! Para prosseguir, você precisa finalizar o registro eletrônico em aberto do paciente. " +
+                    "Deseja fazê-lo agora?');";
+            }
+            else
+                this.LinkButton_IniciarAtendimento.OnClientClick = string.Empty;
+        }
+
+        protected void GridViewSolicitacoes_OnSelectedIndexChanging(object sender, GridViewSelectEventArgs e)
+        {
+            this.Panel_LinkButtonIniciarAtendimento.Visible = true;
+            this.Panel_AcoesPosAtendimento.Visible = false;
+
+            string codigoSolicitacao = this.GridViewSolicitacoes.DataKeys[e.NewSelectedIndex]["Codigo"].ToString();
+            Solicitacao solicitacao = Factory.GetInstance<IAtendimentoServiceFacade>().BuscarPorCodigo<Solicitacao>(codigoSolicitacao);
+            if (solicitacao.Agenda != null)
+                lblProfissional.Text = solicitacao.Agenda.ID_Profissional.Nome;
+        }
+
+        protected void GridViewSolicitacoes_OnPageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            this.GridView_ResultadoPesquisa.DataSource = this.Solicitacoes;
+            this.GridView_ResultadoPesquisa.DataBind();
+
+            this.Panel_AcoesPosAtendimento.Visible = true;
+            this.Panel_AcoesPosAtendimento.Visible = false;
+            this.Panel_Atendimento.Visible = false;
+
+            this.UpdatePanel_PacienteSUS.Update();
+
+            this.GridView_ResultadoPesquisa.PageIndex = e.NewPageIndex;
+            this.GridView_ResultadoPesquisa.DataBind();
+        }
+    }
+}

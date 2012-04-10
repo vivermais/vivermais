@@ -1,0 +1,96 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace Vida.Model
+{
+    [Serializable]
+    public class EnderecoUsuario:AModel
+    {
+        ////Paciente paciente;
+
+        ////public virtual Paciente Paciente
+        ////{
+        ////    get { return paciente; }
+        ////    set { paciente = value; }
+        ////}
+
+        string codigoPaciente;
+
+        public virtual string CodigoPaciente
+        {
+            get { return codigoPaciente; }
+            set { codigoPaciente = value; }
+        }
+
+        Endereco endereco;
+
+        public virtual Endereco Endereco
+        {
+            get { return endereco; }
+            set { endereco = value; }
+        }
+
+        TipoEndereco tipoEndereco;
+
+        public virtual TipoEndereco TipoEndereco
+        {
+            get { return tipoEndereco; }
+            set { tipoEndereco = value; }
+        }
+
+        string controle;
+
+        public virtual string Controle
+        {
+          get { return controle; }
+          set { controle = value; }
+        }
+
+        char excluido;
+
+        public virtual char Excluido
+        {
+          get { return excluido; }
+          set { excluido = value; }
+        }
+        
+        DateTime operacao;
+
+        public virtual DateTime Operacao
+        {
+          get { return operacao; }
+          set { operacao = value; }
+        }
+
+        char vinculo;
+
+        public virtual char Vinculo
+        {
+            get { return vinculo; }
+            set { vinculo = value; }
+        }
+
+        public EnderecoUsuario()
+        {
+
+        }
+
+        public override bool Equals(object obj)
+        {
+            return this.CodigoPaciente == ((Vida.Model.EnderecoUsuario)obj).CodigoPaciente && 
+                this.Endereco.Codigo == ((Vida.Model.EnderecoUsuario)obj).Endereco.Codigo;
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode() * 23;
+        }
+
+        public override bool Persistido()
+        {
+            throw new NotImplementedException();
+        }
+    }
+}

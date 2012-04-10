@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Vida.Model">
+  <class name="Vida.Model.SubGrupoMedicamento" table="subgrupo">
+    <id name="Codigo">
+      <column name="id_subgrupo" not-null="true"/>
+      <generator class="sequence" >
+        </generator
+    </id>
+    <property name="Nome" column="subgrupo" />
+    <many-to-one name="Grupo" class="Vida.Model.GrupoMedicamento" column="id_grupo" />
+  </class>
+</hibernate-mapping>

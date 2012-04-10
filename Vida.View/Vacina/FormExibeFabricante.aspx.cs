@@ -1,0 +1,59 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using ViverMais.DAO;
+using ViverMais.ServiceFacade.ServiceFacades.Farmacia.Medicamento;
+using ViverMais.Model;
+using ViverMais.ServiceFacade.ServiceFacades.Seguranca;
+using ViverMais.ServiceFacade.ServiceFacades.Vacina.Misc;
+using ViverMais.ServiceFacade.ServiceFacades;
+
+namespace ViverMais.View.Vacina
+{
+    public partial class FormExibeFabricante : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!IsPostBack)
+            {
+                if (!Factory.GetInstance<ISeguranca>().VerificarPermissao(((Usuario)Session["Usuario"]).Codigo, "MANTER_FABRICANTE_VACINA", Modulo.VACINA))
+                {
+                    this.GridView_Fabricante.Columns.RemoveAt(0);
+                    BoundField bound = new BoundField();
+                    bound.HeaderText = "Nome";
+                    bound.DataField = "Nome";
+                    bound.ItemStyle.HorizontalAlign = HorizontalAlign.Center;
+                    bound.ItemStyle.Width = Unit.Pixel(300);
+                    this.GridView_Fabricante.Columns.Insert(0, bound);
+                    this.Lnk_Novo.Visible = false;
+                }
+
+                CarregaFabricante();
+            }
+        }
+
+        /// <summary>
+        /// Carrega os fabricantes cadastrados
+        /// </summary>
+        private void CarregaFabricante()
+        {
+            GridView_Fabricante.DataSource = Factory.GetInstance<IVacinaServiceFacade>().ListarTodos<FabricanteVacina>().OrderBy(p => p.Nome).ToList();
+            GridView_Fabricante.DataBind();
+        }
+
+        /// <summary>
+        /// Paginação do gridview
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnPageIndexChanging_Paginacao(object sender, GridViewPageEventArgs e) 
+        {
+            CarregaFabricante();
+            GridView_Fabricante.PageIndex = e.NewPageIndex;
+            GridView_Fabricante.DataBind();
+        }
+    }
+}

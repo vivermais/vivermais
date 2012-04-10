@@ -1,0 +1,106 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using Vida.DAO;
+using Vida.ServiceFacade.ServiceFacades;
+using Vida.Model;
+using Vida.ServiceFacade.ServiceFacades.Farmacia.Movimentacao;
+using Vida.ServiceFacade.ServiceFacades.Farmacia.Misc;
+using Vida.ServiceFacade.ServiceFacades.Seguranca;
+
+namespace Vida.View.Farmacia
+{
+    public partial class FormBuscarMovimento : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!IsPostBack)
+            {
+                Usuario usuario = ((Usuario)Session["Usuario"]);
+
+                bool permissao_doacao = Factory.GetInstance<ISeguranca>().VerificarPermissao(usuario.Codigo, "REALIZAR_MOVIMENTACAO_DOACAO", Modulo.FARMACIA);                bool permissao_devolucao_paciente = Factory.GetInstance<ISeguranca>().VerificarPermissao(usuario.Codigo, "REALIZAR_MOVIMENTACAO_DEVOLUCAO_PACIENTE", Modulo.FARMACIA);                bool permissao_emprestimo = Factory.GetInstance<ISeguranca>().VerificarPermissao(usuario.Codigo, "REALIZAR_MOVIMENTACAO_EMPRESTIMO", Modulo.FARMACIA);                bool permissao_perda = Factory.GetInstance<ISeguranca>().VerificarPermissao(usuario.Codigo, "REALIZAR_MOVIMENTACAO_PERDA", Modulo.FARMACIA);                bool permissao_remanejamento = Factory.GetInstance<ISeguranca>().VerificarPermissao(usuario.Codigo, "REALIZAR_MOVIMENTACAO_REMANEJAMENTO", Modulo.FARMACIA);                bool permissao_transferencia = Factory.GetInstance<ISeguranca>().VerificarPermissao(usuario.Codigo, "REALIZAR_MOVIMENTACAO_TRANSFERENCIA_INTERNA", Modulo.FARMACIA);                bool permissao_acerto_balanco = Factory.GetInstance<ISeguranca>().VerificarPermissao(usuario.Codigo, "REALIZAR_MOVIMENTACAO_ACERTO_BALANCO", Modulo.FARMACIA);                if (Factory.GetInstance<ISeguranca>().VerificarPermissao(usuario.Codigo, "PESQUISAR_MOVIMENTACAO", Modulo.FARMACIA))
+                {
+                    DropDownList_Farmacia.DataSource = Factory.GetInstance<IFarmacia>().BuscarPorUsuario<Vida.Model.Farmacia, Usuario>(usuario, true, true);
+                    DropDownList_Farmacia.DataBind();
+
+                    IList<TipoMovimento> ltm = Factory.GetInstance<IFarmaciaServiceFacade>().ListarTodos<Vida.Model.TipoMovimento>().OrderBy(p => p.Nome).ToList();
+
+                    foreach (TipoMovimento tm in ltm)
+                        DropDownList_TipoMovimento.Items.Add(new ListItem(tm.Nome, tm.Codigo.ToString()));
+                }else
+                    ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Usuário, você não tem permissão para acessar esta página! Por favor, entre em contato com a administração.');location='Default.aspx';", true);
+
+                //if (Factory.GetInstance<ISeguranca>().VerificarPermissao(((Usuario)Session["Usuario"]).Codigo, "PESQUISAR_MOVIMENTACAO_TODAS_FARMACIAS"))
+                //{
+                //    IList<Vida.Model.Farmacia> lf = Factory.GetInstance<IFarmacia>().ListarTodos<Vida.Model.Farmacia>().OrderBy(p => p.Nome).ToList();
+                //    foreach (Vida.Model.Farmacia f in lf)
+                //        DropDownList_Farmacia.Items.Add(new ListItem(f.Nome, f.Codigo.ToString()));
+                //}
+                //else
+                //{
+                //    if (Factory.GetInstance<ISeguranca>().VerificarPermissao(((Usuario)Session["Usuario"]).Codigo, "PESQUISAR_MOVIMENTACAO"))
+                //    {
+                //        Vida.Model.Farmacia farm = Factory.GetInstance<IFarmacia>().BuscarPorUsuario<Vida.Model.Farmacia>(((Usuario)Session["Usuario"]).Codigo);
+
+                //        if (farm != null)
+                //            DropDownList_Farmacia.Items.Add(new ListItem(farm.Nome, farm.Codigo.ToString()));
+                //    }
+                //    else
+                //    {
+                //        ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Usuário, você não tem permissão para acessar esta página! Por favor, entre em contato com a administração.');location='Default.aspx';", true);
+                //        return;
+                //    }
+                //}
+            }
+        }
+
+        /// <summary>
+        /// Pesquisa o movimento
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnClick_PesquisarMovimento(object sender, EventArgs e) 
+        {
+            ViewState["tipomovimento"] = DropDownList_TipoMovimento.SelectedValue;
+            ViewState["co_farmacia"] = DropDownList_Farmacia.SelectedValue;
+            CarregaTipoMovimento(int.Parse(DropDownList_TipoMovimento.SelectedValue), int.Parse(DropDownList_Farmacia.SelectedValue));
+            Panel_ResultadoBusca.Visible = true;
+        }
+
+        /// <summary>
+        /// Carrega os movimentos com o tipo específicado
+        /// </summary>
+        /// <param name="co_tipomovimento"></param>
+        private void CarregaTipoMovimento(int co_tipomovimento, int co_farmacia) 
+        {
+            GridView_Movimento.DataSource = Factory.GetInstance<IMovimentacao>().BuscarPorFarmacia<Movimento>(co_farmacia).Where(p => p.TipoMovimento.Codigo == co_tipomovimento).ToList();
+            GridView_Movimento.DataBind();
+        }
+
+        /// <summary>
+        /// Paginação do gridview
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnPageIndexChanging_Paginacao(object sender, GridViewPageEventArgs e) 
+        {
+            CarregaTipoMovimento(int.Parse(ViewState["tipomovimento"].ToString()), int.Parse(ViewState["co_farmacia"].ToString()));
+            GridView_Movimento.PageIndex = e.NewPageIndex;
+            GridView_Movimento.DataBind();
+        }
+
+        /// <summary>
+        /// Imprime o conteudo da movimentação, incluindo os medicamentos que foram movimentados
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnRowCommand_VerificaAcao(object sender, GridViewCommandEventArgs e)
+        {
+            if (e.CommandName == "CommandName_Imprimir")
+                ScriptManager.RegisterStartupScript(Page, typeof(Page), "open", "window.open('FormImprimirMovimentoRemanejamento.aspx?acao=pesquisa&tipo=1&codigo=" + int.Parse(GridView_Movimento.DataKeys[int.Parse(e.CommandArgument.ToString())]["Codigo"].ToString()) + "');", true);
+        }
+    }
+}

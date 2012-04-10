@@ -1,0 +1,187 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Menu>
+  <div class="menu-barra-module" style="background: url('URLPART/Agendamento/img/barramenu.png' ) no-repeat;">
+    <div style="margin-top: 0px; margin-left: 14px">
+      <ul class="menu2" id="menu">
+        <li>
+          <a href="#" class="menulink">Cadastro</a>
+          <ul>
+            <li Permissao="CADASTRAR_FAIXA">
+              <a href="FormCadastrarFaixa.aspx">Faixas</a>
+            </li>
+            <li Permissao="CADASTRAR_FERIADO">
+              <a href="BuscaFeriado.aspx">Feriado</a>
+            </li>
+            <li Permissao="BUSCAR_GRUPO_AGRANGENCIA">
+              <a href="BuscaGrupoAbrangencia.aspx">Grupo Abrangência PPI</a>
+            </li>
+            <li Permissao="MONTAR_AGENDA">
+              <a href="FormMontarAgenda.aspx">Montar Agenda</a>
+            </li>
+            <li Permissao="PREPARO_PROCEDIMENTO">
+              <a href="BuscaPreparoProcedimento.aspx">Preparo Procedimento</a>
+            </li>
+            <li Permissao="CADASTRAR_PROGRAMA_SAUDE">
+              <a href="BuscaProgramaSaude.aspx">Programa De Saúde</a>
+            </li>
+            <li>
+              <a href="FormSubGrupo.aspx">Sub-Grupo</a>
+            </li>
+            <li>
+              <a href="#" class="sub">Vínculos</a>
+              <ul>
+                <li class="topline" Permissao="VINCULAR_PROGRAMA_UNIDADE">
+                  <a href="FormVincularProgramaUnidade.aspx">
+                    Vincular Programa
+                    de Saúde à Unidade
+                  </a>
+                </li>
+                <li class="topline" Permissao="VINCULAR_PROGRAMASAUDE_PROCEDIMENTO">
+                  <a href="FormVinculoProcedimentoProgramaDeSaude.aspx">
+                    Vincular Procedimento à Programa
+                    de Saúde
+                  </a>
+                </li>
+                <!--<li Permissao="VINCULAR_PROGRAMASAUDE_PROCEDIMENTO">
+                  <a href="FormVinculoPacienteProgramaDeSaude.aspx">
+                    Vincular Paciente ao Programa
+                    de Saúde
+                  </a>
+                </li>-->
+                <li Permissao="CADASTRO_VINCULO_PROCEDIMENTO_SUBGRUPO">
+                  <a href="FormVinculoSubGrupoProcedimento.aspx">
+                    Vincular SubGrupo
+                    ao Procedimento
+                  </a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="#" class="menulink">Importação</a>
+          <ul>
+            <li Permissao="IMPORTAR_AGENDA">
+              <a href="FormImportarAgenda.aspx">Agenda</a>
+            </li>
+            <li Permissao="IMPORTAR_FPO">
+              <a href="FormImportarFPO.aspx">FPO</a>
+            </li>
+            <!--<li>
+              <a href="FormImportarPPIReferencia.aspx">PPI Referência</a>
+            </li>-->
+          </ul>
+        </li>
+        <li>
+          <a href="#" class="menulink">Movimentação</a>
+          <ul>
+            <li Permissao="MOVIMENTACAO_SOLICITACAO_AMBULATORIAL">
+              <a href="FormSolicitacao.aspx">Solicitação Ambulatorial</a>
+            </li>
+            <li Permissao="BLOQUEAR_AGENDA">
+              <a href="FormBloquearAgenda.aspx">Bloquear Agenda</a>
+            </li>
+            <li Permissao="MOVIMENTACAO_AFASTAR_EAS">
+              <a href="BuscaAfastamentoEAS.aspx">Afastar Unidade</a>
+            </li>
+            <li Permissao="MOVIMENTACAO_AFASTAR_PROFISSIONAL">
+              <a href="BuscaAfastamentoProfissional.aspx">Afastar Profissional</a>
+            </li>
+            <li Permissao="MOVIMENTACAO_REGISTRAR_EXECUCAO">
+              <a href="FormConfirmarAgenda.aspx">Registrar Execução</a>
+            </li>
+            <li Permissao="MOVIMENTACAO_REGISTRAR_EXECUCAO">
+              <a href="FormConfirmarAgendaCompleta.aspx">Registro Execução Completo</a>
+            </li>
+            <li Permissao="MOVIMENTACAO_GERAR_BPA_APAC">
+              <a href="FormGerarBPA.aspx">Gerar BPA / APAC</a>
+            </li>
+            <li Permissao="MOVIMENTACAO_AUTORIZACAO_AMBULATORIAL">
+              <a href="FormAutorizacao.aspx">Autorização Ambulatorial</a>
+            </li>
+            <li>
+              <a href="#" class="sub">Agendamentos</a>
+              <ul>
+                <li Permissao="MOVIMENTACAO_DESMARCAR_AGENDAMENTO">
+                  <a href="FormDesmarcarAgenda.aspx">Desmarcar Agendamento</a>
+                </li>
+                <li Permissao="REIMPRESSAO_GUIA">
+                  <a href="FormReImpressaoGuia.aspx">Reimpressão Guia</a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="#" class="menulink">Parametrização</a>
+          <ul>
+            <li Permissao="PARAMETRIZACAO_AMBULATORIAL">
+              <a href="FormParametrosAmbulatoriais.aspx">Ambulatorial</a>
+            </li>
+            <li Permissao="PARAMETRIZACAO_COTA_ESTABELECIMENTO_SAUDE">
+              <a href="FormCotaEAS.aspx">Cotas de Estabelecimento de Saúde</a>
+            </li>
+            <li Permissao="PARAMETRIZACAO_FAIXA_PROCEDIMENTO">
+              <a href="FormDefinirFaixaProcedimento.aspx">Faixa do Procedimento</a>
+            </li>
+            <li Permissao="PARAMETRIZACAO_FPO">
+              <a href="FormParametrizarFPO.aspx">FPO</a>
+            </li>
+            <li Permissao="PARAMETRIZACAO_PROCEDIMENTO">
+              <a href="FormParametrizarProcedimento.aspx">Procedimento</a>
+            </li>
+            <li Permissao="PARAMETRIZACAO_TIPO_SOLICITACAO_EAS">
+              <a href="FormTipoSolicitacaoPorEstabelecimentoAssistencial.aspx">
+                Tipo de Solicitação
+                por EAS
+              </a>
+            </li>
+            <li Permissao="PARAMETRIZACAO_AGENDA_AMBULATORIAL">
+              <a href="FormParametroAgenda.aspx">Agenda Ambulatorial</a>
+            </li>
+            <li>
+              <a href="#" class="sub">PPI</a>
+              <ul>
+                <li Permissao="PARAMETRIZACAO_PARAMETRIZAR_PPI_ABRANG">
+                  <a href="FormParametrizarPPIAbrangenciaAgredado.aspx">PPI por Abrangência</a>
+                </li>
+                <li Permissao="PARAMETRIZACAO_PARAMETRIZAR_PPI_REF">
+                  <a href="FormParametrizarPPIAgredado.aspx">PPI por Referência</a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="#" class="menulink">Relatórios</a>
+          <ul>
+            <li Permissao="RELATORIO_AGENDA_PRESTADOR">
+              <a href="FormRelatorioAgendaPrestador.aspx">Agenda</a>
+            </li>
+            <li Permissao="RELATORIO_AGENDA_MONTADA_PUBLICADA">
+              <a href="FormRelatorioAgendaMontadaPublicada.aspx">Agenda Montada X Publicada</a>
+            </li>
+            <li Permissao="RELATORIO_LISTA_PROCURA">
+              <a href="FormRelListaProcura.aspx">Lista Procura</a>
+            </li>
+            <li Permissao="RELATORIO_PRODUCAO_MEDICO_REGULADOR">
+              <a href="FormRelatorioProducaoMedicoRegulador.aspx">Produção Médico Regulador</a>
+            </li>
+            <li Permissao="RELATORIO_SOLICITACAO_AMBULATORIAL">
+              <a href="FormRelatorioSolicitacao.aspx">Solicitação Ambulatorial</a>
+            </li>
+            <li  Permissao="RELATORIO_SOLICITACAO_DETALHADA">
+              <a href="FormRelatorioSolicitacaoDetalhado.aspx">Solicitação Detalhada</a>
+            </li>
+            <li Permissao="RELATORIO_VAGAS_PROCED_AGENDADO_BASICO">
+              <a href="FormRelatorioVagasAgendadasBasico.aspx">Verificar Vagas</a>
+            </li>
+            <li Permissao="RELATORIO_QUANTITATIVO">
+              <a href="FormRelatorioQuantitativoProducaoESolicitacao.aspx">Quantitativo</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</Menu>

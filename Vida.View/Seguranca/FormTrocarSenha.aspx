@@ -1,0 +1,17 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="FormTrocarSenha.aspx.cs"
+    Inherits="ViverMais.View.Seguranca.FormTrocarSenha" MasterPageFile="~/Seguranca/MasterSeguranca2.Master" %>
+
+<%@ Register Src="~/Seguranca/WUCAlterarSenha.ascx" TagName="TagAlterarSenha" TagPrefix="WUCTrocarSenha" %>
+<asp:Content ID="c_body" runat="server" ContentPlaceHolderID="ContentPlaceHolder1">
+    <div>
+        <asp:UpdatePanel ID="Update" runat="server">
+            <ContentTemplate>
+                <%--<fieldset class="formulario">
+                    <legend>Informações</legend>--%>
+                    <%--<asp:Label ID="Label1" runat="server" Text="Usuário, para você ter acesso ao sistema, altere sua senha padrão: 123456 para outro valor."></asp:Label>--%>
+                    <WUCTrocarSenha:TagAlterarSenha ID="ccalterarsenha" Visible="false" runat="server" />
+                <%--</fieldset>--%>
+            </ContentTemplate>
+        </asp:UpdatePanel>
+    </div>
+</asp:Content>

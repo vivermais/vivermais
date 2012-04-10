@@ -1,0 +1,46 @@
+﻿<%@ Page Language="C#" MasterPageFile="~/Senhador/MasterSenhador.Master" AutoEventWireup="true"
+    CodeBehind="FormServico.aspx.cs" Inherits="Vida.View.Senhador.FormServico" %>
+
+<%@ Register Src="~/EstabelecimentoSaude/WUC_PesquisarEstabelecimento.ascx" TagName="WUC_PesquisarEstabelecimento"
+    TagPrefix="WUC_EAS" %>
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder2" runat="server">
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder3" runat="server">
+    <div id="top">
+        <h2>
+            Formulário de Serviço
+        </h2>
+        <fieldset class="formulario">
+            <legend>Cadastrar Serviço</legend>
+            <p>
+                <span class="rotulo">Nome do Serviço:</span> <span>
+                    <asp:TextBox ID="tbxNomeServico" CssClass="campo" runat="server" Width="300px" MaxLength="100"></asp:TextBox>
+                    <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" ControlToValidate="tbxNomeServico"
+                        Font-Size="XX-Small" ErrorMessage="Campo Obrigatório" SetFocusOnError="True"
+                        Display="Dynamic"></asp:RequiredFieldValidator></span>
+            </p>
+            <p>
+                <span class="rotulo">Tipo de Serviço</span> <span>
+                    <asp:DropDownList ID="ddlTipoServico" AutoPostBack="true" runat="server" DataTextField="Nome"
+                        DataValueField="Codigo" Width="311px">
+                    </asp:DropDownList>
+                </span>
+            </p>
+                        <WUC_EAS:WUC_PesquisarEstabelecimento ID="EAS" runat="server"></WUC_EAS:WUC_PesquisarEstabelecimento>
+                        <asp:UpdatePanel ID="UpdatePanel_Unidade" runat="server" UpdateMode="Conditional"
+                            RenderMode="Inline" ChildrenAsTriggers="true">
+                            <ContentTemplate>
+                                <p>
+                                    <span class="rotulo">Unidade</span> <span>
+                                        <asp:DropDownList ID="DropDownList_Unidade" CssClass="campo" Height="21px" runat="server"
+                                            DataTextField="NomeFantasia" DataValueField="CNES" Width="380px">
+                                            <asp:ListItem Text="Selecione..." Value="0"></asp:ListItem>
+                                        </asp:DropDownList>
+                                    </span>
+                                </p>
+                            </ContentTemplate>
+                        </asp:UpdatePanel>
+        </fieldset>
+    </div>
+</asp:Content>

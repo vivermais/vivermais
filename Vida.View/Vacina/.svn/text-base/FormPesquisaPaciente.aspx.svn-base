@@ -1,0 +1,56 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="FormPesquisaPaciente.aspx.cs"
+    Inherits="Vida.View.Vacina.FormPesquisaPaciente" MasterPageFile="~/Vacina/MasterVacina.Master"
+    EnableEventValidation="false" %>
+
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
+<%@ Register Src="../Paciente/WUCPesquisarPaciente.ascx" TagName="WUCPesquisarPaciente"
+    TagPrefix="uc1" %>
+<%@ Register Src="../Paciente/WUCExibirPaciente.ascx" TagName="WUCExibirPaciente"
+    TagPrefix="uc2" %>
+<asp:Content ID="c_head" runat="server" ContentPlaceHolderID="head">
+</asp:Content>
+<asp:Content ID="c_body" runat="server" ContentPlaceHolderID="ContentPlaceHolder1">
+    <div id="top">
+        <h2>
+            Fomulário de Pesquisa de Pacientes</h2>
+        <uc1:WUCPesquisarPaciente ID="WUCPesquisarPaciente1" runat="server" />
+        <%--<asp:UpdatePanel ID="UpdatePanel_ExibirPaciente" runat="server" UpdateMode="Conditional"
+            RenderMode="Block">
+            <ContentTemplate>--%>
+        <uc2:WUCExibirPaciente ID="WUCExibirPaciente1" runat="server" />
+        <%-- </ContentTemplate>--%>
+        <%--</asp:UpdatePanel>--%>
+        <asp:UpdatePanel ID="UpdatePanel_Acoes" runat="server" UpdateMode="Conditional" RenderMode="Block"
+            ChildrenAsTriggers="false">
+            <Triggers>
+                <asp:PostBackTrigger ControlID="lknDispensacao" />
+                <asp:PostBackTrigger ControlID="lknCartaoVacina" />
+                <asp:PostBackTrigger ControlID="LinkButtonPesquisarDispensacao" />
+            </Triggers>
+            <ContentTemplate>
+                <asp:Panel ID="PanelAcoes" runat="server" Visible="false">
+                    <div class="botoesroll">
+                        <asp:LinkButton ID="lknDispensacao" runat="server" Visible="false"
+                         OnClick="btnDispensacao_Click">
+                  <img id="imgdispensacao" alt="Dispensação" src="img/btn_dispensacao1.png"
+                  onmouseover="imgdispensacao.src='img/btn_dispensacao2.png';"
+                  onmouseout="imgdispensacao.src='img/btn_dispensacao1.png';" /></asp:LinkButton>
+                    </div>
+                    <div class="botoesroll">
+                        <asp:LinkButton ID="lknCartaoVacina" runat="server" Visible="false" OnClick="btnCartaoVacina_Click">
+                  <img id="imgcartaovacina" alt="Cartão de Vacina" src="img/btn_cartao_vacina1.png"
+                  onmouseover="imgcartaovacina.src='img/btn_cartao_vacina2.png';"
+                  onmouseout="imgcartaovacina.src='img/btn_cartao_vacina1.png';" /></asp:LinkButton>
+                    </div>
+                    <div class="botoesroll">
+                        <asp:LinkButton ID="LinkButtonPesquisarDispensacao" runat="server" Visible="false"
+                            OnClick="OnClick_PesquisarDispensacao">
+                    <img id="imgverdispensacoes" alt="Ver dispensações" src="img/ver-dispensacoes1.png"
+                  onmouseover="imgverdispensacoes.src='img/ver-dispensacoes2.png';"
+                  onmouseout="imgverdispensacoes.src='img/ver-dispensacoes1.png';" /></asp:LinkButton>
+                    </div>
+                </asp:Panel>
+            </ContentTemplate>
+        </asp:UpdatePanel>
+    </div>
+</asp:Content>

@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Vida.Model">
+  <class name="Vida.Model.SalaVacina" table="VCN_SALAVACINA">
+    <id name="Codigo">
+      <column name="co_salavacina" not-null="true"/>
+      <generator class="sequence">
+        <param name="sequence">VCN_SALAVACINA_SEQUENCE</param>
+      </generator>
+    </id>
+    
+    <many-to-one name="EstabelecimentoSaude" class="Vida.Model.EstabelecimentoSaude" column="CNES" />
+    <property name="Ativo" column="ativo" />
+    <property name="Bloqueado" column="bloqueado" />
+    <!--<property name="Responsavel" column="responsavel" />-->
+    <property name="Nome" column="nome" />
+    <property name="PertenceCMADI" column="PERTENCECMADI" type="YesNo" />
+
+  </class>
+</hibernate-mapping>

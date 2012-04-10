@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DSRelatorioSolicitacaoAmbulatorial" targetNamespace="http://tempuri.org/DSRelatorioSolicitacaoAmbulatorial.xsd" xmlns:mstns="http://tempuri.org/DSRelatorioSolicitacaoAmbulatorial.xsd" xmlns="http://tempuri.org/DSRelatorioSolicitacaoAmbulatorial.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DSRelatorioSolicitacaoAmbulatorial" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_UserDSName="DSRelatorioSolicitacaoAmbulatorial" msprop:Generator_DataSetName="DSRelatorioSolicitacaoAmbulatorial" msprop:EnableTableAdapterManager="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="RelatorioSolicitacao" msprop:Generator_UserTableName="RelatorioSolicitacao" msprop:Generator_RowDeletedName="RelatorioSolicitacaoRowDeleted" msprop:Generator_RowChangedName="RelatorioSolicitacaoRowChanged" msprop:Generator_RowClassName="RelatorioSolicitacaoRow" msprop:Generator_RowChangingName="RelatorioSolicitacaoRowChanging" msprop:Generator_RowEvArgName="RelatorioSolicitacaoRowChangeEvent" msprop:Generator_RowEvHandlerName="RelatorioSolicitacaoRowChangeEventHandler" msprop:Generator_TableClassName="RelatorioSolicitacaoDataTable" msprop:Generator_TableVarName="tableRelatorioSolicitacao" msprop:Generator_RowDeletingName="RelatorioSolicitacaoRowDeleting" msprop:Generator_TablePropName="RelatorioSolicitacao">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="DataSolicitacao" msprop:Generator_UserColumnName="DataSolicitacao" msprop:Generator_ColumnPropNameInRow="DataSolicitacao" msprop:Generator_ColumnVarNameInTable="columnDataSolicitacao" msprop:Generator_ColumnPropNameInTable="DataSolicitacaoColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="UsuarioSolicitante" msprop:Generator_UserColumnName="UsuarioSolicitante" msprop:Generator_ColumnPropNameInRow="UsuarioSolicitante" msprop:Generator_ColumnVarNameInTable="columnUsuarioSolicitante" msprop:Generator_ColumnPropNameInTable="UsuarioSolicitanteColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="UnidadeSolicitante" msprop:Generator_UserColumnName="UnidadeSolicitante" msprop:Generator_ColumnPropNameInRow="UnidadeSolicitante" msprop:Generator_ColumnVarNameInTable="columnUnidadeSolicitante" msprop:Generator_ColumnPropNameInTable="UnidadeSolicitanteColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="CNS" msprop:Generator_UserColumnName="CNS" msprop:Generator_ColumnPropNameInRow="CNS" msprop:Generator_ColumnVarNameInTable="columnCNS" msprop:Generator_ColumnPropNameInTable="CNSColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="NomePaciente" msprop:Generator_UserColumnName="NomePaciente" msprop:Generator_ColumnPropNameInRow="NomePaciente" msprop:Generator_ColumnVarNameInTable="columnNomePaciente" msprop:Generator_ColumnPropNameInTable="NomePacienteColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Procedimento" msprop:Generator_UserColumnName="Procedimento" msprop:Generator_ColumnPropNameInRow="Procedimento" msprop:Generator_ColumnVarNameInTable="columnProcedimento" msprop:Generator_ColumnPropNameInTable="ProcedimentoColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="UnidadeExecutante" msprop:Generator_UserColumnName="UnidadeExecutante" msprop:Generator_ColumnPropNameInRow="UnidadeExecutante" msprop:Generator_ColumnVarNameInTable="columnUnidadeExecutante" msprop:Generator_ColumnPropNameInTable="UnidadeExecutanteColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Turno" msprop:Generator_UserColumnName="Turno" msprop:Generator_ColumnPropNameInRow="Turno" msprop:Generator_ColumnVarNameInTable="columnTurno" msprop:Generator_ColumnPropNameInTable="TurnoColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Situacao" msprop:Generator_UserColumnName="Situacao" msprop:Generator_ColumnPropNameInRow="Situacao" msprop:Generator_ColumnVarNameInTable="columnSituacao" msprop:Generator_ColumnPropNameInTable="SituacaoColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="DataAgenda" msprop:Generator_UserColumnName="DataAgenda" msprop:Generator_ColumnPropNameInRow="DataAgenda" msprop:Generator_ColumnVarNameInTable="columnDataAgenda" msprop:Generator_ColumnPropNameInTable="DataAgendaColumn" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

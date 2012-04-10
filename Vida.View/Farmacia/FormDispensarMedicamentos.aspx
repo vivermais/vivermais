@@ -1,0 +1,371 @@
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="FormDispensarMedicamentos.aspx.cs"
+    Inherits="ViverMais.View.Farmacia.FormDispensarMedicamentos" MasterPageFile="~/Farmacia/MasterFarmacia.Master"
+     EnableEventValidation="false" %>
+
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
+
+<asp:Content ID="c_head" runat="server" ContentPlaceHolderID="head">
+    <script type="text/javascript" language="javascript">
+        function showTooltip(obj) {
+            if (obj.options[obj.selectedIndex].title == "") {
+                obj.title = obj.options[obj.selectedIndex].text;
+                obj.options[obj.selectedIndex].title = obj.options[obj.selectedIndex].text;
+                for (i = 0; i < obj.options.length; i++) {
+                    obj.options[i].title = obj.options[i].text;
+                }
+            }
+            else
+                obj.title = obj.options[obj.selectedIndex].text;
+        }
+    </script>
+</asp:Content>
+<asp:Content ID="Content1" runat="server" ContentPlaceHolderID="ContentPlaceHolder1">
+    <div id="top">
+        <h2>
+            Dispensação de Medicamentos</h2>
+        <fieldset class="formulario">
+            <legend>Informações da Receita</legend>
+            <p>
+                <span class="rotulo">Nº da Receita</span> <span style="margin-left: 5px;">
+                    <asp:Label ID="Label_NumeroReceita" runat="server" Text="" CssClass="label"></asp:Label>
+                </span>
+            </p>
+            <p>
+                <span class="rotulo">Data da Receita</span>
+                <span style="margin-left: 5px;">
+                    <asp:Label ID="Label_DataReceita" runat="server" Text="" CssClass="label"></asp:Label>
+                </span>
+            </p>
+            <p>
+                <span class="rotulo">Paciente</span> <span style="margin-left: 5px;">
+                    <asp:Label ID="Label_NomePaciente" runat="server" Text="" CssClass="label"></asp:Label>
+                </span>
+            </p>
+            <p>
+                <span class="rotulo">Profissional</span> <span style="margin-left: 5px;">
+                    <asp:Label ID="Label_NomeProfissional" runat="server" Text="" CssClass="label"></asp:Label>
+                </span>
+            </p>
+            <p>
+                <span>   
+                   <asp:Label ID="Label_Tit_DataAtendimento" runat="server" Text="Data de Atendimento"
+                      Visible="false" CssClass="rotulo"></asp:Label>
+                </span>
+                <span style="margin-left: 5px;">
+                    <asp:Label ID="Label_DataAtendimento" runat="server" Text="" CssClass="label" Visible="false"></asp:Label>
+                    <asp:TextBox ID="tbxDataAtendimento" runat="server" CssClass="campo"></asp:TextBox>
+                    <cc1:MaskedEditExtender ID="MaskedEditExtender1" runat="server" InputDirection="LeftToRight"
+                       TargetControlID="tbxDataAtendimento" Mask="99/99/9999" MaskType="Date">
+                    </cc1:MaskedEditExtender>
+                </span>
+            </p>
+            <p>
+                <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Conditional">
+                    <ContentTemplate>
+                        <%--<asp:Panel ID="Panel_Farmacia" runat="server" Visible="false">--%>
+                        <p>
+                            <span class="rotulo">Farmácia</span>
+                            <span style="margin-left: 5px;">
+                                <asp:Label ID="Label_FarmaciaDispensacao" runat="server" Text="" CssClass="label"></asp:Label>
+                                <asp:DropDownList ID="DropDownList_Farmacia" runat="server" DataTextField="Nome"
+                                    DataValueField="Codigo" CssClass="comboBox" AutoPostBack="true" CausesValidation="true" OnSelectedIndexChanged="OnSelectedIndexChanged_CarregaConteudoDispensacao">
+                                    <asp:ListItem Text="Selecione..." Value="-1"></asp:ListItem>
+                                </asp:DropDownList>
+                            </span>
+                        </p>
+                        <%--</asp:Panel>--%>
+                    </ContentTemplate>
+                </asp:UpdatePanel>
+            </p>            
+        </fieldset>
+        <asp:UpdatePanel ID="UpdatePanel2" runat="server" UpdateMode="Conditional">
+            <Triggers>
+                <asp:AsyncPostBackTrigger ControlID="DropDownList_Farmacia" EventName="SelectedIndexChanged" />
+                <asp:AsyncPostBackTrigger ControlID="Button_IncluirMedicamento"  EventName="Click" />
+                <asp:AsyncPostBackTrigger ControlID="btnSim" EventName="Click" />                
+                <asp:AsyncPostBackTrigger ControlID="GridView_MedicamentosDispensar" 
+                    EventName="RowDeleting" />
+            </Triggers>
+            <ContentTemplate>                  
+                <asp:Panel ID="Panel_ConteudoDispensacao" runat="server" Visible="false">
+                <fieldset class="formulario">
+                    <legend>Dispensar</legend>    
+                  <%--  <p>
+                        <span class="rotulo">Buscar Medicamento</span> <span style="margin-left: 5px;">
+                            <asp:TextBox ID="TextBox_BuscarMedicamento" runat="server" CssClass="campo" Width="350px"></asp:TextBox>
+                            <asp:ImageButton ID="ImageButton1" runat="server" OnClick="OnClick_PesquisarMedicamento"
+                                ValidationGroup="ValidationGroup_ProcurarMedicamento" ImageUrl="~/Farmacia/img/procurar.png"
+                                Width="16px" Height="16px" Style="vertical-align: bottom;" />
+                        </span>
+                    </p>--%>
+                    
+                    <p>
+                        <span class="rotulo">Medicamento</span> <span style="margin-left: 5px;">
+                            <asp:DropDownList ID="DropDownList_Medicamento" runat="server" AutoPostBack="true"
+                                Width="350px" 
+                            OnSelectedIndexChanged="OnSelectedIndexChanged_FormataCamposDispensacao" 
+                            DataTextField="NomeDropdownDispensacao" 
+                            DataValueField="CodigoDropdownDispensacao">                                
+                            </asp:DropDownList>
+                        </span>
+                    </p>
+                    <p>
+                        <span class="rotulo">Quantidade Prescrita</span> <span style="margin-left: 5px;">
+                            <asp:TextBox ID="TextBox_QuantidadePrescrita" runat="server" 
+                            CssClass="campo" Width="75px" ReadOnly="True"></asp:TextBox>
+                        </span>
+                    </p>
+                    <p>
+                        <span class="rotulo">Saldo Restante</span> <span style="margin-left: 5px;">
+                            <asp:TextBox ID="TxtSaldoMedicamento" runat="server" 
+                            CssClass="campo" Width="75px" ReadOnly="True"></asp:TextBox>
+                        </span>
+                    </p>
+                    <p>
+                        <span class="rotulo">Quantidade Dispensada</span> <span style="margin-left: 5px;">
+                            <asp:TextBox ID="TextBox_QuantidadeDispensada" runat="server" CssClass="campo" Width="75px"></asp:TextBox>
+                        </span>
+                    </p>
+                    <p>
+                        <span class="rotulo">Quantidade Dias</span> <span style="margin-left: 5px;">
+                            <asp:TextBox ID="TextBox_Dias" runat="server" CssClass="campo" Width="75px"></asp:TextBox>
+                        </span>
+                    </p>
+                    <p align="center">
+                        <span>
+                            <asp:Button ID="Button_IncluirMedicamento" runat="server" Text="Inculir" OnClick="OnClick_IncluirMedicamento"
+                                ValidationGroup="ValidationGroup_DispensarMedicamento" />
+                            <asp:Button ID="Button_CancelarInclusao" runat="server" Text="Cancelar" OnClick="OnClick_CancelarInclusao" />
+                        </span>
+                    </p>
+                </fieldset></asp:Panel>
+            </ContentTemplate>
+        </asp:UpdatePanel>
+        <asp:UpdatePanel ID="ID1" runat="server" UpdateMode="Conditional">
+            <Triggers>
+                <asp:AsyncPostBackTrigger ControlID="DropDownList_Farmacia" EventName="SelectedIndexChanged" />
+                
+            </Triggers>
+            <ContentTemplate>
+                <p>
+                    <span>
+                        <asp:CompareValidator ID="CompareValidator_PesquisarMedicamentoFarmacia" runat="server"
+                            ErrorMessage="Selecione uma Farmácia." ValueToCompare="-1" Operator="GreaterThan"
+                            Enabled="false" Display="None" ControlToValidate="DropDownList_Farmacia" ValidationGroup="ValidationGroup_ProcurarMedicamento">
+                        </asp:CompareValidator>
+                        <asp:CompareValidator ID="CompareValidator_DispensarMedicamento" runat="server" ErrorMessage="Selecione uma Farmácia."
+                            ValueToCompare="-1" Operator="GreaterThan" Enabled="false" Display="None" ControlToValidate="DropDownList_Farmacia"
+                            ValidationGroup="ValidationGroup_DispensarMedicamento">
+                        </asp:CompareValidator>
+                        <%-- 
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ErrorMessage="Informe o nome do medicamento."
+                            ControlToValidate="TextBox_BuscarMedicamento" ValidationGroup="ValidationGroup_ProcurarMedicamento"
+                            Display="None"></asp:RequiredFieldValidator>
+                        <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ErrorMessage="Informe pelos menos as três primeiras letras do medicamento."
+                            ControlToValidate="TextBox_BuscarMedicamento" ValidationExpression="^(\W{3,})|(\w{3,})$"
+                            Display="None" ValidationGroup="ValidationGroup_ProcurarMedicamento">
+                        </asp:RegularExpressionValidator>
+                        --%>
+                        <asp:ValidationSummary ID="ValidationSummary1" runat="server" ValidationGroup="ValidationGroup_ProcurarMedicamento"
+                            ShowMessageBox="true" ShowSummary="false" />
+                        <p>
+                            <asp:CompareValidator ID="CompareValidator1" runat="server" 
+                                ControlToValidate="DropDownList_Medicamento" Display="None" 
+                                ErrorMessage="Selecione um medicamento." Operator="GreaterThan" 
+                                ValidationGroup="ValidationGroup_DispensarMedicamento" ValueToCompare="-1"></asp:CompareValidator>
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" 
+                                ControlToValidate="TextBox_QuantidadePrescrita" Display="None" 
+                                ErrorMessage="Quantidade Prescrita é Obrigatório." 
+                                ValidationGroup="ValidationGroup_DispensarMedicamento"></asp:RequiredFieldValidator>
+                            <asp:RegularExpressionValidator ID="RegularExpressionValidator4" runat="server" 
+                                ControlToValidate="TextBox_QuantidadePrescrita" Display="None" 
+                                ErrorMessage="Digite somente números em Quantidade Prescrita." 
+                                ValidationExpression="^\d*$" 
+                                ValidationGroup="ValidationGroup_DispensarMedicamento">
+                        </asp:RegularExpressionValidator>
+                            <asp:CompareValidator ID="CompareValidator4" runat="server" 
+                                ControlToValidate="TextBox_QuantidadePrescrita" Display="None" 
+                                ErrorMessage="Quantidade Prescrita deve ser maior que zero." 
+                                Operator="GreaterThan" ValidationGroup="ValidationGroup_DispensarMedicamento" 
+                                ValueToCompare="0"></asp:CompareValidator>
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" 
+                                ControlToValidate="TextBox_QuantidadeDispensada" Display="None" 
+                                ErrorMessage="Quantidade Dispensada é Obrigatório." 
+                                ValidationGroup="ValidationGroup_DispensarMedicamento"></asp:RequiredFieldValidator>
+                            <asp:RegularExpressionValidator ID="RegularExpressionValidator3" runat="server" 
+                                ControlToValidate="TextBox_QuantidadeDispensada" Display="None" 
+                                ErrorMessage="Digite somente números em Quantidade Dispensada." 
+                                ValidationExpression="^\d*$" 
+                                ValidationGroup="ValidationGroup_DispensarMedicamento">
+                        </asp:RegularExpressionValidator>
+                            <asp:CompareValidator ID="CompareValidator3" runat="server" 
+                                ControlToValidate="TextBox_QuantidadeDispensada" Display="None" 
+                                ErrorMessage="Quantidade Dispensada deve ser maior que zero." 
+                                Operator="GreaterThan" ValidationGroup="ValidationGroup_DispensarMedicamento" 
+                                ValueToCompare="0"></asp:CompareValidator>
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidator4" runat="server" 
+                                ControlToValidate="TextBox_Dias" Display="None" 
+                                ErrorMessage="Quantidade Dias é Obrigatório." 
+                                ValidationGroup="ValidationGroup_DispensarMedicamento"></asp:RequiredFieldValidator>
+                            <asp:RegularExpressionValidator ID="RegularExpressionValidator2" runat="server" 
+                                ControlToValidate="TextBox_Dias" Display="None" 
+                                ErrorMessage="Digite somente números em Quantidade de Dias." 
+                                ValidationExpression="^\d*$" 
+                                ValidationGroup="ValidationGroup_DispensarMedicamento">
+                        </asp:RegularExpressionValidator>
+                            <asp:CompareValidator ID="CompareValidator2" runat="server" 
+                                ControlToValidate="TextBox_Dias" Display="None" 
+                                ErrorMessage="Quantidade de Dias deve ser maior que zero." 
+                                Operator="GreaterThan" ValidationGroup="ValidationGroup_DispensarMedicamento" 
+                                ValueToCompare="0"></asp:CompareValidator>
+                            <asp:ValidationSummary ID="ValidationSummary2" runat="server" 
+                                ShowMessageBox="true" ShowSummary="false" 
+                                ValidationGroup="ValidationGroup_DispensarMedicamento" />
+                            <p>
+                            </p>
+                    </p>
+                    </span>
+               </p>
+            </ContentTemplate>
+        </asp:UpdatePanel>
+        <asp:UpdatePanel ID="UpdatePanel4" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="true">
+            <Triggers>
+                <asp:AsyncPostBackTrigger ControlID="Button_IncluirMedicamento" EventName="Click" />
+                <asp:AsyncPostBackTrigger ControlID="btnSim" EventName="Click" />
+                <asp:AsyncPostBackTrigger ControlID="btnNao" EventName="Click" />                
+            </Triggers>
+            <ContentTemplate>
+                  <asp:Panel ID="Panel_MedicamentosDispensados" runat="server" Visible="false">
+                        <fieldset class="formulario">
+                            <legend>Medicamentos incluídos</legend>                               
+                                <asp:GridView ID="GridView_MedicamentosDispensar" runat="server" 
+                                AllowPaging="True" AutoGenerateColumns="False" BorderColor="Silver" 
+                                DataKeyNames="CodigoLoteMedicamento" Font-Size="X-Small" 
+                                OnPageIndexChanging="OnPageIndexChanging_Paginacao" 
+                                OnRowCancelingEdit="GridView_MedicamentosDispensar_RowCancelingEdit" 
+                                OnRowCommand="OnRowCommand_VerificarAcao" 
+                                OnRowEditing="GridView_MedicamentosDispensar_RowEditing" 
+                                OnRowUpdating="GridView_MedicamentosDispensar_RowUpdating" 
+                                PagerSettings-Mode="Numeric" PageSize="2" Width="700px" 
+                                ondatabound="GridView_MedicamentosDispensar_DataBound" 
+                                onrowdeleting="GridView_MedicamentosDispensar_RowDeleting">
+                                <Columns>
+                                    <asp:BoundField DataField="Medicamento" HeaderText="Medicamento" 
+                                        ReadOnly="true">
+                                        <ItemStyle HorizontalAlign="Left" VerticalAlign="Bottom" Width="410px" />
+                                    </asp:BoundField>
+                                    <asp:BoundField DataField="NomeLoteMedicamento" HeaderText="Lote" 
+                                        ReadOnly="true">
+                                        <ItemStyle HorizontalAlign="Center" VerticalAlign="Bottom" Width="50px" />
+                                    </asp:BoundField>
+                                    <asp:BoundField DataField="QtdPrescrita" HeaderText="QP" ReadOnly="true">
+                                        <ItemStyle HorizontalAlign="Center" VerticalAlign="Bottom" Width="30px" />
+                                    </asp:BoundField>
+                                    <asp:TemplateField HeaderText="QD">
+                                        <ItemTemplate>
+                                            <asp:Label ID="Label_Qtd" runat="server" Text='<%#bind("QtdDispensada") %>'></asp:Label>
+                                        </ItemTemplate>
+                                        <EditItemTemplate>
+                                            <asp:TextBox ID="TextBox_Qtd" runat="server" CssClass="campo" 
+                                                Text='<%#bind("QtdDispensada") %>' Width="25px"></asp:TextBox>
+                                        </EditItemTemplate>
+                                        <ItemStyle HorizontalAlign="Center" VerticalAlign="Bottom" Width="30px" />
+                                    </asp:TemplateField>
+                                    <%--                                        <asp:BoundField HeaderText="QDi" DataField="QtdDias">
+                                            <ItemStyle HorizontalAlign="Center" Width="30px" VerticalAlign="Bottom" />
+                                        </asp:BoundField>--%>
+                                    <asp:TemplateField HeaderText="QDi">
+                                        <ItemTemplate>
+                                            <asp:Label ID="Label_QtdDi" runat="server" Text='<%#bind("QtdDias") %>'></asp:Label>
+                                        </ItemTemplate>
+                                        <EditItemTemplate>
+                                            <asp:TextBox ID="TextBox_QtdDi" runat="server" CssClass="campo" 
+                                                Text='<%#bind("QtdDias") %>' Width="25px"></asp:TextBox>
+                                        </EditItemTemplate>
+                                        <ItemStyle HorizontalAlign="Center" VerticalAlign="Bottom" Width="30px" />
+                                    </asp:TemplateField>
+                                    <asp:TemplateField HeaderText="Observação">
+                                        <ItemTemplate>
+                                            <asp:Label ID="Label_Observacao" runat="server" Text='<%#bind("Observacao") %>'></asp:Label>
+                                        </ItemTemplate>
+                                        <EditItemTemplate>
+                                            <asp:TextBox ID="TextBox_Observacao" runat="server" CssClass="campo" 
+                                                Text='<%#bind("Observacao") %>' Width="50px" TextMode="MultiLine"></asp:TextBox>
+                                        </EditItemTemplate>
+                                        <ItemStyle HorizontalAlign="Center" VerticalAlign="Bottom" Width="30px" />
+                                    </asp:TemplateField>                                    
+                                    <%-- <asp:BoundField DataField="Observacao" HeaderText="Observação" ReadOnly="true">
+                                        <ItemStyle HorizontalAlign="Left" VerticalAlign="Bottom" Width="150px" />
+                                    </asp:BoundField> --%>
+                                    <%--<asp:ButtonField ButtonType="Link" CommandName="CommandName_Editar" Text="<img src='img/bt_edit.png' border='0' alt='Editar'>" ItemStyle-Width="10px" />--%>
+                                    <asp:CommandField ButtonType="Link" 
+                                        CancelText="&lt;img src='img/bt_del.png' border='0' alt='Cancelar'&gt;" 
+                                        CausesValidation="false" 
+                                        EditText="&lt;img src='img/bt_edit.png' border='0' alt='Editar'&gt;" 
+                                        InsertVisible="false" ShowEditButton="true" 
+                                        UpdateText="&lt;img src='img/alterar.png' border='0' alt='Alterar'&gt;" />
+                                    <asp:CommandField ShowDeleteButton="True" />
+                                    <%--<asp:ButtonField ButtonType="Link" CommandName="CommandName_Excluir" 
+                                        ItemStyle-Width="10px" 
+                                        Text="&lt;img src='img/bt_del.png' border='0' alt='Cancelar'&gt;" >
+                                        <ItemStyle Width="10px" />
+                                    </asp:ButtonField>--%>
+                                </Columns>
+                                <EmptyDataRowStyle HorizontalAlign="Center" />
+                                <EmptyDataTemplate>
+                                    <asp:Label ID="lbEmpty" runat="server" Text="Nenhum medicamento incluído."></asp:Label>
+                                </EmptyDataTemplate>
+                                <HeaderStyle BackColor="#006666" Font-Bold="True" ForeColor="White" />
+                                <RowStyle BackColor="#f0f0f0" ForeColor="Black" Height="20px" />
+                                <PagerStyle BackColor="#006666" Font-Bold="True" ForeColor="White" 
+                                    HorizontalAlign="Center" />
+                            </asp:GridView>
+                        </fieldset></asp:Panel>
+             </ContentTemplate>
+        </asp:UpdatePanel>
+        <asp:UpdatePanel ID="UpdatePanel5" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="true">        
+          <Triggers>
+             <asp:AsyncPostBackTrigger ControlID="Button_IncluirMedicamento"  EventName="Click" />
+             <asp:AsyncPostBackTrigger ControlID="btnSim"  EventName="Click" />
+             <asp:AsyncPostBackTrigger ControlID="btnNao"  EventName="Click" />
+          </Triggers>          
+          <ContentTemplate>
+               <asp:Panel ID="Panel_MensagemAutorizacao" runat="server" Visible="false">
+                    <div id="cinza" visible="false" style="POSITION: absolute; TOP: 0px; LEFT: 0px; WIDTH: 100%; HEIGHT: 200%; Z-INDEX: 100; MIN-HEIGHT: 100%; BACKGROUND-COLOR: #999; FILTER: alpha(opacity=45); moz-opacity: 0.3; opacity: 0.3"></div>   
+                    <div id="mensagem" visible="false" style="POSITION: fixed; background-color: #FFFFFF; background-position:center; background-repeat:no-repeat; TOP: 150px; LEFT: 25%; WIDTH: 500px; HEIGHT: 250px; Z-INDEX: 102; background-image: url('img/fundo_mensagem.png'); BORDER-RIGHT: #336699 2px solid; PADDING-RIGHT: 10px; BORDER-TOP: #336699 2px solid; PADDING-LEFT: 10px; PADDING-BOTTOM: 10px; BORDER-LEFT: #336699 2px solid; COLOR: #000000; PADDING-TOP: 10px; BORDER-BOTTOM: #336699 2px solid;  TEXT-ALIGN: justify; font-family:Verdana;">
+                         <div style="width: 450px; height: 90px; margin-left: 20px; margin-top: 30px;">
+                           &nbsp;&nbsp;&nbsp;<asp:Label ID="lblMensagemAutorizacao" runat="server" CssClass="labelMensagem"></asp:Label>
+                         </div>
+                         <p>
+                            <span class="rotulo2">Observação</span>
+                            <span style="margin-left: 5px;">
+                              <asp:TextBox ID="tbxObservacao" runat="server" TextMode="MultiLine" 
+                                 Height="60px" Width="285px" CssClass="campo"></asp:TextBox>
+                            </span>
+                         </p>
+                         <p style="margin-top: 40px;"></p>
+                         <p>
+                            <span style="margin-left: 120px;">
+                             <asp:Button ID="btnSim" runat="server" Text="Sim" onclick="OnClick_AutorizaDispensacao" />
+                             <asp:Button ID="btnNao" runat="server" Text="Não" onclick="OnClick_NaoAutorizaDispensacao" />
+                            </span> 
+                         </p>
+                    </div>                   
+               </asp:Panel>
+          </ContentTemplate>
+        </asp:UpdatePanel>
+        <p>
+        </p>
+        <p align="center">
+            <span>
+            <asp:Button ID="ButtonConcluirDispensacao" runat="server"  
+                OnClientClick="javascript:return confirm('Todos os dados da dispensação estão corretos ?');return false;" 
+                Text="Concluir Dispensação" Width="148px" OnClick="OnClick_ConcluirDispensacao" />
+            &nbsp;&nbsp;&nbsp;
+            <asp:Button ID="ButtonCancelarDispensacao" runat="server" PostBackUrl="~/Farmacia/Default.aspx" Text="Cancelar"
+            OnClientClick="javascript:return confirm('Deseja cancelar a dispensação?');return false;" 
+            OnClick="OnClick_CancelarDispensacao" />
+            </span>
+        </p>
+    </div>
+</asp:Content>

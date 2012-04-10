@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Vida.Model">
+	<class name="Vida.Model.Etnia" table="tb_pms_etnia" dynamic-update="true">
+    <id name="Codigo">
+      <column name="cod_etnia" not-null="true"/>
+      <generator class="assigned" />
+    </id>
+		<property name="Descricao" column="no_etnia"/>
+	</class>
+</hibernate-mapping>

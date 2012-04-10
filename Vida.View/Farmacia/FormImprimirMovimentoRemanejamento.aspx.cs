@@ -1,0 +1,74 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using ViverMais.DAO;
+using ViverMais.ServiceFacade.ServiceFacades.Farmacia.Movimentacao;
+using ViverMais.Model;
+using System.Collections;
+using CrystalDecisions.CrystalReports.Engine;
+using ViverMais.View.Farmacia.RelatoriosCrystal;
+using System.Data;
+
+namespace ViverMais.View.Farmacia
+{
+    public partial class FormImprimirMovimentoRemanejamento : System.Web.UI.Page
+    {
+        protected void Page_Init(object sender, EventArgs e)
+        {
+            //if (!IsPostBack)
+            //{
+                int temp;
+
+                if (Request["tipo"] != null && int.TryParse(Request["tipo"].ToString(), out temp)
+                    && (int.Parse(Request["tipo"].ToString()) == 1 || int.Parse(Request["tipo"].ToString()) == 2)
+                    && Request["codigo"] != null && int.TryParse(Request["codigo"].ToString(), out temp))
+                {
+                    ReportDocument doc = new ReportDocument();
+                    Hashtable hash = null;
+
+                    if (int.Parse(Request["tipo"].ToString()) == 1) //Movimentação
+                    {
+                        IList<Movimento> lm = new List<Movimento>();
+                        lm.Add(Factory.GetInstance<IMovimentacao>().BuscarPorCodigo<Movimento>(int.Parse(Request["codigo"].ToString())));
+                        hash = Factory.GetInstance<IMovimentacao>().RetornaHashMovimentacaoRemanejamento<IList<Movimento>>(int.Parse(Request["tipo"].ToString()), lm);
+
+                        DSCorpoMovimentacao dsc = new DSCorpoMovimentacao();
+                        DSCabecalhoMovimentacao dscab = new DSCabecalhoMovimentacao();
+
+                        dsc.Tables.Add((DataTable)hash["corpo"]);
+                        dscab.Tables.Add((DataTable)hash["cabecalho"]);
+
+                        doc.Load(Server.MapPath("RelatoriosCrystal/RelMovimentacao.rpt"));
+                        doc.SetDataSource(dscab.Tables[1]);
+                        doc.Subreports[0].SetDataSource(dsc.Tables[1]);
+
+                        CrystalReportViewer_Relatorio.ReportSource = doc;
+                        CrystalReportViewer_Relatorio.DataBind();
+                    }
+                    else //Remanejamento
+                    {
+                        IList<RemanejamentoMedicamento> lrm = new List<RemanejamentoMedicamento>();
+                        lrm.Add(Factory.GetInstance<IMovimentacao>().BuscarPorCodigo<RemanejamentoMedicamento>(int.Parse(Request["codigo"].ToString())));
+                        hash = Factory.GetInstance<IMovimentacao>().RetornaHashMovimentacaoRemanejamento<IList<RemanejamentoMedicamento>>(int.Parse(Request["tipo"].ToString()),lrm);
+
+                        DSCorpoRemanejamento dsr = new DSCorpoRemanejamento();
+                        DSCabecalhoRemanejamento dsc = new DSCabecalhoRemanejamento();
+
+                        dsr.Tables.Add((DataTable)hash["corpo"]);
+                        dsc.Tables.Add((DataTable)hash["cabecalho"]);
+
+                        doc.Load(Server.MapPath("RelatoriosCrystal/RelRemanejamento.rpt"));
+                        doc.SetDataSource(dsc.Tables[1]);
+                        doc.Subreports[0].SetDataSource(dsr.Tables[1]);
+                        
+                        CrystalReportViewer_Relatorio.ReportSource = doc;
+                        CrystalReportViewer_Relatorio.DataBind();
+                    }
+                }
+            //}
+        }
+    }
+}

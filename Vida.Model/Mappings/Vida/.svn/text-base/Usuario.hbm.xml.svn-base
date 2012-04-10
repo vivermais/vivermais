@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Vida.Model">
+  <class name="Vida.Model.Usuario" table="tb_pms_usuario">
+    <!--<id name="Codigo">
+			<column name="co_usuario" not-null="true"/>
+			<generator class="assigned" />
+		</id>vida_usuario_sequence-->
+    <id name="Codigo">
+      <column name="co_usuario" not-null="true"/>
+      <generator class="sequence">
+        <param name="sequence">vida_usuario_sequence</param>
+      </generator>
+    </id>
+    <property name="Nome" column="no_usuario"/>
+    <property name="Login" column="no_login"/>
+    <property name="Senha" column="no_senha"/>
+    <property name="Ativo" column="st_ativo"/>
+    <bag name="Perfis" table="rl_pms_usuario_perfil" >
+      <key column="co_usuario"/>
+      <many-to-many column="co_perfil" class="Vida.Model.Perfil" />
+    </bag>
+    <many-to-one name="ProfissionalSaude" class="Vida.Model.Profissional" column="cpf_prof" />
+    <many-to-one name="Unidade" class="Vida.Model.EstabelecimentoSaude" column="co_unidade" />
+    <property name="CartaoSUS" column="co_numero_cartao"/>
+    <property name="DataNascimento" column="dt_nascimento"/>
+  </class>
+</hibernate-mapping>

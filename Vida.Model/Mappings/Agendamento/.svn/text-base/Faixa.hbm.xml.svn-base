@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Vida.Model">
+  <class name="Vida.Model.Faixa" table="AGD_FAIXA">
+    <id name="Codigo">
+       <column name="CO_FAIXA" not-null="true"/>
+       <generator class="sequence">
+           <param name="sequence">AGD_FAIXA_SEQUENCE</param>
+       </generator>
+    </id>
+    <property name="DataInclusao" column="DATA_INCLUSAO" />
+    <property name="FaixaInicial" column="FAIXA_INICIAL" />
+    <property name="FaixaFinal" column="FAIXA_FINAL" />
+    <property name="Quantitativo" column="QUANTITATIVO" />
+    <property name="Quantidade_utilizada" column="QUANTIDADE_UTILIZADA" />
+    <property name ="Ano_vigencia" column="ANO_VIGENCIA"/>
+    <property name="Tipo" column="TIPO" />
+  </class>
+</hibernate-mapping>

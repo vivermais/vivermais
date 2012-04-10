@@ -1,0 +1,20 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Vida.Model;
+using Vida.DAOOracle;
+
+namespace Vida.BLL
+{
+    public static class UsuarioBLL
+    {
+        public static List<Usuario> ListarPorUnidade(EstabelecimentoSaude unidade)
+        {
+            UsuarioDAO dao = new UsuarioDAO();
+            List<Usuario> usuarios = dao.PesquisarPorUnidade(unidade.CNES);
+            usuarios = usuarios.OrderBy(x => x.Nome).ToList();
+            return usuarios;
+        }
+    }
+}

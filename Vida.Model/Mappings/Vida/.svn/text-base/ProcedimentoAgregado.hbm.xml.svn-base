@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Vida.Model">
+  <class name="Vida.Model.ProcedimentoAgregado" table="rl_pms_proced_agreg">
+    <id name="Codigo">
+      <column name="id_proced_agreg" not-null="true"/>
+      <generator class="assigned" />
+    </id>
+    <property name="Valor" column="valor" />
+    <many-to-one name="Agregado" column="id_agregado" class="Vida.Model.Agregado"/>
+    <many-to-one name="Procedimento" column="co_procedimento" class="Vida.Model.Procedimento"/>
+  </class>
+</hibernate-mapping>

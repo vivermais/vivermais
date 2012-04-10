@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DSEvolucaoMedicaRelatorioGeral" targetNamespace="http://tempuri.org/DSEvolucaoMedicaRelatorioGeral.xsd" xmlns:mstns="http://tempuri.org/DSEvolucaoMedicaRelatorioGeral.xsd" xmlns="http://tempuri.org/DSEvolucaoMedicaRelatorioGeral.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DSEvolucaoMedicaRelatorioGeral" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_UserDSName="DSEvolucaoMedicaRelatorioGeral" msprop:Generator_DataSetName="DSEvolucaoMedicaRelatorioGeral" msprop:EnableTableAdapterManager="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="evolucao" msprop:Generator_UserTableName="evolucao" msprop:Generator_RowDeletedName="evolucaoRowDeleted" msprop:Generator_RowChangedName="evolucaoRowChanged" msprop:Generator_RowClassName="evolucaoRow" msprop:Generator_RowChangingName="evolucaoRowChanging" msprop:Generator_RowEvArgName="evolucaoRowChangeEvent" msprop:Generator_RowEvHandlerName="evolucaoRowChangeEventHandler" msprop:Generator_TableClassName="evolucaoDataTable" msprop:Generator_TableVarName="tableevolucao" msprop:Generator_RowDeletingName="evolucaoRowDeleting" msprop:Generator_TablePropName="evolucao">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Data" msprop:Generator_UserColumnName="Data" msprop:Generator_ColumnVarNameInTable="columnData" msprop:Generator_ColumnPropNameInRow="Data" msprop:Generator_ColumnPropNameInTable="DataColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Profissional" msprop:Generator_UserColumnName="Profissional" msprop:Generator_ColumnVarNameInTable="columnProfissional" msprop:Generator_ColumnPropNameInRow="Profissional" msprop:Generator_ColumnPropNameInTable="ProfissionalColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Conteudo" msprop:Generator_UserColumnName="Conteudo" msprop:Generator_ColumnVarNameInTable="columnConteudo" msprop:Generator_ColumnPropNameInRow="Conteudo" msprop:Generator_ColumnPropNameInTable="ConteudoColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Link_Item" msprop:Generator_UserColumnName="Link_Item" msprop:Generator_ColumnVarNameInTable="columnLink_Item" msprop:Generator_ColumnPropNameInRow="Link_Item" msprop:Generator_ColumnPropNameInTable="Link_ItemColumn" type="xs:string" />
+              <xs:element name="ClassificacaoRisco" msprop:Generator_UserColumnName="ClassificacaoRisco" msprop:Generator_ColumnPropNameInRow="ClassificacaoRisco" msprop:Generator_ColumnVarNameInTable="columnClassificacaoRisco" msprop:Generator_ColumnPropNameInTable="ClassificacaoRiscoColumn" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="cids" msprop:Generator_UserTableName="cids" msprop:Generator_RowDeletedName="cidsRowDeleted" msprop:Generator_RowChangedName="cidsRowChanged" msprop:Generator_RowClassName="cidsRow" msprop:Generator_RowChangingName="cidsRowChanging" msprop:Generator_RowEvArgName="cidsRowChangeEvent" msprop:Generator_RowEvHandlerName="cidsRowChangeEventHandler" msprop:Generator_TableClassName="cidsDataTable" msprop:Generator_TableVarName="tablecids" msprop:Generator_RowDeletingName="cidsRowDeleting" msprop:Generator_TablePropName="cids">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Codigo" msprop:Generator_UserColumnName="Codigo" msprop:Generator_ColumnVarNameInTable="columnCodigo" msprop:Generator_ColumnPropNameInRow="Codigo" msprop:Generator_ColumnPropNameInTable="CodigoColumn" type="xs:string" />
+              <xs:element name="Nome" msprop:Generator_UserColumnName="Nome" msprop:Generator_ColumnVarNameInTable="columnNome" msprop:Generator_ColumnPropNameInRow="Nome" msprop:Generator_ColumnPropNameInTable="NomeColumn" type="xs:string" />
+              <xs:element name="Link_Item" msprop:Generator_UserColumnName="Link_Item" msprop:Generator_ColumnVarNameInTable="columnLink_Item" msprop:Generator_ColumnPropNameInRow="Link_Item" msprop:Generator_ColumnPropNameInTable="Link_ItemColumn" type="xs:string" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:evolucao" />
+      <xs:field xpath="mstns:Link_Item" />
+    </xs:unique>
+    <xs:unique name="cids_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:cids" />
+      <xs:field xpath="mstns:Codigo" />
+      <xs:field xpath="mstns:Nome" />
+      <xs:field xpath="mstns:Link_Item" />
+    </xs:unique>
+    <xs:keyref name="FK_evolucao_cids" refer="Constraint1" msprop:rel_Generator_UserRelationName="FK_evolucao_cids" msprop:rel_Generator_RelationVarName="relationFK_evolucao_cids" msprop:rel_Generator_UserChildTable="cids" msprop:rel_Generator_UserParentTable="evolucao" msprop:rel_Generator_ParentPropName="evolucaoRow" msprop:rel_Generator_ChildPropName="GetcidsRows">
+      <xs:selector xpath=".//mstns:cids" />
+      <xs:field xpath="mstns:Link_Item" />
+    </xs:keyref>
+  </xs:element>
+</xs:schema>

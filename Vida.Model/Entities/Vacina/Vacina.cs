@@ -1,0 +1,154 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace ViverMais.Model
+{
+    [Serializable]
+    public class Vacina
+    {
+        public static char ATIVA = 'S';
+        public static char INATIVA = 'N';
+
+        int codigo;
+        public virtual int Codigo
+        {
+            get { return codigo; }
+            set { codigo = value; }
+        }
+        
+        string nome;
+        public virtual string Nome
+        {
+            get { return nome; }
+            set { nome = value; }
+        }
+
+        UnidadeMedidaVacina unidademedida;
+        public virtual UnidadeMedidaVacina UnidadeMedida
+        {
+            get { return unidademedida; }
+            set { unidademedida = value; }
+        }
+
+        //FabricanteVacina fabricante;
+        //public virtual FabricanteVacina Fabricante
+        //{
+        //    get { return fabricante; }
+        //    set { fabricante = value; }
+        //}
+
+        private int aplicacao;
+
+        public virtual int Aplicacao
+        {
+            get { return aplicacao; }
+            set { aplicacao = value; }
+        }
+
+        private string codigocmadi;
+
+        public virtual string CodigoCMADI
+        {
+            get { return codigocmadi; }
+            set { codigocmadi = value; }
+        }
+
+        private bool pertenceaocalendario;
+
+        public virtual bool PertenceAoCalendario
+        {
+            get { return pertenceaocalendario; }
+            set { pertenceaocalendario = value; }
+        }
+
+        private char ativo;
+
+        public virtual char Ativo
+        {
+            get { return ativo; }
+            set { ativo = value; }
+        }
+
+        private string nomeabreviacao;
+        public virtual string NomeAbreviacao
+        {
+            get { return nomeabreviacao; }
+            set { nomeabreviacao = value; }
+        }
+
+        private IList<Doenca> doencasEvitadas;
+
+        public virtual IList<Doenca> DoencasEvitadas
+        {
+            get { return doencasEvitadas; }
+            set { doencasEvitadas = value; }
+        }
+
+        public virtual string UnidadeMedidaToString
+        {
+            get { return UnidadeMedida.Nome; }
+        }
+
+        public override string ToString()
+        {
+            return this.Nome;
+        }
+
+        public virtual string VacinaFabricante 
+        {
+            get { return this.Nome; }
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (this.codigo == ((ViverMais.Model.Vacina)obj).codigo)
+                return true;
+            else
+                return false;
+        }
+
+        public Vacina()
+        {
+            DoencasEvitadas = new List<Doenca>();
+        }
+
+        //public virtual string InformacoesDoseVacina(DoseVacina dose, IList<ParametrizacaoVacina> parametros)
+        //{
+        //    string info = string.Empty;
+            
+        //    info = "INFORMAÇÕES SOBRE O IMUNOBIOLÓGICO" + Environment.NewLine;
+        //    info += "VACINA: " + this.Nome.ToUpper() + Environment.NewLine;
+        //    info += "DOSE: " + dose.Descricao.ToUpper() + Environment.NewLine;
+
+        //    info += "DOENÇAS EVITADAS:" + Environment.NewLine;
+        //    if (this.DoencasEvitadas.Count > 0)
+        //    {
+        //        int i = 1;
+        //        foreach (Doenca d in this.DoencasEvitadas)
+        //        {
+        //            info += i.ToString() + ") " + d.Nome.ToUpper() + Environment.NewLine;
+        //            i++;
+        //        }
+        //    }
+        //    else
+        //        info += "Nenhum registro encontrado" + Environment.NewLine;
+
+        //    info += "PARAMÊTROS:" + Environment.NewLine;
+        //    if (parametros.Count > 0)
+        //    {
+        //        int i = 1;
+        //        foreach (ParametrizacaoVacina p in parametros)
+        //        {
+        //            info += i.ToString() + ") "+ p.ToString().ToUpper() + Environment.NewLine;
+        //            i++;
+        //        }
+        //    }
+        //    else
+        //        info += "Nenhum registro encontrado";
+
+        //    return info;
+        //}
+    }
+}

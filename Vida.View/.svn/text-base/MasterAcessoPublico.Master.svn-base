@@ -1,0 +1,36 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="MasterAcessoPublico.Master.cs"
+    Inherits="Vida.View.MasterAcessoPublico" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1" runat="server">
+    <title>Vida - Sistema Integrado de Saúde</title>
+    <link rel="stylesheet" href="/style_vida.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="/style_barra_vida.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="/style_form_vida.css" type="text/css" media="screen" />
+    
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+    
+    <asp:ScriptManager ID="ScriptManager1" runat="server" EnableScriptGlobalization="true">
+    </asp:ScriptManager>
+    
+    <div id="barra">
+        <div id="barra_conteudo">
+        <div id="barra_assinatura">
+                <asp:LinkButton ID="lnkHOME" runat="server" CausesValidation="false">
+                <img id="img_vidaassin" alt="" src="/img/vida_barra_off.gif" 
+                onmouseover="img_vidaassin.src='/img/vida_barra.gif';" 
+                onmouseout="img_vidaassin.src='/img/vida_barra_off.gif';"  />
+                </asp:LinkButton>
+            </div>
+        </div>
+    </div>
+    <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+    </asp:ContentPlaceHolder>
+    </form>
+</body>
+</html>

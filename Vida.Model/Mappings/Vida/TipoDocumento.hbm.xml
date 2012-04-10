@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="ViverMais.Model">
+	<class name="ViverMais.Model.TipoDocumento" table="tb_ms_tipo_documento" >
+		<id name="Codigo">
+			<column name="co_tipo_documento" not-null="true"/>
+			<generator class="assigned" />
+		</id>
+		<property name="Descricao" column="ds_tipo_documento"/>
+	</class>
+</hibernate-mapping>

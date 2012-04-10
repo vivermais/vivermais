@@ -1,0 +1,93 @@
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using Vida.ServiceFacade.ServiceFacades;
+using Vida.DAO;
+using Vida.ServiceFacade.ServiceFacades.Paciente;
+using Vida.Model;
+using System.Collections.Generic;
+using Vida.ServiceFacade.ServiceFacades.Agendamento;
+using Vida.ServiceFacade.ServiceFacades.Procedimento.Misc;
+
+namespace Vida.View.Agendamento
+{
+    public partial class RelatorioSolicitacao : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            int id_solicitacao = int.Parse(Request.QueryString["id_solicitacao"]);
+            IAgendamentoServiceFacade iAgendamento = Factory.GetInstance<IAgendamentoServiceFacade>();
+            Vida.Model.Solicitacao solicitacao = iAgendamento.BuscarPorCodigo<Vida.Model.Solicitacao>(id_solicitacao);
+            IVidaServiceFacade iVida = Factory.GetInstance<IVidaServiceFacade>();
+            Vida.Model.Paciente paciente = Factory.GetInstance<IPaciente>().BuscarPorCodigo<Vida.Model.Paciente>(solicitacao.ID_Paciente);
+            IPaciente ipaciente = Factory.GetInstance<IPaciente>();
+            IList<CartaoSUS> cartoes = ipaciente.ListarCartoesSUS<Vida.Model.CartaoSUS>(paciente.Codigo);
+            long cartao = (from c in cartoes select long.Parse(c.Numero)).Min();
+            
+            if (solicitacao.Agenda != null)
+            {
+                Vida.Model.Agenda agenda = iAgendamento.BuscarPorCodigo<Vida.Model.Agenda>(solicitacao.Agenda.Codigo);
+                Vida.Model.EstabelecimentoSaude eas = iVida.BuscarPorCodigo<Vida.Model.EstabelecimentoSaude>(agenda.Estabelecimento.CNES);
+                Vida.Model.Profissional profissional = iVida.BuscarPorCodigo<Vida.Model.Profissional>(agenda.ID_Profissional.CPF);
+                Vida.Model.Procedimento procedimento = iVida.BuscarPorCodigo<Vida.Model.Procedimento>(agenda.Procedimento.Codigo);
+                lblPaciente.Text = paciente.Nome;
+                lblEas.Text = eas.NomeFantasia;
+                if (eas.Bairro != null)
+                {
+                    lblEnderecoUnidade.Text = eas.Logradouro + " " + eas.Bairro.Nome;
+                    lblTelefone.Text = eas.Telefone;
+                }
+                else
+                {
+                    lblEnderecoUnidade.Text = eas.Logradouro;
+                }
+                lblProfissional.Text = profissional.Nome;
+                lblData.Text = agenda.Data.ToString("dd/MM/yyyy");
+                lblHoraIni.Text = agenda.Hora_Inicial;
+                lblHoraFim.Text = agenda.Hora_Final;
+                if (agenda.Turno.ToString().Equals("M"))
+                    lblTurno.Text = "Manhã";
+                else if (agenda.Turno.ToString().Equals("T"))
+                    lblTurno.Text = "Tarde";
+                else if (agenda.Turno.ToString().Equals("N"))
+                    lblTurno.Text = "Noite";
+
+                //lblTurno.Text = agenda.Turno.ToString().Equals("M") ? "Manhã" : "Tarde";
+                if ((procedimento.Codigo == "0301010072") || (procedimento.Codigo == "0301010064"))
+                {
+                    CBO cbo = Factory.GetInstance<ICBO>().BuscarPorCodigo<CBO>(solicitacao.Agenda.Cbo.Codigo);
+                    if (cbo != null)
+                        lblProcedimento.Text = procedimento.Nome + " - " + cbo.Nome;
+                }
+                else
+                {
+                    lblProcedimento.Text = procedimento.Codigo + " - " + procedimento.Nome;
+
+                }
+                lblCodigo.Text = solicitacao.Identificador.ToString();
+                lblCartaoSus.Text = cartao.ToString();
+                IList<Preparo> preparos = Factory.GetInstance<IPreparo>().BuscarPreparoPorProcedimento<Preparo>(solicitacao.Procedimento.Codigo);
+                string recomendacoes = string.Empty;
+                foreach (Preparo preparo in preparos)
+                {
+                    recomendacoes += preparo.Descricao + ";<br />";
+                }
+                lblRecomendacoes.Text = recomendacoes;
+            }
+            else
+            {
+                ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Não existe agenda para esta Solicitação! Por favor, entre em contato com a Regulação.');", true);
+                return;
+            }
+        }
+    }
+}

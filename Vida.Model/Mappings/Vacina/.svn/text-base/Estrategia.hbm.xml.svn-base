@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Vida.Model">
+  <class name="Vida.Model.Estrategia" table="vcn_estrategia">
+    <id name="Codigo">
+      <column name="co_estrategia" not-null="true"/>
+      <generator class="assigned" />
+    </id>
+    <property name="Descricao" column="descricao" />
+    <bag name="Vacinas" table="rl_pms_estrategia_imuno">
+      <key column="co_estrategia"/>
+      <many-to-many column="co_vacina" class="Vida.Model.Vacina" />
+    </bag>
+  </class>
+</hibernate-mapping>

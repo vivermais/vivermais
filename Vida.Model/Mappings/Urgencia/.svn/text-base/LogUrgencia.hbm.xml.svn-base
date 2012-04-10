@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Vida.Model">
+	<class name="Vida.Model.LogUrgencia" table="URG_LOGEVENTOS">
+		<id name="Codigo">
+			<column name="CO_LOGEVENTO" not-null="true"/>
+      <generator class="sequence">
+        <param name="sequence">URG_LOGEVENTOS_SEQUENCE</param>
+      </generator>
+		</id>
+		<property name="CodigoUsuario" column="co_usuario" />
+		<!--<many-to-one name="EventoUrgencia" class="Vida.Model.EventoUrgencia" column="id_evento" />-->
+		<property name="Evento" column="CO_EVENTO" />
+		<property name="Valor" column="valor" />
+		<property name="Data" column="data" />
+
+	</class>
+</hibernate-mapping>

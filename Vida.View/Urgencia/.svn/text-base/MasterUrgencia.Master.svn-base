@@ -1,0 +1,217 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" MasterPageFile="~/MasterMain.Master"
+    CodeBehind="MasterUrgencia.master.cs" Inherits="Vida.View.Urgencia.MasterUrgencia" %>
+
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
+<%@ Register Src="~/Urgencia/IncVagas.ascx" TagName="RodapeUrgencia" TagPrefix="WCRodapeUrgencia" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <link rel="stylesheet" href="style_form_urgencia.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="style-barra-modulo.css" type="text/css" />
+
+    <script type="text/javascript" src="../JavaScript/MascarasGerais.js"></script>
+
+    <link href="GreyBox/gb_styles.css" rel="stylesheet" type="text/css" />
+    <%-- <script type="text/javascript" src="../Vacina/js/jquery-1.2.6.pack.js"></script>
+
+    <script type="text/javascript" src="../Vacina/js/jqModal.js"></script>--%>
+    <%--<link rel="stylesheet" href="../Vacina/js/jqModal.css" />--%>
+    <%--<meta http-equiv="refresh" CONTENT="5" />--%>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+    <%--    <style type="text/css">
+        .AjaxLoader
+        {
+            width: 200px;
+            height: 200px;
+            top: 50%;
+            left: 50%;
+            margin-left: -100px;
+            margin-top: -100px;
+            background-color: #0000FF;
+            z-index: 4000;
+            text-align: center;
+            position: absolute;
+        }
+    </style>--%>
+
+    <script type="text/javascript" language="javascript">
+        function showTooltip(obj) {
+            if (obj.options[obj.selectedIndex].title == "") {
+                obj.title = obj.options[obj.selectedIndex].text;
+                obj.options[obj.selectedIndex].title = obj.options[obj.selectedIndex].text;
+                for (i = 0; i < obj.options.length; i++) {
+                    obj.options[i].title = obj.options[i].text;
+                }
+            }
+            else
+                obj.title = obj.options[obj.selectedIndex].text;
+        }
+    </script>
+
+    <script type="text/javascript" language="javascript">
+        function SetActiveTab(tabControl, tabNumber) {
+            var ctrl = $find(tabControl);
+            ctrl.set_activeTab(ctrl.get_tabs()[tabNumber]);
+        }
+    </script>
+
+    <script type='text/javascript'>
+function iframeAutoHeight(quem){
+    //by Micox - elmicox.blogspot.com - elmicox.com - webly.com.br  
+    if(navigator.appName.indexOf("Internet Explorer")>-1){ //ie sucks
+        var func_temp = function(){
+            var val_temp = quem.contentWindow.document.body.scrollHeight + 15
+            quem.style.height = val_temp + "px";
+        }
+        setTimeout(function() { func_temp() },100) //ie sucks
+    }else{
+        var val = quem.contentWindow.document.body.parentNode.offsetHeight + 15
+        quem.style.height= val + "px";
+    }    
+}
+    </script>
+
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <% 
+        string url = Request.Url.ToString();
+        url = url.Substring(0, url.LastIndexOf(char.Parse("/")));
+    %>
+
+    <script type="text/javascript">
+        var GB_ROOT_DIR = '<%=url %>/GreyBox/';
+    </script>
+
+    <script type="text/javascript" src="GreyBox/AJS.js"></script>
+
+    <script type="text/javascript" src="GreyBox/AJS_fx.js"></script>
+
+    <script type="text/javascript" src="GreyBox/gb_scripts.js"></script>
+
+    <div id="bgurgencia">
+        <%--<div id="DivMenu" runat="server" visible="false">
+            <div style="margin-top: 0px; margin-left: 14px">
+                <ul class="menu2" id="menu">
+                    <li><a href="#" class="menulink">Principal</a>
+                        <ul>
+                            <li><a href="FormPaciente.aspx?tipo_paciente=pacientesus">Paciente</a></li>
+                            <li><a href="#" class="sub">Paciente Simplificado</a>
+                                <ul>
+                                    <li class="topline"><a href="FormPaciente.aspx?tipo_paciente=pacientesimplificado">Iniciar
+                                        Atendimento</a></li>
+                                    <li><a href="FormAssociarPacientes.aspx">Identificar</a></li>
+                                    <li><a href="FormExcluirIdentificacaoPaciente.aspx">Excluir Identificação</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="BuscaProntuario.aspx">Registro Eletrônico de Atendimento</a></li>
+                            <li><a href="ExibeFilaAcompanhamento.aspx">Acolhimento</a></li>
+                            <li><a href="ExibeFilaAtendimento.aspx">Atendimento</a></li>
+                            <li><a href="FormEstadosProntuarios.aspx?regulacao=2">Pacientes em Observação</a></li>
+                            <li><a href="FormEstadosProntuarios.aspx?regulacao=7">Pacientes Aguardando Regulação
+                                para Enfermaria</a></li>
+                            <li><a href="FormEstadosProntuarios.aspx?regulacao=4">Pacientes Aguardando Regulação
+                                para UTI</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#" class="menulink">Exames</a>
+                        <ul>
+                            <li><a href="FormResultadoExames.aspx">Resultado de Exames</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="FormGerarBPA.aspx" class="menulink">BPA</a> </li>
+                    <li><a href="#" class="menulink">Tabelas</a>
+                        <ul>
+                            <li><a href="FormCameraIP.aspx">Camêra IP</a></li>
+                            <li><a href="FormClassificacaoRisco.aspx">Classificação de Risco</a></li>
+                            <li><a href="#" class="sub">Exames</a>
+                                <ul>
+                                    <li class="topline"><a href="FormExameEletivo.aspx">Eletivos</a></li>
+                                    <li><a href="FormExame.aspx">Internos</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="FormHorarioUnidade.aspx">Horário de Vigência da Prescrição</a></li>
+                            <li><a href="FormAssociarUsuarioProfissional.aspx">Identificar Profissionais</a></li>
+                            <li><a href="FormItemPA.aspx">Item PA</a></li>
+                            <li><a href="FormKitPA.aspx">Kit PA</a></li>
+                            <li><a href="FormBuscaMedicamento.aspx">Medicamentos</a></li>
+                            <li><a href="FormVagas.aspx">Vagas</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="RelatoriosUrgencia.aspx" class="menulink">Relatórios</a></li>
+                    <li><a href="#" class="menulink">Segurança</a>
+                        <ul>
+                            <li><a href="FormCodigoIdentificacao.aspx">Código de Identificação</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>--%>
+        <div class="qd_vagas" runat="server">
+            <asp:LinkButton ID="btnQuadroVagas" runat="server" OnClick="quadroVagas">
+            <img id="qdvagas" alt="Quadro de Vagas" src="img/qd_vagas.png"
+                onmouseover="qdvagas.src='img/qd_vagas_1.png';"
+                onmouseout="qdvagas.src='img/qd_vagas.png';" />
+            </asp:LinkButton>
+        </div>
+    </div>
+    <cc1:AlwaysVisibleControlExtender runat="server" ID="AlwaysVisibleControlExtender2"
+        TargetControlID="UpDateProgressUrgence" VerticalSide="Middle" VerticalOffset="10"
+        HorizontalSide="Center" HorizontalOffset="10" ScrollEffectDuration=".1">
+    </cc1:AlwaysVisibleControlExtender>
+    <div>
+        <asp:UpdateProgress ID="UpDateProgressUrgence" runat="server" DisplayAfter="1" DynamicLayout="false"
+            Visible="true">
+            <ProgressTemplate>
+                <div id="progressBackgroundFilter">
+                </div>
+                <div id="processMessage">
+                    <div id="bgloader">
+                        <img src="img/ajax-loadernn.gif" style="margin-left: 68px; margin-top: 45px;" alt="" />
+                    </div>
+                </div>
+            </ProgressTemplate>
+        </asp:UpdateProgress>
+    </div>
+    <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+    </asp:ContentPlaceHolder>
+    <asp:UpdatePanel ID="UpdatePanel89" runat="server" UpdateMode="Conditional" RenderMode="Block">
+        <Triggers>
+            <asp:AsyncPostBackTrigger ControlID="btnQuadroVagas" EventName="Click" />
+        </Triggers>
+        <ContentTemplate>
+            <asp:Panel ID="panelQuadroVagas" runat="server" Visible="false">
+                <div id="cinza" visible="false" style="position: fixed; top: 0px; left: 0px; width: 100%;
+                    height: 130%; z-index: 100; min-height: 100%; background-color: #000; filter: alpha(opacity=75);
+                    moz-opacity: 0.3; opacity: 0.8">
+                </div>
+                <div id="mensagem" style="position: fixed; top: 100px; left: 25%; width: 600px; z-index: 102;
+                    background-color: #541010; border-right: #ffffff  5px solid; padding-right: 10px;
+                    border-top: #ffffff  5px solid; padding-left: 10px; padding-bottom: 10px; border-left: #ffffff  5px solid;
+                    color: #000000; padding-top: 10px; border-bottom: #ffffff 5px solid; text-align: justify;
+                    font-family: Verdana;">
+                    <div style="padding-left: 50px;">
+                        <asp:Label ID="lbQuadroVagas" runat="server" CssClass="titulo" Font-Bold="true" Text=""></asp:Label>
+                        <br />
+                        <p>
+                            <span>
+                                <asp:GridView ID="GridView_Vagas" runat="server" AutoGenerateColumns="false" Width="510px">
+                                    <Columns>
+                                        <asp:BoundField DataField="TipoVaga" HeaderText="Tipo" ItemStyle-HorizontalAlign="Center" />
+                                        <asp:BoundField DataField="Vaga" HeaderText="Número total de leitos" ItemStyle-HorizontalAlign="Center" />
+                                        <asp:BoundField DataField="VagaOcupada" HeaderText="Número de leitos ocupados" ItemStyle-HorizontalAlign="Center" />
+                                        <asp:BoundField DataField="VagaLivre" HeaderText="Número de leitos livres" ItemStyle-HorizontalAlign="Center" />
+                                    </Columns>
+                                    <HeaderStyle HorizontalAlign="Center" CssClass="tab" />
+                                    <RowStyle CssClass="tabrow_left" ForeColor="White" />
+                                </asp:GridView>
+                            </span>
+                            <p style="padding: 20px 10px 50px 0">
+                                <asp:ImageButton ID="ImageButton1" runat="server" CausesValidation="false" Height="39px"
+                                    ImageAlign="Left" ImageUrl="~/Urgencia/img/fechar-btn.png" OnClick="fecharQuadroVagas"
+                                    Width="100px" />
+                    </div>
+                </div>
+                </div>
+            </asp:Panel>
+        </ContentTemplate>
+    </asp:UpdatePanel>
+</asp:Content>

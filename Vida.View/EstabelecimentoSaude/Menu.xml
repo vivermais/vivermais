@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Menu>
+  <div class="menu-barra-module" style="background: url('URLPART/EstabelecimentoSaude/img/barramenu.png' ) no-repeat;">
+    <div style="margin-top: 8px; margin-left: 14px">
+      <ul class="menu2" id="menu">
+        <li>
+          <a href="FormEstabelecimentoDeSaude.aspx" class="menulink">Estabelecimentos</a>
+        </li>
+        <li>
+          <a href="FormImportacoesRealizadas.aspx" class="menulink">Importações</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</Menu>

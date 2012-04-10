@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Menu>
+  <div id="barra_informativo">
+    <div id="fotos" class="sc_menu" style="width:TAMANHODIVpx;">
+      <ul id="fotos1" class="sc_menu">
+
+        <Modulo>
+          <li class="botoes_vida">
+            <a href="URLPART/Home.aspx">Principal</a>
+          </li>
+          <li class="separator"></li>
+        </Modulo>
+
+        <Modulo Codigo="34" Permissao="ATENDIMENTO">
+          <li class="botoes_vida">
+            <a href="URLPART/Atendimento/Default.aspx">Atendimento</a>
+          </li>
+          <li class="separator"></li>
+        </Modulo>        
+        
+        <Modulo Codigo="33" Permissao="GUIAPROCEDIMENTOS">
+          <li class="botoes_vida">
+            <a href="URLPART/GuiaProcedimentos/Default.aspx">Guia de Procedimentos</a>
+          </li>
+          <li class="separator"></li>
+        </Modulo>
+        
+        <Modulo Codigo="30" Permissao="ESTABELECIMENTO_SAUDE">
+          <li class="botoes_vida">
+            <a href="URLPART/EstabelecimentoSaude/Default.aspx">EAS</a>
+          </li>
+          <li class="separator"></li>
+        </Modulo>
+
+        <Modulo Codigo="22" Permissao="FARMACIA">
+          <li class="botoes_vida">
+            <a href="URLPART/Farmacia/Default.aspx">Farmácia</a>
+          </li>
+          <li class="separator"></li>
+        </Modulo>
+        
+        <Modulo>
+          <li class="botoes_vida">
+            <a href="URLPART/Laboratorio/Default.aspx">Laboratório</a>
+          </li>
+          <li class="separator"></li>
+        </Modulo>
+
+        <Modulo Codigo="26" Permissao="OUVIDORIA">
+          <li class="botoes_vida">
+            <a href="URLPART/Ouvidoria/Default.aspx">Ouvidoria</a>
+          </li>
+          <li class="separator"></li>
+        </Modulo>
+
+        <Modulo Codigo="1" Permissao="PACIENTES">
+          <li class="botoes_vida">
+            <a href="URLPART/Paciente/Default.aspx">Pacientes</a>
+          </li>
+          <li class="separator"></li>
+        </Modulo>
+
+        <Modulo Codigo="31" Permissao="PROFISSIONAL">
+          <li class="botoes_vida">
+            <a href="URLPART/Profissional/Default.aspx">Profissionais</a>
+          </li>
+          <li class="separator"></li>
+        </Modulo>
+
+        <Modulo Codigo="24" Permissao="REGULACAO">
+          <li class="botoes_vida">
+            <a href="URLPART/Agendamento/Default.aspx">Regulação</a>
+          </li>
+          <li class="separator"></li>
+        </Modulo>
+
+        <Modulo Codigo="28" Permissao="SEGURANCA">
+          <li class="botoes_vida">
+            <a href="URLPART/Seguranca/Default.aspx">Segurança</a>
+          </li>
+          <li class="separator"></li>
+        </Modulo>
+
+        <Modulo>
+          <li class="botoes_vida">
+            <a href="URLPART/Senhador/Default.aspx">Senhador</a>
+          </li>
+          <li class="separator"></li>
+        </Modulo>
+
+        <Modulo Codigo="23" Permissao="URGENCIA">
+          <li class="botoes_vida">
+            <a href="URLPART/Urgencia/Default.aspx">Urgência</a>
+          </li>
+          <li class="separator"></li>
+        </Modulo>
+
+        <Modulo Codigo="29" Permissao="VACINA">
+          <li class="botoes_vida">
+            <a href="URLPART/Vacina/Default.aspx">Vacina</a>
+          </li>
+          <li class="separator"></li>
+        </Modulo>
+
+        <Modulo>
+          <li class="botoes_vida">
+            <a href="URLPART/Relatorio/Home.aspx">Relatórios</a>
+          </li>
+          <li class="separator"></li>
+        </Modulo>
+
+        <Modulo>
+          <li class="botoes_vida">
+            <a href="URLPART/FaleConosco.aspx">Fale Conosco</a>
+          </li>
+          <li class="separator"></li>
+        </Modulo>
+
+        <Modulo>
+          <li class="botoes_vida">
+            <a href="URLPART/Logout.aspx">Sair</a>
+          </li>
+          <li class="separator"></li>
+        </Modulo>
+        
+      </ul>
+    </div>
+      <li class="sombra_dir"></li>
+  </div>
+</Menu>

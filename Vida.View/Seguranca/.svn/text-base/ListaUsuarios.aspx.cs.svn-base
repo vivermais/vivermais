@@ -1,0 +1,102 @@
+﻿using System;
+using Vida.DAO;
+using Vida.Model;
+using System.Web;
+using System.Data;
+using System.Linq;
+using System.Web.UI;
+using System.Xml.Linq;
+using System.Collections;
+using System.Web.Security;
+using System.Configuration;
+using System.Web.UI.WebControls;
+using System.Web.UI.HtmlControls;
+using Vida.ServiceFacade.ServiceFacades;
+using System.Web.UI.WebControls.WebParts;
+using System.Collections.Generic;
+using Vida.ServiceFacade.ServiceFacades.Seguranca;
+using System.Drawing;
+using Vida.ServiceFacade.ServiceFacades.EstabelecimentoSaude;
+
+namespace Vida.View.Seguranca
+{
+    public partial class ListaUsuarios : PageVida
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            GridView grid = this.WUC_PesquisarUsuario.WUC_GridView_Usuarios;
+            grid.RowCommand += new GridViewCommandEventHandler(OnRowCommand_Usuario);
+            this.WUC_PesquisarUsuario.WUC_LinkButton_Voltar.Click += new EventHandler(OnClick_Voltar);
+            this.WUC_PesquisarUsuario.WUC_LinkButton_FiltrarUsuarios.Click += new EventHandler(OnClick_BuscarUsuarios);
+
+            if (!IsPostBack)
+            {
+                this.WUC_PesquisarUsuario.WUC_EAS.WUC_EstabelecimentosPesquisados = new List<Vida.Model.EstabelecimentoSaude>();
+                this.WUC_PesquisarUsuario.WUC_UsuariosPesquisados = new List<Usuario>();
+                this.WUC_PesquisarUsuario.MostrarCampoMunicipio = true;
+
+                Session["modulosedicao"] = Factory.GetInstance<ISeguranca>().BuscarModulosEdicaoUsuario<Modulo, Usuario>((Usuario)Session["Usuario"]);
+                Session["usuariosseguranca"] = new List<Usuario>();
+
+                if (((IList<Modulo>)Session["modulosedicao"]).Count() == 0)
+                {
+                    Response.Redirect("FormAcessoNegado.aspx?opcao=2");
+                    //ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Usuário, você não tem privilégios suficientes para acessar esta página! Por favor, entre em contato com a administração.');location='Default.aspx';", true);
+                    //return;
+                }
+                else
+                {
+                    grid.EmptyDataText = "Não foi encontrado nenhum usuário.";
+                    grid.HeaderStyle.BackColor = ColorTranslator.FromHtml("#5b5b5b");
+                    grid.HeaderStyle.ForeColor = Color.White;
+                    grid.RowStyle.ForeColor = Color.Black;
+                    grid.RowStyle.BackColor = ColorTranslator.FromHtml("#EEEEEE");
+                    grid.PagerStyle.BackColor = ColorTranslator.FromHtml("#999999");
+                    grid.PagerStyle.ForeColor = Color.Black;
+
+                    this.WUC_PesquisarUsuario.WUC_Image_FiltrarUsuarios.Attributes.Add("onmouseout", "this.src='img/btn_buscar1.png';");
+                    this.WUC_PesquisarUsuario.WUC_Image_FiltrarUsuarios.Attributes.Add("onmouseover", "this.src='img/btn_buscar2.png';");
+                    this.WUC_PesquisarUsuario.WUC_Image_Voltar.Attributes.Add("onmouseout", "this.src='img/btn_voltar1.png';");
+                    this.WUC_PesquisarUsuario.WUC_Image_Voltar.Attributes.Add("onmouseover", "this.src='img/btn_voltar2.png';");
+
+                    this.WUC_PesquisarUsuario.WUC_Image_FiltrarUsuarios.Src = "~/Seguranca/img/btn_buscar1.png";
+                    this.WUC_PesquisarUsuario.WUC_Image_Voltar.Src = "~/Seguranca/img/btn_voltar1.png";
+
+                    ((ButtonField)grid.Columns[0]).CommandName = "CommandName_EditarUsuario";
+                }
+            }
+        }
+
+
+        public void OnClick_Voltar(object sender, EventArgs e)
+        {
+            Response.Redirect("Default.aspx");
+        }
+
+        public void OnRowCommand_Usuario(object sender, GridViewCommandEventArgs e)
+        {
+            if (e.CommandName == "CommandName_EditarUsuario")
+                Response.Redirect("FormUsuario.aspx?co_usuario=" + this.WUC_PesquisarUsuario.WUC_GridView_Usuarios.DataKeys[int.Parse(e.CommandArgument.ToString())]["Codigo"].ToString());
+        }
+
+        public void OnClick_BuscarUsuarios(object sender, EventArgs e)
+        {
+            CustomValidator custom = this.WUC_PesquisarUsuario.WUC_CustomPesquisarUsuario;
+
+            if (custom.IsValid)
+            {
+                GridView gridUsuarios = this.WUC_PesquisarUsuario.WUC_GridView_Usuarios;
+                DropDownList dropunidade = this.WUC_PesquisarUsuario.WUC_DropDownList_Estabelecimentos;
+                IList<Usuario> usuarios = Factory.GetInstance<IUsuario>().BuscarPorModulo<Usuario, Modulo>((IList<Modulo>)Session["modulosedicao"],
+                    dropunidade.SelectedValue, this.WUC_PesquisarUsuario.WUC_DataNascimento.Text,
+                    this.WUC_PesquisarUsuario.WUC_NomeUsuario.Text, this.WUC_PesquisarUsuario.WUC_CartaoSUS.Text, (this.WUC_PesquisarUsuario.WUC_DropDownList_Municipio.SelectedValue == "0" ? null : this.WUC_PesquisarUsuario.WUC_DropDownList_Municipio.SelectedValue));
+
+                this.WUC_PesquisarUsuario.WUC_UsuariosPesquisados = usuarios;
+                gridUsuarios.DataSource = usuarios;
+                gridUsuarios.DataBind();
+            }
+            else
+                ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('" + custom.ErrorMessage + "');", true);
+        }
+    }
+}

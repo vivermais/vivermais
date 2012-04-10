@@ -1,0 +1,40 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="MasterRelatorioUrgencia.master.cs"
+    Inherits="ViverMais.View.Urgencia.MasterRelatorioUrgencia" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>Untitled Page</title>
+    <link rel="stylesheet" href="style_form_urgencia.css" type="text/css" media="screen" />
+    <%--<link rel="stylesheet" href="../style_ViverMais.css" type="text/css" media="screen" />--%>
+    
+    <%--<link href="GreyBox/gb_styles.css" rel="stylesheet" type="text/css" />--%>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <asp:ScriptManager ID="ScriptManager1" runat="server">
+    </asp:ScriptManager>
+<%--    <% 
+        string url = Request.Url.ToString();
+        url = url.Substring(0, url.LastIndexOf(char.Parse("/")));
+    %>
+
+    <script type="text/javascript">
+        var GB_ROOT_DIR = '<%=url %>/GreyBox/';
+    </script>
+
+    <script type="text/javascript" src="GreyBox/AJS.js"></script>
+
+    <script type="text/javascript" src="GreyBox/AJS_fx.js"></script>
+
+    <script type="text/javascript" src="GreyBox/gb_scripts.js"></script>--%>
+
+    <div>
+        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+        </asp:ContentPlaceHolder>
+    </div>
+    </form>
+</body>
+</html>

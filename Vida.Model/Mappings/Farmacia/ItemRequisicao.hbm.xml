@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="ViverMais.Model">
+	<class name="ViverMais.Model.ItemRequisicao" table="far_itensrequisicao">
+	<id name="Codigo">
+		<column name="id_itemrequisicao" not-null="true"/>
+    <generator class="sequence" >
+      <param name="sequence">FAR_ITENSREQUISICAO_SEQUENCE</param>
+    </generator>
+	</id>
+    <many-to-one name="Requisicao" class="ViverMais.Model.RequisicaoMedicamento" column="id_requisicao" />
+    <many-to-one name="Medicamento" class="ViverMais.Model.Medicamento" column="id_medicamento" />
+    <many-to-one name="LoteMedicamento" class="ViverMais.Model.LoteMedicamento" column="id_lotemedicamento" />
+    <many-to-one name="Elenco" class="ViverMais.Model.ElencoMedicamento" column="id_elenco" />
+    <property name="QtdPedida" column="qtdpedida" />
+    <property name="QtdFornecida" column="qtdfornecida" />
+    <property name="QtdAtendida" column="qtdatendida" />
+    <property name="Cod_Atendimento" column="cod_atendimento" />
+    <property name="SaldoAtual" column="saldoatual" />
+    <property name="SaldoAnterior" column="saldoanterior" />
+    <property name="Consumo" column="consumo" />
+    <property name="Solicitante" column="solicitante" />
+    <property name="QtdPedidaDistrito" column="qtdpedida_distrito" />
+	</class>
+</hibernate-mapping>

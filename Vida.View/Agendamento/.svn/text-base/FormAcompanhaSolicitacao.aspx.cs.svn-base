@@ -1,0 +1,228 @@
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Xml.Linq;
+using Vida.DAO;
+using Vida.ServiceFacade.ServiceFacades.Paciente;
+using Vida.ServiceFacade.ServiceFacades.Agendamento;
+using Vida.Model;
+using System.Collections.Generic;
+using Vida.ServiceFacade.ServiceFacades.EstabelecimentoSaude;
+using Vida.ServiceFacade.ServiceFacades.Procedimento;
+
+namespace Vida.View.Agendamento
+{
+    public partial class FormAcompanhaSolicitacao : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!IsPostBack)
+            {
+                PanelDadosPaciente.Visible = false;
+                lblSemRegistros.Visible = false;
+            }
+        }
+
+        protected void GridViewSolicitacosConfirmadas_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            GridViewSolicitacosConfirmadas.PageIndex = e.NewPageIndex;
+            if (Session["Solicitacoes"] != null)
+            {
+                DataTable table = (DataTable)(Session["Solicitacoes"]);
+                GridViewSolicitacosConfirmadas.DataSource = table;
+                GridViewSolicitacosConfirmadas.DataBind();
+            }
+            
+        }
+
+        protected void btnFechar_Click(object sender, EventArgs e)
+        {
+            PanelVisualizaJustificativa.Visible = false;
+        }
+
+        protected void btnPesquisarSolicitacao_Click(object sender, EventArgs e)
+        {
+            Vida.Model.Paciente paciente = Factory.GetInstance<IPaciente>().PesquisarPacientePorCNS<Vida.Model.Paciente>(tbxCNES.Text);
+            if (paciente != null)
+            {
+                PanelDadosPaciente.Visible = true;
+                lblNomePaciente.Text = paciente.Nome;
+                lblNomeMae.Text = paciente.NomeMae;
+                lblDataNascimento.Text = paciente.DataNascimento.ToString("dd/MM/yyyy");
+
+                IList<Solicitacao> solicitacoes;
+                ISolicitacao iSolicitacao = Factory.GetInstance<ISolicitacao>();
+                if (tbxNumProtocolo.Text != "")
+                {
+                    solicitacoes = iSolicitacao.ListarSolicitacoesPorPaciente<Solicitacao>(paciente.Codigo, tbxNumProtocolo.Text.ToUpper());
+                    if (solicitacoes.Count != 0)
+                    {
+                        if (solicitacoes[0].Situacao == Convert.ToChar(Solicitacao.SituacaoSolicitacao.DESMARCADA).ToString())
+                        {
+                            if(!String.IsNullOrEmpty(solicitacoes[0].NumeroProtocolo)) //Caso tenha número de protocolo
+                                GridViewSolicitacosConfirmadas.Columns[6].Visible = false;//Retira coluna para Imprimir o Laudo
+                            if(solicitacoes[0].Agenda != null)
+                                GridViewSolicitacosConfirmadas.Columns[7].Visible = false;//Retira a coluna para Imprimir a Autorização
+                            GridViewSolicitacosConfirmadas.Columns[8].Visible = false; //Retira a coluna para Imprimir o Relatório de Indeferimento
+                        }
+                        else if (solicitacoes[0].Situacao == Convert.ToChar(Solicitacao.SituacaoSolicitacao.PENDENTE).ToString() || solicitacoes[0].Situacao == Convert.ToChar(Solicitacao.SituacaoSolicitacao.AGENDAUTOMATICO).ToString() || solicitacoes[0].Situacao == Convert.ToChar(Solicitacao.SituacaoSolicitacao.CONFIRMADA).ToString())
+                        {
+                            GridViewSolicitacosConfirmadas.Columns[8].Visible = false; //Retira a coluna para Imprimir o Relatório de Indeferimento
+                            GridViewSolicitacosConfirmadas.Columns[7].Visible = false;//Retira a coluna para Imprimir a Autorização
+                            GridViewSolicitacosConfirmadas.Columns[6].Visible = false;//Retira coluna para Imprimir o Laudo
+                        }
+                        else if (solicitacoes[0].Situacao == Convert.ToChar(Solicitacao.SituacaoSolicitacao.AUTORIZADA).ToString())
+                        {
+                            GridViewSolicitacosConfirmadas.Columns[8].Visible = false; //Retira a coluna para Imprimir o Relatório de Indeferimento
+                            GridViewSolicitacosConfirmadas.Columns[7].Visible = true;//Habilita a coluna para Imprimir a Autorização
+                            GridViewSolicitacosConfirmadas.Columns[6].Visible = true;//Habilita coluna para Imprimir o Laudo
+                        }
+                        else if (solicitacoes[0].Situacao == Convert.ToChar(Solicitacao.SituacaoSolicitacao.INDEFERIDA).ToString())
+                        {
+                            lblJustificativa.Text = solicitacoes[0].JustificativaIndeferimento;
+                            GridViewSolicitacosConfirmadas.Columns[8].Visible = true; //Habilita a coluna para Imprimir o Relatório de Indeferimento
+                            GridViewSolicitacosConfirmadas.Columns[7].Visible = false;//Retira a coluna para Imprimir a Autorização
+                            GridViewSolicitacosConfirmadas.Columns[6].Visible = false;//Retira coluna para Imprimir o Laudo
+                        }
+                    }
+                }
+                else
+                {
+                    solicitacoes = iSolicitacao.ListarSolicitacoesPorPaciente<Solicitacao>(paciente.Codigo, "");
+                    GridViewSolicitacosConfirmadas.Columns[8].Visible = false; //Retira a coluna para Imprimir o Relatório de Indeferimento
+                    GridViewSolicitacosConfirmadas.Columns[7].Visible = false;//Retira a coluna para Imprimir a Autorização
+                    GridViewSolicitacosConfirmadas.Columns[6].Visible = false;//Retira coluna para Imprimir o Laudo
+                }
+
+                if ((solicitacoes.Count != 0) && (solicitacoes != null))
+                {
+                    lblSemRegistros.Visible = false;
+                    DataTable table = new DataTable();
+                    table.Columns.Add("Codigo");
+                    table.Columns.Add("NomePaciente");
+                    table.Columns.Add("Procedimento");
+                    table.Columns.Add("DataSolicitacao");
+                    table.Columns.Add("Status");
+                    table.Columns.Add("Unidade");
+
+                    foreach (Solicitacao solicitacao in solicitacoes)
+                    {
+                        DataRow row = table.NewRow();
+                        row[0] = solicitacao.Codigo.ToString();
+                        row[1] = paciente.Nome;
+                        if (solicitacao.Procedimento != null)
+                            row[2] = solicitacao.Procedimento.Nome;
+                        else
+                            row[2] = String.Empty;
+
+                        row[3] = solicitacao.Data_Solicitacao.ToString("dd/MM/yyyy");
+                        if (solicitacao.Situacao == Convert.ToChar(Solicitacao.SituacaoSolicitacao.PENDENTE).ToString())
+                            row[4] = "Aguardando Avaliação";
+                        else if (solicitacao.Situacao == Convert.ToChar(Solicitacao.SituacaoSolicitacao.DESMARCADA).ToString())
+                            row[4] = "Desmarcada";
+                        else if (solicitacao.Situacao == Convert.ToChar(Solicitacao.SituacaoSolicitacao.AUTORIZADA).ToString())
+                            row[4] = "Autorizado";
+                        else if (solicitacao.Situacao == Convert.ToChar(Solicitacao.SituacaoSolicitacao.AGENDAUTOMATICO).ToString())
+                            row[4] = "Aguardando Autorização";
+                        else if (solicitacao.Situacao == Convert.ToChar(Solicitacao.SituacaoSolicitacao.INDEFERIDA).ToString())
+                            row[4] = "Indeferido";
+                        else if (solicitacao.Situacao == Convert.ToChar(Solicitacao.SituacaoSolicitacao.CONFIRMADA).ToString())
+                            row[4] = "Executado";
+                        //else if (solicitacao.Situacao == Convert.ToChar(Solicitacao.SituacaoSolicitacao.DESMARCADA).ToString())
+
+                        //switch (solicitacao.Situacao)
+                        //{
+                        //    case "1": row[4] = "Aguardando Avaliação";//Não Imprime Nada
+                        //        break;
+                        //    case "2": row[4] = "Autorizado"; // Imprime Laudo e a Autorização
+                        //        break;
+                        //    case "3": row[4] = "Aguardando Autorização"; //Não Imprime Nada
+                        //        break;
+                        //    case "4": row[4] = "Indeferido";//Imprime o Relatório
+                        //        break;
+                        //    case "5": row[4] = "Executado";//Não Imprime Mais nada, pois já realizou o procedimento
+                        //        break;
+                        //}
+                        Vida.Model.EstabelecimentoSaude estabelecimento = Factory.GetInstance<IEstabelecimentoSaude>().BuscarPorCodigo<Vida.Model.EstabelecimentoSaude>(solicitacao.EasSolicitante);
+                        if(estabelecimento != null)
+                            row[5] = estabelecimento.NomeFantasia;
+                        else
+                            row[5] = String.Empty;
+                        table.Rows.Add(row);
+                    }
+                    GridViewSolicitacosConfirmadas.DataSource = table;
+                    GridViewSolicitacosConfirmadas.DataBind();
+                    Session["Solicitacoes"] = table;
+                    PanelExibeSolicitacoes.Visible = true;
+                }
+                else
+                {
+                    lblSemRegistros.Visible = true;
+                    PanelExibeSolicitacoes.Visible = false;
+                }
+            }
+            else
+            {
+                ClientScript.RegisterClientScriptBlock(typeof(String), "ok", "<script>alert('Cartão SUS não localizado.');</script>");
+                return;
+            }
+        }
+
+        protected void GridViewSolicitacosConfirmadas_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            if (e.CommandName == "ImprimeLaudo")
+            {
+                int id_solicitacao = Convert.ToInt32(e.CommandArgument);
+                Redirect("ExibeLaudo.aspx?id_solicitacao=" + id_solicitacao, "_blank", "");
+            }
+            else if (e.CommandName == "ImprimeSolicitacao")
+            {
+                int id_solicitacao = Convert.ToInt32(e.CommandArgument);
+                Redirect("RelatorioSolicitacao.aspx?id_solicitacao=" + id_solicitacao, "_blank", "");
+            }
+            else if (e.CommandName == "ImprimeJustificativa")
+            {
+                PanelVisualizaJustificativa.Visible = true;
+            }
+
+        }
+
+        public static void Redirect(string url, string target, string windowFeatures)
+        {
+            HttpContext context = HttpContext.Current;
+            if ((String.IsNullOrEmpty(target) || target.Equals("_self", StringComparison.OrdinalIgnoreCase))
+                && String.IsNullOrEmpty(windowFeatures))
+            {
+                context.Response.Redirect(url);
+            }
+            else
+            {
+                Page page = (Page)context.Handler;
+                if (page == null)
+                {
+                    throw new InvalidOperationException("Cannot redirect to new window outside Page context.");
+                }
+                url = page.ResolveClientUrl(url);
+                string script;
+                if (!String.IsNullOrEmpty(windowFeatures))
+                {
+                    script = @"window.open(""{0}"", ""{1}"", ""{2}"");";
+                }
+                else
+                {
+                    script = @"window.open(""{0}"", ""{1}"");";
+                }
+                script = String.Format(script, url, target, windowFeatures);
+                ScriptManager.RegisterStartupScript(page, typeof(Page), "Redirect", script, true);
+            }
+        }
+    }
+}

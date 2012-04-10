@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="ViverMais.Model">
+  <class name="ViverMais.Model.FornecedorMedicamento" table="far_fornecedor">
+    <id name="Codigo">
+      <column name="id_fornecedor" not-null="true"/>
+      <generator class="sequence" >
+        <param name="sequence">FAR_FORNECEDOR_SEQUENCE</param>
+      </generator>
+    </id>
+    <property name="RazaoSocial" column="razaosocial" />
+    <property name="Cnpj" column="cnpj" />
+    <property name="NomeFantasia" column="nomefantasia" />
+    <property name="CodigoPais" column="co_pais" />
+    <property name="CodigoUf" column="co_uf" />
+    <property name="CodigoCidade" column="co_cidade" />
+    <property name="CodigoBairro" column="co_bairro" />
+    <property name="Endereco" column="endereco" />
+    <property name="Telefone" column="telefone" />
+    <property name="Fax" column="fax" />
+    <property name="Situacao" column="situacao" />
+    </class>
+</hibernate-mapping>

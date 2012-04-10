@@ -1,0 +1,35 @@
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="WUCExibeDadosMedicos.ascx.cs" Inherits="ViverMais.View.WUCExibeDadosMedicos" %>
+<fieldset class="formulario">
+                    <legend>Dados Médicos</legend>
+                    <p>
+                        <span class="rotulo">Anamnese/Exame Físico:</span> <span style="margin-left: 5px;">
+                            <asp:Label ID="lblAvaliacaoMedica" runat="server" Text=""></asp:Label>
+                        </span>
+                    </p>
+                    <p>
+                        <span>
+                            <asp:GridView ID="gridCid" DataKeyNames="Codigo" OnRowDeleting="gridCid_RowDeleting"
+                                runat="server" Width="600px">
+                                <Columns>
+                                    <asp:BoundField DataField="CodCid" HeaderText="Codigo" ItemStyle-Width="50px" 
+                                        ItemStyle-HorizontalAlign="Center" >
+                        <span>
+<ItemStyle HorizontalAlign="Center" Width="50px">
+                        </span>
+                                        </ItemStyle>
+                                    </asp:BoundField>
+                                    <asp:BoundField DataField="Nome" HeaderText="Descrição" />
+                                    <asp:CommandField ShowDeleteButton="True" ItemStyle-Width="50px" 
+                                        ItemStyle-HorizontalAlign="Center" >
+                        <span>
+<ItemStyle HorizontalAlign="Center" Width="50px">
+                        </span>
+                                        </ItemStyle>
+                                    </asp:CommandField>
+                                </Columns>
+                                <HeaderStyle CssClass="tab" />
+                                <RowStyle CssClass="tabrow_left" />
+                            </asp:GridView>
+                        </span>
+                    </p>
+                </fieldset>

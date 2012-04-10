@@ -1,0 +1,303 @@
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Xml.Linq;
+using System.Collections.Generic;
+using ViverMais.DAO;
+using ViverMais.ServiceFacade.ServiceFacades.Seguranca;
+using ViverMais.Model;
+using ViverMais.ServiceFacade.ServiceFacades.Procedimento;
+using ViverMais.ServiceFacade.ServiceFacades.EstabelecimentoSaude;
+using ViverMais.ServiceFacade.ServiceFacades.Agendamento.Agenda;
+using ViverMais.ServiceFacade.ServiceFacades.Procedimento.Misc;
+using ViverMais.ServiceFacade.ServiceFacades.Agendamento;
+using ViverMais.ServiceFacade.ServiceFacades.Profissional.Misc;
+using ViverMais.ServiceFacade.ServiceFacades;
+using System.Drawing;
+
+namespace ViverMais.View.Agendamento
+{
+    public partial class FormBloquearAgenda : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!IsPostBack)
+            {
+                if (Factory.GetInstance<ISeguranca>().VerificarPermissao(((Usuario)Session["Usuario"]).Codigo, "BLOQUEAR_AGENDA", Modulo.AGENDAMENTO))
+                {
+                    this.DropDownList_Estabelecimento.Attributes.Add("onmouseover", "javascript:showTooltip(this);");
+                    //CompareValidatorDataInicial.ValueToCompare = DateTime.Now.ToShortDateString();
+                    //CarregaProcedimentos();
+                }
+                else
+                {
+                    ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Usuário, você não tem permissão para acessar esta página! Por favor, entre em contato com a administração.');location='Default.aspx';", true);
+                    return;
+                }
+            }
+
+            LinkButton eas_pesquisarcnes = this.EAS.WUC_LinkButton_PesquisarCNES;
+            LinkButton eas_pesquisarnome = this.EAS.WUC_LinkButton_PesquisarNomeFantasia;
+
+            eas_pesquisarcnes.Click += new EventHandler(OnClick_PesquisarCNES);
+            eas_pesquisarnome.Click += new EventHandler(OnClick_PesquisarNomeFantasiaUnidade);
+
+            this.InserirTrigger(eas_pesquisarcnes.UniqueID, "Click", this.UpdatePanel_Unidade);
+            this.InserirTrigger(eas_pesquisarnome.UniqueID, "Click", this.UpdatePanel_Unidade);
+            this.InserirTrigger(eas_pesquisarcnes.UniqueID, "Click", this.UpdatePanelProcedimento);
+        }
+
+        protected void CustomValidatorDataInicial_ServerValidate(object sender, ServerValidateEventArgs args)
+        {
+            args.IsValid = false;
+
+            DateTime data = DateTime.Parse(tbxDataInicial.Text);
+            if (data.Date >= DateTime.Now.Date)
+                args.IsValid = true;
+            else
+                return;
+        }
+
+        void CarregaProcedimentos(ViverMais.Model.EstabelecimentoSaude estabelecimento)
+        {
+            DateTime data1;
+            DateTime data2;
+            DateTime.TryParse(tbxDataInicial.Text, out data1);
+            DateTime.TryParse(tbxDataFinal.Text, out data2);
+
+            if (data1 != null && data2 != null)
+            {
+                int competencia1 = int.Parse(data1.Year.ToString("0000") + data1.Month.ToString("00"));
+                int competencia2 = int.Parse(data2.Year.ToString("0000") + data2.Month.ToString("00"));
+                List<Procedimento> procedimentos = new List<Procedimento>();
+                IList<Procedimento> procedimentosFPO = Factory.GetInstance<IFPO>().ListarProcedimentosPorCompetenciaCNES<Procedimento>(competencia1, estabelecimento.CNES);
+                procedimentos.AddRange(procedimentosFPO);
+                if (competencia1 != competencia2)
+                    procedimentos.AddRange(Factory.GetInstance<IFPO>().ListarProcedimentosPorCompetenciaCNES<Procedimento>(competencia2, estabelecimento.CNES));
+                ddlProcedimento.DataSource = procedimentos.OrderBy(procedimento => procedimento.Nome).Distinct(new GenericComparer<Procedimento>("Codigo")).ToList();
+                ddlProcedimento.DataBind();
+                ddlProcedimento.Items.Insert(0, new ListItem("Selecione...", "0"));
+            }
+            UpdatePanelProcedimento.Update();
+        }
+
+        protected void DropDownList_Estabelecimento_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string cnes = DropDownList_Estabelecimento.SelectedValue;
+            if (!String.IsNullOrEmpty(cnes) && cnes != "0")
+            {
+                if (String.IsNullOrEmpty(tbxDataFinal.Text) || String.IsNullOrEmpty(tbxDataInicial.Text))
+                {
+                    ScriptManager.RegisterStartupScript(Page, typeof(Page), "ok", "alert('Preencha as Datas!');", true);
+                    DropDownList_Estabelecimento.SelectedValue = "0";
+                    return;
+                }
+                else
+                    CarregaProcedimentos(Factory.GetInstance<IEstabelecimentoSaude>().BuscarPorCodigo<ViverMais.Model.EstabelecimentoSaude>(cnes));
+            }
+        }
+
+        void CarregaProfissionais(ViverMais.Model.EstabelecimentoSaude estabelecimento)
+        {
+            IList<ViverMais.Model.Profissional> profissionais = Factory.GetInstance<IVinculo>().ListarProfissionaisPorUnidade<ViverMais.Model.Profissional>(estabelecimento.CNES);
+            ddlProfissional.Items.Clear();
+            ddlProfissional.DataTextField = "Nome";
+            ddlProfissional.DataValueField = "CPF";
+            ddlProfissional.DataSource = profissionais;
+            ddlProfissional.DataBind();
+            ddlProfissional.Items.Insert(0, new ListItem("Selecione...", "0"));
+        }
+
+        private void InserirTrigger(string idcontrole, string nomeevento, UpdatePanel updatepanel)
+        {
+            AsyncPostBackTrigger trigger = new AsyncPostBackTrigger();
+            trigger.ControlID = idcontrole;
+            trigger.EventName = nomeevento;
+            updatepanel.Triggers.Add(trigger);
+        }
+
+        protected void btnPesquisarAgendas_Click(object sender, EventArgs e)
+        {
+            if (Page.IsValid)
+            {
+                // Verifica se existem Consultas Agendadas para este profissional
+                ViverMais.Model.EstabelecimentoSaude estabelecimento = Factory.GetInstance<IEstabelecimentoSaude>().BuscarEstabelecimentoPorCNES<ViverMais.Model.EstabelecimentoSaude>(DropDownList_Estabelecimento.SelectedValue);
+                DateTime dataInicial;
+                DateTime dataFinal;
+                DateTime.TryParse(tbxDataInicial.Text, out dataInicial);
+                DateTime.TryParse(tbxDataFinal.Text, out dataFinal);
+                IList<ViverMais.Model.Agenda> agendas = Factory.GetInstance<IAmbulatorial>().ListarAgendas<ViverMais.Model.Agenda>(estabelecimento.CNES, null, ddlProcedimento.SelectedValue == "0" ? string.Empty : int.Parse(ddlProcedimento.SelectedValue).ToString("0000000000"), ddlProfissional.SelectedValue == "0" ? null : ddlProfissional.SelectedValue, dataInicial, dataFinal, ddlEspecialidade.SelectedValue == "0" ? null : ddlEspecialidade.SelectedValue, ddlSubGrupo.SelectedValue == "0" ? null : ddlSubGrupo.SelectedValue, ddlTurno.SelectedValue, false, true);
+                GridviewAgendas.DataSource = agendas;
+                GridviewAgendas.DataBind();
+                //Verifica se existe Agenda para o Período informado
+                if (agendas.Count != 0)
+                {
+                    Session["Agendas"] = agendas;
+                }
+                PanelExibeAgenda.Visible = true;
+            }
+        }
+
+        protected void ddlProcedimento_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (ddlProcedimento.SelectedValue != "0")
+            {
+                ViverMais.Model.Procedimento procedimento = Factory.GetInstance<IAmbulatorial>().BuscarPorCodigo<ViverMais.Model.Procedimento>(ddlProcedimento.SelectedValue);
+                if (procedimento != null)
+                {
+                    // Busca os CBOs do Procedimento Selecionado
+                    IList<ViverMais.Model.CBO> cbos = Factory.GetInstance<ICBO>().ListarCBOsPorProcedimento<ViverMais.Model.CBO>(procedimento.Codigo);
+                    ddlEspecialidade.DataTextField = "Nome";
+                    ddlEspecialidade.DataValueField = "Codigo";
+                    ddlEspecialidade.DataSource = cbos;
+                    ddlEspecialidade.DataBind();
+                    ddlEspecialidade.Items.Insert(0, new ListItem("Selecione...", "0"));
+                    ddlEspecialidade.Focus();
+                }
+            }
+        }
+
+        protected void GridViewAgendas_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            //if (e.Row.RowType == DataControlRowType.DataRow)
+            //{
+            //    int co_agenda = int.Parse(((GridView)sender).DataKeys[e.Row.RowIndex].Value.ToString());
+            //    CheckBox chkSelect = (CheckBox)e.Row.FindControl("RowLevelCheckBox");
+            //    if (!Factory.GetInstance<IAgendamentoServiceFacade>().BuscarPorCodigo<Agenda>(co_agenda).Bloqueada)
+            //        chkSelect.Checked = false;
+            //    else
+            //        chkSelect.Checked = true;
+            //}
+
+            if (e.Row.RowType == DataControlRowType.DataRow && (e.Row.RowState == DataControlRowState.Normal || e.Row.RowState == DataControlRowState.Alternate))
+            {
+                CheckBox chkBxSelect = (CheckBox)e.Row.Cells[1].FindControl("RowLevelCheckBox");
+                CheckBox chkBxHeader = (CheckBox)this.GridviewAgendas.HeaderRow.FindControl("HeaderLevelCheckBox");
+                HiddenField hdnFldId = (HiddenField)e.Row.Cells[1].FindControl("hdnFldId");
+                chkBxSelect.Attributes["onclick"] = string.Format("javascript:ChildClick(this,'{0}', '{1}');", chkBxHeader.ClientID, hdnFldId.Value.Trim());
+            }
+        }
+
+        protected void btnSalvar_Click(object sender, EventArgs e)
+        {
+            if (Page.IsValid)
+            {
+                if (String.IsNullOrEmpty(HiddenSelectedValuesAgenda.Value))
+                {
+                    ScriptManager.RegisterStartupScript(Page, typeof(Page), "okCBO", "alert('Você deve selecionar, pelo menos, uma agenda para bloquear!');", true);
+                    return;
+                }
+                else
+                {
+                    if (String.IsNullOrEmpty(tbxMotivo.Text))
+                    {
+                        ScriptManager.RegisterStartupScript(Page, typeof(Page), "okCBO", "alert('Motivo é obrigatório');", true);
+                        return;
+                    }
+                    string[] co_agendas = HiddenSelectedValuesAgenda.Value.Split('|');
+                    co_agendas = co_agendas.Where(p => p != string.Empty).Distinct().ToArray();
+                    IViverMaisServiceFacade iViverMais = Factory.GetInstance<IViverMaisServiceFacade>();
+                    for (int i = 0; i < co_agendas.Length; i++)
+                    {
+                        string co_agenda = co_agendas[i];
+                        Agenda agenda = iViverMais.BuscarPorCodigo<Agenda>(int.Parse(co_agenda));
+                        if (agenda != null)
+                        {
+                            agenda.Bloqueada = true;
+                            agenda.MotivoBloqueio = tbxMotivo.Text;
+                            iViverMais.Inserir(new LogAgendamento(DateTime.Now, ((Usuario)Session["Usuario"]).Codigo, 52, agenda.Codigo.ToString()));
+                            iViverMais.Atualizar(agenda);
+                        }
+                    }
+                    ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Dados Salvos com sucesso!'); window.location='FormBloquearAgenda.aspx'", true);
+                }
+            }
+        }
+
+        protected void ddlEspecialidade_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+            CBO cbo = Factory.GetInstance<ICBO>().BuscarPorCodigo<CBO>(ddlEspecialidade.SelectedValue);
+            if (cbo != null)
+            {
+                ViverMais.Model.Procedimento procedimento = Factory.GetInstance<IAmbulatorial>().BuscarPorCodigo<ViverMais.Model.Procedimento>(ddlProcedimento.SelectedValue);
+                ddlSubGrupo.Items.Clear();
+                ddlSubGrupo.Items.Add(new ListItem("Selecione...", "0"));
+                IList<SubGrupo> subGrupos = Factory.GetInstance<ISubGrupoProcedimentoCbo>().ListarSubGrupoPorProcedimentoECbo<SubGrupo>(procedimento.Codigo, ddlEspecialidade.SelectedValue, true);
+                foreach (SubGrupo subGrupo in subGrupos)
+                    ddlSubGrupo.Items.Add(new ListItem(subGrupo.NomeSubGrupo, subGrupo.Codigo.ToString()));
+
+                Usuario usuario = (Usuario)Session["Usuario"];
+                // Monta lista de Profissionais ligados ao Vinculo do CNES
+                IList<ViverMais.Model.VinculoProfissional> vinculo = Factory.GetInstance<IVinculo>().BuscarPorCNESCBO<ViverMais.Model.VinculoProfissional>(DropDownList_Estabelecimento.SelectedValue, ddlEspecialidade.SelectedValue.ToString()).Where(p => p.Status == Convert.ToChar(VinculoProfissional.DescricaStatus.Ativo).ToString()).ToList().Distinct().ToList();
+                ddlProfissional.Items.Clear();
+                ddlProfissional.Items.Add(new ListItem("Selecione...", "0"));
+                foreach (ViverMais.Model.VinculoProfissional f in vinculo)
+                    if (ddlProfissional.Items.FindByValue(f.Profissional.CPF) == null)
+                        if (f.Profissional != null)
+                            ddlProfissional.Items.Add(new ListItem(f.Profissional.Nome, f.Profissional.CPF));
+                UpdatePanelSubGrupo.Update();
+            }
+        }
+
+        protected void GridViewAgendas_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            GridviewAgendas.PageIndex = e.NewPageIndex;
+            if (Session["Agendas"] != null)
+            {
+                //IList<Agenda> agendas = (IList<Agenda>)Session["Agendas"];
+                //DataTable table = (DataTable)(Session["Agendas"]);
+
+                GridviewAgendas.DataSource = (IList<Agenda>)Session["Agendas"]; ;
+                GridviewAgendas.DataBind();
+                //MarcarAgendaBloqueada();
+            }
+        }
+
+        protected void OnClick_PesquisarCNES(object sender, EventArgs e)
+        {
+            if (String.IsNullOrEmpty(tbxDataFinal.Text) || String.IsNullOrEmpty(tbxDataInicial.Text))
+            {
+                ScriptManager.RegisterStartupScript(Page, typeof(Page), "ok", "alert('Preencha as Datas!');", true);
+                DropDownList_Estabelecimento.SelectedValue = "0";
+                return;
+            }
+            else
+            {
+                ViverMais.Model.EstabelecimentoSaude unidade = this.EAS.WUC_EstabelecimentosPesquisados.FirstOrDefault();
+
+                if (unidade != null)
+                {
+                    this.DropDownList_Estabelecimento.Items.Clear();
+                    this.DropDownList_Estabelecimento.Items.Add(new ListItem(unidade.NomeFantasia, unidade.CNES));
+                    this.DropDownList_Estabelecimento.Items.Insert(0, new ListItem("SELECIONE...", "0"));
+                    this.DropDownList_Estabelecimento.SelectedValue = unidade.CNES;
+                    this.DropDownList_Estabelecimento.Focus();
+                    this.UpdatePanel_Unidade.Update();
+                    CarregaProcedimentos(unidade);
+                }
+            }
+
+        }
+
+        protected void OnClick_PesquisarNomeFantasiaUnidade(object sender, EventArgs e)
+        {
+            IList<ViverMais.Model.EstabelecimentoSaude> unidades = this.EAS.WUC_EstabelecimentosPesquisados;
+
+            this.DropDownList_Estabelecimento.DataSource = unidades;
+            this.DropDownList_Estabelecimento.DataBind();
+            this.DropDownList_Estabelecimento.Items.Insert(0, new ListItem("SELECIONE...", "0"));
+
+            this.DropDownList_Estabelecimento.Focus();
+            this.UpdatePanel_Unidade.Update();
+        }
+    }
+}

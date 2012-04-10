@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Menu>
+  <div class="menu-barra-module" style="background: url('URLPART/GuiaProcedimentos/img/barramenu.png' ) no-repeat;">
+    <div style="margin-top: 0px; margin-left: 14px">
+      <ul class="menu2" id="menu">
+        <li>
+          <a href="#" class="menulink">Cadastro</a>
+          <ul>
+            <li Permissao="CadastrarInformacaoProcedimento">
+              <a href="FormCadastroProcedimento.aspx">Informação de Procedimento</a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="#" class="menulink">Registre Aqui</a>
+          <ul>
+            <li Permissao="RegistreAqui">
+              <a href="FormRegistreaqui.aspx">Registre Aqui</a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="#" class="menulink">Guia de Procedimentos</a>
+          <ul>
+            <li Permissao="BuscaProcedimentos">
+              <a href="BuscaProcedimentos.aspx">Busca de Procedimentos</a>
+            </li>
+          </ul>
+        </li>        
+      </ul>
+    </div>
+  </div>
+</Menu>

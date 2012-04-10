@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Vida.Model">
+  <class name="Vida.Model.PrescricaoProcedimento" table="URG_PRESCRICAO_PROCEDIMENTO">
+    <!--<composite-id unsaved-value="none">
+      <key-many-to-one name="Prescricao" class="Vida.Model.Prescricao" column="CO_PRESCRICAO" lazy="false"/>
+      <key-property name="CodigoProcedimento"  column="CO_PROCEDIMENTO" />
+    </composite-id>-->
+    <id name="Codigo">
+      <column name="codigo" not-null="true"/>
+      <generator class="sequence">
+        <param name="sequence">urg_prescricao_procedimento_sq</param>
+      </generator>
+    </id>
+    <many-to-one name="Prescricao" class="Vida.Model.Prescricao" column="CO_PRESCRICAO" />
+    <property name="CodigoProcedimento"  column="CO_PROCEDIMENTO" />
+    <property name="Intervalo" column="intervalo" />
+    <property name="Suspenso" column="suspenso" type="YesNo"/>
+    <property name="CodigoProfissional" column="CO_PROFISSIONAL" />
+    <property name="CBOProfissional" column="cbo_profissional" />
+    <property name="Data" column="data" />
+    <property name="CodigoCid" column="co_cid" />
+    <property name="AplicacaoUnica" column="aplicacaounica" type="YesNo"/>
+    <!--<many-to-one name="ViaAdministracao" class="Vida.Model.ViaAdministracao" column="id_viaadministracao"></many-to-one>
+    <many-to-one name="FormaAdministracao" class="Vida.Model.FormaAdministracao" column="id_formaadministracao"></many-to-one>-->
+  </class>
+</hibernate-mapping>

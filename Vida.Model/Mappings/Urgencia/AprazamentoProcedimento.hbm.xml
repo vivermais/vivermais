@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="ViverMais.Model">
+  <class name="ViverMais.Model.AprazamentoProcedimento" table="URG_APRAZAMENTO_PROCEDIMENTO">
+    <!--<composite-id unsaved-value="none">
+      <key-many-to-one name="Prescricao" class="ViverMais.Model.Prescricao" column="CO_PRESCRICAO" lazy="false"/>
+      <key-property name="CodigoProcedimento" column="CO_PROCEDIMENTO" />
+      <key-property name="Horario" column="horario" />
+    </composite-id>-->
+    <id name="Codigo">
+      <column name="CODIGO" not-null="true"/>
+      <generator class="sequence">
+        <param name="sequence">URG_APR_PROCEDIMENTO_SEQUENCE</param>
+      </generator>
+    </id>
+    <many-to-one name="Prescricao" class="ViverMais.Model.Prescricao" column="CO_PRESCRICAO" />
+    <property name="CodigoProcedimento" column="CO_PROCEDIMENTO" />
+    <property name="Horario" column="horario" />
+    <property name="Status" column="status" />
+    <property name="CodigoProfissional" column="CO_PROFISSIONAL" />
+    <property name="CodigoProfissionalConfirmacao" column="CO_PROFISSIONAL_CONFIRMACAO" />
+    <property name="CBOProfissional" column="cbo_profissional" />
+    <property name="CBOProfissionalConfirmacao" column="cbo_profissional_confirmacao" />
+    <property name="HorarioConfirmacao" column="horario_confirmacao" />
+    <property name="HorarioValidoPrescricao" column="horario_validade" />
+    <property name="HorarioConfirmacaoSistema" column="hora_registrada" />
+    <property name="CodigoCid" column="co_cid" />
+  </class>
+</hibernate-mapping>

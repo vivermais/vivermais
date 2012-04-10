@@ -1,0 +1,11 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Vida.Model
+{
+    public abstract class AModel
+    {
+        public abstract bool Persistido();
+    }
+}

@@ -1,0 +1,53 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Vida.Model;
+using NHibernate;
+using NHibernate.Criterion;
+using Vida.ServiceFacade.ServiceFacades.EstabelecimentoSaude;
+using System.Collections;
+using Vida.ServiceFacade.ServiceFacades.Agendamento;
+//using Vida.ServiceFacade.ServiceFacades.Fatura;
+
+namespace Vida.DAO.Agendamento
+{
+    public class FaturaDAO : AgendamentoServiceFacadeDAO, IFatura
+    {
+        #region IFatura Members
+
+        public FaturaDAO()
+        {
+
+        }
+
+        //T IFatura.BuscarDuplicidade<T>(string id_unidade, int competencia, string tipo)
+        //{
+        //    string hql = "FROM Vida.Model.Fatura fatura ";
+        //    hql += " WHERE fatura.ID_Unidade ='" + id_unidade + "'";
+        //    hql += " and fatura.Competencia ='" + competencia + "'";
+        //    hql += " and fatura.Tipo ='" + tipo + "'";
+        //    return Session.CreateQuery(hql).UniqueResult<T>();             
+        //}
+
+        T IFatura.BuscaPorUnidadeCompetenciaTipo<T>(string unidade, int competencia, string tipo)
+        {
+            string hql = "FROM Vida.Model.Fatura fatura ";
+            hql += " WHERE fatura.Id_Unidade.CNES ='" + unidade + "'";
+            hql += " and fatura.Competencia ='" + competencia + "'";
+            hql += " and fatura.Tipo ='" + tipo + "'";
+            return Session.CreateQuery(hql).UniqueResult<T>();
+        }
+
+        T IFatura.BuscarUltimaFatura<T>(string co_unidade, string tipo)
+        {
+            string hql = string.Empty;
+            hql = "FROM Vida.Model.Fatura fatura WHERE fatura.Id_Unidade.CNES='" + co_unidade + "' AND fatura.Tipo='" + tipo + "'";
+            hql += " ORDER BY fatura.Data";
+            return (T)(object)((IList<Fatura>)Session.CreateQuery(hql).List<Fatura>()).LastOrDefault();
+        }
+
+        #endregion
+
+    }
+}

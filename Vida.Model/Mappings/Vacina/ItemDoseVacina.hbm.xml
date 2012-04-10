@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="ViverMais.Model">
+  <class name="ViverMais.Model.ItemDoseVacina" table="VCN_ITEM_DOSEVACINA">
+    <id name="Codigo">
+      <column name="co_item" not-null="true"/>
+      <generator class="sequence">
+        <param name="sequence">VCN_ITEMDOSEVACINA_SEQUENCE</param>
+      </generator>
+    </id>
+    <!--<id name="Codigo">
+      <column name="co_item" not-null="true"/>
+      <generator class="assigned" />
+    </id>-->
+    <many-to-one name="DoseVacina" class="ViverMais.Model.DoseVacina" column="CO_DOSE" lazy="false" fetch="join" />
+    <many-to-one name="Vacina" class="ViverMais.Model.Vacina" column="CO_VACINA" lazy="false" fetch="join" />
+    <!--Ao excluir um itemdosevacina, testar se o campo proxima dose se refere ao valor excluido-->
+  </class>
+</hibernate-mapping>

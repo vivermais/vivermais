@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Vida.Model">
+  <class name="Vida.Model.FaixaProcedimento" table="AGD_FAIXA_PROCEDIMENTO">
+    <composite-id>
+      <key-many-to-one name="Faixa" class="Vida.Model.Faixa" column="co_faixa" />
+      <key-property name="Id_Procedimento" column="co_procedimento" />
+      <key-property name="Id_Unidade" column="cnes" />
+    </composite-id>
+    <property name="ValidadeInicial" column="validade_inicial" />
+    <property name="ValidadeFinal" column="validade_final" />
+  </class>
+</hibernate-mapping>

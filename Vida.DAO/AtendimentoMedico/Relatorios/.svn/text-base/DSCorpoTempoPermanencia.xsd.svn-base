@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DSCorpoTempoPermanencia" targetNamespace="http://tempuri.org/DSCorpoTempoPermanencia.xsd" xmlns:mstns="http://tempuri.org/DSCorpoTempoPermanencia.xsd" xmlns="http://tempuri.org/DSCorpoTempoPermanencia.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DSCorpoTempoPermanencia" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_DataSetName="DSCorpoTempoPermanencia" msprop:Generator_UserDSName="DSCorpoTempoPermanencia" msprop:EnableTableAdapterManager="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="Corpo" msprop:Generator_UserTableName="Corpo" msprop:Generator_RowDeletedName="CorpoRowDeleted" msprop:Generator_TableClassName="CorpoDataTable" msprop:Generator_RowChangedName="CorpoRowChanged" msprop:Generator_RowClassName="CorpoRow" msprop:Generator_RowChangingName="CorpoRowChanging" msprop:Generator_RowEvArgName="CorpoRowChangeEvent" msprop:Generator_RowEvHandlerName="CorpoRowChangeEventHandler" msprop:Generator_TablePropName="Corpo" msprop:Generator_TableVarName="tableCorpo" msprop:Generator_RowDeletingName="CorpoRowDeleting">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="CodigoUnidade" msprop:Generator_UserColumnName="CodigoUnidade" msprop:Generator_ColumnPropNameInRow="CodigoUnidade" msprop:Generator_ColumnVarNameInTable="columnCodigoUnidade" msprop:Generator_ColumnPropNameInTable="CodigoUnidadeColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Atendimento" msprop:Generator_UserColumnName="Atendimento" msprop:Generator_ColumnPropNameInRow="Atendimento" msprop:Generator_ColumnVarNameInTable="columnAtendimento" msprop:Generator_ColumnPropNameInTable="AtendimentoColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Paciente" msprop:Generator_UserColumnName="Paciente" msprop:Generator_ColumnPropNameInRow="Paciente" msprop:Generator_ColumnVarNameInTable="columnPaciente" msprop:Generator_ColumnPropNameInTable="PacienteColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="HorarioAtendimento" msprop:Generator_UserColumnName="HorarioAtendimento" msprop:Generator_ColumnPropNameInRow="HorarioAtendimento" msprop:Generator_ColumnVarNameInTable="columnHorarioAtendimento" msprop:Generator_ColumnPropNameInTable="HorarioAtendimentoColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="SituacaoPaciente" msprop:Generator_UserColumnName="SituacaoPaciente" msprop:Generator_ColumnPropNameInRow="SituacaoPaciente" msprop:Generator_ColumnVarNameInTable="columnSituacaoPaciente" msprop:Generator_ColumnPropNameInTable="SituacaoPacienteColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="TempoAcolhimento" msprop:Generator_UserColumnName="TempoAcolhimento" msprop:Generator_ColumnPropNameInRow="TempoAcolhimento" msprop:Generator_ColumnVarNameInTable="columnTempoAcolhimento" msprop:Generator_ColumnPropNameInTable="TempoAcolhimentoColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="TempoConsultaMedica" msprop:Generator_UserColumnName="TempoConsultaMedica" msprop:Generator_ColumnPropNameInRow="TempoConsultaMedica" msprop:Generator_ColumnVarNameInTable="columnTempoConsultaMedica" msprop:Generator_ColumnPropNameInTable="TempoConsultaMedicaColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="TempoFinalizacao" msprop:Generator_UserColumnName="TempoFinalizacao" msprop:Generator_ColumnPropNameInRow="TempoFinalizacao" msprop:Generator_ColumnVarNameInTable="columnTempoFinalizacao" msprop:Generator_ColumnPropNameInTable="TempoFinalizacaoColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="TempoTotal" msprop:Generator_UserColumnName="TempoTotal" msprop:Generator_ColumnPropNameInRow="TempoTotal" msprop:Generator_ColumnVarNameInTable="columnTempoTotal" msprop:Generator_ColumnPropNameInTable="TempoTotalColumn" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

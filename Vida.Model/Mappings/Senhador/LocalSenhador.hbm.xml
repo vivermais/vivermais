@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="ViverMais.Model">
+  <class name="ViverMais.Model.LocalSenhador" table="senhr_local">
+    <id name="Codigo">
+      <column name="co_local" not-null="true"/>
+      <generator class="sequence">
+        <param name="sequence">senhr_local_sequence</param>
+      </generator>
+    </id>
+
+    <property name="Nome" column="no_local" />
+    <many-to-one name="Estabelecimento" class="ViverMais.Model.EstabelecimentoSaude" column="co_estabelecimento" />
+    <!--<many-to-one name="ServicoEstabelecimento" class="ViverMais.Model.ServicoEstabelecimentoSenhador" column="co_servicounidade" />-->
+    <!--<many-to-one name="Estabelecimento" class="ViverMais.Model.EstabelecimentoSaude" column="co_estabelecimento" />
+    <many-to-one name="Servico" class="ViverMais.Model.ServicoSenhador" column="co_servico" />-->
+    <bag name="ServicosLocal" table="senhr_servico_local" >
+      <key column="co_local"/>
+      <many-to-many column="co_servicounidade" class="ViverMais.Model.ServicoEstabelecimentoSenhador" />
+    </bag>
+  </class>
+</hibernate-mapping>

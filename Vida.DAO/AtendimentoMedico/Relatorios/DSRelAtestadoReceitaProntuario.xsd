@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DSRelAtestadoReceitaProntuario" targetNamespace="http://tempuri.org/DSRelAtestadoReceitaProntuario.xsd" xmlns:mstns="http://tempuri.org/DSRelAtestadoReceitaProntuario.xsd" xmlns="http://tempuri.org/DSRelAtestadoReceitaProntuario.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DSRelAtestadoReceitaProntuario" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_UserDSName="DSRelAtestadoReceitaProntuario" msprop:Generator_DataSetName="DSRelAtestadoReceitaProntuario" msprop:EnableTableAdapterManager="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="AtestadoReceita" msprop:Generator_UserTableName="AtestadoReceita" msprop:Generator_RowDeletedName="AtestadoReceitaRowDeleted" msprop:Generator_RowChangedName="AtestadoReceitaRowChanged" msprop:Generator_RowClassName="AtestadoReceitaRow" msprop:Generator_RowChangingName="AtestadoReceitaRowChanging" msprop:Generator_RowEvArgName="AtestadoReceitaRowChangeEvent" msprop:Generator_RowEvHandlerName="AtestadoReceitaRowChangeEventHandler" msprop:Generator_TableClassName="AtestadoReceitaDataTable" msprop:Generator_TableVarName="tableAtestadoReceita" msprop:Generator_RowDeletingName="AtestadoReceitaRowDeleting" msprop:Generator_TablePropName="AtestadoReceita">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="TipoDocumento" msprop:Generator_UserColumnName="TipoDocumento" msprop:Generator_ColumnVarNameInTable="columnTipoDocumento" msprop:Generator_ColumnPropNameInRow="TipoDocumento" msprop:Generator_ColumnPropNameInTable="TipoDocumentoColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Conteudo" msprop:Generator_UserColumnName="Conteudo" msprop:Generator_ColumnVarNameInTable="columnConteudo" msprop:Generator_ColumnPropNameInRow="Conteudo" msprop:Generator_ColumnPropNameInTable="ConteudoColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="NomeProfissional" msprop:Generator_UserColumnName="NomeProfissional" msprop:Generator_ColumnVarNameInTable="columnNomeProfissional" msprop:Generator_ColumnPropNameInRow="NomeProfissional" msprop:Generator_ColumnPropNameInTable="NomeProfissionalColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="CRMProfissional" msprop:Generator_UserColumnName="CRMProfissional" msprop:Generator_ColumnVarNameInTable="columnCRMProfissional" msprop:Generator_ColumnPropNameInRow="CRMProfissional" msprop:Generator_ColumnPropNameInTable="CRMProfissionalColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="DataDocumento" msprop:Generator_UserColumnName="DataDocumento" msprop:Generator_ColumnVarNameInTable="columnDataDocumento" msprop:Generator_ColumnPropNameInRow="DataDocumento" msprop:Generator_ColumnPropNameInTable="DataDocumentoColumn" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

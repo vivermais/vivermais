@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="ViverMais.Model">
+  <class name="ViverMais.Model.EspecialidadeAtendimentoUrgence" table="urg_ocupacao_atendimento">
+    <composite-id>
+      <key-many-to-one name="Especialidade" class="ViverMais.Model.CBO" column="co_ocupacao" />
+      <key-many-to-one name="Unidade" class="ViverMais.Model.EstabelecimentoSaude" column="co_unidade" />
+    </composite-id>
+
+    <property name="EspecialidadePrincipal" column="ocupacao_principal" type="YesNo" />
+    <property name="CodigoEspecialidadeSenhador" column="codigo_senhador"/>
+  </class>
+</hibernate-mapping>

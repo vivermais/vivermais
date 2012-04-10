@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="ViverMais.Model">
+  <class name="ViverMais.Model.SenhadorUrgence" table="URG_SENHADOR">
+    <id name="Codigo">
+      <column name="CO_SENHADOR" not-null="true"/>
+      <generator class="assigned" />
+    </id>
+    <property name="EnderecoWebService" column="ENDERECO_WEB_SERVICE" />
+    <property name="EnderecoLoginSenhador" column="ENDERECO_LOGIN_SENHADOR" />
+    <property name="CNESUnidade" column="CO_UNIDADE" />
+  </class>
+</hibernate-mapping>

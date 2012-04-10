@@ -1,0 +1,25 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Vida.Model;
+using Vida.DAOOracle;
+
+namespace Vida.BLL
+{
+    public class ControlePacienteBLL
+    {
+        public static ControlePaciente PesquisarPorPaciente(Paciente paciente)
+        {
+            ControlePacienteDAO dao = new ControlePacienteDAO();
+            ControlePaciente controle = dao.PesquisarPorPaciente(paciente);            
+            return controle;
+        }
+
+        public static void Inserir(ControlePaciente controlePaciente)
+        {
+            ControlePacienteDAO dao = new ControlePacienteDAO();
+            dao.Inserir(controlePaciente);
+        }
+    }
+}

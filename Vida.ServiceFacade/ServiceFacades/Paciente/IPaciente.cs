@@ -1,0 +1,144 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Collections;
+
+namespace ViverMais.ServiceFacade.ServiceFacades.Paciente
+{
+    public interface IPaciente : IServiceFacade
+    {
+        /// <summary>
+        /// Pesquisa um Paciente no Sistema através do CPF, caso tenha informado esta informação no cadastro
+        /// </summary>
+        /// <param name="cpf"></param>
+        /// <returns></returns>
+        T BuscarPacientePorCPF<T>(string cpf);
+
+        /// <summary>
+        /// Cadastra um Paciente no sistema e lhe atribui um número de Cartão SUS válido
+        /// </summary>
+        /// <typeparam name="T">Tipo da entidade Paciente</typeparam>
+        /// <param name="paciente">Instância de Paciente</param>
+        void CadastrarPaciente<T>(T paciente);
+
+        /// <summary>
+        /// Pesquisa um paciente no sistema. A busca deverá seguir os critérios informados
+        /// nos atributos sob pena de não completar sua requisição em tempo hábil. Pelo menos
+        /// dois dos parâmetros devem ser especificados embora não obrigatório.
+        /// </summary>
+        /// <typeparam name="T">Tipo da entidade Paciente</typeparam>
+        /// <param name="nomePaciente">Nome do Paciente. Deverá ser fornecido pelo menos o primeiro nome e sobrenome</param>
+        /// <param name="nomeMae">Nome da Mãe do Paciente. Deverá ser fornecido pelo menos o primeiro nome e sobrenome</param>
+        /// <param name="dataNascimento">Data de Nascimento do Paciente</param>
+        /// <returns>Lista de pacientes do tipo especificado</returns>
+        IList<T> PesquisarPaciente<T>(string nomePaciente, string nomeMae, DateTime dataNascimento);
+
+        /// <summary>
+        /// Pesquisa um paciente no sistema ACRESCENTANDO APENAS O CPF. A busca deverá seguir os critérios informados
+        /// nos atributos sob pena de não completar sua requisição em tempo hábil. Pelo menos
+        /// dois dos parâmetros devem ser especificados embora não obrigatório.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="cpf"></param>
+        /// <param name="nomePaciente"></param>
+        /// <param name="nomeMae"></param>
+        /// <param name="dataNascimento"></param>
+        /// <returns></returns>
+        IList<T> PesquisarPaciente<T>(string cpf, string nomePaciente, string nomeMae, DateTime dataNascimento);
+
+        /// <summary>
+        /// Pesquisa um Paciente pelo número do seu Cartão SUS
+        /// </summary>
+        /// <typeparam name="T">Tipo da entidade Paciente</typeparam>
+        /// <param name="numeroCartao">Número do Cartão SUS</param>
+        /// <returns>Instância de Paciente do tipo especificado</returns>
+        T PesquisarPacientePorCNS<T>(string numeroCartao);
+
+        /// <summary>
+        /// Pesquisa um Paciente pelo número do seu RG
+        /// </summary>
+        /// <typeparam name="T">Tipo da entidade Paciente</typeparam>
+        /// <param name="numeroCartao">Número do Cartão SUS</param>
+        /// <returns>Instância de Paciente do tipo especificado</returns>
+        T PesquisarPacientePorRG<T>(string numeroRG);
+
+        /// <summary>
+        /// Atualiza os dados de um Paciente
+        /// </summary>
+        /// <typeparam name="T">Tipo da entidade Paciente</typeparam>
+        /// <param name="paciente">Instância de Paciente</param>
+        void AtualizarPaciente<T>(T paciente);
+
+        /// <summary>
+        /// Obtém todos os Cartões SUS que um Paciente possui, provisórios e definitivos.
+        /// </summary>
+        /// <typeparam name="T">Tipo da entidade Paciente</typeparam>
+        /// <param name="codigoPaciente">Instância de Paciente</param>
+        /// <returns>Lista de instâncias de Cartão SUS do tipo especificado</returns>
+        IList<T> ListarCartoesSUS<T>(object codigoPaciente);
+
+        IList<T> BuscarPorModificacao<T>(DateTime dataInicial, DateTime dataFinal);
+
+        IList<T> BuscarCodigoUsuarioPorModificacaoDoDia<T>(DateTime data);
+
+        IList<T> ListarControleCartaoSUS<T>(object numeroCartao);
+
+        /// <summary>
+        /// Lista todos os documentos do Paciente
+        /// </summary>
+        /// <typeparam name="T">Tipo da entidade de Documento</typeparam>
+        /// <param name="codigoPaciente">Identificador do Paciente</param>
+        /// <returns>Lista de instâncias de Documentos do Tipo Especificado</returns>
+        IList<T> ListarDocumentos<T>(string codigoPaciente);
+
+        /// <summary>
+        /// Atualiza um documento do Paciente
+        /// </summary>
+        /// <typeparam name="T">Tipo da entidade Documento</typeparam>
+        /// <param name="documento">Instâcia de Documento</param>
+        void AtualizarDocumento<T>(T documento);
+
+        /// <summary>
+        /// Insere um novo Documento do Paciente no Sistema
+        /// </summary>
+        /// <typeparam name="T">Tipo da entidade Documento</typeparam>
+        /// <param name="documento">Instância de Documento</param>
+        void SalvarDocumento<T>(T documento);
+
+        /// <summary>
+        /// Pesquisa um Documento no Sistema pelo seu Tipo e pelo Identificador do Paciente
+        /// </summary>
+        /// <typeparam name="T">Tipo da entidade de Retorno de Documento</typeparam>
+        /// <param name="codigoTipoDocumento">Identificador do Tipo de Documento</param>
+        /// <param name="codigoPaciente">identificador de Paciente</param>
+        /// <returns>Instância de Documento</returns>
+        T BuscarDocumento<T>(object codigoTipoDocumento, object codigoPaciente);
+
+        /// <summary>
+        /// Retorna o Motivo associado ao cadastro do Paciente
+        /// </summary>
+        /// <typeparam name="T">Tipo da entidade Motivo</typeparam>
+        /// <param name="codigoPaciente">Codigo do Paciente</param>
+        /// <returns>Instância de Motivo</returns>
+        T BuscarMotivo<T>(object codigoPaciente);
+
+        T BuscarMotivo<T>(object codigoPaciente, object cnes);
+
+        /// <summary>
+        /// Retorna o Controle do Paciente pelo Identificador do Paciente
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="codigoPaciente"></param>
+        /// <returns></returns>
+        T BuscaControlePaciente<T>(object codigoPaciente);
+
+        void AtualizaControlePaciente<T>(T controlePaciente);
+
+        void SalvarControlePaciente<T>(T controlePaciente);
+
+        void AtualizarMotivo<T>(T motivo);
+
+        void SalvarMotivo<T>(T motivo);
+    }
+}

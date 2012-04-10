@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Vida.Model">
+  <class name="Vida.Model.FormaOrganizacaoProcedimento" table="tb_pms_forma_org_proc">
+    <id name="Codigo">
+      <column name="co_forma" not-null="true"/>
+      <generator class="assigned" />
+    </id>
+    <property name="Nome" column="no_forma"/>
+    <many-to-one name="GrupoProcedimento" class="Vida.Model.GrupoProcedimento" column="co_grupo"/>
+    <many-to-one name="SubGrupoProcedimento" class="Vida.Model.SubGrupoProcedimento" column="co_subgrupo"/>
+    <property name="DataCompetencia" column="dt_competencia"/>
+  </class>
+</hibernate-mapping>

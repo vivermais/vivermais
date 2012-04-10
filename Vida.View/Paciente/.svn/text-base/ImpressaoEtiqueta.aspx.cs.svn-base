@@ -1,0 +1,150 @@
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Xml.Linq;
+using Vida.ServiceFacade.ServiceFacades.Paciente;
+using Vida.ServiceFacade.ServiceFacades.Localidade;
+using Vida.Model;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
+using System.IO;
+using Vida.DAO;
+using System.Collections.Generic;
+using Vida.ServiceFacade.ServiceFacades.Seguranca;
+
+namespace Vida.View.Paciente
+{
+    public partial class ImpressaoEtiqueta : System.Web.UI.Page
+    {
+        /*
+         * protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!IsPostBack)
+            {
+                if (Request.QueryString["codigo"] != null)
+                {
+                    ISeguranca iseguranca = Factory.GetInstance<ISeguranca>();
+                    if (!iseguranca.VerificarPermissao(((Vida.Model.Usuario)Session["Usuario"]).Codigo, "ALTERAR_CARTAO_SUS"))
+                    {
+                        ClientScript.RegisterClientScriptBlock(typeof(String), "ok", "<script>alert('Você não tem permissão para acessar essa página. Em caso de dúvida, entre em contato.');window.location='../Home.aspx';</script>");
+                    }
+                    IPaciente ipaciente = Factory.GetInstance<IPaciente>();
+                    Vida.Model.Paciente paciente = ipaciente.BuscarPorCodigo<Vida.Model.Paciente>(Request.QueryString["codigo"]);
+                    IList<CartaoSUS> cartoes = ipaciente.ListarCartoesSUS<Vida.Model.CartaoSUS>(paciente.Codigo);
+                    long result = (from c in cartoes select long.Parse(c.Numero)).Min();
+                    IEndereco iendereco = Factory.GetInstance<IEndereco>();
+                    Endereco endereco = iendereco.BuscarPorPaciente<Endereco>(Request.QueryString["codigo"]);
+                    Document doc = new Document(new iTextSharp.text.Rectangle(405, 134), 25, 40, 10, 0);
+                    Response.ContentType = "application/pdf";
+                    PdfWriter writer = PdfWriter.GetInstance(doc, new FileStream(Server.MapPath("temp/") + Request.QueryString["codigo"] + ".pdf", FileMode.Create));
+                    doc.Open();
+                    Paragraph p = new Paragraph();
+                    //p.IndentationLeft = -10;
+                    Phrase nome = new Phrase(paciente.Nome + "\n");
+                    nome.Font.Size = 14;
+                    Phrase nascimento = new Phrase(paciente.DataNascimento.ToString("dd/MM/yyyy") + "\t\t" + endereco.Municipio.Nome + "\n");
+                    nascimento.Font.Size = 14;
+                    Phrase cartaosus = new Phrase(result + "\n");
+                    cartaosus.Font.Size = 16;
+                    PdfContentByte cb = writer.DirectContent;
+                    Barcode39 code39 = new Barcode39();
+                    code39.Code = result.ToString();
+                    code39.StartStopText = true;
+                    code39.GenerateChecksum = false;
+                    code39.Extended = true;
+                    iTextSharp.text.Image imageEAN = code39.CreateImageWithBarcode(cb, null, null);
+                    imageEAN.ScalePercent(170);
+                    iTextSharp.text.Image back = iTextSharp.text.Image.GetInstance(Server.MapPath("img/") + "etiqueta.png");
+                    back.SetAbsolutePosition(0, doc.PageSize.Height - back.Height);
+
+                    Phrase barcode = new Phrase(new Chunk(imageEAN, 0, -45));//90
+
+                    //p.SetLeading(1, 0.9f);
+                    p.Add(cartaosus);
+                    p.Add(nome);
+                    p.Add(nascimento);
+                    p.Add(barcode);
+                    doc.Add(p);
+
+                    doc.Add(back);
+
+                    doc.Close();
+                    Response.Redirect("temp/" + Request.QueryString["codigo"] + ".pdf");
+                }
+            }
+        }*/
+
+
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!IsPostBack)
+            {
+                if (Request.QueryString["codigo"] != null)
+                {
+                    ISeguranca iseguranca = Factory.GetInstance<ISeguranca>();
+                    if (!iseguranca.VerificarPermissao(((Vida.Model.Usuario)Session["Usuario"]).Codigo, "MANTER_PACIENTE", Modulo.CARTAO_SUS))
+                    {
+                        ClientScript.RegisterClientScriptBlock(typeof(String), "ok", "<script>alert('Você não tem permissão para acessar essa página. Em caso de dúvida, entre em contato.');window.location='../Home.aspx';</script>");
+                    }
+                    IPaciente ipaciente = Factory.GetInstance<IPaciente>();
+                    Vida.Model.Paciente paciente = ipaciente.BuscarPorCodigo<Vida.Model.Paciente>(Request.QueryString["codigo"]);
+                    IList<CartaoSUS> cartoes = ipaciente.ListarCartoesSUS<Vida.Model.CartaoSUS>(paciente.Codigo);
+                    long result = (from c in cartoes select long.Parse(c.Numero)).Min();
+                    IEndereco iendereco = Factory.GetInstance<IEndereco>();
+                    Endereco endereco = iendereco.BuscarPorPaciente<Endereco>(Request.QueryString["codigo"]);
+                    
+                    
+
+                    MemoryStream MStream = new MemoryStream();
+                    Document doc = new Document(new iTextSharp.text.Rectangle(405, 134), 25, 40, 10, 0);                    
+                    PdfWriter writer = PdfWriter.GetInstance(doc, MStream);
+                    
+                    //Monta o pdf
+                    doc.Open();
+                    Paragraph p = new Paragraph();
+                    Phrase nome = new Phrase(paciente.Nome + "\n");
+                    nome.Font.Size = 14;
+                    Phrase nascimento = new Phrase(paciente.DataNascimento.ToString("dd/MM/yyyy") + "\t\t" + endereco.Municipio.Nome + "\n");
+                    nascimento.Font.Size = 14;
+                    Phrase cartaosus = new Phrase(result + "\n");
+                    cartaosus.Font.Size = 16;                    
+                    PdfContentByte cb = writer.DirectContent;
+                    Barcode39 code39 = new Barcode39();
+                    code39.Code = result.ToString();
+                    code39.StartStopText = true;
+                    code39.GenerateChecksum = false;
+                    code39.Extended = true;
+                    iTextSharp.text.Image imageEAN = code39.CreateImageWithBarcode(cb, null, null);
+                    imageEAN.ScalePercent(170);
+                    iTextSharp.text.Image back = iTextSharp.text.Image.GetInstance(Server.MapPath("img/") + "etiqueta.png");
+                    back.SetAbsolutePosition(0, doc.PageSize.Height - back.Height);
+                    Phrase barcode = new Phrase(new Chunk(imageEAN, 0, -45));                    
+                    p.Add(cartaosus);
+                    p.Add(nome);
+                    p.Add(nascimento);
+                    p.Add(barcode);
+                    doc.Add(p);
+                    doc.Add(back);
+                    doc.Close();
+                    //fim monta pdf
+
+                    HttpContext.Current.Response.Buffer = true;
+                    HttpContext.Current.Response.ClearContent();
+                    HttpContext.Current.Response.ClearHeaders();
+                    HttpContext.Current.Response.ContentType = "application/pdf";
+                    HttpContext.Current.Response.AddHeader("Content-Disposition", "attachment;filename=CartaoEtiqueta.pdf");
+                    HttpContext.Current.Response.BinaryWrite(MStream.GetBuffer());
+                    HttpContext.Current.Response.End();
+                }
+            }
+        }
+    }
+}

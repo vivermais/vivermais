@@ -1,0 +1,65 @@
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.IO;
+using CrystalDecisions.CrystalReports.Engine;
+using Vida.View.Vacina.RelatoriosCrystal;
+using Vida.Model;
+using System.Collections.Generic;
+using Vida.DAO;
+using Vida.ServiceFacade.ServiceFacades.Vacina.Misc;
+using Vida.ServiceFacade.ServiceFacades.Vacina;
+using Microsoft.Reporting.WebForms;
+
+namespace Vida.View.Vacina
+{
+    public partial class FormImpressaoCartaoVacina : System.Web.UI.Page
+    {
+        protected void Page_Init(object sender, EventArgs e)
+        {
+            ReportDocument doc = new ReportDocument();
+            doc.Load(Server.MapPath("RelatoriosCrystal/RelImpressaoCartaoVacina.rpt"));
+
+            Vida.Model.Paciente paciente = (Vida.Model.Paciente)Session["pacienteSelecionado"];
+            AvatarCartaoVacina avatar = (AvatarCartaoVacina)Session["avatarimpressao"];
+            IList<CartaoVacina> cartoes = new List<CartaoVacina>();
+
+            if (avatar.CartaoVacinaSelecionado == CartaoVacina.CRIANCA)
+                cartoes = (IList<CartaoVacina>)Session["cartaocrianca"];
+            else if (avatar.CartaoVacinaSelecionado == CartaoVacina.ADULTOIDOSO)
+                cartoes = (IList<CartaoVacina>)Session["cartaoadulto"];
+            else if (avatar.CartaoVacinaSelecionado == CartaoVacina.ADOLESCENTE)
+                cartoes = (IList<CartaoVacina>)Session["cartaoadolescente"];
+            else
+                cartoes = (IList<CartaoVacina>)Session["cartaohistorico"];
+
+            Hashtable hash = Factory.GetInstance<IRelatorioVacina>().ImpressaoCartaoVacina<Vida.Model.Paciente, AvatarCartaoVacina, CartaoVacina>(paciente, avatar, cartoes);
+
+            doc.Database.Tables["dadoscartao"].SetDataSource((DataTable)hash["cabecalho"]);
+            doc.Database.Tables["vacinas"].SetDataSource((DataTable)hash["corpo"]);
+
+            //CrystalReportViewer_CartaoVacina.ReportSource = doc;
+            //CrystalReportViewer_CartaoVacina.DataBind();
+
+            System.IO.Stream s = doc.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+            Response.Buffer = true;
+            Response.ClearContent();
+            Response.ClearHeaders();
+            Response.ContentType = "applicattion/pdf";
+            Response.AddHeader("Content-Disposition", "inline;filename=CartaoVacina.pdf");
+
+            Response.BinaryWrite(((MemoryStream)s).ToArray());
+            Response.Flush();
+            Response.End();
+        }
+    }
+}

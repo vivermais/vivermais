@@ -1,0 +1,17 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace ViverMais.ServiceFacade.ServiceFacades.Agendamento
+{
+    public interface IProgramaDeSaudeUnidade : IAgendamentoServiceFacade
+    {
+        T BuscarPorCodigo<T>(int codigoPrograma, string codigoUnidade);
+        bool VerificaDuplicidade(int codigoPrograma, string codigoUnidade);
+        //void DeletarProgramaDeSaudeUnidadePorProgramaSaude(int id_programa);
+        IList<T> ListarPorPrograma<T>(int codigoPrograma, bool ativo);
+        IList<T> ListaUnidadesPorPrograma<T>(int codigoPrograma, bool ativo);
+        IList<T> ListaProgramasPorUnidade<T>(string cnes);
+    }
+}

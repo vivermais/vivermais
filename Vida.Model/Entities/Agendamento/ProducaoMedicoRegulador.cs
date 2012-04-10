@@ -1,0 +1,54 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace ViverMais.Model
+{
+    public class ProducaoMedicoRegulador
+    {
+        public ProducaoMedicoRegulador() { }
+
+        private int codigo;
+        public virtual int Codigo
+        {
+            get { return codigo; }
+            set { codigo = value; }
+        }
+
+        private char statusSolicitacao;
+        public virtual char StatusSolicitacao
+        {
+            get { return statusSolicitacao; }
+            set { statusSolicitacao = value; }
+        }
+
+        private char prioridadeSolicitacao;
+        public virtual char PrioridadeSolicitacao
+        {
+            get { return prioridadeSolicitacao; }
+            set { prioridadeSolicitacao = value; }
+        }
+
+        private Usuario usuario;
+        public virtual Usuario Usuario
+        {
+            get { return usuario; }
+            set { usuario = value; }
+        }
+
+        private Solicitacao solicitacao;
+        public virtual Solicitacao Solicitacao
+        {
+            get { return solicitacao; }
+            set { solicitacao = value; }
+        }
+
+        private DateTime dataAtualizacao;
+        public virtual DateTime DataAtualizacao
+        {
+            get { return dataAtualizacao; }
+            set { dataAtualizacao = value; }
+        }
+    }
+}

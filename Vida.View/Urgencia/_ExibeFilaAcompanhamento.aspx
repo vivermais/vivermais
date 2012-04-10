@@ -1,0 +1,58 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="_ExibeFilaAcompanhamento.aspx.cs"
+    Inherits="ViverMais.View.Urgencia._ExibeFilaAcompanhamento" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+    <link rel="stylesheet" href="style_form_urgencia.css" type="text/css" media="screen" />
+</head>
+<body>
+    <form id="form1" runat="server">
+    <asp:ScriptManager ID="Scritpt1" runat="server" ScriptMode="Debug">
+    </asp:ScriptManager>
+    <div id="top">
+        <asp:Timer ID="Timer_Temporizador" runat="server" Interval="10000" OnTick="OnTick_Temporizador">
+        </asp:Timer>
+        <h2>
+            <asp:Label ID="Label9" runat="server" Font-Bold="True" Text="Acolhimento"></asp:Label></h2>
+        <fieldset class="formulario" style="width: 850px;">
+            <legend>Relação</legend>
+            <p>
+                <span>
+                    <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Conditional">
+                        <Triggers>
+                            <asp:AsyncPostBackTrigger ControlID="Timer_Temporizador" EventName="Tick" />
+                        </Triggers>
+                        <ContentTemplate>
+                            <asp:GridView ID="gridFila" runat="server" AutoGenerateColumns="False" Width="100%">
+                                <Columns>
+                                    <asp:BoundField HeaderText="Horário de Entrada" DataField="DataProntuario" ItemStyle-Width="150px"
+                                        ItemStyle-HorizontalAlign="Center" />
+                                    <asp:HyperLinkField DataNavigateUrlFields="CodigoProntuario" Target="_parent"
+                                        DataNavigateUrlFormatString="FormAcolhimento.aspx?codigo={0}"
+                                        HeaderStyle-HorizontalAlign="Center" DataTextField="NumeroProntuario" HeaderText="Identificador"
+                                        ItemStyle-HorizontalAlign="center">
+                                        <ControlStyle Width="100px" />
+                                    </asp:HyperLinkField>
+                                    <asp:BoundField DataField="NomePaciente" HeaderText="Paciente" ItemStyle-Height="25px"
+                                        ItemStyle-Width="250px" ItemStyle-HorizontalAlign="Center" />
+                                    <asp:BoundField DataField="PacienteDescricao" HeaderText="Descrição" ItemStyle-HorizontalAlign="Center"
+                                        ItemStyle-Width="400px" />
+                                </Columns>
+                                <HeaderStyle CssClass="tab" />
+                                <RowStyle CssClass="tabrow" />
+                                <EmptyDataRowStyle HorizontalAlign="Center" />
+                                <EmptyDataTemplate>
+                                    <asp:Label ID="lbEmpty" runat="server" Text="Nenhum registro encontrado."></asp:Label>
+                                </EmptyDataTemplate>
+                            </asp:GridView>
+                        </ContentTemplate>
+                    </asp:UpdatePanel>
+                </span>
+            </p>
+        </fieldset>
+    </div>
+    </form>
+</body>
+</html>

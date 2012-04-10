@@ -1,0 +1,35 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Vida.Model;
+using NHibernate;
+using NHibernate.Criterion;
+using Vida.ServiceFacade.ServiceFacades.EstabelecimentoSaude;
+using System.Collections;
+using Vida.ServiceFacade.ServiceFacades.Agendamento;
+
+namespace Vida.DAO.Agendamento
+{
+    public class ParametrizacaoFPODAO : AgendamentoServiceFacadeDAO, IParametrizacaoFPO
+    {
+        #region IParametrizacaoFPO Members
+
+        public ParametrizacaoFPODAO()
+        {
+        }
+        IList<T> IParametrizacaoFPO.BuscaParametrizacaoPorUnidade<T>(string cnes, string procedimento)
+        {
+            string hql = "FROM Vida.Model.ParametrizacaoFPO parametrizacao ";
+            hql += " WHERE parametrizacao.Cnes='"+cnes+"'";
+
+            if (procedimento != "")
+            {
+                hql += " and parametrizacao.Id_Procedimento ='" + procedimento + "'";
+            }
+            return Session.CreateQuery(hql).List<T>();
+        }
+
+        #endregion
+    }
+}

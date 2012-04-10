@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="ViverMais.Model">
+  <class name="ViverMais.Model.SenhaSenhador" table="senhr_senha">
+    <id name="Codigo">
+      <column name="co_senha" not-null="true"/>
+      <generator class="sequence">
+        <param name="sequence">senhr_senha_sequence</param>
+      </generator>
+    </id>
+
+    <property name="Senha" column="no_senha" />
+    <property name="GeradaEm" column="geradaEm" />
+    <many-to-one name="TipoSenha" class="ViverMais.Model.TipoSenhaSenhador" column="co_tiposenha" />
+    <many-to-one name="Estabelecimento" class="ViverMais.Model.EstabelecimentoSaude" column="co_estabelecimento" />
+
+    <joined-subclass name="ViverMais.Model.SenhaServico" table="senhr_senhaservico">
+      <key column="co_senha" />
+      <property name="Sigla" column="sigla" />
+      <property name="Numero" column="numero" />
+      <many-to-one name="Servico" class="ViverMais.Model.ServicoSenhador" column="co_servico" />
+
+      <joined-subclass name="ViverMais.Model.SenhaPaciente" table="senhr_senhapaciente">
+        <key column="co_senha" />
+        <many-to-one name="Paciente" class="ViverMais.Model.Paciente" column="co_paciente" />
+
+        <joined-subclass name="ViverMais.Model.SenhaProfissional" table="senhr_senhaprofissional">
+          <key column="co_senha" />
+          <many-to-one name="Profissional" class="ViverMais.Model.Profissional" column="co_profissional" />
+        </joined-subclass>
+      </joined-subclass>
+    </joined-subclass>
+    
+  </class>
+</hibernate-mapping>

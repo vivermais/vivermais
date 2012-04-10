@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="ViverMais.Model">
+    <class name="ViverMais.Model.Unidade" table="AGD_UNIDADE_TORELAFERIADO">
+      <id name="CNES">
+        <column name="CNES" not-null="true"/>
+        <generator class="assigned" />
+      </id>
+      <property name="IntoleranteFeriado" column="intolerante_feriado" />
+  </class>
+</hibernate-mapping>

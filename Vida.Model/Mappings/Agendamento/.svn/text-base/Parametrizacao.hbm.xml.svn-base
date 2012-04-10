@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Vida.Model">
+  <class name="Vida.Model.Parametrizacao" table="AGD_PARAMETRIZACAO">
+    <id name="Codigo">
+       <column name="CO_PARAMETRIZACAO" not-null="true"/>
+       <generator class="sequence">
+           <param name="sequence">AGD_PARAMETRIZACAO_SEQUENCE</param>
+       </generator>
+    </id>
+    <property name="Nome" column="NOME" />
+    <property name="Valor" column="VALOR" />
+    <property name="Tipo" column="TIPO" />
+    <property name="Id_Estabelecimento" column="CNES" />
+    <property name="Id_Procedimento" column="CO_PROCEDIMENTO" />
+  </class>
+</hibernate-mapping>

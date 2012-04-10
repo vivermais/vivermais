@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DSCorpoDispensacaoVacina" targetNamespace="http://tempuri.org/DSCorpoDispensacaoVacina.xsd" xmlns:mstns="http://tempuri.org/DSCorpoDispensacaoVacina.xsd" xmlns="http://tempuri.org/DSCorpoDispensacaoVacina.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DSCorpoDispensacaoVacina" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_UserDSName="DSCorpoDispensacaoVacina" msprop:Generator_DataSetName="DSCorpoDispensacaoVacina" msprop:EnableTableAdapterManager="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="corpo" msprop:Generator_UserTableName="corpo" msprop:Generator_RowDeletedName="corpoRowDeleted" msprop:Generator_RowChangedName="corpoRowChanged" msprop:Generator_RowClassName="corpoRow" msprop:Generator_RowChangingName="corpoRowChanging" msprop:Generator_RowEvArgName="corpoRowChangeEvent" msprop:Generator_RowEvHandlerName="corpoRowChangeEventHandler" msprop:Generator_TableClassName="corpoDataTable" msprop:Generator_TableVarName="tablecorpo" msprop:Generator_RowDeletingName="corpoRowDeleting" msprop:Generator_TablePropName="corpo">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Vacina" msprop:Generator_UserColumnName="Vacina" msprop:Generator_ColumnVarNameInTable="columnVacina" msprop:Generator_ColumnPropNameInRow="Vacina" msprop:Generator_ColumnPropNameInTable="VacinaColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Lote" msprop:Generator_UserColumnName="Lote" msprop:Generator_ColumnVarNameInTable="columnLote" msprop:Generator_ColumnPropNameInRow="Lote" msprop:Generator_ColumnPropNameInTable="LoteColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Dose" msprop:Generator_UserColumnName="Dose" msprop:Generator_ColumnVarNameInTable="columnDose" msprop:Generator_ColumnPropNameInRow="Dose" msprop:Generator_ColumnPropNameInTable="DoseColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="ProximaVacina" msprop:Generator_UserColumnName="ProximaVacina" msprop:Generator_ColumnVarNameInTable="columnProximaVacina" msprop:Generator_ColumnPropNameInRow="ProximaVacina" msprop:Generator_ColumnPropNameInTable="ProximaVacinaColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="CodigoDispensacao" msprop:Generator_UserColumnName="CodigoDispensacao" msprop:Generator_ColumnVarNameInTable="columnCodigoDispensacao" msprop:Generator_ColumnPropNameInRow="CodigoDispensacao" msprop:Generator_ColumnPropNameInTable="CodigoDispensacaoColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Fabricante" msprop:Generator_UserColumnName="Fabricante" msprop:Generator_ColumnPropNameInRow="Fabricante" msprop:Generator_ColumnVarNameInTable="columnFabricante" msprop:Generator_ColumnPropNameInTable="FabricanteColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Validade" msprop:Generator_UserColumnName="Validade" msprop:Generator_ColumnPropNameInRow="Validade" msprop:Generator_ColumnVarNameInTable="columnValidade" msprop:Generator_ColumnPropNameInTable="ValidadeColumn" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

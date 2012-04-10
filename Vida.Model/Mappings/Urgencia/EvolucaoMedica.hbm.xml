@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="ViverMais.Model">
+  <class name="ViverMais.Model.EvolucaoMedica" table="URG_EVOLUCAOMEDICA">
+    <id name="Codigo">
+      <column name="CO_EVOLUCAOMEDICA" not-null="true"/>
+      <generator class="sequence">
+        <param name="sequence">URG_EVMEDICA_SEQUENCE</param>
+      </generator>
+    </id>
+
+    <property name="PrimeiraConsulta" column="primeira_consulta" type="YesNo" />
+    
+    <many-to-one name="Prontuario" class="ViverMais.Model.Prontuario" column="CO_PRONTUARIO" lazy="false"/>
+    <many-to-one name="ClassificacaoRisco" class="ViverMais.Model.ClassificacaoRisco" column="CO_CLASSIFICACAORISCO" lazy="false"/>
+    
+    <property name="CodigoProfissional" column="CO_PROFISSIONAL" />
+    <property name="CBOProfissional" column="cbo_profissional" />
+    
+    <property name="Observacao" column="observacao" type="StringClob"/>
+	  <property name="Data" column="data" />
+    
+    <bag name="CodigosCids" table="URG_EVOLUCAOMEDICACID">
+      <key column="CO_EVOLUCAOMEDICA"/>
+      <element column="CO_CID" type="string" />
+    </bag>
+
+    <!--<bag name="CodigosProcedimentos" table="URG_EVOLUCAOMEDICAPROCEDIMENTO">
+      <key column="CO_EVOLUCAOMEDICA"/>
+      <element column="CO_PROCEDIMENTO" type="string" />
+    </bag>-->
+  </class>
+</hibernate-mapping>

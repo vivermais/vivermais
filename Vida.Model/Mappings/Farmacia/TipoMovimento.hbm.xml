@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="ViverMais.Model">
+  <class name="ViverMais.Model.TipoMovimento" table="far_tipomovimento">
+    <id name="Codigo">
+      <column name="id_tipomovimento" not-null="true"/>
+      <generator class="sequence" >
+        <param name="sequence">FAR_TIPOMOVIMENTO_SEQUENCE</param>
+      </generator>
+    </id>
+    <property name="Nome" column="tipomovimento" />
+  </class>
+</hibernate-mapping>

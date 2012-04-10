@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="ViverMais.Model">
+	<class name="ViverMais.Model.CartaoSUS" table="tb_ms_usuario_cns_elos">
+		<id name="Numero">
+			<column name="co_numero_cartao" not-null="true"/>
+			<generator class="assigned" />
+		</id>
+		<property name="Tipo" column="tp_cartao"/>
+		<property name="DataAtribuicao" column="dt_atribuicao"/>
+		<many-to-one name="Paciente" class="ViverMais.Model.Paciente" column="co_usuario"/>
+    <property name="Controle" column="ST_CONTROLE"/>
+    <property name="Excluido" column="ST_EXCLUIDO"/>
+    <property name="DataOperacao" column="DT_OPERACAO"/>
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,136 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Menu>
+  <div class="menu-barra-module" style="background: url('URLPART/Urgencia/img/barramenu.png' ) no-repeat;">
+    <div style="margin-top: 0px; margin-left: 14px">
+      <ul class="menu2" id="menu">
+        <li>
+          <a href="#" class="menulink">Principal</a>
+          <ul>
+            <li Permissao="INICIAR_ATENDIMENTO">
+              <a href="FormAtendimento.aspx?tipo_atendimento=normal">Paciente</a>
+            </li>
+            <li>
+              <a href="#" class="sub">Paciente Simplificado</a>
+              <ul>
+                <li class="topline" Permissao="INICIAR_ATENDIMENTO">
+                  <a href="FormAtendimento.aspx?tipo_atendimento=simplificado">
+                    Iniciar
+                    Atendimento
+                  </a>
+                </li>
+                <li Permissao="IDENTIFICAR_PACIENTE">
+                  <a href="FormAssociarPacientes.aspx">Identificar</a>
+                </li>
+                <li Permissao="EXCLUIR_IDENTIFICACAO_PACIENTE">
+                  <a href="FormExcluirIdentificacaoPaciente.aspx">Excluir Identificação</a>
+                </li>
+              </ul>
+            </li>
+            <li Permissao="BUSCAR_REGISTROS_ATENDIMENTO">
+              <a href="BuscaProntuario.aspx">Registro Eletrônico de Atendimento</a>
+            </li>
+            <li>
+              <a href="ExibeFilaAcompanhamento.aspx">Acolhimento</a>
+            </li>
+            <li>
+              <a href="ExibeFilaAtendimento.aspx">Atendimento/Especialidade</a>
+            </li>
+            <li>
+              <a href="FormEstadosProntuarios.aspx?regulacao=2">Pacientes em Observação</a>
+            </li>
+            <li>
+              <a href="FormEstadosProntuarios.aspx?regulacao=7">
+                Pacientes Aguardando Regulação
+                para Enfermaria
+              </a>
+            </li>
+            <li>
+              <a href="FormEstadosProntuarios.aspx?regulacao=4">
+                Pacientes Aguardando Regulação
+                para UTI
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="#" class="menulink">Exames</a>
+          <ul>
+            <li Permissao="REGISTRAR_RESULTADO_EXAMES">
+              <a href="FormResultadoExames.aspx">Resultado de Exames</a>
+            </li>
+          </ul>
+        </li>
+        <li Permissao="GERAR_BPA">
+          <a href="FormGerarBPA.aspx" class="menulink">BPA</a>
+        </li>
+        <li>
+          <a href="#" class="menulink">Tabelas</a>
+          <ul>
+            <li Permissao="MANTER_CAMERA_IP">
+              <a href="FormExibeCameraIP.aspx">Câmera IP</a>
+            </li>
+            <li>
+              <a href="FormClassificacaoRisco.aspx">Classificação de Risco</a>
+            </li>
+            <li>
+              <a href="#" class="sub">Exames</a>
+              <ul>
+                <li class="topline">
+                  <a href="FormExibeExameEletivo.aspx">Eletivos</a>
+                </li>
+                <li>
+                  <a href="FormExibeExame.aspx">Internos</a>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <a href="#" class="sub">Profissionais</a>
+              <ul>
+                <li class="topline" Permissao="ATUALIZAR_USUARIOS_SENHADOR">
+                  <a href="FormAtualizarUsuariosSenhador.aspx">Atualizar Usuários do Senhador</a>
+                </li>
+                <li Permissao="IDENTIFICAR_PROFISSIONAIS">
+                  <a href="FormExibeIdentificacaoProfissional.aspx">Identificar Profissional</a>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <a href="FormExibeItem.aspx">Item PA</a>
+            </li>
+            <li>
+              <a href="FormExibeKit.aspx">Kit PA</a>
+            </li>
+            <li Permissao="MANTER_MEDICAMENTO_PRESCRICAO">
+              <a href="FormBuscaMedicamento.aspx">Medicamentos/Prescrição</a>
+            </li>
+            <li>
+              <a href="FormExibeProcedimentosNaoFaturaveis.aspx">Procedimentos Não-Faturáveis</a>
+            </li>
+            <li Permissao="CADASTRAR_NUMERO_VAGAS">
+              <a href="FormVagas.aspx">Vagas</a>
+            </li>
+          </ul>
+        </li>
+        <PermissaoEspecial Nome="RELATORIOS">
+          <li>
+            <a href="RelatoriosUrgencia.aspx" class="menulink">Relatórios</a>
+          </li>
+        </PermissaoEspecial>
+        <li>
+          <a href="#" class="menulink">Segurança</a>
+          <ul>
+            <li>
+              <a href="FormCodigoIdentificacao.aspx">Código de Identificação</a>
+            </li>
+          </ul>
+        </li>
+        <PermissaoEspecial Nome="SENHADOR">
+          <li>
+            <a href="#" onclick="window.open('LINKSENHADOR'); return false;"
+               class="menulink">Senhador</a>
+          </li>
+        </PermissaoEspecial>
+      </ul>
+    </div>
+  </div>
+</Menu>

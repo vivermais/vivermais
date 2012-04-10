@@ -1,0 +1,18 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace ViverMais.ServiceFacade.ServiceFacades.Seguranca
+{
+    public interface IPerfil: IServiceFacade
+    {
+        IList<T> BuscarPorModulo<T>(int co_modulo);
+        IList<T> BuscarHorarios<T>(int co_perfil);
+        IList<T> ListarPermissoesPerfil<T>(int co_perfil);
+        
+        void Salvar<P, H>(P _perfil, IList<H> _horarios, int co_usuario);
+        
+        T BuscarHorario<T>(int co_perfil, DayOfWeek dia);
+    }
+}

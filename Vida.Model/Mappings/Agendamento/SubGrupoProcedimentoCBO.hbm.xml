@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="ViverMais.Model">
+  <class name="ViverMais.Model.SubGrupoProcedimentoCBO" table="AGD_SUBGRUPO_PROCED_CBO">
+    <id name="Codigo">
+      <column name="CODIGO" not-null="true"/>
+      <generator class="sequence">
+        <param name="sequence">SEQ_AGD_SUBG_PROCED_CBO</param>
+      </generator>
+    </id>
+    <many-to-one name="Procedimento" class="ViverMais.Model.Procedimento" column="co_procedimento"></many-to-one>
+    <many-to-one name="SubGrupo" class="ViverMais.Model.SubGrupo" column="CO_SUBGRUPO"></many-to-one>
+    <many-to-one name="Cbo" class="ViverMais.Model.CBO" column="CO_OCUPACAO"></many-to-one>
+    <property name="Ativo" column="ATIVO"></property>
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Vida.Model">
+  <class name="Vida.Model.Pacto" table="tb_pms_pacto">
+    <id name="Codigo">
+      <column name="id_pacto" not-null="true"/>
+      <generator class="sequence">
+        <param name="sequence">PACTO_SEQUENCE</param>
+      </generator>
+    </id>
+    <many-to-one name="Municipio" class="Vida.Model.Municipio" column="co_municipio" />
+    <bag name="PactosAgregados" table="rl_pms_pacto_agregado" inverse="true">
+      <key column="id_pacto"/>
+      <many-to-many column="id_pacto_agregado" class="Vida.Model.PactoAgregadoProcedCBO" />
+    </bag>
+  </class>
+</hibernate-mapping>

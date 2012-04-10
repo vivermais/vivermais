@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Vida.Model">
+  <class name="Vida.Model.SalaResponsavel" table="VCN_SALA_RESPONSAVEL">
+    <composite-id>
+      <key-many-to-one name="SalaVacina" class="Vida.Model.SalaVacina" column="co_sala" />
+      <key-many-to-one name="Responsavel" class="Vida.Model.Usuario" column="co_usuario" />
+    </composite-id>
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,84 @@
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Xml.Linq;
+using System.Collections.Generic;
+using Vida.Model;
+using Vida.DAO;
+using Vida.ServiceFacade.ServiceFacades.Localidade;
+using Vida.ServiceFacade.ServiceFacades.Agregado.Misc;
+using Vida.ServiceFacade.ServiceFacades.Agregado;
+
+namespace Vida.View.Agendamento
+{
+    public partial class FormRelatorioExtratoPPIReferencia : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!IsPostBack)
+            {
+                CarregaMunicipiosExcetoSalvador();
+                CarregaGruposDeAgregados();
+            }
+        }
+
+        void CarregaMunicipiosExcetoSalvador()
+        {
+            IList<Municipio> municipios = Factory.GetInstance<IMunicipio>().ListarPorEstado<Municipio>("BA").Where(p=>p.Codigo != Municipio.SALVADOR).ToList();
+            ddlMunicipio.Items.Add(new ListItem("Selecione...", "0"));
+            foreach (Municipio mun in municipios)
+                    ddlMunicipio.Items.Add(new ListItem(mun.Nome, mun.Codigo));
+            ddlMunicipio.Focus();
+        }
+
+        void CarregaGruposDeAgregados()
+        {
+            IList<GrupoAgregado> grupoAgregados = Factory.GetInstance<IGrupoAgregado>().ListarTodos<GrupoAgregado>("Nome", true);
+            ddlGrupoAgregados.Items.Add(new ListItem("Selecione", "0"));
+            foreach (GrupoAgregado grupoAgregado in grupoAgregados)
+                ddlGrupoAgregados.Items.Add(new ListItem(grupoAgregado.Nome, grupoAgregado.Codigo));
+            ddlGrupoAgregados.Focus();
+        }
+
+        protected void ddlGrupoAgregados_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            CarregaSubGruposDeAgregado();
+        }
+
+        void CarregaSubGruposDeAgregado()
+        {
+            IList<SubGrupoAgregado> subGrupoAgregados = Factory.GetInstance<ISubGrupoAgregado>().BuscaPorGrupo<SubGrupoAgregado>(ddlGrupoAgregados.SelectedValue);
+            ddlSubGrupoAgregado.Items.Clear();
+            ddlAgregados.Items.Clear();
+            ddlSubGrupoAgregado.Items.Add(new ListItem("Selecione", "0"));
+            ddlAgregados.Items.Add(new ListItem("Selecione", "0"));
+            foreach (SubGrupoAgregado subGrupoAgregado in subGrupoAgregados)
+                ddlSubGrupoAgregado.Items.Add(new ListItem(subGrupoAgregado.Nome, subGrupoAgregado.Codigo));
+            
+            ddlSubGrupoAgregado.Focus();
+        }
+
+        protected void ddlSubGrupoAgregado_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            CarregaAgregados();
+        }
+
+        void CarregaAgregados()
+        {
+            IList<Agregado> agregados = Factory.GetInstance<IAgregado>().BuscaPorSubGrupo<Agregado>(ddlSubGrupoAgregado.SelectedValue);
+            ddlAgregados.Items.Clear();
+            ddlAgregados.Items.Add(new ListItem("Selecione", "0"));
+            foreach (Agregado agregado in agregados)
+                ddlAgregados.Items.Add(new ListItem(agregado.Nome, agregado.Codigo));
+            ddlAgregados.Focus();
+        }
+    }
+}

@@ -1,0 +1,317 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using Vida.DAO;
+using Vida.ServiceFacade.ServiceFacades;
+using Vida.Model;
+using Vida.ServiceFacade.ServiceFacades.Localidade;
+using Vida.ServiceFacade.ServiceFacades.Farmacia.Medicamento;
+using Vida.ServiceFacade.ServiceFacades.Seguranca;
+using Vida.ServiceFacade.ServiceFacades.Vacina.Misc;
+using Vida.ServiceFacade.ServiceFacades.Paciente;
+using Vida.ServiceFacade.ServiceFacades.Vacina.Movimentacao;
+
+namespace Vida.View.Vacina
+{
+    public partial class FormDispensacao : PageVida
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!IsPostBack)
+            {
+                if (!Factory.GetInstance<ISeguranca>().VerificarPermissao(((Usuario)Session["Usuario"]).Codigo, "DISPENSACAO_VACINA", Modulo.VACINA))
+                    Response.Redirect("FormAcessoNegado.aspx?opcao=1");
+                    //ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Usuário, você não tem permissão para acessar esta página! Por favor, entre em contato com a administração.');location='Default.aspx';", true);
+                else
+                {
+                    Session["lotesvacinadispensacao"] = new List<LoteVacina>();
+                    Usuario usuario = (Usuario)Session["Usuario"];
+                    IList<SalaVacina> salas = Factory.GetInstance<ISalaVacina>().BuscarPorUsuario<SalaVacina, Vida.Model.Usuario>(usuario, false, true);
+
+                    if (salas.Count() == 1) //Neste caso, a sala retornada é a default
+                    {
+                        Response.Redirect("FormAcessoNegado.aspx?opcao=2");
+                        //ScriptManager.RegisterStartupScript(this, typeof(Page), "alert", "alert('Usuário, você não está vinculado a nenhuma sala de vacina! Por favor, entre em contato com a administração.');history.back();", true);
+                        //return;
+                    }
+                    else
+                    {
+                        if (salas.Count() == 2)
+                        {
+                            string verificainventarioaberto = this.VerificaInventarioAbertoSala(salas[1].Codigo);
+
+                            if (!verificainventarioaberto.Equals("ok"))
+                            {
+                                Application["AcessoPagina"] = verificainventarioaberto;
+                                Response.Redirect("FormAcessoNegado.aspx");
+                                //ScriptManager.RegisterStartupScript(this, typeof(Page), "alert", "alert('" + verificainventarioaberto + "');history.back();", true);
+                                //return;
+                            }
+
+                            DropDownList_SalaVacina.Visible = false;
+                            Label_SalaVacina.Text = salas[1].Nome;
+                            Panel_DadosDispensacao.Visible = true;
+                            ViewState["saladispensacao"] = salas[1].Codigo;
+                        }
+                        else
+                        {
+                            Label_SalaVacina.Visible = false;
+                            DropDownList_SalaVacina.DataSource = salas;
+                            DropDownList_SalaVacina.DataBind();
+                        }
+
+                        IList<ItemDispensacaoVacina> itensdispensacao = new List<ItemDispensacaoVacina>();
+                        Session["itensDispensacaoVacina"] = itensdispensacao;
+                        this.CarregaItensDispensacao(itensdispensacao);
+
+                        ddlGrupoAtendimento.DataSource = Factory.GetInstance<IVacinaServiceFacade>().ListarTodos<GrupoAtendimento>("Descricao", true);
+                        ddlGrupoAtendimento.DataBind();
+                        ddlGrupoAtendimento.Items.Insert(0, new ListItem("Selecione...", "-1"));
+                        ddlGrupoAtendimento.SelectedValue = GrupoAtendimento.POPULACAO_GERAL.ToString();
+
+                        ddlEstrategias.DataSource = Factory.GetInstance<IVidaServiceFacade>().ListarTodos<Estrategia>("Descricao", true);
+                        ddlEstrategias.DataBind();
+                        ddlEstrategias.Items.Insert(0, new ListItem("Selecione...", "-1"));
+
+                        Vida.Model.Paciente paciente = (Vida.Model.Paciente)Session["pacienteSelecionado"];
+                        WUCExibirPaciente1.Paciente = paciente;
+
+                        Session["itensVacinaDispensadosHoje"] = Factory.GetInstance<IDispensacao>().BuscarItensDispensacao<ItemDispensacaoVacina>(DateTime.Today, paciente.Codigo);
+                    }
+                }
+            }
+        }
+
+        private string VerificaInventarioAbertoSala(int co_sala)
+        {
+            InventarioVacina inventario = Factory.GetInstance<IInventarioVacina>().BuscarPorSituacao<InventarioVacina>(Convert.ToChar(InventarioVacina.DescricaoSituacao.Aberto), co_sala).FirstOrDefault();
+
+            return inventario == null ? "ok" : "<strong>Usuário, não é possível realizar dispensação na sala " + inventario.Sala.Nome + ".</strong> Existe um inventário aberto no dia " + inventario.DataInventario.ToString("dd/MM/yyyy") + " que ainda não foi finalizado.";
+        }
+
+        private void CarregaItensDispensacao(IList<ItemDispensacaoVacina> itens)
+        {
+            GridViewItensDispensacao.DataSource = itens;
+            GridViewItensDispensacao.DataBind();
+        }
+
+        protected void OnSelectedIndexChanged_CarregaItensDispensacao(object sender, EventArgs e)
+        {
+            if (DropDownList_SalaVacina.SelectedValue != "-1")
+            {
+                string verificainventarioaberto = this.VerificaInventarioAbertoSala(int.Parse(DropDownList_SalaVacina.SelectedValue));
+
+                if (!verificainventarioaberto.Equals("ok"))
+                {
+                    Application["AcessoPagina"] = verificainventarioaberto;
+                    Response.Redirect("FormAcessoNegado.aspx");
+                    //ScriptManager.RegisterStartupScript(this, typeof(Page), "alert", "alert('" + verificainventarioaberto + "');history.back();", true);
+                    //return;
+                }
+
+                IList<ItemDispensacaoVacina> itensdispensacao = new List<ItemDispensacaoVacina>();
+                Session["itensDispensacaoVacina"] = itensdispensacao;
+                this.CarregaItensDispensacao(itensdispensacao);
+                ViewState["saladispensacao"] = DropDownList_SalaVacina.SelectedValue;
+
+                Panel_DadosDispensacao.Visible = true;
+            }
+            else
+                Panel_DadosDispensacao.Visible = false;
+
+            this.LimparCamposItemDispensacao();
+        }
+
+        private void LimparCamposItemDispensacao()
+        {
+            ddlEstrategias.SelectedValue = "-1";
+            ddlImunobiologico.Items.Clear();
+            ddlImunobiologico.Items.Insert(0, new ListItem("Selecione...", "-1"));
+
+            this.LimparCampoFabricante();
+            this.LimparCampoLote();
+            this.LimparCampoDoseVacina();
+
+            chkAberturaAmpola.Checked = false;
+        }
+
+        protected void OnSelectedIndexChanged_Lote(object sender, EventArgs e)
+        {
+            IList<LoteVacina> lotes = FabricanteVacina.RetornarLotesFabricante((IList<LoteVacina>)Session["lotesvacinadispensacao"], int.Parse(DropDownList_Fabricante.SelectedValue));
+            ddlLote.DataSource = lotes;
+            ddlLote.DataBind();
+
+            ddlLote.Items.Insert(0, new ListItem("Selecione...", "-1"));
+        }
+
+        protected void ddlImunobiologico_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            this.LimparCampoLote();
+            ddlDose.Items.Clear();
+            DropDownList_Fabricante.Items.Clear();
+
+            int co_vacina = int.Parse(ddlImunobiologico.SelectedValue);
+
+            if (co_vacina != -1)
+            {
+                IList<LoteVacina> lotesdispensacao = Factory.GetInstance<ILoteVacina>().BuscarLotesValidos<LoteVacina>(co_vacina, DateTime.Today);
+                Session["lotesvacinadispensacao"] = lotesdispensacao;
+                IList<FabricanteVacina> fabricantes = FabricanteVacina.RetornarFabricantes(lotesdispensacao);
+
+                if (fabricantes.Count() == 0)
+                    ScriptManager.RegisterStartupScript(this, typeof(Page), "alert", "alert('Não existem fabricantes com lotes cadastrados para este imunobiológico!');", true);
+
+                DropDownList_Fabricante.DataSource = fabricantes;
+                DropDownList_Fabricante.DataBind();
+
+                IList<DoseVacina> doses = Factory.GetInstance<IVacina>().BuscarDoses<DoseVacina>(co_vacina);
+                if (fabricantes.Count() != 0 && doses.Count == 0)
+                    ScriptManager.RegisterStartupScript(this, typeof(Page), "alert", "alert('Não há dose cadastrada para esta vacina!');", true);
+
+                ddlDose.DataSource = doses;
+                ddlDose.DataBind();
+            }
+
+            ddlDose.Items.Insert(0, new ListItem("Selecione...", "-1"));
+            DropDownList_Fabricante.Items.Insert(0, new ListItem("Selecione...", "-1"));
+            chkAberturaAmpola.Checked = false;
+        }
+
+        protected void ddlEstrategias_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ddlImunobiologico.Items.Clear();
+
+            int codigoEstrategia = int.Parse(ddlEstrategias.SelectedValue);
+            if (codigoEstrategia != -1)
+            {
+                Estrategia estrategia = Factory.GetInstance<IVacinaServiceFacade>().BuscarPorCodigo<Estrategia>(codigoEstrategia);
+                ddlImunobiologico.DataSource = estrategia.Vacinas;
+                ddlImunobiologico.DataBind();
+            }
+
+            ddlImunobiologico.Items.Insert(0, new ListItem("Selecione...", "-1"));
+
+            this.LimparCampoFabricante();
+            this.LimparCampoLote();
+            this.LimparCampoDoseVacina();
+            chkAberturaAmpola.Checked = false;
+        }
+
+        private void LimparCampoFabricante()
+        {
+            DropDownList_Fabricante.Items.Clear();
+            DropDownList_Fabricante.Items.Insert(0, new ListItem("Selecione...", "-1"));
+        }
+
+        private void LimparCampoLote()
+        {
+            ddlLote.Items.Clear();
+            ddlLote.Items.Insert(0, new ListItem("Selecione...", "-1"));
+        }
+
+        private void LimparCampoDoseVacina()
+        {
+            ddlDose.Items.Clear();
+            ddlDose.Items.Insert(0, new ListItem("Selecione...", "-1"));
+        }
+
+        protected void btnAddImunobiologico_Click(object sender, EventArgs e)
+        {
+            Vida.Model.Paciente paciente = WUCExibirPaciente1.Paciente;
+            IList<ItemDispensacaoVacina> itens = (List<ItemDispensacaoVacina>)Session["itensDispensacaoVacina"];
+            
+            LoteVacina lote = Factory.GetInstance<IVacina>().BuscarPorCodigo<LoteVacina>(long.Parse(ddlLote.SelectedValue));
+            DoseVacina dose = Factory.GetInstance<IVacina>().BuscarPorCodigo<DoseVacina>(int.Parse(ddlDose.SelectedValue));
+            Estrategia estrategia = Factory.GetInstance<IVacinaServiceFacade>().BuscarPorCodigo<Estrategia>(int.Parse(ddlEstrategias.SelectedValue));
+
+            ItemDispensacaoVacina itemDispensacao = new ItemDispensacaoVacina();
+            itemDispensacao.Lote = lote;
+            itemDispensacao.Dose = dose;
+            itemDispensacao.Estrategia = estrategia;
+            itemDispensacao.AberturaAmpola = chkAberturaAmpola.Checked ? ItemDispensacaoVacina.AMPOLA_ABERTA : ItemDispensacaoVacina.AMPOLA_FECHADA;
+            
+            if (itens.Where(p => p.Lote.ItemVacina.Vacina.Codigo == itemDispensacao.Lote.ItemVacina.Vacina.Codigo
+                && p.Dose.Codigo == itemDispensacao.Dose.Codigo).FirstOrDefault() != null)
+            {
+                ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('A dose desta vacina já está incluída na lista de itens a serem dispensados. Por favor, informe outra dose e/ou vacina.');", true);
+                return;
+            }
+
+            IList<ItemDispensacaoVacina> itensdispensadoshoje = (IList<ItemDispensacaoVacina>)Session["itensVacinaDispensadosHoje"];
+            ItemDispensacaoVacina itemdispensado = itensdispensadoshoje.Where(p => p.Lote.ItemVacina.Vacina.Codigo == itemDispensacao.Lote.ItemVacina.Vacina.Codigo
+                && p.Dose.Codigo == itemDispensacao.Dose.Codigo).FirstOrDefault();
+
+            if (itemdispensado != null)
+            {
+                ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('A dose desta vacina já foi dispensada hoje para este paciente na sala " + itemdispensado.Dispensacao.Sala.Nome + ".');", true);
+                return;
+            }
+
+            IList<ItemDispensacaoVacina> itenscopia = new List<ItemDispensacaoVacina>();
+            itenscopia = itenscopia.Concat(itens).ToList();
+            itenscopia.Add(itemDispensacao);
+
+            var lotes = itenscopia.GroupBy(p => new {p.AberturaAmpola, p.Lote.Codigo }).Where(p => p.Key.AberturaAmpola == ItemDispensacaoVacina.AMPOLA_ABERTA && p.Key.Codigo == lote.Codigo).ToList();
+            string msglotesindisponiveis = string.Empty;
+
+            foreach (var verificarlote in lotes)
+            {
+                int quantidadeestoque = Factory.GetInstance<IEstoqueVacina>().QuantidadeDisponivelEstoque(verificarlote.First().Lote.Codigo, int.Parse(ViewState["saladispensacao"].ToString()));
+                int quantidadesolicitada = verificarlote.Count();
+
+                if (quantidadeestoque < quantidadesolicitada)
+                    msglotesindisponiveis += "Não há disponibilidade no estoque da vacina " + verificarlote.First().Lote.ItemVacina.Vacina.Nome.ToUpper() + " para o lote escolhido. Quantidade solicitada: " + quantidadesolicitada + " e Quantidade disponível: " + quantidadeestoque + ".\\n";
+            }
+
+            if (!string.IsNullOrEmpty(msglotesindisponiveis))
+            {
+                ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('" + msglotesindisponiveis + "');", true);
+                return;
+            }
+
+            itens.Add(itemDispensacao);
+            Session["itensDispensacaoVacina"] = itens;
+            this.CarregaItensDispensacao(itens);
+            ddlImunobiologico.SelectedValue = "-1";
+            this.ddlImunobiologico_SelectedIndexChanged(new object(), new EventArgs());
+        }
+
+        protected void GridViewItensDispensacao_RowDeleting(object sender, GridViewDeleteEventArgs e)
+        {
+            IList<ItemDispensacaoVacina> itens = (List<ItemDispensacaoVacina>)Session["itensDispensacaoVacina"];
+            itens.RemoveAt(Convert.ToInt32(e.RowIndex));
+            Session["itensDispensacaoVacina"] = itens;
+            this.CarregaItensDispensacao(itens);
+        }
+
+        /// <summary>
+        /// Salva a Dispensação
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void btnSalvar_click(object sender, EventArgs e)
+        {
+            DispensacaoVacina dispensacao = new DispensacaoVacina();
+            Usuario usuario = (Usuario)Session["Usuario"];
+            IList<ItemDispensacaoVacina> itens = (IList<ItemDispensacaoVacina>)Session["itensDispensacaoVacina"];
+            Vida.Model.Paciente paciente = WUCExibirPaciente1.Paciente;
+
+            if (itens.Count() == 0)
+                ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Usuário, inclua pelo menos um item para esta dispensação.');", true);
+            else
+            {
+                dispensacao.Usuario = Factory.GetInstance<IVacinaServiceFacade>().BuscarPorCodigo<Usuario>(usuario.Codigo);
+                dispensacao.Sala = Factory.GetInstance<ISalaVacina>().BuscarPorCodigo<SalaVacina>(int.Parse(ViewState["saladispensacao"].ToString()));
+                dispensacao.Paciente = Factory.GetInstance<IPaciente>().BuscarPorCodigo<Vida.Model.Paciente>(paciente.Codigo);
+                dispensacao.Data = DateTime.Now;
+                dispensacao.GrupoAtendimento = Factory.GetInstance<IVidaServiceFacade>().BuscarPorCodigo<GrupoAtendimento>(int.Parse(ddlGrupoAtendimento.SelectedValue));
+
+                Factory.GetInstance<IDispensacao>().SalvarDispensacao<DispensacaoVacina, IList<ItemDispensacaoVacina>>(dispensacao, itens, usuario.Codigo);
+                ScriptManager.RegisterStartupScript(this, typeof(Page), "alert", "alert('Dados Salvos com Sucesso!');window.open('FormImprimirReciboDispensacao.aspx?co_dispensacao=" + dispensacao.Codigo + "','_blank');window.location='FormDispensacao.aspx';", true);
+            }
+        }
+    }
+}

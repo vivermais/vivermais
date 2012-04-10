@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="ViverMais.Model">
+  <class name="ViverMais.Model.UsuarioPerfil" table="rl_pms_usuario_perfil">
+    <composite-id>
+      <key-many-to-one name="Perfil" class="ViverMais.Model.Perfil" column="co_perfil" lazy="false"/>
+      <key-many-to-one name="Usuario" class="ViverMais.Model.Usuario" column="co_usuario" lazy="false"/>
+    </composite-id>
+  </class>
+</hibernate-mapping>

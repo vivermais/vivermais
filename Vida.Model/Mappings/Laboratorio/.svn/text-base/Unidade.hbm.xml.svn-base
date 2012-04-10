@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Vida.Model">
+  <class name="Vida.Model.UnidadeLaboratorio" table="tb_unidade_saude">
+    <id name="Codigo">
+      <column name="cd_unid_saude_pk" not-null="true"/>
+      <generator class="assigned" />
+    </id>
+    <property name="Nome" column="ds_unid_saude" />
+  </class>
+</hibernate-mapping>

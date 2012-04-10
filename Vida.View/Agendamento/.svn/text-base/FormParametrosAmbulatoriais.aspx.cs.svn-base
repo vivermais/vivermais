@@ -1,0 +1,82 @@
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Xml.Linq;
+using Vida.ServiceFacade.ServiceFacades.Seguranca;
+using Vida.DAO;
+using Vida.Model;
+using Vida.ServiceFacade.ServiceFacades;
+
+namespace Vida.View.Agendamento
+{
+    public partial class FormParametrosAmbulatoriais : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!IsPostBack)
+            {
+                if (Factory.GetInstance<ISeguranca>().VerificarPermissao(((Usuario)Session["Usuario"]).Codigo, "PARAMETRIZACAO_AMBULATORIAL",Modulo.AGENDAMENTO))
+                {   
+                    Parametros parametros = Factory.GetInstance<IAgendamentoServiceFacade>().ListarTodos<Parametros>().FirstOrDefault();
+                    //Parametros parametros = Factory.GetInstance<IAgendamentoServiceFacade>().ListarTodos<Parametros>()[0] != null ? ;
+
+                    if (parametros != null)
+                    {
+                        tbxMax_Dias.Text = parametros.Max_Dias.ToString();
+                        tbxMin_Dias.Text = parametros.Min_Dias.ToString();
+                        tbxMin_Dias_Cancela.Text = parametros.Min_Dias_Cancela.ToString();
+                        tbxMin_Dias_Espera.Text = parametros.Min_Dias_Espera.ToString();
+                        tbxPct_Vagas_Espera.Text = parametros.Pct_Vagas_Espera.ToString();
+                        tbxMin_Dias_Reaproveita.Text = parametros.Min_Dias_Reaproveita.ToString();
+                        tbxValidade_Codigo.Text = parametros.Validade_Codigo.ToString();
+                    }
+                    else
+                    {
+                        tbxMax_Dias.Text = "0";
+                        tbxMin_Dias.Text = "0";
+                        tbxMin_Dias_Cancela.Text = "0";
+                        tbxMin_Dias_Espera.Text = "0";
+                        tbxPct_Vagas_Espera.Text = "0";
+                        tbxMin_Dias_Reaproveita.Text = "0";
+                        tbxValidade_Codigo.Text = "0";
+                    }
+                }
+                else
+                    ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Usuário, você não tem permissão para acessar esta página! Por favor, entre em contato com a administração.');location='Default.aspx';", true);
+            }
+        }
+
+        protected void btnSalvar_Click(object sender, EventArgs e)
+        {
+            Parametros parametros = Factory.GetInstance<IAgendamentoServiceFacade>().ListarTodos<Parametros>().FirstOrDefault();
+            if (parametros == null)
+                parametros = new Parametros();
+            int validade_codigo = int.Parse(tbxValidade_Codigo.Text);
+            if (validade_codigo == 0)
+            {
+                ClientScript.RegisterClientScriptBlock(typeof(String), "ok", "<script>alert('Validade do Código de Controle inválido!');</script>");
+                tbxValidade_Codigo.Focus();
+                return;
+            }
+
+            parametros.Max_Dias = int.Parse(tbxMax_Dias.Text);
+            parametros.Min_Dias = int.Parse(tbxMin_Dias.Text);
+            parametros.Min_Dias_Cancela = int.Parse(tbxMin_Dias_Cancela.Text);
+            parametros.Min_Dias_Espera = int.Parse(tbxMin_Dias_Espera.Text);
+            parametros.Min_Dias_Reaproveita = int.Parse(tbxMin_Dias_Reaproveita.Text);
+            parametros.Pct_Vagas_Espera = int.Parse(tbxPct_Vagas_Espera.Text);
+            parametros.Validade_Codigo = int.Parse(tbxValidade_Codigo.Text);
+            Factory.GetInstance<IAgendamentoServiceFacade>().Salvar(parametros);
+            Factory.GetInstance<IAgendamentoServiceFacade>().Inserir(new LogAgendamento(DateTime.Now, ((Usuario)Session["Usuario"]).Codigo, 20, parametros.Codigo.ToString()));
+            ClientScript.RegisterClientScriptBlock(typeof(String), "ok", "<script type='text/javascript'>alert('Dados salvos com sucesso!')</script>");
+        }
+    }
+}

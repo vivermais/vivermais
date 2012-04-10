@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Vida.Model">
+  <class name="Vida.Model.SolicitanteExameLaboratorio" table="tb_profissional">
+    <id name="Codigo">
+      <column name="cd_profissional_pk" not-null="true"/>
+      <generator class="assigned" />
+    </id>
+    <property name="Nome" column="nm_profissional" />
+    <property name="CodigoConselho" column="cd_conselho_fk" />
+    <property name="NumeroConselho" column="nr_conselho" />
+  </class>
+</hibernate-mapping>

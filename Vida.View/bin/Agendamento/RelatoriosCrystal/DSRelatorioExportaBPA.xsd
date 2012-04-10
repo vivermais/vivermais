@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DSRelatorioExportaBPA" targetNamespace="http://tempuri.org/DSRelatorioExportaBPA.xsd" xmlns:mstns="http://tempuri.org/DSRelatorioExportaBPA.xsd" xmlns="http://tempuri.org/DSRelatorioExportaBPA.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DSRelatorioExportaBPA" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_DataSetName="DSRelatorioExportaBPA" msprop:Generator_UserDSName="DSRelatorioExportaBPA" msprop:EnableTableAdapterManager="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="RelatorioExporta" msprop:Generator_UserTableName="RelatorioExporta" msprop:Generator_RowDeletedName="RelatorioExportaRowDeleted" msprop:Generator_TableClassName="RelatorioExportaDataTable" msprop:Generator_RowChangedName="RelatorioExportaRowChanged" msprop:Generator_RowClassName="RelatorioExportaRow" msprop:Generator_RowChangingName="RelatorioExportaRowChanging" msprop:Generator_RowEvArgName="RelatorioExportaRowChangeEvent" msprop:Generator_RowEvHandlerName="RelatorioExportaRowChangeEventHandler" msprop:Generator_TablePropName="RelatorioExporta" msprop:Generator_TableVarName="tableRelatorioExporta" msprop:Generator_RowDeletingName="RelatorioExportaRowDeleting">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Unidade" msprop:Generator_UserColumnName="Unidade" msprop:Generator_ColumnPropNameInRow="Unidade" msprop:Generator_ColumnVarNameInTable="columnUnidade" msprop:Generator_ColumnPropNameInTable="UnidadeColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Sigla" msprop:Generator_UserColumnName="Sigla" msprop:Generator_ColumnPropNameInRow="Sigla" msprop:Generator_ColumnVarNameInTable="columnSigla" msprop:Generator_ColumnPropNameInTable="SiglaColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="CNPJ" msprop:Generator_UserColumnName="CNPJ" msprop:Generator_ColumnPropNameInRow="CNPJ" msprop:Generator_ColumnVarNameInTable="columnCNPJ" msprop:Generator_ColumnPropNameInTable="CNPJColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Competencia" msprop:Generator_UserColumnName="Competencia" msprop:Generator_ColumnPropNameInRow="Competencia" msprop:Generator_ColumnVarNameInTable="columnCompetencia" msprop:Generator_ColumnPropNameInTable="CompetenciaColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="NomeArquivo" msprop:Generator_UserColumnName="NomeArquivo" msprop:Generator_ColumnPropNameInRow="NomeArquivo" msprop:Generator_ColumnVarNameInTable="columnNomeArquivo" msprop:Generator_ColumnPropNameInTable="NomeArquivoColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="QtdRegistros" msprop:Generator_UserColumnName="QtdRegistros" msprop:Generator_ColumnPropNameInRow="QtdRegistros" msprop:Generator_ColumnVarNameInTable="columnQtdRegistros" msprop:Generator_ColumnPropNameInTable="QtdRegistrosColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="BPA_x0028_s_x0029_" msprop:Generator_UserColumnName="BPA(s)" msprop:Generator_ColumnPropNameInRow="_BPA_s_" msprop:Generator_ColumnVarNameInTable="_columnBPA_s_" msprop:Generator_ColumnPropNameInTable="_BPA_s_Column" type="xs:string" minOccurs="0" />
+              <xs:element name="CampoControle" msprop:Generator_UserColumnName="CampoControle" msprop:Generator_ColumnPropNameInRow="CampoControle" msprop:Generator_ColumnVarNameInTable="columnCampoControle" msprop:Generator_ColumnPropNameInTable="CampoControleColumn" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

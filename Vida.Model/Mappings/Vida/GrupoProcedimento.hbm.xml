@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="ViverMais.Model">
+  <class name="ViverMais.Model.GrupoProcedimento" table="tb_pms_grupo_proc">
+    <id name="Codigo">
+      <column name="co_grupo" not-null="true"/>
+      <generator class="assigned" />
+    </id>
+    <property name="Nome" column="no_grupo"/>
+    <property name="DataCompetencia" column="dt_competencia"/>
+  </class>
+</hibernate-mapping>

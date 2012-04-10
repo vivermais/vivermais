@@ -1,0 +1,48 @@
+﻿<%@ Page Language="C#" AutoEventWireup="True" CodeBehind="FormAssociarPacientes.aspx.cs"
+    Inherits="ViverMais.View.Urgencia.FormAssociarPacientes" MasterPageFile="~/Urgencia/MasterUrgencia.Master"
+    EnableEventValidation="false" %>
+
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
+<%@ Register Src="~/Paciente/WUCPesquisarPaciente.ascx" TagName="TagName_PesquisarPaciente"
+    TagPrefix="TagPrefix_PesquisarPaciente" %>
+<%@ Register Src="~/Paciente/WUCExibirPaciente.ascx" TagName="TagName_ExibirPaciente"
+    TagPrefix="TagPrefix_ExibirPaciente" %>
+<%@ Register Src="~/Urgencia/WUCExibirAtendimento.ascx" TagName="TagName_ExibirAtendimento"
+    TagPrefix="TagPrefix_ExibirAtendimento" %>
+<%@ Register Src="~/Urgencia/WUCPesquisarAtendimento.ascx" TagName="TagName_PesquisarAtendimento"
+    TagPrefix="TagPrefix_PesquisarAtendimento" %>
+<asp:Content ContentPlaceHolderID="head" ID="c_head" runat="server">
+</asp:Content>
+<asp:Content ContentPlaceHolderID="ContentPlaceHolder1" ID="c_body" runat="server">
+    <div id="top">
+        <h2>
+            Identificar Paciente</h2>
+        <TagPrefix_PesquisarAtendimento:TagName_PesquisarAtendimento ID="WUC_PesquisarAtendimento"
+            runat="server"></TagPrefix_PesquisarAtendimento:TagName_PesquisarAtendimento>
+        <asp:UpdatePanel ID="UpdatePanel_PacienteUrgence" runat="server" UpdateMode="Conditional"
+            ChildrenAsTriggers="true">
+            <Triggers>
+                <asp:AsyncPostBackTrigger ControlID="ButtonAssociar" EventName="Click" />
+            </Triggers>
+            <ContentTemplate>
+                <TagPrefix_ExibirAtendimento:TagName_ExibirAtendimento ID="WUC_ExibirAtendimento"
+                    runat="server" Visible="false" />
+            </ContentTemplate>
+        </asp:UpdatePanel>
+        <TagPrefix_PesquisarPaciente:TagName_PesquisarPaciente ID="WUC_PesquisarPaciente"
+            runat="server" />
+        <TagPrefix_ExibirPaciente:TagName_ExibirPaciente ID="WUC_ExibirPaciente" runat="server" />
+        <br />
+        <fieldset class="formulario">
+            <p align="center">
+                <span>
+                    <asp:ImageButton ID="ButtonAssociar" runat="server" CssClass="sep_buttons" ImageUrl="~/Urgencia/img/bts/btn-associar1.png"
+                        Text="Associar" OnClick="OnClick_AssociarPacientes" OnClientClick="javascript:return confirm('Usuário, deseja realmente prosseguir com a identificação do paciente?');"
+                        Width="134px" Height="38px" />
+                    <asp:ImageButton ID="Button_Cancelar" runat="server" ImageUrl="~/Urgencia/img/bts/btn_cancelar1.png"
+                        Text="Cancelar" PostBackUrl="~/Urgencia/Default.aspx" Width="134px" Height="38px" />
+                </span>
+            </p>
+        </fieldset>
+    </div>
+</asp:Content>

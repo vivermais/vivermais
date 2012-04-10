@@ -1,0 +1,216 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using ViverMais.Model;
+using Oracle.DataAccess.Client;
+using System.Data;
+using ViverMais.DAL;
+
+namespace ViverMais.DAOOracle
+{
+    public class ControlePacienteDAO:ADAO<ControlePaciente>
+    {
+
+        protected override ControlePaciente Cadastrar(ControlePaciente controle)
+        {
+            controle.Codigo = DateTime.Now.ToString("yyyyMMdd-hhmm") + "-ViverMais-pms-" + Guid.NewGuid().ToString().Remove(34);
+            GerarQueryCadastro();
+            GerarParametrosCadastro(controle);
+            DALOracle.ExecuteNonQuery(CommandType.Text, sqlText.ToString(), parametros.ToArray());
+            sqlText.Remove(0, sqlText.Length);
+            parametros.Clear();
+
+            //Chama a função para gerar log através de xml
+            new DAOLogXml().SalvarLog(controle, 1);
+
+            return controle;
+        }
+
+        protected override ControlePaciente Cadastrar(ControlePaciente controle, ref OracleTransaction trans)
+        {
+            controle.Codigo = DateTime.Now.ToString("yyyyMMdd-hhmm") + "-ViverMais-pms-" + Guid.NewGuid().ToString().Remove(34);
+            GerarQueryCadastro();
+            GerarParametrosCadastro(controle);
+            DALOracle.ExecuteNonQuery(ref trans, CommandType.Text, sqlText.ToString(), parametros.ToArray());
+            sqlText.Remove(0, sqlText.Length);
+            parametros.Clear();
+
+            //Chama a função para gerar log através de xml
+            new DAOLogXml().SalvarLog(ref trans, controle, 1);
+
+            return controle;
+        }
+
+        protected override void GerarQueryPesquisaTodos()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void GerarQueryCadastro()
+        {
+            sqlText.Append("insert into tb_ms_controle_usuario (co_usuario, st_controle, st_excluido, dt_operacao, nu_versao) values ");
+            //sqlText.Append("(:CodigoUsuario) ");
+            sqlText.Append("(:CodigoUsuario, :Controle, :Excluido, :DataOperacao, :NumeroVersao) ");
+        }
+
+        protected override void GerarParametrosCadastro(ControlePaciente objeto)
+        {
+            parametros.Add(new OracleParameter("CodigoUsuario", OracleDbType.Varchar2));
+            parametros.Add(new OracleParameter("Controle", OracleDbType.Char));
+            parametros.Add(new OracleParameter("Excluido", OracleDbType.Char));
+            parametros.Add(new OracleParameter("DataOperacao", OracleDbType.Date));
+            parametros.Add(new OracleParameter("NumeroVersao", OracleDbType.Int32));
+
+
+            parametros[0].Value = objeto.Codigo;
+            parametros[1].Value = objeto.Controle;
+            parametros[2].Value = objeto.Excluido;
+            parametros[3].Value = objeto.DataOperacao;
+            parametros[4].Value = objeto.NumeroVersao;
+            
+        }
+
+        protected override void GerarQueryAtualizacao()
+        {
+            sqlText.Append("update tb_ms_controle_usuario set ");
+            sqlText.Append("st_controle = :Controle, ");
+            sqlText.Append("st_excluido = :Excluido, ");
+            sqlText.Append("dt_operacao = :DataOperacao, ");
+            sqlText.Append("nu_versao = :NumeroVersao ");
+            sqlText.Append("where co_usuario = :CodigoUsuario");
+        }
+
+        protected override void GerarParametrosAtualizacao(ControlePaciente objeto)
+        {
+            parametros.Add(new OracleParameter("Controle", OracleDbType.Char));
+            parametros.Add(new OracleParameter("Excluido", OracleDbType.Char));
+            parametros.Add(new OracleParameter("DataOperacao", OracleDbType.Date));
+            parametros.Add(new OracleParameter("NumeroVersao", OracleDbType.Int32));
+            parametros.Add(new OracleParameter("CodigoUsuario", OracleDbType.Varchar2));
+
+            parametros[0].Value = objeto.Controle;
+            parametros[1].Value = objeto.Excluido;
+            parametros[2].Value = objeto.DataOperacao;
+            parametros[3].Value = objeto.NumeroVersao;
+            parametros[4].Value = objeto.Codigo;
+        }
+
+        protected override void GerarQueryRemocao()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void GerarQueryBuscarID()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void GerarQueryPesquisaPorCodigo()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void GeraParametrosPesquisaPorCodigo(ControlePaciente objeto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void MontarObjeto(OracleDataReader dataReader, ControlePaciente objeto)
+        {
+            objeto.Codigo = Convert.ToString(dataReader["co_usuario"]);
+            try
+            {
+                objeto.Controle = Convert.ToChar(dataReader["st_controle"]);
+            }
+            catch (InvalidCastException)
+            {
+                objeto.Controle = char.MinValue;
+            }
+            try
+            {
+                objeto.DataOperacao = Convert.ToDateTime(dataReader["dt_operacao"]);
+            }
+            catch (InvalidCastException)
+            {
+                objeto.DataOperacao = DateTime.MinValue;
+            }
+            try
+            {
+                objeto.Excluido = Convert.ToChar(dataReader["st_excluido"]);
+            }
+            catch (InvalidCastException)
+            {
+                objeto.Excluido = char.MinValue;
+            }
+            
+            objeto.NumeroVersao = Convert.ToInt32(dataReader["nu_versao"]);
+            
+        }
+
+        protected override void SetarCodigoObjeto(OracleDataReader dataReader, ControlePaciente objeto)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ControlePaciente PesquisarPorPaciente(Paciente paciente)
+        {
+            sqlText.Append("select * from tb_ms_controle_usuario ");
+            sqlText.Append("where co_usuario = :Codigo ");
+
+            parametros.Add(new OracleParameter("Codigo", OracleDbType.Varchar2));
+            parametros[0].Value = paciente.Codigo;
+
+            ControlePaciente controle = null;
+
+            DataSet dataReader = DALOracle.ExecuteReaderDs(CommandType.Text, sqlText.ToString(), parametros.ToArray());
+            sqlText.Remove(0, sqlText.Length);
+            parametros.Clear();
+
+            if (dataReader != null)
+            {
+                controle = new ControlePaciente();
+                MontarObjeto(dataReader.Tables[0].Rows[0], controle);
+            }
+
+            return controle;
+
+        }
+
+        protected override void MontarObjeto(DataRow drc, ControlePaciente objeto)
+        {
+            objeto.Codigo = Convert.ToString(drc["co_usuario"]);
+            try
+            {
+                objeto.Controle = Convert.ToChar(drc["st_controle"]);
+            }
+            catch (InvalidCastException)
+            {
+                objeto.Controle = char.MinValue;
+            }
+            try
+            {
+                objeto.DataOperacao = Convert.ToDateTime(drc["dt_operacao"]);
+            }
+            catch (InvalidCastException)
+            {
+                objeto.DataOperacao = DateTime.MinValue;
+            }
+            try
+            {
+                objeto.Excluido = Convert.ToChar(drc["st_excluido"]);
+            }
+            catch (InvalidCastException)
+            {
+                objeto.Excluido = char.MinValue;
+            }
+
+            objeto.NumeroVersao = Convert.ToInt32(drc["nu_versao"]);
+        }
+
+        protected override void SetarCodigoObjeto(DataRow dataRow, ControlePaciente objeto)
+        {
+            throw new NotImplementedException();
+        }
+    }
+}

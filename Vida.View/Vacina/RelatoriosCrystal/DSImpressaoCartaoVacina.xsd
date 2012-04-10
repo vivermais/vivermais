@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DSImpressaoCartaoVacina" targetNamespace="http://tempuri.org/DSImpressaoCartaoVacina.xsd" xmlns:mstns="http://tempuri.org/DSImpressaoCartaoVacina.xsd" xmlns="http://tempuri.org/DSImpressaoCartaoVacina.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DSImpressaoCartaoVacina" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_UserDSName="DSImpressaoCartaoVacina" msprop:Generator_DataSetName="DSImpressaoCartaoVacina" msprop:EnableTableAdapterManager="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="dadoscartao" msprop:Generator_UserTableName="dadoscartao" msprop:Generator_RowDeletedName="dadoscartaoRowDeleted" msprop:Generator_RowChangedName="dadoscartaoRowChanged" msprop:Generator_RowClassName="dadoscartaoRow" msprop:Generator_RowChangingName="dadoscartaoRowChanging" msprop:Generator_RowEvArgName="dadoscartaoRowChangeEvent" msprop:Generator_RowEvHandlerName="dadoscartaoRowChangeEventHandler" msprop:Generator_TableClassName="dadoscartaoDataTable" msprop:Generator_TableVarName="tabledadoscartao" msprop:Generator_RowDeletingName="dadoscartaoRowDeleting" msprop:Generator_TablePropName="dadoscartao">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="imagemtopo" msprop:Generator_UserColumnName="imagemtopo" msprop:Generator_ColumnVarNameInTable="columnimagemtopo" msprop:Generator_ColumnPropNameInRow="imagemtopo" msprop:Generator_ColumnPropNameInTable="imagemtopoColumn" type="xs:base64Binary" minOccurs="0" />
+              <xs:element name="imagemnome" msprop:Generator_UserColumnName="imagemnome" msprop:Generator_ColumnVarNameInTable="columnimagemnome" msprop:Generator_ColumnPropNameInRow="imagemnome" msprop:Generator_ColumnPropNameInTable="imagemnomeColumn" type="xs:base64Binary" minOccurs="0" />
+              <xs:element name="imagemcabecalho" msprop:Generator_UserColumnName="imagemcabecalho" msprop:Generator_ColumnVarNameInTable="columnimagemcabecalho" msprop:Generator_ColumnPropNameInRow="imagemcabecalho" msprop:Generator_ColumnPropNameInTable="imagemcabecalhoColumn" type="xs:base64Binary" minOccurs="0" />
+              <xs:element name="nome" msprop:Generator_UserColumnName="nome" msprop:Generator_ColumnVarNameInTable="columnnome" msprop:Generator_ColumnPropNameInRow="nome" msprop:Generator_ColumnPropNameInTable="nomeColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="co_paciente" msprop:Generator_UserColumnName="co_paciente" msprop:Generator_ColumnVarNameInTable="columnco_paciente" msprop:Generator_ColumnPropNameInRow="co_paciente" msprop:Generator_ColumnPropNameInTable="co_pacienteColumn" type="xs:string" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="vacinas" msprop:Generator_UserTableName="vacinas" msprop:Generator_RowDeletedName="vacinasRowDeleted" msprop:Generator_RowChangedName="vacinasRowChanged" msprop:Generator_RowClassName="vacinasRow" msprop:Generator_RowChangingName="vacinasRowChanging" msprop:Generator_RowEvArgName="vacinasRowChangeEvent" msprop:Generator_RowEvHandlerName="vacinasRowChangeEventHandler" msprop:Generator_TableClassName="vacinasDataTable" msprop:Generator_TableVarName="tablevacinas" msprop:Generator_RowDeletingName="vacinasRowDeleting" msprop:Generator_TablePropName="vacinas">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="vacina" msprop:Generator_UserColumnName="vacina" msprop:Generator_ColumnVarNameInTable="columnvacina" msprop:Generator_ColumnPropNameInRow="vacina" msprop:Generator_ColumnPropNameInTable="vacinaColumn" type="xs:string" />
+              <xs:element name="dose" msprop:Generator_UserColumnName="dose" msprop:Generator_ColumnVarNameInTable="columndose" msprop:Generator_ColumnPropNameInRow="dose" msprop:Generator_ColumnPropNameInTable="doseColumn" type="xs:string" />
+              <xs:element name="dataaplicacao" msprop:Generator_UserColumnName="dataaplicacao" msprop:Generator_ColumnVarNameInTable="columndataaplicacao" msprop:Generator_ColumnPropNameInRow="dataaplicacao" msprop:Generator_ColumnPropNameInTable="dataaplicacaoColumn" type="xs:string" />
+              <xs:element name="proximadose" msprop:Generator_UserColumnName="proximadose" msprop:Generator_ColumnVarNameInTable="columnproximadose" msprop:Generator_ColumnPropNameInRow="proximadose" msprop:Generator_ColumnPropNameInTable="proximadoseColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="co_paciente" msprop:Generator_UserColumnName="co_paciente" msprop:Generator_ColumnVarNameInTable="columnco_paciente" msprop:Generator_ColumnPropNameInRow="co_paciente" msprop:Generator_ColumnPropNameInTable="co_pacienteColumn" type="xs:string" />
+              <xs:element name="lote" msprop:Generator_UserColumnName="lote" msprop:Generator_ColumnPropNameInRow="lote" msprop:Generator_ColumnVarNameInTable="columnlote" msprop:Generator_ColumnPropNameInTable="loteColumn" type="xs:string" />
+              <xs:element name="estabelecimento" msprop:Generator_UserColumnName="estabelecimento" msprop:Generator_ColumnPropNameInRow="estabelecimento" msprop:Generator_ColumnVarNameInTable="columnestabelecimento" msprop:Generator_ColumnPropNameInTable="estabelecimentoColumn" type="xs:string" />
+              <xs:element name="codigo" msprop:Generator_UserColumnName="codigo" msprop:Generator_ColumnPropNameInRow="codigo" msprop:Generator_ColumnVarNameInTable="columncodigo" msprop:Generator_ColumnPropNameInTable="codigoColumn" type="xs:long" />
+              <xs:element name="validadelote" msprop:Generator_UserColumnName="validadelote" msprop:Generator_ColumnPropNameInRow="validadelote" msprop:Generator_ColumnVarNameInTable="columnvalidadelote" msprop:Generator_ColumnPropNameInTable="validadeloteColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="cnesunidade" msprop:Generator_UserColumnName="cnesunidade" msprop:Generator_ColumnPropNameInRow="cnesunidade" msprop:Generator_ColumnVarNameInTable="columncnesunidade" msprop:Generator_ColumnPropNameInTable="cnesunidadeColumn" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:dadoscartao" />
+      <xs:field xpath="mstns:co_paciente" />
+    </xs:unique>
+    <xs:unique name="vacinas_Constraint1" msdata:ConstraintName="Constraint1">
+      <xs:selector xpath=".//mstns:vacinas" />
+      <xs:field xpath="mstns:co_paciente" />
+      <xs:field xpath="mstns:codigo" />
+    </xs:unique>
+  </xs:element>
+  <xs:annotation>
+    <xs:appinfo>
+      <msdata:Relationship name="dadoscartao_vacinas" msdata:parent="dadoscartao" msdata:child="vacinas" msdata:parentkey="co_paciente" msdata:childkey="co_paciente" msprop:Generator_UserRelationName="dadoscartao_vacinas" msprop:Generator_RelationVarName="relationdadoscartao_vacinas" msprop:Generator_UserChildTable="vacinas" msprop:Generator_UserParentTable="dadoscartao" msprop:Generator_ParentPropName="dadoscartaoRow" msprop:Generator_ChildPropName="GetvacinasRows" />
+    </xs:appinfo>
+  </xs:annotation>
+</xs:schema>

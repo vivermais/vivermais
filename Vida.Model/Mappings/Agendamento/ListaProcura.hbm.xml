@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="ViverMais.Model">
+  <class name="ViverMais.Model.ListaProcura" table="AGD_LISTAPROCURA">
+    <id name="Codigo">
+       <column name="CO_LISTA_PROCURA" not-null="true"/>
+       <generator class="sequence">
+          <param name="sequence">AGD_LISTAPROC_SEQUENCE</param>
+       </generator>
+    </id>
+    <property name="Id_paciente" column="CO_PACIENTE" />
+    <property name="Id_procedimento" column="CO_PROCEDIMENTO" />
+    <property name="DataInicial" column="DATA_INICIAL" />
+    <property name="DataUltimaProcura" column="DATA_ULTIMA_PROCURA" />
+    <property name="Agendado" column="ATENDIDO" />
+    <property name="Quantidade" column="QUANTIDADE" />
+  </class>
+</hibernate-mapping>

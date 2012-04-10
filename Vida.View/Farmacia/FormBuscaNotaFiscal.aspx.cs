@@ -1,0 +1,101 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using ViverMais.DAO;
+using ViverMais.ServiceFacade.ServiceFacades.Farmacia.Medicamento;
+using ViverMais.Model;
+using ViverMais.ServiceFacade.ServiceFacades.Farmacia.NotaFiscal;
+using ViverMais.ServiceFacade.ServiceFacades.Farmacia.Misc;
+using ViverMais.ServiceFacade.ServiceFacades.Seguranca;
+
+namespace ViverMais.View.Farmacia
+{
+    public partial class FormBuscaNotaFiscal : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!IsPostBack)
+            {
+                //ViverMais.Model.Farmacia farm = Factory.GetInstance<IFarmacia>().BuscarPorUsuario<ViverMais.Model.Farmacia>(((Usuario)Session["Usuario"]).Codigo);
+
+                //if (farm == null || (farm != null && farm.Codigo != Convert.ToInt32(ViverMais.Model.Farmacia.QualFarmacia.Almoxarifado)))
+                if (!Factory.GetInstance<ISeguranca>().VerificarPermissao(((Usuario)Session["Usuario"]).Codigo, "REGISTRAR_NOTA_FISCAL", Modulo.FARMACIA))
+                    ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Usuário, você não tem permissão para acessar esta página! Por favor, entre em contato com a administração.');location='Default.aspx';", true);
+                else
+                {
+                    IList<FornecedorMedicamento> lf = Factory.GetInstance<IFornecedorMedicamento>().ListarTodos<FornecedorMedicamento>().OrderBy(p => p.NomeFantasia).ToList();
+                    foreach (FornecedorMedicamento f in lf)
+                        DropDownList_Fornecedor.Items.Add(new ListItem(f.NomeFantasia, f.Codigo.ToString()));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Pesquisa as notas fiscais que possuam as características informadas
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnClick_Pesquisar(object sender, EventArgs e) 
+        {
+            if (CustomValidator_Pesquisa.IsValid)
+            {
+                ViewState["co_fornecedor"] = DropDownList_Fornecedor.SelectedValue;
+                ViewState["numero_nota"]   = TextBox_Numero.Text;
+                CarregaNotasFiscais(int.Parse(DropDownList_Fornecedor.SelectedValue), TextBox_Numero.Text);
+            }
+            else
+                ScriptManager.RegisterStartupScript(Page, typeof(Page), "alert", "alert('Informe o número da nota e/ou o fornecedor.');", true);
+        }
+
+        /// <summary>
+        /// Carrega as notas fiscais
+        /// </summary>
+        /// <param name="p"></param>
+        /// <param name="p_2"></param>
+        private void CarregaNotasFiscais(int co_fornecedor, string numero_nota)
+        {
+            GridView_NotaFiscal.DataSource = Factory.GetInstance<INotaFiscal>().BuscarPorDescricao<NotaFiscal>(co_fornecedor, numero_nota);
+            GridView_NotaFiscal.DataBind();
+            Panel_Resultado.Visible = true;
+        }
+
+        /// <summary>
+        /// Verifica se a pesquisa pela nota fiscal é válida
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnServerValidate_ValidarPesquisa(object sender, ServerValidateEventArgs e) 
+        {
+            e.IsValid = true;
+
+            if (DropDownList_Fornecedor.SelectedValue == "-1" && string.IsNullOrEmpty(TextBox_Numero.Text))
+                e.IsValid = false;
+        }
+
+        /// <summary>
+        /// Formata o gridview para o padrão de amostra
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnRowDataBound_FormataGridView(object sender, GridViewRowEventArgs e) 
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+                e.Row.Cells[3].Text = Convert.ToChar(e.Row.Cells[3].Text) != 'E' ? "ABERTO" : "ENCERRADO";
+        }
+
+        /// <summary>
+        /// Paginação do gridview
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void OnPageIndexChanging_Paginacao(object sender, GridViewPageEventArgs e) 
+        {
+            CarregaNotasFiscais(int.Parse(ViewState["co_fornecedor"].ToString()), ViewState["numero_nota"].ToString());
+            GridView_NotaFiscal.PageIndex = e.NewPageIndex;
+            GridView_NotaFiscal.DataBind();
+        }
+    }
+}

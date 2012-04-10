@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="ViverMais.Model">
+  <class name="ViverMais.Model.ParametroTipoSolicitacaoEstabelecimento" table="AGD_PARAM_TP_SOLICIT_ESTABEL">
+    <composite-id>
+      <key-property name="TipoSolicitacao" column="TIPO_SOLICITACAO"/>
+      <key-property name="CodigoEstabelecimento" column="CNES" />
+    </composite-id>
+  </class>
+</hibernate-mapping>

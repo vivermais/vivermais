@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DSRelatorioSituacao" targetNamespace="http://tempuri.org/DSRelatorioSituacao.xsd" xmlns:mstns="http://tempuri.org/DSRelatorioSituacao.xsd" xmlns="http://tempuri.org/DSRelatorioSituacao.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DSRelatorioSituacao" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_DataSetName="DSRelatorioSituacao" msprop:Generator_UserDSName="DSRelatorioSituacao" msprop:EnableTableAdapterManager="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="Situacao" msprop:Generator_UserTableName="Situacao" msprop:Generator_RowDeletedName="SituacaoRowDeleted" msprop:Generator_TableClassName="SituacaoDataTable" msprop:Generator_RowChangedName="SituacaoRowChanged" msprop:Generator_RowClassName="SituacaoRow" msprop:Generator_RowChangingName="SituacaoRowChanging" msprop:Generator_RowEvArgName="SituacaoRowChangeEvent" msprop:Generator_RowEvHandlerName="SituacaoRowChangeEventHandler" msprop:Generator_TablePropName="Situacao" msprop:Generator_TableVarName="tableSituacao" msprop:Generator_RowDeletingName="SituacaoRowDeleting">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Nome" msprop:Generator_UserColumnName="Nome" msprop:Generator_ColumnPropNameInRow="Nome" msprop:Generator_ColumnVarNameInTable="columnNome" msprop:Generator_ColumnPropNameInTable="NomeColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Data" msprop:Generator_UserColumnName="Data" msprop:Generator_ColumnPropNameInRow="Data" msprop:Generator_ColumnVarNameInTable="columnData" msprop:Generator_ColumnPropNameInTable="DataColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Atendimento" msprop:Generator_UserColumnName="Atendimento" msprop:Generator_ColumnPropNameInRow="Atendimento" msprop:Generator_ColumnVarNameInTable="columnAtendimento" msprop:Generator_ColumnPropNameInTable="AtendimentoColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Dias" msprop:Generator_UserColumnName="Dias" msprop:Generator_ColumnPropNameInRow="Dias" msprop:Generator_ColumnVarNameInTable="columnDias" msprop:Generator_ColumnPropNameInTable="DiasColumn" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

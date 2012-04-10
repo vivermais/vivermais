@@ -1,0 +1,94 @@
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Xml.Linq;
+using Vida.ServiceFacade.ServiceFacades.Agendamento;
+using System.Collections.Generic;
+using Vida.Model;
+using Vida.DAO;
+
+namespace Vida.View.Agendamento
+{
+    public partial class ImpressaoLaudo : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!IsPostBack)
+            {
+                // Busca endereco da Imagem
+                int id_solicitacao = int.Parse(Request.QueryString["id_solicitacao"]);
+                List<string> enderecos = new List<string>();
+                ISolicitacao iSolicitacao = Factory.GetInstance<ISolicitacao>();
+                IList<Vida.Model.Laudo> laudo = iSolicitacao.BuscaLaudos<Vida.Model.Laudo>(id_solicitacao);
+                DataTable table = new DataTable();
+                DataColumn c0 = new DataColumn("Endereco");
+                table.Columns.Add(c0);
+                foreach (Laudo ag in laudo)
+                {
+                    enderecos.Add(ag.Endereco);
+                }
+                Session["QtdEndereco"] = enderecos.Count();
+                Session["atual"] = 0;
+                string endereco = enderecos[0];//Pega o Primeiro Caminho para Mostrar
+                Session["enderecos"] = enderecos; //Salva na Sessão Os endereços dos Laudos
+                Image1.ImageUrl = endereco;
+                Image1.DataBind();
+            }
+        }
+
+        protected void btnProximo_Click(object sender, EventArgs e)
+        {
+            btnAnterior.Enabled = true;
+
+            // Busca a Imagem Proxima, se tiver
+            int qtdEndereco = int.Parse(Session["QtdEndereco"].ToString());
+            int i = 0;
+            int atual = int.Parse(Session["atual"].ToString());
+            List<string> enderecos = (List<string>)Session["enderecos"];
+            string endereco = "";
+            if (atual < qtdEndereco)// Se a página atual Não for a última ele incrementa e pega o próximo endereço
+            {
+                i = atual + 1;
+                endereco = enderecos[i];
+            }
+            if ((i + 1) == qtdEndereco)
+            {
+                btnProximo.Enabled = false;
+            }
+            Session["atual"] = i;
+            Image1.ImageUrl = endereco;
+            Image1.DataBind();
+        }
+
+        protected void btnAnterior_Click(object sender, EventArgs e)
+        {
+            // Busca a Imagem anterior
+            btnProximo.Enabled = true;
+            int qtdEndereco = int.Parse(Session["QtdEndereco"].ToString());
+            int i = 0;
+            int atual = int.Parse(Session["atual"].ToString());
+            List<string> enderecos = (List<string>)Session["enderecos"];
+            string endereco = "";
+            if (atual > 0) // Se a imagem mostrada não for a primeira da lista, ele busca a imagem anterior
+            {
+                i = atual - 1;
+                endereco = enderecos[i];
+            }
+            if ((i) == 0) //Se for a primeira, ele desabilita o botão Anterior
+            {
+                btnAnterior.Enabled = false;
+            }
+            Session["atual"] = i;
+            Image1.ImageUrl = endereco;
+            Image1.DataBind();
+        }
+    }
+}

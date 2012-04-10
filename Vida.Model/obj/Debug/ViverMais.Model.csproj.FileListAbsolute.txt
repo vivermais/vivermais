@@ -1,0 +1,5 @@
+C:\Users\Lucas\vivermais\Vida.Model\bin\Debug\Vida.Model.dll
+C:\Users\Lucas\vivermais\Vida.Model\bin\Debug\Vida.Model.pdb
+C:\Users\Lucas\vivermais\Vida.Model\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Lucas\vivermais\Vida.Model\obj\Debug\Vida.Model.dll
+C:\Users\Lucas\vivermais\Vida.Model\obj\Debug\Vida.Model.pdb

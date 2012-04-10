@@ -1,0 +1,32 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" MasterPageFile="~/MasterMain.Master"
+    CodeBehind="MasterLaboratorio.master.cs" Inherits="Vida.View.Laboratorio.MasterLaboratorio" %>
+
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <link rel="stylesheet" href="style_form_laboratorio.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="style-barra-modulo.css" type="text/css" media="screen" />
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <div id="DivMenu" runat="server" visible="false">
+        <div style="margin-top: 8px; margin-left: 14px">
+            <ul class="menu2" id="menu">
+                <li><a href="FormRecepcaoPaciente.aspx" class="menulink">Recepção de Paciente</a></li>
+                 <li><a href="FormPesquisaLaudo.aspx" class="menulink">Pesquisa de Laudo</a></li>
+            </ul>
+        </div>
+    </div>
+    <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+        <asp:Panel ID="Panel1" runat="server" CssClass="modalPopup" Style="display: none;">
+            This is basic modal popup.
+            <br />
+            <br />
+            <asp:Button ID="btnOk" runat="server" Text="Ok" />
+            <asp:Button ID="btnClose" runat="server" Text="Close Me" />
+        </asp:Panel>
+        <cc1:ModalPopupExtender backgroundcssclass="modalBackground" dropshadow="true" okcontrolid="btnOk"
+            cancelcontrolid="btnClose" runat="server" popupcontrolid="Panel1" id="ModalPopupExtender1"
+            targetcontrolid="HrefPesquisaLaudo" />
+    </asp:ContentPlaceHolder>
+</asp:Content>

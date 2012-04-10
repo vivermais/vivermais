@@ -1,0 +1,25 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="MasterSeguranca2.master.cs"
+    Inherits="Vida.View.Seguranca.MasterSeguranca2" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+    <link rel="stylesheet" href="style_popup_seg.css" type="text/css" media="screen" />
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <div id="processMessage2">
+            <fieldset class="formulario">
+            <legend class="troca-senha"></legend>
+        <asp:ScriptManager ID="ScriptManager1" runat="server" EnableScriptGlobalization="true">
+        </asp:ScriptManager>
+        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+        </asp:ContentPlaceHolder>
+        </fieldset>
+    </div>
+    </form>
+</body>
+</html>

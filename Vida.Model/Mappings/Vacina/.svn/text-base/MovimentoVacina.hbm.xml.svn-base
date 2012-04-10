@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Vida.Model">
+  <class name="Vida.Model.MovimentoVacina" table="vcn_movimento">
+    <id name="Codigo">
+      <column name="co_movimento" not-null="true"/>
+      <generator class="sequence" >
+        <param name="sequence">VCN_MOVIMENTO_SEQUENCE</param>
+      </generator>
+    </id>
+    <property name="Observacao" column="observacao" />
+    <property name="Data" column="data" />
+    <many-to-one name="Motivo" class="Vida.Model.MotivoMovimentoVacina" column="co_motivo" lazy="false"/>
+    <many-to-one name="TipoMovimento" class="Vida.Model.TipoMovimentoVacina" column="co_tipomovimento" lazy="false"/>
+    <many-to-one name="Sala" class="Vida.Model.SalaVacina" column="co_sala" lazy="false"/>
+    <many-to-one name="Operacao" class="Vida.Model.OperacaoMovimentoVacina" column="co_operacaomovimento" lazy="false"/>
+
+    <many-to-one name="EstabelecimentoSaude" class="Vida.Model.EstabelecimentoSaude" column="co_estabelecimentosaude" />
+    <property name="DataEnvio" column="dataenvio" />
+    <property name="DataRecebimento" column="datarecebimento" />
+    <property name="ResponsavelEnvio" column="responsavelenvio" />
+    <property name="ResponsavelRecebimento" column="responsavelrecebimento" />
+    <property name="Responsavel" column="responsavel" />
+    <many-to-one name="SalaDestino" class="Vida.Model.SalaVacina" column="co_saladestino" lazy="false" />
+    <property name="Numero" column="numero" />
+    <property name="Status" column="status" />
+  </class>
+</hibernate-mapping>

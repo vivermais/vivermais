@@ -1,0 +1,74 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using ViverMais.Model;
+using ViverMais.ServiceFacade.ServiceFacades.Seguranca;
+using ViverMais.DAO;
+using System.Xml;
+
+namespace ViverMais.View.Senhador
+{
+    public partial class MasterSenhador : System.Web.UI.MasterPage
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            Usuario usuario = Session["Usuario"] as Usuario;
+            Perfil perfil = usuario.Perfis.Where(p => p.Modulo.Codigo == Modulo.SENHADOR).FirstOrDefault();
+            if (perfil == null)
+            {
+                Application["AcessoPagina"] = "<strong>Usuário, você não possui o perfil necessário para acessar o módulo Senhador!</strong> <br/> Por favor, entre em contato com a administração.";
+                Response.Redirect("../FormAcessoNegado.aspx");
+            }
+            else
+            {
+                IPerfil iPerfil = Factory.GetInstance<IPerfil>();
+                HorarioPerfil horario = iPerfil.BuscarHorario<HorarioPerfil>(perfil.Codigo, DateTime.Now.DayOfWeek);
+
+                if (horario == null)
+                {
+                    Application["AcessoPagina"] = "<strong>Usuário, o seu perfil para o módulo Senhador não possui um horário de utilização!</strong> <br/> Por favor, entre em contato com a administração.";
+                    Response.Redirect("../FormAcessoNegado.aspx");
+                }
+                else
+                {
+                    if (horario.Bloqueado)
+                    {
+                        Application["AcessoPagina"] = "<strong>Usuário, o horário para utilização do módulo Senhador que consta em seu perfil no dia de hoje (" + horario.DiaEquivalente + ") está bloqueado!</strong> <br/> Por favor, entre em contato com a administração.";
+                        Response.Redirect("../FormAcessoNegado.aspx");
+                    }
+
+                    if (!horario.PeriodoValido)
+                    {
+                        Application["AcessoPagina"] = "<strong>Usuário, o horário para utilização do módulo Senhador que consta em seu perfil no dia de hoje (" + horario.DiaEquivalente + ") é de " +
+                            horario.HoraInicial.Substring(0, 2) + ":" + horario.HoraInicial.Substring(2, 2) + "h as " + horario.HoraFinal.Substring(0, 2) + ":" + horario.HoraFinal.Substring(2, 2) + "h.</strong> <br/> Por favor, entre em contato com a administração.";
+                        Response.Redirect("../FormAcessoNegado.aspx");
+                    }
+                }
+            }
+
+            this.Page.Title = "ViverMais - Módulo de Senhador";
+            this.CarregaMenuModulo(usuario);
+        }
+
+        private void CarregaMenuModulo(Usuario usuario)
+        {
+            Literal menumodulo = (Literal)((MasterMain)Master).FindControl("barramodulo");
+
+            HyperLink navegador = (HyperLink)((MasterMain)Master).FindControl("HyperLink_Modulo");
+            navegador.Text = "Senhador";
+            navegador.NavigateUrl = "~/Senhador/Default.aspx"; //Página default do módulo
+
+            XmlDocument xml = new XmlDocument();
+            xml.Load(Server.MapPath("~/Senhador/Menu.xml"));
+
+
+            menumodulo.Text = Factory.GetInstance<ISeguranca>().RetornaMenuModulo(xml, HelperRedirector.URLRelativaAplicacao(), usuario.Codigo, Modulo.SENHADOR);
+
+            menumodulo.DataBind();
+        }
+    }
+}
+
